@@ -1,0 +1,72 @@
+>>>markdown
+# Learning Malloy
+
+Welcome! This textbook teaches you to analyze data with **Malloy**, an open-source language for describing data and asking questions of it. Malloy compiles to SQL and runs on databases such as DuckDB, BigQuery, Snowflake, and Postgres. You write less code than in SQL, and the code is easier to reuse.
+
+You'll learn Malloy the way analysts actually use it: by asking real questions of real data, one small step at a time. Every query on this site actually ran when the site was built. Each result has **HTML**, **JSON**, and **SQL** buttons, so you can see the SQL that Malloy wrote for you.
+
+## How this book works
+
+Every chapter exists in two forms:
+
+1. **A web page** (what you're reading now), with the query results already filled in.
+2. **A Malloy notebook** (`.malloynb` file) that you open in VS Code and run yourself. The notebooks have their own GitHub repository: [mrtimo/malloy-textbook-notebooks](https://github.com/mrtimo/malloy-textbook-notebooks).
+
+Read the web page to learn. Open the notebook to practice. The **Open in VS Code** button at the top of each chapter opens that chapter's notebook in [github.dev](https://github.dev), a free copy of VS Code that runs in your browser.
+
+> 💡 **Fast start.** Want to run queries right now? Go to [Chapter 5](05_files_and_notebooks.malloynb#setting-up-your-environment) for the full setup. The short version: install VS Code, install the **Malloy** extension, then download the [notebooks repository](https://github.com/mrtimo/malloy-textbook-notebooks) and open its folder *as the workspace root*. That's it. DuckDB is built into the extension.
+
+## The datasets
+
+We use two datasets throughout the book. Both ship with the notebooks in the `data/` folder.
+
+| Dataset | File(s) | What's in it | Used for |
+|---|---|---|---|
+| **U.S. baby names** | `data/usa_names.parquet` | 6.3 million rows: the number of babies given each name, by state, gender, and year, from 1910 to 2021 (Social Security Administration) | Almost everything |
+| **E-commerce store** | `data/order_items.parquet`, `users.parquet`, `inventory_items.parquet`, `products.parquet` | 271,000 items sold by an online clothing store from Jan 2019 to Nov 2022 | Dates, time trends, and joins |
+
+We also use a few small CSV files filled with deliberately messy fake data for the [data cleaning chapter](09_data_cleaning.malloynb).
+
+## Conventions
+
+You will see a few kinds of colored boxes:
+
+> 🎯 **Challenge.** Green boxes are challenges. Try them yourself, usually by adding a new cell to the chapter's notebook.
+
+> 📘 **Malloy docs.** Blue boxes link to the matching page of the official [Malloy documentation](https://docs.malloydata.dev/documentation/).
+
+> 💡 **Tip.** Yellow boxes are tips and shortcuts.
+
+> ⚠️ **Watch out.** Red boxes warn about common mistakes.
+
+> 💡 **About `#(docs)` lines.** Some code cells start with a line like `#(docs) size=large limit=5000`. These lines only tell *this website* how big to draw a result and how many rows to show. Malloy in VS Code ignores them. You can leave them in or delete them.
+
+## Chapters
+
+**Part I · Foundations**
+
+1. [The Basics](01_basics.malloynb): sources, queries, dimensions, and measures
+2. [Time Truncation](02_time_truncation.malloynb): `.month`, `.quarter`, `.year`, and trends
+3. [Views and Nesting](03_views_and_nesting.malloynb): reusable queries and nested results
+4. [Render Tags](04_render_tags.malloynb): charts, dashboards, and number formats
+
+**Part II · Tools and Data**
+
+5. [Malloy Files vs. Notebooks](05_files_and_notebooks.malloynb): setting up VS Code and DuckDB
+6. [The Malloy Explorer](06_explorer.malloynb): building queries by pointing and clicking
+7. [CSV and Parquet](07_csv_and_parquet.malloynb): file formats, compression, and reading data over the network
+
+**Part III · Analysis**
+
+8. [Filtering and Time Comparisons](08_filtering.malloynb): filter expressions and period-over-period analysis
+9. [Data Cleaning](09_data_cleaning.malloynb): fixing messy text, numbers, and dates
+10. [Joins and Symmetric Aggregates](10_joins.malloynb): star schemas without double counting
+11. [Percent of Total](11_percent_of_total.malloynb): `all()` and `exclude()`
+12. [Pipelines and Window Calculations](12_pipelines_and_windows.malloynb): multi-stage queries, `lag`, `rank`, and running totals
+
+**Part IV · Modeling**
+
+13. [Givens](13_givens.malloynb): values your model receives when a query runs
+14. [Anatomy of a Malloy Model](14_model_review.malloynb): putting all the pieces together
+
+> 📘 **Malloy docs.** The official documentation is at [docs.malloydata.dev](https://docs.malloydata.dev/documentation/). Keep it open in another tab. Every chapter links to the pages that go deeper.

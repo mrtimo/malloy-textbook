@@ -1,0 +1,44 @@
+{
+  "contents": [
+    {
+      "title": "Start Here",
+      "items": [
+        { "title": "Welcome", "link": "/index.malloynb" }
+      ]
+    },
+    {
+      "title": "Part I · Foundations",
+      "items": [
+        { "title": "1. The Basics", "link": "/01_basics.malloynb" },
+        { "title": "2. Time Truncation", "link": "/02_time_truncation.malloynb" },
+        { "title": "3. Views and Nesting", "link": "/03_views_and_nesting.malloynb" },
+        { "title": "4. Render Tags", "link": "/04_render_tags.malloynb" }
+      ]
+    },
+    {
+      "title": "Part II · Tools and Data",
+      "items": [
+        { "title": "5. Files vs. Notebooks", "link": "/05_files_and_notebooks.malloynb" },
+        { "title": "6. The Malloy Explorer", "link": "/06_explorer.malloynb" },
+        { "title": "7. CSV and Parquet", "link": "/07_csv_and_parquet.malloynb" }
+      ]
+    },
+    {
+      "title": "Part III · Analysis",
+      "items": [
+        { "title": "8. Filtering and Time Comparisons", "link": "/08_filtering.malloynb" },
+        { "title": "9. Data Cleaning", "link": "/09_data_cleaning.malloynb" },
+        { "title": "10. Joins and Symmetric Aggregates", "link": "/10_joins.malloynb" },
+        { "title": "11. Percent of Total", "link": "/11_percent_of_total.malloynb" },
+        { "title": "12. Pipelines and Window Calculations", "link": "/12_pipelines_and_windows.malloynb" }
+      ]
+    },
+    {
+      "title": "Part IV · Modeling",
+      "items": [
+        { "title": "13. Givens", "link": "/13_givens.malloynb" },
+        { "title": "14. Anatomy of a Malloy Model", "link": "/14_model_review.malloynb" }
+      ]
+    }
+  ]
+}

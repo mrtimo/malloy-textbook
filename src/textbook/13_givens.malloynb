@@ -1,0 +1,178 @@
+>>>markdown
+# Chapter 13: Givens
+
+So far every value in our queries has been written into the code: `state = 'CA'`, `year_born = 2021`. But often the *same* analysis should run with *different* values: a report for each state, a dashboard where the user picks a date range, an app where each customer sees only their own data.
+
+**Givens** are named values that a Malloy model receives **when a query runs**. The model declares what it expects (`given:`), uses those values anywhere with a `$` (`$STATE`), and whoever runs the query (VS Code, an app, a config file) supplies them.
+
+> ⚠️ **Experimental feature.** Givens are new in Malloy and still marked *experimental*. To use them, a file must turn them on with `##! experimental.givens`. Details, and even the name "given," may change in future versions. The examples here were tested with the version of Malloy used to build this book.
+
+> 📘 **Malloy docs.** [Givens: model-level parameters](https://docs.malloydata.dev/documentation/experiments/givens) · [Experimental features](https://docs.malloydata.dev/documentation/experiments/experiments)
+
+## Turning givens on
+
+`##!` lines are **compiler flags** for the whole file. Put this one at the very top of a model or notebook:
+>>>malloy
+##! experimental.givens
+import "names.malloy"
+import "ecommerce.malloy"
+>>>markdown
+## Declaring givens
+
+A `given:` block lists each value's **name**, **type** (`::`), and optional **default** (`is`). By convention, given names are written in CAPITALS so they stand out:
+>>>malloy
+given:
+  FOCUS_STATE :: string is 'OR'
+  FOCUS_NAME :: string is 'Olivia'
+  START_YEAR :: number is 2000
+>>>markdown
+## Using givens with `$`
+
+Use a given anywhere an expression can go, by putting a `$` in front of its name. (One exception in the Malloy version used for this book: `limit:` needs a plain number, so `limit: $TOP_N` doesn't work.)
+>>>malloy
+run: names -> {
+  where: state = $FOCUS_STATE, year_born >= $START_YEAR
+  group_by: name
+  aggregate: total_births
+  limit: 5
+}
+>>>markdown
+Here's the payoff. To get the same report for Texas, you don't touch the query. Change the **value** of `FOCUS_STATE`, and every query that uses it follows. In a notebook, you change the value by editing the default in the `given:` cell and re-running. In an application, the app supplies the value (see below).
+
+Givens work just as well inside sources and views. Here's a source that is *always* focused on the given state, and a view that compares the given name with the rest of that state:
+>>>malloy
+source: focus is names extend {
+  where: state = $FOCUS_STATE
+
+  view: name_vs_state is {
+    group_by: decade
+    aggregate:
+      name_births is total_births { where: name = $FOCUS_NAME }
+      all_births is total_births
+      # number="0"
+      per_100k is total_births { where: name = $FOCUS_NAME } / total_births * 100000
+    order_by: decade
+  }
+}
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart { y=per_100k }
+run: focus -> name_vs_state
+>>>markdown
+That's *Olivia* per 100,000 babies in *Oregon*, by decade. Edit the two defaults above, re-run, and you have a different report without writing a new query.
+
+## Given types
+
+A given can be any Malloy type, including **arrays** and even **filter expressions**:
+
+| Type | Example declaration | Example use |
+|---|---|---|
+| `string` | `REGION :: string is 'West'` | `where: region = $REGION` |
+| `number` | `MIN_BIRTHS :: number is 1000` | `having: total_births > $MIN_BIRTHS` |
+| `date` | `CUTOFF :: date is @2022-01-01` | `where: created_at::date >= $CUTOFF` |
+| `boolean` | `INCLUDE_RETURNS :: boolean is false` | `where: $INCLUDE_RETURNS or status != 'Returned'` |
+| `string[]` | `STATES :: string[] is ['UT', 'ID']` | `where: state in $STATES` |
+| `filter<string>` | `NAME_FILTER :: filter<string> is f'Ja%, -Jason'` | `where: name ~ $NAME_FILTER` |
+>>>malloy
+given:
+  STATES :: string[] is ['UT', 'ID', 'MT', 'WY']
+  NAME_FILTER :: filter<string> is f'Ja%, -Jason'
+  CUTOFF :: date is @2022-07-01
+>>>malloy
+run: names -> {
+  where: state in $STATES, name ~ $NAME_FILTER, year_born >= 2010
+  group_by: name
+  aggregate: total_births
+  limit: 5
+}
+>>>markdown
+A `filter<string>` given is especially powerful. The **user** can type a whole [filter expression](08_filtering.malloynb#part-3-filter-expressions) like `Ja%, -Jason` or `Em%, Ol%`, and your model applies it safely, without anyone writing code.
+>>>malloy
+run: order_items -> {
+  where: created_at::date >= $CUTOFF
+  group_by: order_month is created_at.month
+  aggregate: total_sales
+  order_by: order_month
+}
+>>>markdown
+## Supplying values from outside the notebook
+
+Defaults are what you get when no one supplies a value. Applications and tools can supply values in several ways (see the [docs](https://docs.malloydata.dev/documentation/experiments/givens#supplying-values-from-a-host-application) for the full details):
+
+**A JSON values file**, pointed to by `malloy-config.json`. Each key is a given's name:
+
+```json
+{
+  "connections": { "duckdb": { "is": "duckdb" } },
+  "givensPath": "./my-givens.json"
+}
+```
+
+```json
+{
+  "FOCUS_STATE": "TX",
+  "FOCUS_NAME": "Sofia",
+  "START_YEAR": 2010
+}
+```
+
+**From code**, for example in a web app that uses the Malloy JavaScript API: <code>new Runtime({ givens: { FOCUS_STATE: "TX" } })</code> for the whole runtime, or <code>query.run({ givens: { START_YEAR: 2015 } })</code> for a single query.
+
+> 💡 **A given with no default must be supplied.** `TENANT :: string` (no `is ...`) means "the app *must* provide this." If a query uses `$TENANT` and nobody supplied it, the query fails with a "missing given" error. That's exactly what you want for security-sensitive values.
+
+## A real use: row-level security
+
+The motivating use for givens is **row-level access control**: one model, many users, each allowed to see only some of the rows. The model writes the rule once:
+
+```malloy
+##! experimental.givens
+
+given:
+  ALLOWED_STATES :: string[]        // no default: the app MUST supply it
+
+source: secure_names is duckdb.table('data/usa_names.parquet') extend {
+  where: state in $ALLOWED_STATES
+}
+```
+
+The web application looks up the logged-in user's permissions and supplies `ALLOWED_STATES` for every query. Since the `where:` is part of the **source**, no query, view, or Explorer session built on `secure_names` can see other states. Applications can even *finalize* a given (`"finalizeGivens": ["ALLOWED_STATES"]` in `malloy-config.json`) so a query can never override it.
+
+## Inline givens: values derived from other givens
+
+An `inline` given is computed from other givens when the query is compiled, and it reaches the SQL as a plain constant. Its main use is turning a list of permissions into a yes/no switch:
+
+```malloy
+given:
+  CAPABILITIES :: string[]
+  inline CAN_SEE_SALES :: boolean is 'read_sales' in $CAPABILITIES
+
+source: secure_orders is order_items extend {
+  where: $CAN_SEE_SALES        // becomes WHERE ... AND TRUE (or FALSE)
+}
+```
+
+## Givens vs. source parameters
+
+Malloy also has (experimental) **source parameters**: `source: by_state(st :: string) is names extend { where: state = st }`. How are they different?
+
+| | Givens | Source parameters |
+|---|---|---|
+| Scope | one value per name, for the **whole model** | one value per **use** of the source |
+| Supplied by | the runtime: config, app, or query options | the code that uses the source: `by_state(st is 'CA')` |
+| Good for | settings, security, "the user picked X" | two differently-filtered copies of a source in one query |
+
+> 📘 **Malloy docs.** [Source parameters](https://docs.malloydata.dev/documentation/experiments/parameters)
+
+## Key takeaways
+
+* Turn givens on with `##! experimental.givens`.
+* Declare them with `given: NAME :: type is default`, and use them with `$NAME` anywhere an expression can go: in `where:`, `having:`, measures, sources, and views.
+* Givens can be strings, numbers, dates, booleans, arrays (`in $ARRAY`), and filter expressions (`~ $FILTER`).
+* Defaults are used unless a value is supplied by a values file, the app's runtime, or per-query options. A given with no default *must* be supplied.
+* Main uses: reusable reports, user-chosen filters, and row-level security.
+
+> 🎯 **Challenge 13.1: Your state, your name.** Change the defaults of `FOCUS_STATE` and `FOCUS_NAME` in this notebook to your home state and your own name (or any name), then re-run the `name_vs_state` chart. What decade was your name most popular in your state?
+
+> 🎯 **Challenge 13.2: A minimum-size given.** Declare a new given, `MIN_BIRTHS :: number is 10000`, in a new cell. Then write a query that lists girls' names born since `$START_YEAR` in the `$STATES` states, but only names with more than `$MIN_BIRTHS` births in total. (Hint: `having:`.)
+
+> 🎯 **Challenge 13.3: A filter the user can type.** Declare `STATUS_FILTER :: filter<string> is f'Complete, Shipped'`. Write a query on `order_items` that uses `where: status ~ $STATUS_FILTER` and shows `order_item_count` by `status`. Then change the default to `f'-Cancelled'` and run it again. What changed?

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Welcome | Learning Malloy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/malloy-textbook/css/document.css" />
+    <link rel="stylesheet" href="/malloy-textbook/css/textbook.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/malloy-textbook/favicon.ico" />
+    <script src="/malloy-textbook/js/generated/malloy-render-0.0.437.js"></script>
+    <style>
+      .result-inner .malloy-render { width: 100%; }
+      .result-inner .table-container { width: 100%; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="header">
+        <div class="header-banner">
+          <a class="book-mark" href="/malloy-textbook/textbook">
+            <span class="book-title">Learning Malloy</span>
+            <span class="subtitle">A Hands-On Textbook</span>
+          </a>
+        </div>
+        <div class="header-right">
+          <div class="header-links">
+            <a class="pill" href="https://docs.malloydata.dev/documentation/" target="_blank">Malloy Docs ↗</a>
+            <a href="https://github.com/mrtimo/malloy-textbook" target="_blank" title="Textbook source on GitHub"
+              ><img src="/malloy-textbook/img/github.svg" style="transform: scale(0.5)"
+            /></a>
+          </div>
+          <form action="/malloy-textbook/search">
+            <div class="search-input-outer">
+              <img src="/malloy-textbook/img/search.svg" alt="search" />
+              <input placeholder="Search the textbook" id="search-input" name="query" />
+            </div>
+            <input type="submit" style="display: none" />
+          </form>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+              <div id=start_here
+                class="sidebar-section-title {% unless /textbook/index.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Start Here
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item active'>
+              <a href="/malloy-textbook/textbook">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                Welcome
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_i · foundations
+                class="sidebar-section-title {% unless /textbook/01_basics.html,/textbook/02_time_truncation.html,/textbook/03_views_and_nesting.html,/textbook/04_render_tags.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part I · Foundations
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/01_basics">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                1. The Basics
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/02_time_truncation">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                2. Time Truncation
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/03_views_and_nesting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                3. Views and Nesting
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/04_render_tags">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                4. Render Tags
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_ii · tools and data
+                class="sidebar-section-title {% unless /textbook/05_files_and_notebooks.html,/textbook/06_explorer.html,/textbook/07_csv_and_parquet.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part II · Tools and Data
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/05_files_and_notebooks">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                5. Files vs. Notebooks
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/06_explorer">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                6. The Malloy Explorer
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/07_csv_and_parquet">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                7. CSV and Parquet
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iii · analysis
+                class="sidebar-section-title {% unless /textbook/08_filtering.html,/textbook/09_data_cleaning.html,/textbook/10_joins.html,/textbook/11_percent_of_total.html,/textbook/12_pipelines_and_windows.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part III · Analysis
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/08_filtering">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                8. Filtering and Time Comparisons
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/09_data_cleaning">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                9. Data Cleaning
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/10_joins">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                10. Joins and Symmetric Aggregates
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/11_percent_of_total">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                11. Percent of Total
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/12_pipelines_and_windows">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                12. Pipelines and Window Calculations
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iv · modeling
+                class="sidebar-section-title {% unless /textbook/13_givens.html,/textbook/14_model_review.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part IV · Modeling
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/13_givens">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                13. Givens
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/14_model_review">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                14. Anatomy of a Malloy Model
+              </a>
+            </div>
+              </div>
+            </div>
+          </div>        <script src="/malloy-textbook/js/sidebar_state.js"></script>
+        <div class="content">
+          <div class="footer">
+            
+<div class="linear-navigation">
+  <div class="item">
+  </div>
+  <div class="item">
+      <a href="01_basics.html">1. The Basics<img src="/malloy-textbook/img/next.svg" alt="next"/></a>
+  </div>
+</div> 
+          </div>
+          <div class="document-outer"><div class="document"><div class="title-row">
+        
+      <h1>
+        <a id="learning-malloy" class="header-link anchor" href="#learning-malloy">
+          Learning Malloy
+        </a>
+      </h1>
+    
+        <a class="edit-link" target="_blank" href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/index.malloynb">Open in VS Code <img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a>
+        </div>
+      <p>Welcome! This textbook teaches you to analyze data with <strong>Malloy</strong>, an open-source language for describing data and asking questions of it. Malloy compiles to SQL and runs on databases such as DuckDB, BigQuery, Snowflake, and Postgres. You write less code than in SQL, and the code is easier to reuse.</p>
+<p>You'll learn Malloy the way analysts actually use it: by asking real questions of real data, one small step at a time. Every query on this site actually ran when the site was built. Each result has <strong>HTML</strong>, <strong>JSON</strong>, and <strong>SQL</strong> buttons, so you can see the SQL that Malloy wrote for you.</p>
+
+      <h2>
+        <a id="how-this-book-works" class="header-link anchor" href="#how-this-book-works">
+          How this book works
+        </a>
+      </h2>
+    <p>Every chapter exists in two forms:</p>
+<ol>
+<li><p><strong>A web page</strong> (what you're reading now), with the query results already filled in.</p>
+</li>
+<li><p><strong>A Malloy notebook</strong> (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code> file) that you open in VS Code and run yourself. The notebooks have their own GitHub repository: <a href="https://github.com/mrtimo/malloy-textbook-notebooks">mrtimo/malloy-textbook-notebooks</a>.</p>
+</li></ol>
+<p>Read the web page to learn. Open the notebook to practice. The <strong>Open in VS Code</strong> button at the top of each chapter opens that chapter's notebook in <a href="https://github.dev">github.dev</a>, a free copy of VS Code that runs in your browser.</p>
+<div class="callout callout-tip">
+<p>💡 <strong>Fast start.</strong> Want to run queries right now? Go to <a href="05_files_and_notebooks#setting-up-your-environment">Chapter 5</a> for the full setup. The short version: install VS Code, install the <strong>Malloy</strong> extension, then download the <a href="https://github.com/mrtimo/malloy-textbook-notebooks">notebooks repository</a> and open its folder <em>as the workspace root</em>. That's it. DuckDB is built into the extension.</p>
+</div>
+
+      <h2>
+        <a id="the-datasets" class="header-link anchor" href="#the-datasets">
+          The datasets
+        </a>
+      </h2>
+    <p>We use two datasets throughout the book. Both ship with the notebooks in the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span></span></code> folder.</p>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+
+<th>File(s)</th>
+
+<th>What's in it</th>
+
+<th>Used for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>U.S. baby names</strong></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span><span style="color: #001080">usa_names</span><span style="color: #000000">.</span><span style="color: #001080">parquet</span></span></code></td>
+
+<td>6.3 million rows: the number of babies given each name, by state, gender, and year, from 1910 to 2021 (Social Security Administration)</td>
+
+<td>Almost everything</td>
+</tr>
+
+<tr>
+<td><strong>E-commerce store</strong></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span><span style="color: #001080">order_items</span><span style="color: #000000">.</span><span style="color: #001080">parquet</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">parquet</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">inventory_items</span><span style="color: #000000">.</span><span style="color: #001080">parquet</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">products</span><span style="color: #000000">.</span><span style="color: #001080">parquet</span></span></code></td>
+
+<td>271,000 items sold by an online clothing store from Jan 2019 to Nov 2022</td>
+
+<td>Dates, time trends, and joins</td>
+</tr>
+</tbody></table>
+<p>We also use a few small CSV files filled with deliberately messy fake data for the <a href="09_data_cleaning">data cleaning chapter</a>.</p>
+
+      <h2>
+        <a id="conventions" class="header-link anchor" href="#conventions">
+          Conventions
+        </a>
+      </h2>
+    <p>You will see a few kinds of colored boxes:</p>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge.</strong> Green boxes are challenges. Try them yourself, usually by adding a new cell to the chapter's notebook.</p>
+</div>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> Blue boxes link to the matching page of the official <a href="https://docs.malloydata.dev/documentation/">Malloy documentation</a>.</p>
+</div>
+<div class="callout callout-tip">
+<p>💡 <strong>Tip.</strong> Yellow boxes are tips and shortcuts.</p>
+</div>
+<div class="callout callout-warning">
+<p>⚠️ <strong>Watch out.</strong> Red boxes warn about common mistakes.</p>
+</div>
+<div class="callout callout-tip">
+<p>💡 <strong>About <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #008000">#(docs)</span></span></code> lines.</strong> Some code cells start with a line like <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #008000">#(docs) size=large limit=5000</span></span></code>. These lines only tell <em>this website</em> how big to draw a result and how many rows to show. Malloy in VS Code ignores them. You can leave them in or delete them.</p>
+</div>
+
+      <h2>
+        <a id="chapters" class="header-link anchor" href="#chapters">
+          Chapters
+        </a>
+      </h2>
+    <p><strong>Part I · Foundations</strong></p>
+<ol>
+<li><p><a href="01_basics">The Basics</a>: sources, queries, dimensions, and measures</p>
+</li>
+<li><p><a href="02_time_truncation">Time Truncation</a>: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #0000FF">month</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #0000FF">quarter</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #0000FF">year</span></span></code>, and trends</p>
+</li>
+<li><p><a href="03_views_and_nesting">Views and Nesting</a>: reusable queries and nested results</p>
+</li>
+<li><p><a href="04_render_tags">Render Tags</a>: charts, dashboards, and number formats</p>
+</li></ol>
+<p><strong>Part II · Tools and Data</strong></p>
+<ol start="5">
+<li><p><a href="05_files_and_notebooks">Malloy Files vs. Notebooks</a>: setting up VS Code and DuckDB</p>
+</li>
+<li><p><a href="06_explorer">The Malloy Explorer</a>: building queries by pointing and clicking</p>
+</li>
+<li><p><a href="07_csv_and_parquet">CSV and Parquet</a>: file formats, compression, and reading data over the network</p>
+</li></ol>
+<p><strong>Part III · Analysis</strong></p>
+<ol start="8">
+<li><p><a href="08_filtering">Filtering and Time Comparisons</a>: filter expressions and period-over-period analysis</p>
+</li>
+<li><p><a href="09_data_cleaning">Data Cleaning</a>: fixing messy text, numbers, and dates</p>
+</li>
+<li><p><a href="10_joins">Joins and Symmetric Aggregates</a>: star schemas without double counting</p>
+</li>
+<li><p><a href="11_percent_of_total">Percent of Total</a>: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">all</span><span style="color: #000000">()</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">exclude</span><span style="color: #000000">()</span></span></code></p>
+</li>
+<li><p><a href="12_pipelines_and_windows">Pipelines and Window Calculations</a>: multi-stage queries, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">lag</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">rank</span></span></code>, and running totals</p>
+</li></ol>
+<p><strong>Part IV · Modeling</strong></p>
+<ol start="13">
+<li><p><a href="13_givens">Givens</a>: values your model receives when a query runs</p>
+</li>
+<li><p><a href="14_model_review">Anatomy of a Malloy Model</a>: putting all the pieces together</p>
+</li></ol>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> The official documentation is at <a href="https://docs.malloydata.dev/documentation/">docs.malloydata.dev</a>. Keep it open in another tab. Every chapter links to the pages that go deeper.</p>
+</div>
+</div></div>
+        </div>
+        <script src="/malloy-textbook/js/view_toggles.js"></script>
+        <script src="/malloy-textbook/js/jump_to_hash.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

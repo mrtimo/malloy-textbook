@@ -1,0 +1,46 @@
+{
+  "name": "learning-malloy-textbook",
+  "version": "0.0.1",
+  "description": "Learning Malloy: a hands-on textbook (static site + notebooks)",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf docs",
+    "build": "tsx scripts/index.ts --baseurl ''",
+    "build-watch": "tsx watch scripts/index.ts --baseurl ''",
+    "start-server": "http-server docs -p 4000",
+    "build-prod": "tsx scripts/index.ts --baseurl \"${BASEURL:-/malloy-textbook}\" && touch docs/.nojekyll",
+    "serve": "concurrently --kill-others 'npm run build-watch' 'npm run start-server'",
+    "build-pages": "tsx scripts/index.ts --baseurl \"${BASEURL:-/malloy-textbook}\" && touch docs/.nojekyll",
+    "student": "node scripts/make_student_notebooks.mjs"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@malloydata/db-duckdb": "0.0.437",
+    "@malloydata/malloy": "0.0.437",
+    "@malloydata/malloy-sql": "0.0.437",
+    "@malloydata/render": "0.0.437",
+    "@malloydata/render-validator": "0.0.437",
+    "@malloydata/syntax-highlight": "0.0.437",
+    "@types/uglify-js": "^3.17.5",
+    "concurrently": "^6.2.1",
+    "fs-extra": "^10.1.0",
+    "http-server": "^14.1.1",
+    "prettier": "^3.0.1",
+    "remark-gfm": "^1.0.0",
+    "remark-parse": "^10.0.1",
+    "shiki": "^0.10.1",
+    "tsx": "^4.22.4",
+    "uglify-js": "^3.19.3",
+    "unified": "^10.1.2"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "handlebars": "^4.7.9",
+    "remark-frontmatter": "^4.0.1",
+    "yaml": "^2.8.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

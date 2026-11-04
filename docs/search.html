@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Search Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/malloy-textbook/css/document.css" />
+    <link rel="stylesheet" href="/malloy-textbook/css/textbook.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/malloy-textbook/favicon.ico" />
+    <script src="/malloy-textbook/js/generated/malloy-render-0.0.437.js"></script>
+    <style>
+      .result-inner .malloy-render { width: 100%; }
+      .result-inner .table-container { width: 100%; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="header">
+        <div class="header-banner">
+          <a class="book-mark" href="/malloy-textbook/textbook">
+            <span class="book-title">Learning Malloy</span>
+            <span class="subtitle">A Hands-On Textbook</span>
+          </a>
+        </div>
+        <div class="header-right">
+          <div class="header-links">
+            <a class="pill" href="https://docs.malloydata.dev/documentation/" target="_blank">Malloy Docs ↗</a>
+            <a href="https://github.com/mrtimo/malloy-textbook" target="_blank" title="Textbook source on GitHub"
+              ><img src="/malloy-textbook/img/github.svg" style="transform: scale(0.5)"
+            /></a>
+          </div>
+          <form action="/malloy-textbook/search">
+            <div class="search-input-outer">
+              <img src="/malloy-textbook/img/search.svg" alt="search" />
+              <input placeholder="Search the textbook" id="search-input" name="query" />
+            </div>
+            <input type="submit" style="display: none" />
+          </form>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+              <div id=start_here
+                class="sidebar-section-title {% unless /textbook/index.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Start Here
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                Welcome
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_i · foundations
+                class="sidebar-section-title {% unless /textbook/01_basics.html,/textbook/02_time_truncation.html,/textbook/03_views_and_nesting.html,/textbook/04_render_tags.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part I · Foundations
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/01_basics">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                1. The Basics
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/02_time_truncation">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                2. Time Truncation
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/03_views_and_nesting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                3. Views and Nesting
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/04_render_tags">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                4. Render Tags
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_ii · tools and data
+                class="sidebar-section-title {% unless /textbook/05_files_and_notebooks.html,/textbook/06_explorer.html,/textbook/07_csv_and_parquet.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part II · Tools and Data
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/05_files_and_notebooks">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                5. Files vs. Notebooks
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/06_explorer">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                6. The Malloy Explorer
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/07_csv_and_parquet">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                7. CSV and Parquet
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iii · analysis
+                class="sidebar-section-title {% unless /textbook/08_filtering.html,/textbook/09_data_cleaning.html,/textbook/10_joins.html,/textbook/11_percent_of_total.html,/textbook/12_pipelines_and_windows.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part III · Analysis
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/08_filtering">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                8. Filtering and Time Comparisons
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/09_data_cleaning">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                9. Data Cleaning
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/10_joins">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                10. Joins and Symmetric Aggregates
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/11_percent_of_total">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                11. Percent of Total
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/12_pipelines_and_windows">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                12. Pipelines and Window Calculations
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iv · modeling
+                class="sidebar-section-title {% unless /textbook/13_givens.html,/textbook/14_model_review.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part IV · Modeling
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/13_givens">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                13. Givens
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/14_model_review">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                14. Anatomy of a Malloy Model
+              </a>
+            </div>
+              </div>
+            </div>
+          </div>        <script src="/malloy-textbook/js/sidebar_state.js"></script>
+        <div class="content">
+          <div class="footer">
+            
+          </div>
+          <div class="document-outer">
+
+<div class="document">
+  <h1>Search Results</h1>
+  <div id="search-results">
+    Loading...
+  </div>
+  <script src="/malloy-textbook/js/generated/search_segments.js"></script>
+  <script src="/malloy-textbook/js/search.js"></script>
+</div></div>
+        </div>
+        <script src="/malloy-textbook/js/view_toggles.js"></script>
+        <script src="/malloy-textbook/js/jump_to_hash.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

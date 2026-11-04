@@ -1,0 +1,500 @@
+>>>markdown
+# Chapter 8: Filtering and Time Comparisons
+
+Filtering decides *which data* answers your question, so it matters as much as the question itself. This chapter covers:
+
+* every place a filter can go: on a source, on a query, on a nest, on a single measure, and after aggregation
+* ordinary boolean filters: comparisons, `and`/`or`, alternation with `|`, the apply operator `?`, and pattern matching
+* **filter expressions**: Malloy's compact mini-languages for filtering strings, numbers, dates, and booleans (the biggest section)
+* **time comparisons**: this year vs. last year, quarter over quarter, and how to handle partial periods
+>>>malloy
+import "names.malloy"
+import "ecommerce.malloy"
+>>>markdown
+## Part 1: Where filters go
+
+### Filtering a query
+
+You know this one already. `where:` in a query keeps only matching rows *before* grouping:
+>>>malloy
+run: names -> {
+  where: state = 'WA' and year_born = 2021
+  group_by: name
+  aggregate: total_births
+  limit: 5
+}
+>>>markdown
+A comma between conditions means `and`. These two lines mean the same thing:
+
+```malloy
+where: state = 'WA' and year_born = 2021
+where: state = 'WA', year_born = 2021
+```
+
+### Filtering a source
+
+A `where:` inside `extend { }` builds the filter into the source itself, so **every** query against it is filtered. This is great for creating focused subsets:
+>>>malloy
+source: modern_names is names extend {
+  where: year_born >= 2000
+}
+>>>malloy
+run: modern_names -> {
+  group_by: decade
+  aggregate: total_births
+}
+>>>markdown
+### Filtering a single measure
+
+You can attach a filter to **one measure** with `{ where: ... }`. The rest of the query isn't affected. This is called a **filtered aggregate**, and it's the key to comparisons:
+>>>malloy
+run: names -> {
+  group_by: state
+  aggregate:
+    total_births
+    girls is total_births { where: gender = 'F' }
+    boys is total_births { where: gender = 'M' }
+  limit: 5
+}
+>>>markdown
+One query, three different filters, three columns. In SQL you'd write <code>SUM(CASE WHEN gender = 'F' THEN number END)</code>.
+
+### Filtering after aggregation: having
+
+`where:` filters **rows before grouping**. To filter **groups after aggregating** ("only show names with more than 1 million births"), use `having:`:
+>>>malloy
+run: names -> {
+  where: gender = 'F'
+  group_by: name
+  aggregate: total_births
+  having: total_births > 1000000
+}
+>>>markdown
+> ⚠️ **`where:` vs. `having:`.** Using a measure in `where:` is an error, because measures don't exist until after grouping. If your filter mentions an aggregate, it belongs in `having:`.
+
+### Filtering a nest
+
+As you saw in [Chapter 3](03_views_and_nesting.malloynb), each `nest:` can have its own `where:`, which only affects that nest.
+
+> 📘 **Malloy docs.** [Filters: filter placement](https://docs.malloydata.dev/documentation/language/filters#filter-placement)
+
+## Part 2: Boolean filters
+
+### Comparison and logic
+
+The usual operators work: `=`, `!=`, `<`, `<=`, `>`, `>=`, plus `and`, `or`, and `not`. Use parentheses to group:
+>>>malloy
+run: names -> {
+  where: (state = 'AK' or state = 'HI') and not (gender = 'M')
+  group_by: state
+  aggregate: total_births
+}
+>>>markdown
+### Alternation with `|`
+
+Writing `state = 'AK' or state = 'HI' or state = 'PR'` is tedious. Malloy lets you write `state = 'AK' | 'HI' | 'PR'`. Use `!=` to exclude a list:
+>>>malloy
+run: names -> {
+  where: state != 'CA' | 'TX' | 'NY', year_born = 2021
+  group_by: state
+  aggregate: total_births
+  limit: 5
+}
+>>>markdown
+### The apply operator `?`
+
+`?` *applies* a partial comparison to a value. It reads nicely for ranges and sets of conditions:
+
+| Expression | Means |
+|---|---|
+| `year_born ? > 1990 & < 2000` | `year_born > 1990 and year_born < 2000` |
+| `year_born ? 1990 to 2000` | `year_born >= 1990 and year_born < 2000` (the end is **excluded**) |
+| `state ? 'UT' \| 'ID'` | `state = 'UT' or state = 'ID'` |
+>>>malloy
+run: names -> {
+  where: year_born ? 1946 to 1965, name ? 'Linda' | 'Mary' | 'Patricia'
+  group_by: name
+  aggregate: total_births
+}
+>>>markdown
+> 📘 **Malloy docs.** [Apply operator](https://docs.malloydata.dev/documentation/language/apply) · [Expressions](https://docs.malloydata.dev/documentation/language/expressions)
+
+### Pattern matching with `~`
+
+`~` matches a string against a **pattern**. With a normal string, it works like SQL <code>LIKE</code>: `%` matches any run of characters and `_` matches exactly one. With an `r'...'` string, it's a **regular expression**. `!~` means "does not match."
+>>>malloy
+run: names -> {
+  where: year_born = 2021, name ~ r'^(Ja|Jo)[a-z]*n$'
+  group_by: name
+  aggregate: total_births
+  limit: 8
+}
+>>>markdown
+That regular expression means "starts with *Ja* or *Jo*, then any lowercase letters, then ends with *n*."
+
+### Nulls
+
+Use `is null` and `is not null`. (A plain `= null` never matches anything, just like in SQL.)
+>>>malloy
+run: order_items -> {
+  aggregate:
+    items is order_item_count
+    returned is order_item_count { where: returned_at is not null }
+    never_shipped is order_item_count { where: shipped_at is null }
+}
+>>>markdown
+## Part 3: Filter expressions
+
+Here is the most powerful filtering tool in Malloy. A **filter expression** is a small string written in a special mini-language, then applied with `~`. It starts with `f` and is wrapped in quotes: `f'...'`.
+
+```malloy
+name ~ f'Ja%, -Jason'        // starts with "Ja", but isn't "Jason"
+year_born ~ f'[1990 to 2000)'  // 1990 through 1999
+created_at ~ f'2021-Q4'      // any time in the 4th quarter of 2021
+```
+
+Why have a separate language? Because filters are **data**. A dashboard's filter box, a URL parameter, a [given](13_givens.malloynb), or an LLM can produce a short string like `CA, NY, -TX` or `last 3 months`, and Malloy turns it into correct SQL for whatever database you use. There's a mini-language for each type: **strings**, **numbers**, **temporal** (dates and timestamps), and **booleans**.
+
+> 📘 **Malloy docs.** [Filter expressions](https://docs.malloydata.dev/documentation/language/filter-expressions). Keep this page handy. It has the full grammar.
+
+### String filter expressions
+
+| Filter expression | Matches |
+|---|---|
+| <code>f'Emma'</code> | exactly `Emma` |
+| <code>f'Emma, Olivia, Ava'</code> | any of the three |
+| <code>f'Em%'</code> | starts with `Em` |
+| <code>f'%lyn'</code> | ends with `lyn` |
+| <code>f'%ann%'</code> | contains `ann` |
+| <code>f'J_n'</code> | `J`, any one character, `n` (Jan, Jen, Jon...) |
+| <code>f'-Emma'</code> | anything **except** `Emma` |
+| <code>f'null'</code> / <code>f'-null'</code> | is / isn't null |
+| <code>f'empty'</code> | null **or** the empty string |
+
+Let's try them. Names ending in *lyn* in 2021:
+>>>malloy
+run: names -> {
+  where: year_born = 2021, name ~ f'%lyn'
+  group_by: name
+  aggregate: total_births
+  limit: 5
+}
+>>>markdown
+A comma-separated list **ors** together the positive matches and **ands** together the negatives (the ones starting with `-`). So this means *"starts with Mad or starts with Mac, but isn't Madison and doesn't end in y"*:
+>>>malloy
+run: names -> {
+  where: year_born = 2021, name ~ f'Mad%, Mac%, -Madison, -%y'
+  group_by: name
+  aggregate: total_births
+  limit: 8
+}
+>>>markdown
+You can also be explicit with `|` for "or", `;` for "and", and parentheses for grouping:
+>>>malloy
+run: names -> {
+  where: year_born = 2021, name ~ f'(A% | E%) ; %a'
+  group_by: name
+  aggregate: total_births
+  limit: 5
+}
+>>>markdown
+That's *"(starts with A or starts with E) and ends with a"*.
+
+To exclude several patterns, put a `-` in front of each one. Or wrap the whole match in `not ( )`. These two filters mean the same thing: *"states that don't start with C, N, or T"*:
+
+```malloy
+where: state ~ f'-C%, -N%, -T%'
+where: not (state ~ f'C%, N%, T%')
+```
+>>>malloy
+run: names -> {
+  where: year_born = 2021, state ~ f'-C%, -N%, -T%'
+  group_by: state
+  aggregate: total_births
+  limit: 5
+}
+>>>markdown
+> ⚠️ **Avoid `!~` with filter expressions.** You might expect `state !~ f'C%, N%, T%'` to work too. In the Malloy version used to build this book, it silently ignores the `!` and returns the *matching* rows. Always check results when you negate a filter. Use `-` inside the expression or `not (...)` around it instead.
+>>>markdown
+> 💡 **Escaping.** To match a real `%`, `_`, `,`, or a leading `-`, put a backslash before it: <code>f'100\%'</code>.
+
+### Numeric filter expressions
+
+| Filter expression | Matches |
+|---|---|
+| <code>f'42'</code> or <code>f'= 42'</code> | equals 42 |
+| <code>f'2, 4, 6'</code> | any of these |
+| <code>f'> 1000'</code> | more than 1000 (also <code><</code>, <code><=</code>, <code>>=</code>, <code>!=</code>) |
+| <code>f'[1990 to 1999]'</code> | 1990 through 1999: square brackets **include** the ends |
+| <code>f'(1990 to 2000)'</code> | between 1990 and 2000: parentheses **exclude** the ends (1991–1999) |
+| <code>f'[1990 to 2000)'</code> | mix them: includes 1990, excludes 2000 |
+| <code>f'> 10 and < 20'</code> | combine with `and` / `or` |
+| <code>f'not [1 to 9]'</code> | outside the range |
+| <code>f'null'</code> | is null |
+
+This is the same interval notation used in math class: `[` and `]` mean "including," and `(` and `)` mean "not including."
+
+> ⚠️ **Check the brackets.** At the time of writing, the filter expression page in the Malloy documentation describes `( )` and `[ ]` the other way around. The behavior shown here was checked against the SQL that Malloy actually generates (`[1946 to 1964]` becomes <code>year >= 1946 AND year <= 1964</code>). When in doubt, click the **SQL** button and read the <code>WHERE</code> clause.
+
+Names that were popular, but not *too* popular, in 2021. Here the filter expression goes in `having:`, because `total_births` is a measure:
+>>>malloy
+run: names -> {
+  where: year_born = 2021, gender = 'F'
+  group_by: name
+  aggregate: total_births
+  having: total_births ~ f'[2000 to 2100]'
+  order_by: total_births desc
+}
+>>>markdown
+The Baby Boom, written as a range:
+>>>malloy
+run: names -> {
+  where: year_born ~ f'[1946 to 1964]'
+  aggregate: total_births
+  group_by: generation
+}
+>>>markdown
+Name lengths of 3, 5, or 7 letters, or more than 12:
+>>>malloy
+run: names -> {
+  where: year_born = 2021, name_length ~ f'3, 5, 7 or > 12'
+  group_by: name_length
+  aggregate: total_births, name_count
+  order_by: name_length
+}
+>>>markdown
+### Temporal filter expressions
+
+Temporal (date and timestamp) filter expressions are where this language really shines. They know about calendars. Let's switch to the e-commerce data, which has real timestamps.
+
+**Literals: a moment that implies a duration**
+
+| Filter expression | Matches |
+|---|---|
+| <code>f'2021'</code> | all of 2021 |
+| <code>f'2021-Q4'</code> | Oct 1 – Dec 31, 2021 |
+| <code>f'2021-03'</code> | March 2021 |
+| <code>f'2021-03-14'</code> | that day |
+| <code>f'2021-03-14-WK'</code> | the week starting that day |
+| <code>f'2021-03-14 10'</code> | the 10 o'clock hour |
+>>>malloy
+run: order_items -> {
+  aggregate:
+    all_time is total_sales
+    in_2021 is total_sales { where: created_at ~ f'2021' }
+    in_2021_q4 is total_sales { where: created_at ~ f'2021-Q4' }
+    in_dec_2021 is total_sales { where: created_at ~ f'2021-12' }
+    on_xmas_eve is total_sales { where: created_at ~ f'2021-12-24' }
+}
+>>>markdown
+**Ranges**
+
+| Filter expression | Matches |
+|---|---|
+| <code>f'2021-01 to 2021-04'</code> | Jan 1 up to (not including) Apr 1, 2021 |
+| <code>f'2021-11 for 2 months'</code> | Nov and Dec 2021 |
+| <code>f'before 2020'</code> | everything before Jan 1, 2020 |
+| <code>f'after 2021'</code> | everything after the **end** of 2021 |
+| <code>f'starting 2022-07'</code> | July 1, 2022 or later |
+| <code>f'through 2019'</code> | up to and including all of 2019 |
+>>>malloy
+run: order_items -> {
+  aggregate:
+    first_third_2021 is order_item_count { where: created_at ~ f'2021-01 to 2021-05' }
+    holiday_2021 is order_item_count { where: created_at ~ f'2021-11 for 2 months' }
+    pre_2020 is order_item_count { where: created_at ~ f'before 2020' }
+    h2_2022 is order_item_count { where: created_at ~ f'starting 2022-07' }
+}
+>>>markdown
+**Relative times**
+
+Filter expressions also understand *relative* time:
+
+| Filter expression | Matches |
+|---|---|
+| <code>f'today'</code>, <code>f'yesterday'</code> | that day |
+| <code>f'this month'</code>, <code>f'last quarter'</code>, <code>f'next year'</code> | the current/previous/next period |
+| <code>f'last 7 days'</code> | the 7 complete days before today |
+| <code>f'2 weeks ago'</code> | the week two weeks back |
+| <code>f'last monday'</code> | the most recent Monday |
+| <code>f'2 years ago to now'</code> | combine with `to` |
+
+These are measured from **right now**, the moment the query runs. Our e-commerce data ends in November 2022, so watch what happens:
+>>>malloy
+run: order_items -> {
+  aggregate:
+    last_30_days is order_item_count { where: created_at ~ f'last 30 days' }
+    this_year is order_item_count { where: created_at ~ f'this year' }
+    last_5_years is order_item_count { where: created_at ~ f'last 5 years' }
+}
+>>>markdown
+Zeros are the *correct* answer for the first two, because there were no orders in the last 30 days! Relative filters are perfect for live production data ("sales this month"), and confusing for historical datasets. With historical data, use literal dates.
+
+> ⚠️ **Relative filters depend on when you run them.** The numbers in this cell will be different next year. That's good for a live dashboard, but bad for a homework answer you want to reproduce!
+
+**Combining** temporal filters uses `and`, `or`, and parentheses. Here's "Q4 of 2020 or Q4 of 2021":
+>>>malloy
+run: order_items -> {
+  where: created_at ~ f'2020-Q4 or 2021-Q4'
+  group_by: order_year is created_at.year
+  aggregate: total_sales
+}
+>>>markdown
+### Boolean filter expressions
+
+| Filter expression | true | false | null |
+|---|---|---|---|
+| <code>f'true'</code> | ✅ | | |
+| <code>f'false'</code> | | ✅ | ✅ (treats null as false) |
+| <code>f'=false'</code> | | ✅ | |
+| <code>f'null'</code> | | | ✅ |
+>>>malloy
+run: order_items -> {
+  extend: { dimension: was_returned is returned_at is not null }
+  aggregate:
+    returned is order_item_count { where: was_returned ~ f'true' }
+    kept is order_item_count { where: was_returned ~ f'false' }
+}
+>>>markdown
+(The `extend:` inside a query adds a field just for that query. More on that in [Chapter 12](12_pipelines_and_windows.malloynb).)
+
+### Filter expressions vs. ordinary expressions
+
+Both work, and you can mix them. Here are the same filters written both ways:
+
+| Ordinary Malloy | Filter expression |
+|---|---|
+| `state = 'CA' \| 'NY'` | `state ~ f'CA, NY'` |
+| `name ~ 'Ja%' and name != 'Jason'` | `name ~ f'Ja%, -Jason'` |
+| `year_born >= 1990 and year_born <= 1999` | `year_born ~ f'[1990 to 1999]'` |
+| `created_at ? @2021-10 to @2022-01` | `created_at ~ f'2021-Q4'` |
+
+Use whichever reads more clearly. Filter expressions win when the filter is long, involves calendars, or comes from outside your code (a user, a parameter, or an app).
+
+## Part 4: Time comparisons
+
+Now let's put filtered measures to work on the classic business question: **how are we doing compared to before?**
+
+### Year over year
+
+Make one filtered measure per period, then compare them:
+>>>malloy
+run: order_items -> {
+  group_by: inventory_items.product_category
+  aggregate:
+    sales_2020 is total_sales { where: created_at ~ f'2020' }
+    sales_2021 is total_sales { where: created_at ~ f'2021' }
+    # percent
+    growth is total_sales { where: created_at ~ f'2021' }
+      / total_sales { where: created_at ~ f'2020' } - 1
+  limit: 10
+}
+>>>markdown
+Writing the filters twice is clumsy. Define the period measures **once** with `extend:`, then use them by name:
+>>>malloy
+run: order_items -> {
+  extend: {
+    measure:
+      sales_2020 is total_sales { where: created_at ~ f'2020' }
+      sales_2021 is total_sales { where: created_at ~ f'2021' }
+  }
+  group_by: inventory_items.product_category
+  aggregate:
+    sales_2020
+    sales_2021
+    # currency
+    change is sales_2021 - sales_2020
+    # percent
+    growth is sales_2021 / nullif(sales_2020, 0) - 1
+  order_by: growth desc
+  limit: 10
+}
+>>>markdown
+`nullif(x, 0)` turns a zero into null, so a category with no 2020 sales shows null instead of a divide-by-zero error.
+
+### Watch out for partial periods
+
+What about 2022 vs. 2021? Our data stops on **November 14, 2022**. Comparing "all of 2022" with "all of 2021" compares 10½ months with 12 months, which isn't fair. The fix is to compare the **same slice of the calendar**, year-to-date:
+>>>malloy
+run: order_items -> {
+  aggregate:
+    full_2021 is total_sales { where: created_at ~ f'2021' }
+    partial_2022 is total_sales { where: created_at ~ f'2022' }
+    ytd_2021 is total_sales { where: created_at ~ f'2021-01-01 to 2021-11-15' }
+    ytd_2022 is total_sales { where: created_at ~ f'2022-01-01 to 2022-11-15' }
+    # percent
+    ytd_growth is total_sales { where: created_at ~ f'2022-01-01 to 2022-11-15' }
+      / total_sales { where: created_at ~ f'2021-01-01 to 2021-11-15' } - 1
+}
+>>>markdown
+### Quarter over quarter
+
+The same idea works at any grain. Here are this quarter and last quarter for each traffic source, using the last full quarter in the data (2022 Q3):
+>>>malloy
+run: order_items -> {
+  extend: {
+    measure:
+      q2 is total_sales { where: created_at ~ f'2022-Q2' }
+      q3 is total_sales { where: created_at ~ f'2022-Q3' }
+  }
+  group_by: users.traffic_source
+  aggregate:
+    q2
+    q3
+    # percent
+    qoq_growth is q3 / nullif(q2, 0) - 1
+}
+>>>markdown
+### Comparing seasons with a chart
+
+Another way to compare years is to put the **month of the year** on the x-axis and draw **one line per year**. Extraction (`month()`) and truncation (`.year`) from [Chapter 2](02_time_truncation.malloynb) work together here:
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: order_items -> {
+  where: created_at ~ f'2020 to 2023'
+  group_by:
+    month_of_year is month(created_at)
+    order_year is year(created_at)
+  aggregate: total_sales
+  order_by: month_of_year
+}
+>>>markdown
+Each year's line sits above the previous one, so the business is growing in every month. The 2022 line stops in November.
+
+### Baby names: then vs. now
+
+Filtered measures make period comparisons easy on the names data, too. Which names grew the most from the 1990s to the 2010s?
+>>>malloy
+run: names -> {
+  where: gender = 'F'
+  group_by: name
+  aggregate:
+    births_1990s is total_births { where: decade = 1990 }
+    births_2010s is total_births { where: decade = 2010 }
+    # number="0.00"
+    growth_factor is total_births { where: decade = 2010 }
+      / nullif(total_births { where: decade = 1990 }, 0)
+  having: total_births { where: decade = 2010 } > 50000
+  order_by: growth_factor desc
+  limit: 10
+}
+>>>markdown
+> 📘 **Malloy docs.** [Pattern: comparing timeframes (year over year)](https://docs.malloydata.dev/documentation/patterns/yoy) · [Time ranges](https://docs.malloydata.dev/documentation/language/time-ranges). In [Chapter 12](12_pipelines_and_windows.malloynb) you'll see a third method, using `lag()`.
+
+## Key takeaways
+
+* Filters can go on a **source** (`extend { where: }`), a **query** (`where:`), a **nest**, a single **measure** (`measure { where: }`), or **after aggregation** (`having:`).
+* `|` lists alternatives, `?` applies partial comparisons and ranges, and `~` matches patterns.
+* **Filter expressions** (`f'...'`) are compact mini-languages for strings, numbers, times, and booleans:
+  * strings: lists, `%` wildcards, `-` to exclude
+  * numbers: comparisons and `(a to b)` / `[a to b]` ranges
+  * times: `2021-Q4`, `2021-01 to 2021-04`, `before 2020`, `last 3 months`, ...
+* Relative time filters (`last 30 days`) depend on *when you run the query*.
+* Period-over-period analysis is a set of **filtered measures** compared side by side. Compare like with like when a period is partial.
+
+> 🎯 **Challenge 8.1: Filter expression practice.** Using a single filter expression for each, write three queries against `names` for the year 2000: (a) names that **contain** `bell`; (b) names that start with `K` **or** `C` but **don't** end in `n`; (c) names with 1,000 to 2,000 births, both ends included. (For (c), think about whether it belongs in `where:` or `having:`.)
+
+> 🎯 **Challenge 8.2: Holiday season.** Compare `total_sales` and `order_count` for the **holiday season** (November 15 through December 31) of 2020 and of 2021, as columns side by side. Then add a growth percentage. Format the columns with `# currency` and `# percent`.
+
+> 🎯 **Challenge 8.3: Generation shift.** For **boys'** names, compare births in the 1980s with births in the 2010s, like the last example. Which names had the biggest **decline**? (Hint: sort by the growth factor ascending, and use `having:` so you only see names that were common in the 1980s.)

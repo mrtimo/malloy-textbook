@@ -1,0 +1,179 @@
+>>>markdown
+# Chapter 2: Time Truncation
+
+Almost every business question has time in it. *How are sales trending? Was last quarter better than the one before? Which month is busiest?* In this chapter you'll learn how to:
+
+* **truncate** timestamps to a year, quarter, month, week, or day with `.year`, `.quarter`, `.month`, `.week`, and `.day`
+* **extract** parts of a date (like "which month of the year") with functions such as `month()` and `day_of_week()`
+* build simple **trend** queries
+
+The baby names data only records a birth *year* as a plain number, so for this chapter we'll switch to the **e-commerce** dataset. Its timestamps go down to the second.
+
+## Importing a model
+
+In Chapter 1 we defined our source right in the notebook. Usually a source lives in a separate `.malloy` file (a **model**) that many notebooks share. You'll learn much more about this in [Chapter 5](05_files_and_notebooks.malloynb). For now, this one line brings in every source defined in `ecommerce.malloy`:
+>>>malloy
+import "ecommerce.malloy"
+>>>markdown
+The main source is `order_items`: one row for every item sold. Let's look at a few rows. We pick the columns we care about with `select:`.
+>>>malloy
+run: order_items -> {
+  select: id, order_id, created_at, shipped_at, sale_price, status
+  limit: 5
+}
+>>>markdown
+`created_at` is a **timestamp** (a date *and* a time). `shipped_at` is a **date** (no time). Both kinds of value work with everything in this chapter.
+
+## Truncation: rounding time down
+
+To **truncate** a timestamp is to round it *down* to the start of a period. `created_at.month` turns `2021-03-17 14:05:22` into `2021-03`, the first moment of that month. Every order from March 2021 lands in the same group.
+
+Here are all the truncations side by side for a few orders:
+>>>malloy
+run: order_items -> {
+  limit: 3
+  select:
+    created_at
+    by_year is created_at.year
+    by_quarter is created_at.quarter
+    by_month is created_at.month
+    by_week is created_at.week
+    by_day is created_at.day
+    by_hour is created_at.hour
+}
+>>>markdown
+A truncation **is still a time**. It isn't a number or a string. That matters, because Malloy knows how to sort it, display it, and draw it on a chart's time axis.
+
+> 💡 **Weeks start on Sunday.** `.week` truncates to the Sunday at the start of the week.
+
+> 📘 **Malloy docs.** [Timestamp operations: truncation](https://docs.malloydata.dev/documentation/language/timestamp-operations#truncation)
+
+## Your first trend query
+
+Group by a truncated time to get a trend. How much did the store sell each year?
+>>>malloy
+run: order_items -> {
+  group_by: order_year is created_at.year
+  aggregate: total_sales, order_count
+}
+>>>markdown
+Look at the order of the rows: **newest first**. When a query groups by a time, Malloy sorts by that time, newest first. That's usually what you want on a report. For a trend you read left to right (or top to bottom), sort it yourself:
+>>>malloy
+run: order_items -> {
+  group_by: order_quarter is created_at.quarter
+  aggregate: total_sales, order_count
+  order_by: order_quarter asc
+}
+>>>markdown
+The business grows every quarter. (The last quarter is low because the data stops in mid-November 2022. Watch out for partial periods at the edges of your data!)
+
+Monthly trends work the same way. The model already has a view called `by_month` that does exactly this. You'll learn about views in [Chapter 3](03_views_and_nesting.malloynb).
+>>>malloy
+run: order_items -> {
+  group_by: order_month is created_at.month
+  aggregate: total_sales
+  order_by: order_month
+  limit: 12
+}
+>>>markdown
+Here's a sneak peek at [Chapter 4](04_render_tags.malloynb). Add one line, `# line_chart`, above the query, and the same result becomes a chart:
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: order_items -> {
+  group_by: order_month is created_at.month
+  aggregate: total_sales
+  order_by: order_month
+}
+>>>markdown
+## Extraction: "which month?" instead of "which March?"
+
+Truncation keeps the year: March 2021 and March 2022 are *different* groups. Sometimes you want to ask "are Marches always busy?" That's **seasonality**, and it needs the month *number* (1–12), with the year thrown away. For that, use **extraction functions**. They return plain numbers:
+
+| Function | Returns |
+|---|---|
+| `year(t)` | the year, e.g. 2021 |
+| `quarter(t)` | 1–4 |
+| `month(t)` | 1–12 |
+| `week(t)` | week of the year, 1–53 |
+| `day(t)` | day of the month, 1–31 |
+| `day_of_week(t)` | 1 (Sunday) – 7 (Saturday) |
+| `day_of_year(t)` | 1–366 |
+| `hour(t)` | 0–23 |
+>>>malloy
+run: order_items -> {
+  where: created_at.year = @2021
+  group_by: month_number is month(created_at)
+  aggregate: total_sales
+  order_by: month_number
+  limit: 12
+}
+>>>markdown
+Did you notice `created_at.year = @2021`? The `@` starts a **time literal**, a fixed point in time written into your code. `@2021` means "the year 2021." You'll see a lot more of this in [Chapter 8](08_filtering.malloynb).
+
+Which day of the week do people shop most?
+>>>malloy
+run: order_items -> {
+  group_by: weekday is day_of_week(created_at)
+  aggregate: order_count
+  order_by: weekday
+}
+>>>markdown
+> ⚠️ **Truncation vs. extraction.** `created_at.month` is a *time* (March 2021). `month(created_at)` is a *number* (3). Use truncation for trends over time. Use extraction to compare the same part of different periods (all Marches, all Mondays).
+
+> 📘 **Malloy docs.** [Timestamp operations: extraction](https://docs.malloydata.dev/documentation/language/timestamp-operations#extraction) · [Time expressions](https://docs.malloydata.dev/documentation/language/expressions#time-expressions)
+
+## Dates work too
+
+`shipped_at` is a `date`, and truncation works the same way on it. (Hours and minutes don't apply to dates, of course.)
+>>>malloy
+run: order_items -> {
+  where: shipped_at is not null
+  group_by: ship_month is shipped_at.month
+  aggregate: order_item_count
+  order_by: ship_month desc
+  limit: 6
+}
+>>>markdown
+## Measuring time between two dates
+
+How long does an order take to ship? Malloy measures the gap between two times with a **range**, written `start to end`, inside a function like `days()`, `hours()`, or `months()`:
+>>>malloy
+run: order_items -> {
+  where: shipped_at is not null
+  group_by: order_year is created_at.year
+  aggregate: avg_days_to_ship is avg(days(created_at::date to shipped_at))
+  order_by: order_year
+}
+>>>markdown
+`created_at::date` **casts** the timestamp to a date so both ends of the range have the same type.
+
+> 📘 **Malloy docs.** [Time ranges and interval measurement](https://docs.malloydata.dev/documentation/language/time-ranges#interval-measurement)
+
+## What about the names data?
+
+In the names dataset, `year_born` is a plain number like `1987`, not a timestamp. So `.month` and `.quarter` make no sense for it. The `decade` dimension from Chapter 1, `floor(year_born / 10) * 10`, is the integer version of "truncation": it rounds a year down to the start of its decade.
+>>>malloy
+import "names.malloy"
+>>>malloy
+run: names -> {
+  where: name = 'Jennifer'
+  group_by: decade
+  aggregate: total_births
+  order_by: decade
+}
+>>>markdown
+*Jennifer* doesn't appear at all until the 1930s. It became a smash hit in the 1970s, then faded.
+
+## Key takeaways
+
+* `.year`, `.quarter`, `.month`, `.week`, `.day`, `.hour`, and `.minute` **truncate** a time to the start of a period. The result is still a time.
+* Group by a truncated time to build a **trend**. Malloy sorts time groups newest-first unless you `order_by:` them.
+* Extraction functions (`month()`, `day_of_week()`, ...) return **numbers** and are good for seasonality.
+* `days(a to b)` measures the time between two dates.
+
+> 🎯 **Challenge 2.1: Busiest hour.** Add a cell that finds which **hour of the day** (0–23) has the most order items. Sort from most to fewest. (Hint: `hour(created_at)`.)
+
+> 🎯 **Challenge 2.2: Weekly trend.** Show `total_sales` and `order_count` by **week** for the first 8 weeks of 2022. Sort oldest to newest. (Hint: `where: created_at.year = @2022`, then `limit: 8`.)
+
+> 🎯 **Challenge 2.3: Returns over time.** The `returned_at` column is the timestamp an item was returned (it's null if the item was never returned). Show the number of returned items per **quarter**, based on `returned_at`, oldest first. (Hint: filter with `where: returned_at is not null`.)

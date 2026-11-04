@@ -1,0 +1,78 @@
+// names.malloy
+// The semantic model for the U.S. baby names dataset.
+//
+// Data: U.S. Social Security Administration counts of babies born in each
+// state, by name and gender, 1910–2021. Names given to fewer than 5 babies in
+// a state/year are not included. One row = one (state, gender, year, name).
+
+#" U.S. baby names by state, gender, and birth year (1910–2021).
+source: names is duckdb.table('data/usa_names.parquet') extend {
+
+  // ---------- Renames: give raw columns friendlier names ----------
+  rename: year_born is `year`
+  rename: births is `number`
+
+  // ---------- Dimensions: things you group by or filter on ----------
+  dimension:
+    #" The decade a baby was born in, e.g. 1990.
+    decade is floor(year_born / 10) * 10
+
+    #" Number of characters in the name.
+    name_length is length(name)
+
+    #" First letter of the name.
+    first_letter is substr(name, 1, 1)
+
+    #" Generational cohort, based on birth year.
+    generation is year_born ?
+      pick 'Greatest (1910–1927)' when < 1928
+      pick 'Silent (1928–1945)'   when < 1946
+      pick 'Boomer (1946–1964)'   when < 1965
+      pick 'Gen X (1965–1980)'    when < 1981
+      pick 'Millennial (1981–1996)' when < 1997
+      pick 'Gen Z (1997–2012)'    when < 2013
+      else 'Gen Alpha (2013– )'
+
+  // ---------- Measures: aggregate calculations ----------
+  measure:
+    #" Total babies born (sum of the births column).
+    total_births is births.sum()
+
+    #" How many different names appear.
+    name_count is count(name)
+
+    #" How many rows of raw data were summarized.
+    row_count is count()
+
+    #" Births per 100,000 babies in the current result.
+    births_per_100k is floor(total_births / all(total_births) * 100000)
+
+  // ---------- Views: saved, reusable queries ----------
+  view: by_name is {
+    group_by: name
+    aggregate: total_births
+    limit: 10
+  }
+
+  view: by_state is {
+    group_by: state
+    aggregate: total_births
+  }
+
+  view: by_gender is {
+    group_by: gender
+    aggregate: total_births
+  }
+
+  view: by_year is {
+    group_by: year_born
+    aggregate: total_births
+    order_by: year_born
+  }
+
+  view: by_decade is {
+    group_by: decade
+    aggregate: total_births
+    order_by: decade
+  }
+}

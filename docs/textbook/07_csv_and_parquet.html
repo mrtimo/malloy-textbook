@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>7. CSV and Parquet | Learning Malloy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/malloy-textbook/css/document.css" />
+    <link rel="stylesheet" href="/malloy-textbook/css/textbook.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/malloy-textbook/favicon.ico" />
+    <script src="/malloy-textbook/js/generated/malloy-render-0.0.437.js"></script>
+    <style>
+      .result-inner .malloy-render { width: 100%; }
+      .result-inner .table-container { width: 100%; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="header">
+        <div class="header-banner">
+          <a class="book-mark" href="/malloy-textbook/textbook">
+            <span class="book-title">Learning Malloy</span>
+            <span class="subtitle">A Hands-On Textbook</span>
+          </a>
+        </div>
+        <div class="header-right">
+          <div class="header-links">
+            <a class="pill" href="https://docs.malloydata.dev/documentation/" target="_blank">Malloy Docs ↗</a>
+            <a href="https://github.com/mrtimo/malloy-textbook" target="_blank" title="Textbook source on GitHub"
+              ><img src="/malloy-textbook/img/github.svg" style="transform: scale(0.5)"
+            /></a>
+          </div>
+          <form action="/malloy-textbook/search">
+            <div class="search-input-outer">
+              <img src="/malloy-textbook/img/search.svg" alt="search" />
+              <input placeholder="Search the textbook" id="search-input" name="query" />
+            </div>
+            <input type="submit" style="display: none" />
+          </form>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+              <div id=start_here
+                class="sidebar-section-title {% unless /textbook/index.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Start Here
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                Welcome
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_i · foundations
+                class="sidebar-section-title {% unless /textbook/01_basics.html,/textbook/02_time_truncation.html,/textbook/03_views_and_nesting.html,/textbook/04_render_tags.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part I · Foundations
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/01_basics">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                1. The Basics
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/02_time_truncation">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                2. Time Truncation
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/03_views_and_nesting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                3. Views and Nesting
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/04_render_tags">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                4. Render Tags
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_ii · tools and data
+                class="sidebar-section-title {% unless /textbook/05_files_and_notebooks.html,/textbook/06_explorer.html,/textbook/07_csv_and_parquet.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part II · Tools and Data
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/05_files_and_notebooks">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                5. Files vs. Notebooks
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/06_explorer">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                6. The Malloy Explorer
+              </a>
+            </div>
+        <div class='sidebar-item active'>
+              <a href="/malloy-textbook/textbook/07_csv_and_parquet">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                7. CSV and Parquet
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iii · analysis
+                class="sidebar-section-title {% unless /textbook/08_filtering.html,/textbook/09_data_cleaning.html,/textbook/10_joins.html,/textbook/11_percent_of_total.html,/textbook/12_pipelines_and_windows.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part III · Analysis
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/08_filtering">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                8. Filtering and Time Comparisons
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/09_data_cleaning">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                9. Data Cleaning
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/10_joins">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                10. Joins and Symmetric Aggregates
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/11_percent_of_total">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                11. Percent of Total
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/12_pipelines_and_windows">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                12. Pipelines and Window Calculations
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iv · modeling
+                class="sidebar-section-title {% unless /textbook/13_givens.html,/textbook/14_model_review.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part IV · Modeling
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/13_givens">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                13. Givens
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/14_model_review">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                14. Anatomy of a Malloy Model
+              </a>
+            </div>
+              </div>
+            </div>
+          </div>        <script src="/malloy-textbook/js/sidebar_state.js"></script>
+        <div class="content">
+          <div class="footer">
+            
+<div class="linear-navigation">
+  <div class="item">
+      <a href="06_explorer.html"><img src="/malloy-textbook/img/previous.svg" alt="previous"/>6. The Malloy Explorer</a>
+  </div>
+  <div class="item">
+      <a href="08_filtering.html">8. Filtering and Time Comparisons<img src="/malloy-textbook/img/next.svg" alt="next"/></a>
+  </div>
+</div> 
+          </div>
+          <div class="document-outer"><div class="document"><div class="title-row">
+        
+      <h1>
+        <a id="chapter-7-csv-and-parquet" class="header-link anchor" href="#chapter-7-csv-and-parquet">
+          Chapter 7: CSV and Parquet
+        </a>
+      </h1>
+    
+        <a class="edit-link" target="_blank" href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/07_csv_and_parquet.malloynb">Open in VS Code <img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a>
+        </div>
+      <p>Data has to live in <em>some</em> file format. The two you'll meet most often are <strong>CSV</strong> and <strong>Parquet</strong>. In this chapter you'll learn:</p>
+<ul>
+<li><p>how CSV and Parquet differ, and when to use each</p>
+</li>
+<li><p>what Parquet <strong>compression codecs</strong> (Snappy, Gzip, Zstd, ...) do, and how to choose one</p>
+</li>
+<li><p>what "Parquet 2.0" means (it's confusing!) and how Parquet compares to other formats</p>
+</li>
+<li><p>how DuckDB reads Parquet <strong>over the network</strong>, from web servers, Amazon S3, and Hugging Face, without downloading whole files</p>
+</li>
+<li><p>a short <strong>Python + DuckDB</strong> script that converts CSV files to Parquet</p>
+</li></ul>
+
+      <h2>
+        <a id="two-ways-to-store-the-same-table" class="header-link anchor" href="#two-ways-to-store-the-same-table">
+          Two ways to store the same table
+        </a>
+      </h2>
+    <p><strong>CSV</strong> (comma-separated values) is plain text. Each line is a row, and commas separate the columns:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">state,gender,year,name,number</span></span>
+<span class="line"><span style="color: #000000">UT,F,1910,Mary,65</span></span>
+<span class="line"><span style="color: #000000">UT,F,1910,Helen,40</span></span></pre></div><p><strong>Parquet</strong> is a binary, <strong>columnar</strong> format. Instead of storing row after row, it stores all the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">state</span></span></code> values together, then all the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">gender</span></span></code> values, and so on. It also records each column's <strong>type</strong> (string, integer, date, ...), compresses each column, and keeps summary statistics, such as the min and max of each chunk.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+
+<th>CSV</th>
+
+<th>Parquet</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Human-readable</td>
+
+<td>✅ open it in any text editor or Excel</td>
+
+<td>❌ binary; needs a tool</td>
+</tr>
+
+<tr>
+<td>Column types</td>
+
+<td>❌ none; every reader guesses</td>
+
+<td>✅ stored in the file</td>
+</tr>
+
+<tr>
+<td>Size on disk</td>
+
+<td>large</td>
+
+<td>small (compressed per column)</td>
+</tr>
+
+<tr>
+<td>Read only some columns</td>
+
+<td>❌ must read every byte</td>
+
+<td>✅ reads only the columns you ask for</td>
+</tr>
+
+<tr>
+<td>Skip irrelevant rows</td>
+
+<td>❌</td>
+
+<td>✅ uses min/max stats to skip chunks</td>
+</tr>
+
+<tr>
+<td>Append a line by hand</td>
+
+<td>✅ easy</td>
+
+<td>❌ files are written once</td>
+</tr>
+
+<tr>
+<td>Works everywhere</td>
+
+<td>✅ every tool on earth</td>
+
+<td>✅ most modern data tools</td>
+</tr>
+</tbody></table>
+<p>The short version: <strong>CSV is for exchanging small data with humans and old tools. Parquet is for analysis.</strong></p>
+
+      <h2>
+        <a id="how-big-is-the-difference-" class="header-link anchor" href="#how-big-is-the-difference-">
+          How big is the difference?
+        </a>
+      </h2>
+    <p>We converted the full baby names table (6.3 million rows) to several formats and measured each file:</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+
+<th align="right">Size</th>
+
+<th align="right">vs. CSV</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CSV</td>
+
+<td align="right">123.6 MB</td>
+
+<td align="right">100%</td>
+</tr>
+
+<tr>
+<td>CSV, gzipped (<code>.csv.gz</code>)</td>
+
+<td align="right">26.3 MB</td>
+
+<td align="right">21%</td>
+</tr>
+
+<tr>
+<td>Parquet, uncompressed</td>
+
+<td align="right">19.1 MB</td>
+
+<td align="right">15%</td>
+</tr>
+
+<tr>
+<td>Parquet, Snappy</td>
+
+<td align="right">15.5 MB</td>
+
+<td align="right">13%</td>
+</tr>
+
+<tr>
+<td>Parquet, Zstd</td>
+
+<td align="right">13.9 MB</td>
+
+<td align="right">11%</td>
+</tr>
+
+<tr>
+<td>Parquet, Gzip</td>
+
+<td align="right">13.6 MB</td>
+
+<td align="right">11%</td>
+</tr>
+
+<tr>
+<td>Parquet, Zstd, <strong>sorted</strong> by state, gender, name, year</td>
+
+<td align="right">11.5 MB</td>
+
+<td align="right">9%</td>
+</tr>
+</tbody></table>
+<p>Even <em>uncompressed</em> Parquet is much smaller than CSV, because a columnar format can store repeated values (like <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">UT</span></span></code> six million times) very efficiently with <strong>dictionary encoding</strong>. Sorting the data first puts similar values next to each other, so it compresses even better.</p>
+<p>Speed differs just as much. On a laptop, "total births by state" took <strong>0.23 seconds</strong> from the CSV and <strong>0.03 seconds</strong> from Parquet. That's 7× faster, and the gap grows with the size of the data.</p>
+
+      <h2>
+        <a id="querying-a-csv-in-malloy" class="header-link anchor" href="#querying-a-csv-in-malloy">
+          Querying a CSV in Malloy
+        </a>
+      </h2>
+    <p>Malloy (through DuckDB) can query a CSV directly. DuckDB samples the file and <em>guesses</em> each column's type. Here's a 94,000-row CSV of just the Utah names:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/07_csv_and_parquet.malloynb#C2" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">utah_csv</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/names_utah.csv&#39;</span><span style="color: #000000">) </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">measure</span><span style="color: #000000">: </span><span style="color: #001080">total_births</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">`number`</span><span style="color: #000000">.</span><span style="color: #795E26">sum</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/07_csv_and_parquet.malloynb#C3" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">utah_csv</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">`year`</span><span style="color: #000000"> = </span><span style="color: #098658">2021</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">name</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">total_births</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">limit</span><span style="color: #000000">: </span><span style="color: #098658">5</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="1739d119-78dc-4aa3-b333-5c9e19d18317">
+        <script>(()=>{var e=document.getElementById("1739d119-78dc-4aa3-b333-5c9e19d18317"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"name",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "eda4b536-eb0d-47b7-8529-f47234851dcd" drill_expression { kind = field_reference name = name code = name }\n'}]},{kind:"dimension",name:"total_births",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#(malloy) reference_id = "5689faf5-0269-4b72-8aca-d3f60b4a4a91" calculation drill_expression { kind = field_reference name = total_births }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Oliver"},{kind:"number_cell",number_value:298,subtype:"bigint",string_value:"298"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Olivia"},{kind:"number_cell",number_value:253,subtype:"bigint",string_value:"253"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Liam"},{kind:"number_cell",number_value:247,subtype:"bigint",string_value:"247"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Jack"},{kind:"number_cell",number_value:236,subtype:"bigint",string_value:"236"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"William"},{kind:"number_cell",number_value:218,subtype:"bigint",string_value:"218"}]}]},connection_name:"duckdb",annotations:[{value:'#(malloy) limit = 5 drill_filters = [{ code = "`year` = 2021" expression { kind = field_reference name = year } kind = literal_equality value { kind = number_literal number_value = 2021 } }] drillable ordered_by = [{ total_births = desc }]\n'},{value:"#(malloy) source.name = utah_csv\n"},{value:"#(malloy) query_name = __stage0\n"}],sql:'SELECT \n   base."name" as "name",\n   COALESCE(SUM(base."number"),0) as "total_births"\nFROM \'data/names_utah.csv\' as base\nWHERE base."year"=2021\nGROUP BY 1\nORDER BY 2 desc NULLS LAST\nLIMIT 5\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Oliver&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;298&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Olivia&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;253&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Liam&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;247&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Jack&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;236&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;William&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;218&quot;</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;total_births&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/names_utah.csv&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #0000FF">WHERE</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000">=</span><span style="color: #098658">2021</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000"> </span><span style="color: #0000FF">desc</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"><span style="color: #0000FF">LIMIT</span><span style="color: #000000"> </span><span style="color: #098658">5</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>That works fine for a small file. For a big file, or one you'll query over and over, convert it to Parquet first.</p>
+<div class="callout callout-warning">
+<p>⚠️ <strong>Type guessing can go wrong.</strong> If a CSV column holds zip codes like <code>02134</code>, DuckDB may guess "integer" and drop the leading zero. If one row in a million has <code>N/A</code> in a numeric column, the whole column may become text. Parquet stores the types, so this problem goes away. <a href="09_data_cleaning">Chapter 9</a> shows how to handle messy CSVs.</p>
+</div>
+
+      <h2>
+        <a id="looking-inside-a-parquet-file" class="header-link anchor" href="#looking-inside-a-parquet-file">
+          Looking inside a Parquet file
+        </a>
+      </h2>
+    <p>DuckDB has functions that read a Parquet file's <strong>metadata</strong> without reading the data. Malloy can query any SQL with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span><span style="color: #000000FF">.</span><span style="color: #AF00DB">sql</span><span style="color: #000000FF">(</span><span style="color: #000000FF">&quot;</span><span style="color: #000000FF">...</span><span style="color: #000000FF">&quot;</span><span style="color: #000000FF">)</span></span></code>, so we can look inside our names file:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/07_csv_and_parquet.malloynb#C5" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">duckdb</span><span style="color: #000000FF">.</span><span style="color: #AF00DB">sql</span><span style="color: #000000FF">(</span><span style="color: #000000FF">&quot;&quot;&quot;</span></span>
+<span class="line"><span style="color: #000000FF">  </span><span style="color: #0000FF">SELECT</span><span style="color: #000000FF"> </span><span style="color: #000000">*</span><span style="color: #000000FF"> </span><span style="color: #0000FF">FROM</span><span style="color: #000000FF"> parquet_metadata(</span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000FF">)</span></span>
+<span class="line"><span style="color: #000000FF">&quot;&quot;&quot;</span><span style="color: #000000FF">)</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">column_name</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">path_in_schema</span><span style="color: #000000">, </span><span style="color: #001080">compression</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">row_groups</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #795E26">count</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">    # </span><span style="color: #0000FF">number</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;#,##0&quot;</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">compressed_bytes</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">total_compressed_size</span><span style="color: #000000">.</span><span style="color: #795E26">sum</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">    # </span><span style="color: #0000FF">number</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;#,##0&quot;</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">uncompressed_bytes</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">total_uncompressed_size</span><span style="color: #000000">.</span><span style="color: #795E26">sum</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="a88c070d-02ff-4742-95b5-374ead634849">
+        <script>(()=>{var e=document.getElementById("a88c070d-02ff-4742-95b5-374ead634849"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"column_name",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "dedcc9f4-9efe-479c-9860-866b5043358e" drill_expression { kind = field_reference name = path_in_schema code = path_in_schema }\n'}]},{kind:"dimension",name:"compression",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "ea6d24d5-ec57-41df-81bf-ca776075480e" drill_expression { kind = field_reference name = compression code = compression }\n'}]},{kind:"dimension",name:"row_groups",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "36ce4883-280e-486d-9194-3d3bf34f1333" calculation\n'}]},{kind:"dimension",name:"compressed_bytes",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'# number="#,##0"\n'},{value:'#(malloy) reference_id = "9ba076dc-f65e-4efc-9a8a-4da31dffe46d" calculation\n'}]},{kind:"dimension",name:"uncompressed_bytes",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'# number="#,##0"\n'},{value:'#(malloy) reference_id = "5f31e1dd-ff7a-44b2-814b-3d7f060b7b68" calculation\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"name"},{kind:"string_cell",string_value:"GZIP"},{kind:"number_cell",number_value:2,subtype:"integer"},{kind:"number_cell",number_value:10821438,subtype:"bigint",string_value:"10821438"},{kind:"number_cell",number_value:11856806,subtype:"bigint",string_value:"11856806"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"number"},{kind:"string_cell",string_value:"GZIP"},{kind:"number_cell",number_value:2,subtype:"integer"},{kind:"number_cell",number_value:1769572,subtype:"bigint",string_value:"1769572"},{kind:"number_cell",number_value:4088987,subtype:"bigint",string_value:"4088987"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"gender"},{kind:"string_cell",string_value:"GZIP"},{kind:"number_cell",number_value:2,subtype:"integer"},{kind:"number_cell",number_value:269,subtype:"bigint",string_value:"269"},{kind:"number_cell",number_value:173,subtype:"bigint",string_value:"173"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"year"},{kind:"string_cell",string_value:"GZIP"},{kind:"number_cell",number_value:2,subtype:"integer"},{kind:"number_cell",number_value:31587,subtype:"bigint",string_value:"31587"},{kind:"number_cell",number_value:36582,subtype:"bigint",string_value:"36582"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"state"},{kind:"string_cell",string_value:"GZIP"},{kind:"number_cell",number_value:2,subtype:"integer"},{kind:"number_cell",number_value:1108,subtype:"bigint",string_value:"1108"},{kind:"number_cell",number_value:1264,subtype:"bigint",string_value:"1264"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable ordered_by = [{ row_groups = desc }]\n"},{value:"#(malloy) \n"},{value:"#(malloy) query_name = __stage0\n"}],sql:'SELECT \n   base."path_in_schema" as "column_name",\n   base."compression" as "compression",\n   COUNT(1) as "row_groups",\n   COALESCE(SUM(base."total_compressed_size"),0) as "compressed_bytes",\n   COALESCE(SUM(base."total_uncompressed_size"),0) as "uncompressed_bytes"\nFROM (\n  SELECT * FROM parquet_metadata(\'data/usa_names.parquet\')\n) as base\nGROUP BY 1,2\nORDER BY 3 desc NULLS LAST\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;column_name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;compression&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;GZIP&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;row_groups&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;compressed_bytes&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;10821438&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;uncompressed_bytes&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;11856806&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;column_name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;compression&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;GZIP&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;row_groups&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;compressed_bytes&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;1769572&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;uncompressed_bytes&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;4088987&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;column_name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;gender&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;compression&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;GZIP&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;row_groups&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;compressed_bytes&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;269&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;uncompressed_bytes&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;173&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;column_name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;compression&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;GZIP&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;row_groups&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;compressed_bytes&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;31587&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;uncompressed_bytes&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;36582&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;column_name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;state&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;compression&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;GZIP&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;row_groups&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;compressed_bytes&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;1108&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;uncompressed_bytes&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;1264&quot;</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;path_in_schema&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;column_name&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;compression&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;compression&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;row_groups&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;total_compressed_size&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;compressed_bytes&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;total_uncompressed_size&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;uncompressed_bytes&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> (</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> * </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> parquet_metadata(</span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">,</span><span style="color: #098658">2</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">3</span><span style="color: #000000"> </span><span style="color: #0000FF">desc</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>Look at the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">state</span></span></code> column: 6.3 million values take up about <strong>1 KB</strong>! Because all the rows for each state are stored together, each state code appears in long runs, and Parquet stores a run as "UT, repeated 93,764 times." The <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">name</span></span></code> column, by contrast, holds tens of thousands of different values, so it takes most of the space.</p>
+<p>This file was written with <strong>Gzip</strong> compression. It's split into <strong>row groups</strong>: chunks of rows that are stored (and can be skipped) together. Each row group stores the min and max value of each column. So if you ask for <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">year</span><span style="color: #000000"> = </span><span style="color: #098658">2021</span></span></code>, DuckDB can skip every row group whose <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">year</span></span></code> range doesn't include 2021, without decompressing it.</p>
+<p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">parquet_schema</span><span style="color: #000000">()</span></span></code> shows the column types stored in the file:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/07_csv_and_parquet.malloynb#C7" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">duckdb</span><span style="color: #000000FF">.</span><span style="color: #AF00DB">sql</span><span style="color: #000000FF">(</span><span style="color: #000000FF">&quot;&quot;&quot;</span></span>
+<span class="line"><span style="color: #000000FF">  </span><span style="color: #0000FF">SELECT</span><span style="color: #000000FF"> </span><span style="color: #0000FF">name</span><span style="color: #000000FF">, </span><span style="color: #0000FF">type</span><span style="color: #000000FF">, converted_type</span></span>
+<span class="line"><span style="color: #000000FF">  </span><span style="color: #0000FF">FROM</span><span style="color: #000000FF"> parquet_schema(</span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000FF">)</span></span>
+<span class="line"><span style="color: #000000FF">&quot;&quot;&quot;</span><span style="color: #000000FF">)</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">select</span><span style="color: #000000">: *</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="49312077-8957-43ed-86be-de67b474eb66">
+        <script>(()=>{var e=document.getElementById("49312077-8957-43ed-86be-de67b474eb66"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"converted_type",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "bb46d1ce-5250-432e-bed4-8a5d46b70e7f" drill_expression.code = converted_type\n'}]},{kind:"dimension",name:"name",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "60ffdbd2-a35b-4c4e-a518-a83adc15222a" drill_expression.code = name\n'}]},{kind:"dimension",name:"type",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "8a5b4299-98d3-4609-93e5-1c131688200d" drill_expression.code = type\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"null_cell"},{kind:"string_cell",string_value:"schema"},{kind:"null_cell"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"UTF8"},{kind:"string_cell",string_value:"state"},{kind:"string_cell",string_value:"BYTE_ARRAY"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"UTF8"},{kind:"string_cell",string_value:"gender"},{kind:"string_cell",string_value:"BYTE_ARRAY"}]},{kind:"record_cell",record_value:[{kind:"null_cell"},{kind:"string_cell",string_value:"year"},{kind:"string_cell",string_value:"INT64"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"UTF8"},{kind:"string_cell",string_value:"name"},{kind:"string_cell",string_value:"BYTE_ARRAY"}]},{kind:"record_cell",record_value:[{kind:"null_cell"},{kind:"string_cell",string_value:"number"},{kind:"string_cell",string_value:"INT64"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable\n"},{value:"#(malloy) \n"},{value:"#(malloy) query_name = __stage0\n"}],sql:'SELECT \n   base."converted_type" as "converted_type",\n   base."name" as "name",\n   base."type" as "type"\nFROM (\n  SELECT name, type, converted_type\n  FROM parquet_schema(\'data/usa_names.parquet\')\n) as base\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;converted_type&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">null</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;schema&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;type&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">null</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;converted_type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;UTF8&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;state&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;BYTE_ARRAY&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;converted_type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;UTF8&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;gender&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;BYTE_ARRAY&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;converted_type&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">null</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;INT64&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;converted_type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;UTF8&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;BYTE_ARRAY&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;converted_type&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">null</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;INT64&quot;</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;converted_type&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;converted_type&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;type&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;type&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> (</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span><span style="color: #0000FF">name</span><span style="color: #000000">, </span><span style="color: #0000FF">type</span><span style="color: #000000">, converted_type</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> parquet_schema(</span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div>
+      <h2>
+        <a id="compression-codecs" class="header-link anchor" href="#compression-codecs">
+          Compression codecs
+        </a>
+      </h2>
+    <p>Parquet compresses each column chunk with a <strong>codec</strong>. The common ones:</p>
+<table>
+<thead>
+<tr>
+<th>Codec</th>
+
+<th>Speed</th>
+
+<th>Size</th>
+
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Uncompressed</strong></td>
+
+<td>fastest to write and read</td>
+
+<td>largest</td>
+
+<td>rarely worth it</td>
+</tr>
+
+<tr>
+<td><strong>Snappy</strong></td>
+
+<td>very fast</td>
+
+<td>good</td>
+
+<td>the long-time default in Spark and pandas; a safe choice</td>
+</tr>
+
+<tr>
+<td><strong>Zstd</strong></td>
+
+<td>fast</td>
+
+<td>very good</td>
+
+<td>the best all-round choice today; has adjustable levels (1–22)</td>
+</tr>
+
+<tr>
+<td><strong>Gzip</strong></td>
+
+<td>slow to write</td>
+
+<td>very good</td>
+
+<td>very widely supported; older</td>
+</tr>
+
+<tr>
+<td><strong>LZ4</strong></td>
+
+<td>very fast</td>
+
+<td>okay</td>
+
+<td>good for "hot" data that is read constantly</td>
+</tr>
+
+<tr>
+<td><strong>Brotli</strong></td>
+
+<td>slow to write</td>
+
+<td>excellent</td>
+
+<td>best ratio; less widely supported</td>
+</tr>
+</tbody></table>
+<p><strong>Rule of thumb: use Zstd.</strong> It compresses about as well as Gzip and decompresses much faster. Choose Snappy if an older tool that reads the file doesn't support Zstd.</p>
+<div class="callout callout-tip">
+<p>💡 <strong>Compression is per column, and encoding comes first.</strong> Before a codec runs, Parquet <em>encodes</em> each column, using a dictionary, run-length, or delta encoding. The encoding often matters more than the codec. That's why uncompressed Parquet was already 85% smaller than CSV in our test.</p>
+</div>
+
+      <h2>
+        <a id="-parquet-2-0-and-other-formats" class="header-link anchor" href="#-parquet-2-0-and-other-formats">
+          "Parquet 2.0" and other formats
+        </a>
+      </h2>
+    <p>You'll see "Parquet v1" and "Parquet v2" (or "2.0") in tool options, and the name is confusing. There are really three different things:</p>
+<ol>
+<li><p><strong>The format spec version.</strong> Modern Parquet files all follow the 2.x <em>specification</em>, which defines things like logical types for dates, decimals, and timestamps.</p>
+</li>
+<li><p><strong>Data page V2.</strong> A newer layout for the data inside each page, where the headers store levels separately so readers can skip work.</p>
+</li>
+<li><p><strong>Newer encodings</strong> such as <code>DELTA_BINARY_PACKED</code> (great for sorted integers and timestamps), <code>DELTA_LENGTH_BYTE_ARRAY</code>, and <code>BYTE_STREAM_SPLIT</code> (good for floating-point numbers).</p>
+</li></ol>
+<p>When a writer offers "version 2" (for example DuckDB's <code>PARQUET_VERSION V2</code> or pyarrow's <code>data_page_version='2.0'</code>), it turns on items 2 and 3. Files <em>can</em> get smaller and faster, but <strong>some older readers can't open them</strong>. That's why most tools still write v1 pages by default. On our names table, v2 changed the column encodings but the file size was nearly identical. The benefit depends on your data. Columns of sorted numbers and timestamps gain the most.</p>
+<p><strong>Other formats you'll hear about:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+
+<th>What it is</th>
+
+<th>When you'd see it</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>CSV / TSV</strong></td>
+
+<td>plain-text rows</td>
+
+<td>exports, spreadsheets, government data</td>
+</tr>
+
+<tr>
+<td><strong>JSON / NDJSON</strong></td>
+
+<td>text with nesting</td>
+
+<td>web APIs, logs</td>
+</tr>
+
+<tr>
+<td><strong>Parquet</strong></td>
+
+<td>columnar, compressed, typed</td>
+
+<td>analytics; the de facto standard</td>
+</tr>
+
+<tr>
+<td><strong>ORC</strong></td>
+
+<td>columnar, similar to Parquet</td>
+
+<td>the Hadoop/Hive world</td>
+</tr>
+
+<tr>
+<td><strong>Avro</strong></td>
+
+<td>row-based binary with a schema</td>
+
+<td>streaming (Kafka), write-heavy pipelines</td>
+</tr>
+
+<tr>
+<td><strong>Arrow / Feather</strong></td>
+
+<td>columnar, <em>in memory</em></td>
+
+<td>fast hand-off between programs</td>
+</tr>
+
+<tr>
+<td><strong>Delta Lake / Iceberg / DuckLake</strong></td>
+
+<td>"table formats" that manage <em>many</em> Parquet files with versions and transactions</td>
+
+<td>data lakes and lakehouses</td>
+</tr>
+</tbody></table>
+
+      <h2>
+        <a id="reading-parquet-over-the-network" class="header-link anchor" href="#reading-parquet-over-the-network">
+          Reading Parquet over the network
+        </a>
+      </h2>
+    <p>DuckDB can read files straight from a URL. Because Parquet is columnar and has row-group statistics, DuckDB uses <strong>HTTP range requests</strong> to download <em>only the parts it needs</em>. A query that touches 1 column of a 127 MB file might download only a few megabytes.</p>
+<p>These examples aren't run on this website (the site is built offline), but you can paste any of them into a notebook cell.</p>
+<p><strong>A plain web URL (HTTPS):</strong></p>
+<div class="code-wrapper"><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">taxi</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;https://blobs.duckdb.org/data/taxi_2019_04.parquet&#39;</span><span style="color: #000000">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">taxi</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">passenger_count</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">trips</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #795E26">count</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p>That file is 127 MB and has 7.4 million taxi trips, but the query only needs one column. On a home internet connection it finishes in a few seconds.</p>
+<p><strong>This textbook's own data, straight from GitHub:</strong></p>
+<div class="code-wrapper"><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">names_remote</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #A31515">&#39;https://raw.githubusercontent.com/malloydata/malloy-samples/main/names/usa_names.parquet&#39;</span></span>
+<span class="line"><span style="color: #000000">)</span></span></pre></div><p><strong>Hugging Face datasets</strong> use the <code>hf://</code> prefix:</p>
+<div class="code-wrapper"><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">imdb_reviews</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #A31515">&#39;hf://datasets/stanfordnlp/imdb/plain_text/train-00000-of-00001.parquet&#39;</span></span>
+<span class="line"><span style="color: #000000">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">imdb_reviews</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">label</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">reviews</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #795E26">count</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p><strong>Amazon S3</strong> (and Google Cloud Storage with <code>gs://</code>, Azure with <code>az://</code>) use the <code>s3://</code> prefix. Public buckets work as-is. Private buckets need credentials, which DuckDB gets from a "secret." With the DuckDB CLI or Python you would run something like:</p>
+<div class="code-wrapper"><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">CREATE</span><span style="color: #000000"> </span><span style="color: #0000FF">SECRET</span><span style="color: #000000"> (</span><span style="color: #0000FF">TYPE</span><span style="color: #000000"> s3, </span><span style="color: #0000FF">PROVIDER</span><span style="color: #000000"> credential_chain);</span></span>
+<span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span><span style="color: #795E26">count</span><span style="color: #000000">(*) </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;s3://my-bucket/sales/*.parquet&#39;</span><span style="color: #000000">;</span></span></pre></div><p>The <code><em></code> is a <strong>glob</strong>: DuckDB reads every matching file as one table. Globs work with local files too, for example <code>duckdb.table('data/sales_</em>.parquet')</code>.</p>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> <a href="https://docs.malloydata.dev/documentation/language/dialect/duckdb">DuckDB in Malloy</a> · <a href="https://docs.malloydata.dev/documentation/setup/config">Configuring DuckDB connections</a>. See also the DuckDB guides on <a href="https://duckdb.org/docs/stable/data/parquet/overview">Parquet</a>, <a href="https://duckdb.org/docs/stable/core_extensions/httpfs/overview">HTTP(S) and S3</a>, and <a href="https://duckdb.org/docs/stable/core_extensions/httpfs/hugging_face">Hugging Face</a>.</p>
+</div>
+
+      <h2>
+        <a id="converting-csv-to-parquet-with-python-and-duckdb" class="header-link anchor" href="#converting-csv-to-parquet-with-python-and-duckdb">
+          Converting CSV to Parquet with Python and DuckDB
+        </a>
+      </h2>
+    <p>DuckDB has a Python package (<code>pip install duckdb</code>). One SQL statement, <code>COPY ... TO ...</code>, converts a file. Here's a reusable script. It's saved as <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">csv_to_parquet</span><span style="color: #000000">.</span><span style="color: #001080">py</span></span></code> in the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span></span></code> folder:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">&quot;&quot;&quot;csv_to_parquet.py: convert CSV files to Parquet with DuckDB.</span></span>
+<span class="line"><span style="color: #000000"></span></span>
+<span class="line"><span style="color: #000000">Usage:</span></span>
+<span class="line"><span style="color: #000000">    pip install duckdb</span></span>
+<span class="line"><span style="color: #000000">    python csv_to_parquet.py data/names_utah.csv</span></span>
+<span class="line"><span style="color: #000000">    python csv_to_parquet.py &quot;data/*.csv&quot; --codec snappy</span></span>
+<span class="line"><span style="color: #000000">&quot;&quot;&quot;</span></span>
+<span class="line"><span style="color: #000000">import argparse</span></span>
+<span class="line"><span style="color: #000000">import glob</span></span>
+<span class="line"><span style="color: #000000">import os</span></span>
+<span class="line"><span style="color: #000000"></span></span>
+<span class="line"><span style="color: #000000">import duckdb</span></span>
+<span class="line"><span style="color: #000000"></span></span>
+<span class="line"><span style="color: #000000"></span></span>
+<span class="line"><span style="color: #000000">def csv_to_parquet(csv_path: str, codec: str = &quot;zstd&quot;, sort_by: str | None = None) -&gt; str:</span></span>
+<span class="line"><span style="color: #000000">    parquet_path = os.path.splitext(csv_path)[0] + &quot;.parquet&quot;</span></span>
+<span class="line"><span style="color: #000000">    order = f&quot;ORDER BY {sort_by}&quot; if sort_by else &quot;&quot;</span></span>
+<span class="line"><span style="color: #000000">    duckdb.sql(f&quot;&quot;&quot;</span></span>
+<span class="line"><span style="color: #000000">        COPY (</span></span>
+<span class="line"><span style="color: #000000">            SELECT * FROM read_csv(&#39;{csv_path}&#39;, header = true)  -- DuckDB infers types</span></span>
+<span class="line"><span style="color: #000000">            {order}</span></span>
+<span class="line"><span style="color: #000000">        )</span></span>
+<span class="line"><span style="color: #000000">        TO &#39;{parquet_path}&#39;</span></span>
+<span class="line"><span style="color: #000000">        (FORMAT parquet, COMPRESSION {codec}, ROW_GROUP_SIZE 122880)</span></span>
+<span class="line"><span style="color: #000000">    &quot;&quot;&quot;)</span></span>
+<span class="line"><span style="color: #000000">    before = os.path.getsize(csv_path)</span></span>
+<span class="line"><span style="color: #000000">    after = os.path.getsize(parquet_path)</span></span>
+<span class="line"><span style="color: #000000">    print(f&quot;{csv_path} ({before:,} bytes) -&gt; {parquet_path} ({after:,} bytes), &quot;</span></span>
+<span class="line"><span style="color: #000000">          f&quot;{after / before:.0%} of original&quot;)</span></span>
+<span class="line"><span style="color: #000000">    return parquet_path</span></span>
+<span class="line"><span style="color: #000000"></span></span>
+<span class="line"><span style="color: #000000"></span></span>
+<span class="line"><span style="color: #000000">if __name__ == &quot;__main__&quot;:</span></span>
+<span class="line"><span style="color: #000000">    parser = argparse.ArgumentParser(description=__doc__,</span></span>
+<span class="line"><span style="color: #000000">                                     formatter_class=argparse.RawDescriptionHelpFormatter)</span></span>
+<span class="line"><span style="color: #000000">    parser.add_argument(&quot;pattern&quot;, help=&quot;a CSV file or a glob like &#39;data/*.csv&#39;&quot;)</span></span>
+<span class="line"><span style="color: #000000">    parser.add_argument(&quot;--codec&quot;, default=&quot;zstd&quot;,</span></span>
+<span class="line"><span style="color: #000000">                        choices=[&quot;zstd&quot;, &quot;snappy&quot;, &quot;gzip&quot;, &quot;lz4&quot;, &quot;brotli&quot;, &quot;uncompressed&quot;])</span></span>
+<span class="line"><span style="color: #000000">    parser.add_argument(&quot;--sort-by&quot;, default=None,</span></span>
+<span class="line"><span style="color: #000000">                        help=&quot;optional ORDER BY columns, e.g. &#39;state, year&#39;&quot;)</span></span>
+<span class="line"><span style="color: #000000">    args = parser.parse_args()</span></span>
+<span class="line"><span style="color: #000000">    for path in sorted(glob.glob(args.pattern)):</span></span>
+<span class="line"><span style="color: #000000">        csv_to_parquet(path, args.codec, args.sort_by)</span></span></pre></div><p>The important line is the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">COPY</span></span></code> statement. Everything else is convenience. A few options are worth knowing:</p>
+<ul>
+<li><p><code>read_csv(..., all_varchar = true)</code> reads every column as text. Use it when type guessing goes wrong, then clean the data up (see <a href="09_data_cleaning">Chapter 9</a>).</p>
+</li>
+<li><p><code>read_csv(..., types = {'zip': 'VARCHAR'})</code> forces the type of a single column.</p>
+</li>
+<li><p><code>COMPRESSION zstd, COMPRESSION_LEVEL 9</code> trades slower writing for a smaller file.</p>
+</li>
+<li><p><code>PARQUET_VERSION V2</code> turns on the newer encodings (check that your other tools can read them!).</p>
+</li>
+<li><p><code>PARTITION_BY (state)</code> writes one folder per state (<code>state=CA/...</code>), which tools can skip entirely when you filter on state.</p>
+</li></ul>
+<p>If you already use <strong>pandas</strong>, the equivalent is <code>pd.read_csv("x.csv").to_parquet("x.parquet", compression="zstd")</code>. DuckDB is usually much faster and uses far less memory on big files, because it never loads the whole table into memory.</p>
+
+      <h2>
+        <a id="key-takeaways" class="header-link anchor" href="#key-takeaways">
+          Key takeaways
+        </a>
+      </h2>
+    <ul>
+<li><p><strong>CSV</strong> is plain text, has no types, is big, and is slow to query. It's good for sharing. <strong>Parquet</strong> is columnar, typed, compressed, and fast. It's good for analysis.</p>
+</li>
+<li><p>Parquet reads only the columns you need and skips row groups using min/max statistics.</p>
+</li>
+<li><p>Use <strong>Zstd</strong> compression unless an older tool needs Snappy. Sorting data before writing makes files smaller.</p>
+</li>
+<li><p>"Parquet v2" turns on newer page layouts and encodings. It can help, but older readers may not support it.</p>
+</li>
+<li><p>DuckDB (and therefore Malloy) reads Parquet straight from <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">https</span><span style="color: #000000">:</span><span style="color: #008000">//</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">s3</span><span style="color: #000000">:</span><span style="color: #008000">//</span></span></code>, and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">hf</span><span style="color: #000000">:</span><span style="color: #008000">//</span></span></code> URLs, downloading only what each query needs.</p>
+</li>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">COPY</span><span style="color: #000000"> (</span><span style="color: #001080">SELECT</span><span style="color: #000000"> * </span><span style="color: #AF00DB">FROM</span><span style="color: #000000"> </span><span style="color: #795E26">read_csv</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;in.csv&#39;</span><span style="color: #000000">)) TO </span><span style="color: #A31515">&#39;out.parquet&#39;</span><span style="color: #000000"> (</span><span style="color: #001080">FORMAT</span><span style="color: #000000"> </span><span style="color: #001080">parquet</span><span style="color: #000000">, </span><span style="color: #001080">COMPRESSION</span><span style="color: #000000"> </span><span style="color: #001080">zstd</span><span style="color: #000000">)</span></span></code> converts a file.</p>
+</li></ul>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 7.1: Convert and compare.</strong> Run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">python</span><span style="color: #000000"> </span><span style="color: #001080">csv_to_parquet</span><span style="color: #000000">.</span><span style="color: #001080">py</span><span style="color: #000000"> </span><span style="color: #001080">data</span><span style="color: #000000">/</span><span style="color: #001080">names_utah</span><span style="color: #000000">.</span><span style="color: #001080">csv</span></span></code> in a terminal from the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span></span></code> folder. How much smaller is the Parquet file? Then add a notebook cell that defines <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">utah_parquet</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/names_utah.parquet&#39;</span><span style="color: #000000">)</span></span></code> and re-run the "top names in 2021" query against it.</p>
+</div>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 7.2: Inspect your file.</strong> Using <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span><span style="color: #000000FF">.</span><span style="color: #AF00DB">sql</span><span style="color: #000000FF">(</span><span style="color: #000000FF">&quot;</span><span style="color: #0000FF">SELECT</span><span style="color: #000000FF"> </span><span style="color: #000000">*</span><span style="color: #000000FF"> </span><span style="color: #0000FF">FROM</span><span style="color: #000000FF"> parquet_metadata(</span><span style="color: #A31515">&#39;data/names_utah.parquet&#39;</span><span style="color: #000000FF">)</span><span style="color: #000000FF">&quot;</span><span style="color: #000000FF">)</span></span></code> like the example above, find out which compression codec your new file uses and how many row groups it has. Run the script again with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #008000">--codec snappy</span></span></code> and compare.</p>
+</div>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 7.3: Query the internet.</strong> In a new cell, define a source on the remote taxi file (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">https</span><span style="color: #000000">:</span><span style="color: #008000">//blobs.duckdb.org/data/taxi_2019_04.parquet</span></span></code>). Find the <strong>average <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">fare_amount</span></span></code> by <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">passenger_count</span></span></code></strong>. Then use <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">select</span><span style="color: #000000">: *</span></span></code> with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">limit</span><span style="color: #000000">: </span><span style="color: #098658">5</span></span></code> to see what other columns are available.</p>
+</div>
+</div></div>
+        </div>
+        <script src="/malloy-textbook/js/view_toggles.js"></script>
+        <script src="/malloy-textbook/js/jump_to_hash.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

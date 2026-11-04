@@ -1,0 +1,72 @@
+// ecommerce.malloy
+// A small online clothing store, modeled as a star schema.
+//
+//   order_items  (fact table: one row per item sold, 2019-01 → 2022-11)
+//     ├── users            (join_one: who bought it)
+//     └── inventory_items  (join_one: the physical item that was sold)
+//           └── products   (join_one: the catalog product)
+
+#" Customers of the store.
+source: users is duckdb.table('data/users.parquet') extend {
+  primary_key: id
+  dimension: full_name is concat(first_name, ' ', last_name)
+  measure: user_count is count()
+}
+
+#" The product catalog.
+source: products is duckdb.table('data/products.parquet') extend {
+  primary_key: id
+  measure: product_count is count()
+}
+
+#" Individual items in the warehouse.
+source: inventory_items is duckdb.table('data/inventory_items.parquet') extend {
+  primary_key: id
+  join_one: products with product_id
+  measure:
+    inventory_item_count is count()
+    # currency
+    total_cost is cost.sum()
+}
+
+#" One row per item on an order. This is the fact table.
+source: order_items is duckdb.table('data/order_items.parquet') extend {
+  primary_key: id
+
+  join_one: users with user_id
+  join_one: inventory_items with inventory_item_id
+
+  dimension:
+    #" Sale price minus what the item cost us.
+    # currency
+    gross_margin is sale_price - inventory_items.cost
+
+  measure:
+    #" Number of distinct orders (an order can contain many items).
+    order_count is count(order_id)
+    #" Number of items sold.
+    order_item_count is count()
+    #" Revenue.
+    # currency
+    total_sales is sale_price.sum()
+    # currency
+    avg_sale_price is sale_price.avg()
+    # currency
+    total_gross_margin is gross_margin.sum()
+
+  view: by_month is {
+    group_by: order_month is created_at.month
+    aggregate: total_sales
+    order_by: order_month
+  }
+
+  view: by_category is {
+    group_by: inventory_items.product_category
+    aggregate: total_sales, order_item_count
+  }
+
+  view: by_status is {
+    group_by: status
+    aggregate: order_item_count
+  }
+}

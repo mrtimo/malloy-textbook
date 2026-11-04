@@ -1,0 +1,205 @@
+>>>markdown
+# Chapter 1: The Basics
+
+In this chapter you'll write your first Malloy queries. By the end you will know how to:
+
+* point Malloy at a data file with a **source**
+* run a query with `run:`
+* summarize data with `group_by:` and `aggregate:`
+* narrow results with `where:`, sort with `order_by:`, and cut them off with `limit:`
+* save reusable logic in a source as **dimensions** and **measures** with `extend`
+
+We'll use the U.S. baby names dataset for the whole chapter. Each row says something like *"In 1987, 312 girls born in Ohio were named Jessica."*
+
+## Your first source
+
+Malloy queries always start from a **source**. A source is a table of data plus any extra fields you choose to define on it. The simplest source is a file on disk. This cell tells Malloy: "there is a source called `names_raw`, and it is the Parquet file `data/usa_names.parquet`, read with DuckDB."
+>>>malloy
+source: names_raw is duckdb.table('data/usa_names.parquet')
+>>>markdown
+Nothing ran yet. We only *defined* something. The `duckdb` part names the **connection** (the database engine that will do the work). DuckDB runs right on your laptop, and it's built into the Malloy VS Code extension.
+
+> 📘 **Malloy docs.** [Sources](https://docs.malloydata.dev/documentation/language/source) · [Connections](https://docs.malloydata.dev/documentation/language/connections)
+
+## Your first query
+
+A query has three parts: `run:`, a source, an arrow `->`, and then a set of curly braces `{ }` that say what you want. Let's count the rows.
+>>>malloy
+run: names_raw -> {
+  aggregate: row_count is count()
+}
+>>>markdown
+About 6.3 million rows. Read the query out loud: *"Run against `names_raw`, and aggregate a field called `row_count`, which is `count()`."*
+
+The pattern `new_name is expression` shows up all over Malloy. The name always comes first.
+
+## Looking at the raw data
+
+Before you analyze anything, look at a few rows. `select: *` returns every column, and `limit:` keeps the result small.
+>>>malloy
+run: names_raw -> {
+  select: *
+  limit: 10
+}
+>>>markdown
+There are five columns: `state`, `gender`, `year`, `name`, and `number` (how many babies got that name). Notice that `year` and `number` are also words with special meaning in Malloy. To use them as column names, wrap them in backticks: `` `year` ``, `` `number` ``. We'll rename them soon.
+
+## group_by and aggregate
+
+Most analysis is "split the data into groups, then summarize each group." In Malloy, `group_by:` makes the groups and `aggregate:` summarizes them. How many babies were born in each state?
+>>>malloy
+run: names_raw -> {
+  group_by: state
+  aggregate: total_births is `number`.sum()
+}
+>>>markdown
+A few things to notice:
+
+* `` `number`.sum() `` adds up the `number` column. Malloy writes aggregates with a dot (`column.sum()`, `column.avg()`, `column.max()`). You can also write them the SQL way: `sum(column)`.
+* The results come back **sorted by the aggregate, largest first**. When you don't say how to sort, Malloy picks a sensible order for you.
+* There was no `GROUP BY 1` and no list of columns to repeat. Malloy writes that SQL for you. Click the **SQL** button above the result to see it.
+
+You can group by more than one thing and aggregate more than one thing:
+>>>malloy
+run: names_raw -> {
+  group_by: gender
+  aggregate:
+    total_births is `number`.sum()
+    distinct_names is count(name)
+    rows is count()
+}
+>>>markdown
+`count(name)` counts *distinct* values of `name`. Plain `count()` counts rows.
+
+> 📘 **Malloy docs.** [Queries](https://docs.malloydata.dev/documentation/language/query) · [Aggregates](https://docs.malloydata.dev/documentation/language/aggregates)
+
+## where: filtering rows
+
+`where:` keeps only the rows you want **before** the data is grouped. What were the most popular names in Texas in 2021?
+>>>malloy
+run: names_raw -> {
+  where: state = 'TX' and `year` = 2021
+  group_by: name
+  aggregate: total_births is `number`.sum()
+  limit: 10
+}
+>>>markdown
+Strings go in single quotes. You can combine conditions with `and` and `or`. Malloy also has a shortcut for "is one of these values," using `|`:
+>>>malloy
+run: names_raw -> {
+  where: state = 'UT' | 'ID' | 'NV'
+  group_by: state
+  aggregate: total_births is `number`.sum()
+}
+>>>markdown
+> 📘 **Malloy docs.** [Filters](https://docs.malloydata.dev/documentation/language/filters). We spend a whole chapter on filtering in [Chapter 8](08_filtering.malloynb).
+
+## order_by and limit
+
+To sort your own way, use `order_by:`. Add `desc` for largest first or `asc` for smallest first. `limit:` caps the number of rows.
+
+Which names were given to the fewest babies in 2021? (Remember the dataset leaves out names given to fewer than 5 babies in a state.)
+>>>malloy
+run: names_raw -> {
+  where: `year` = 2021
+  group_by: name
+  aggregate: total_births is `number`.sum()
+  order_by: total_births asc
+  limit: 10
+}
+>>>markdown
+You can sort by a dimension, too. Here we list years in order:
+>>>malloy
+run: names_raw -> {
+  where: name = 'Elvis'
+  group_by: `year`
+  aggregate: total_births is `number`.sum()
+  order_by: `year` asc
+  limit: 10
+}
+>>>markdown
+> 📘 **Malloy docs.** [Ordering and limiting](https://docs.malloydata.dev/documentation/language/order_by)
+
+## Calculations inside a query
+
+You can group by an *expression*, not just a column. Give it a name with `is`. Here we turn each year into its decade:
+>>>malloy
+run: names_raw -> {
+  group_by: decade is floor(`year` / 10) * 10
+  aggregate: total_births is `number`.sum()
+  order_by: decade
+}
+>>>markdown
+This works, but we have now typed `` `number`.sum() `` in almost every query. If we decide to define "births" differently, we'd have to fix every query by hand. Malloy has a better way.
+
+## Extending a source with dimensions and measures
+
+The real power of Malloy is that you can **save logic in the source** so every query can reuse it. You do that with `extend { }`. Inside, you can add:
+
+* **dimensions**: values calculated *for each row* (things you group by or filter on)
+* **measures**: values calculated *across many rows* (things you aggregate)
+* **renames**: friendlier names for raw columns
+
+Let's build a better `names` source on top of `names_raw`.
+>>>malloy
+source: names is names_raw extend {
+  rename: year_born is `year`
+  rename: births is `number`
+
+  dimension:
+    decade is floor(year_born / 10) * 10
+    name_length is length(name)
+
+  measure:
+    total_births is births.sum()
+    name_count is count(name)
+}
+>>>markdown
+Now queries get short and readable, because the meaning lives in one place:
+>>>malloy
+run: names -> {
+  group_by: decade
+  aggregate: total_births, name_count
+  order_by: decade
+}
+>>>markdown
+Notice we just wrote `total_births`. We didn't need `total_births is ...` this time. The measure already has a name and a definition.
+
+Measures and dimensions work anywhere a column works, including `where:`:
+>>>malloy
+run: names -> {
+  where: name_length >= 12
+  group_by: name
+  aggregate: total_births
+  limit: 10
+}
+>>>markdown
+> 💡 **Dimension or measure?** Ask: "does this make sense for a single row?" A name's length does, so `name_length` is a **dimension**. "Total births" only makes sense across many rows, so it's a **measure**. Dimensions go in `group_by:` and `where:`. Measures go in `aggregate:`.
+
+> 📘 **Malloy docs.** [Fields: dimensions and measures](https://docs.malloydata.dev/documentation/language/fields) · [Source extensions](https://docs.malloydata.dev/documentation/language/source#source-extensions)
+
+## Putting it together
+
+One last query uses everything from this chapter. What were the most popular boys' names of the 1950s in California, and how long were they?
+>>>malloy
+run: names -> {
+  where: decade = 1950 and state = 'CA' and gender = 'M'
+  group_by: name, name_length
+  aggregate: total_births
+  order_by: total_births desc
+  limit: 10
+}
+>>>markdown
+## Key takeaways
+
+* A **source** is data plus fields you define on it. `duckdb.table('file.parquet')` makes a source from a file.
+* `run: source -> { ... }` runs a query.
+* `group_by:` makes groups, `aggregate:` summarizes them, and `where:` filters rows first.
+* `order_by:` and `limit:` control sorting and size. Malloy picks a sensible sort when you don't.
+* `extend { }` adds **dimensions** (per row) and **measures** (across rows), so logic lives in one place.
+
+> 🎯 **Challenge 1.1: Your name.** Add a new cell to this notebook. Using the `names` source, find how many babies were given *your* name (or any name you like) in each decade. Sort the result by decade.
+
+> 🎯 **Challenge 1.2: A new measure.** Add a measure called `avg_births_per_row` to the `names` source. It should be the average of `births`. (Hint: `births.avg()`.) Then write a query that shows `avg_births_per_row` for each `gender`. To change the source, edit the cell that defines `names` and run it again.
+
+> 🎯 **Challenge 1.3: Short names.** Which **three-letter** names were most popular in 2010? Show the top 10, along with how many babies got each name.

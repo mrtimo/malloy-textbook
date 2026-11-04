@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>10. Joins and Symmetric Aggregates | Learning Malloy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/malloy-textbook/css/document.css" />
+    <link rel="stylesheet" href="/malloy-textbook/css/textbook.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/malloy-textbook/favicon.ico" />
+    <script src="/malloy-textbook/js/generated/malloy-render-0.0.437.js"></script>
+    <style>
+      .result-inner .malloy-render { width: 100%; }
+      .result-inner .table-container { width: 100%; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="header">
+        <div class="header-banner">
+          <a class="book-mark" href="/malloy-textbook/textbook">
+            <span class="book-title">Learning Malloy</span>
+            <span class="subtitle">A Hands-On Textbook</span>
+          </a>
+        </div>
+        <div class="header-right">
+          <div class="header-links">
+            <a class="pill" href="https://docs.malloydata.dev/documentation/" target="_blank">Malloy Docs ↗</a>
+            <a href="https://github.com/mrtimo/malloy-textbook" target="_blank" title="Textbook source on GitHub"
+              ><img src="/malloy-textbook/img/github.svg" style="transform: scale(0.5)"
+            /></a>
+          </div>
+          <form action="/malloy-textbook/search">
+            <div class="search-input-outer">
+              <img src="/malloy-textbook/img/search.svg" alt="search" />
+              <input placeholder="Search the textbook" id="search-input" name="query" />
+            </div>
+            <input type="submit" style="display: none" />
+          </form>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+              <div id=start_here
+                class="sidebar-section-title {% unless /textbook/index.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Start Here
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                Welcome
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_i · foundations
+                class="sidebar-section-title {% unless /textbook/01_basics.html,/textbook/02_time_truncation.html,/textbook/03_views_and_nesting.html,/textbook/04_render_tags.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part I · Foundations
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/01_basics">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                1. The Basics
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/02_time_truncation">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                2. Time Truncation
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/03_views_and_nesting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                3. Views and Nesting
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/04_render_tags">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                4. Render Tags
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_ii · tools and data
+                class="sidebar-section-title {% unless /textbook/05_files_and_notebooks.html,/textbook/06_explorer.html,/textbook/07_csv_and_parquet.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part II · Tools and Data
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/05_files_and_notebooks">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                5. Files vs. Notebooks
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/06_explorer">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                6. The Malloy Explorer
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/07_csv_and_parquet">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                7. CSV and Parquet
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iii · analysis
+                class="sidebar-section-title {% unless /textbook/08_filtering.html,/textbook/09_data_cleaning.html,/textbook/10_joins.html,/textbook/11_percent_of_total.html,/textbook/12_pipelines_and_windows.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part III · Analysis
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/08_filtering">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                8. Filtering and Time Comparisons
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/09_data_cleaning">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                9. Data Cleaning
+              </a>
+            </div>
+        <div class='sidebar-item active'>
+              <a href="/malloy-textbook/textbook/10_joins">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                10. Joins and Symmetric Aggregates
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/11_percent_of_total">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                11. Percent of Total
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/12_pipelines_and_windows">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                12. Pipelines and Window Calculations
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iv · modeling
+                class="sidebar-section-title {% unless /textbook/13_givens.html,/textbook/14_model_review.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part IV · Modeling
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/13_givens">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                13. Givens
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/14_model_review">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                14. Anatomy of a Malloy Model
+              </a>
+            </div>
+              </div>
+            </div>
+          </div>        <script src="/malloy-textbook/js/sidebar_state.js"></script>
+        <div class="content">
+          <div class="footer">
+            
+<div class="linear-navigation">
+  <div class="item">
+      <a href="09_data_cleaning.html"><img src="/malloy-textbook/img/previous.svg" alt="previous"/>9. Data Cleaning</a>
+  </div>
+  <div class="item">
+      <a href="11_percent_of_total.html">11. Percent of Total<img src="/malloy-textbook/img/next.svg" alt="next"/></a>
+  </div>
+</div> 
+          </div>
+          <div class="document-outer"><div class="document"><div class="title-row">
+        
+      <h1>
+        <a id="chapter-10-joins-and-symmetric-aggregates" class="header-link anchor" href="#chapter-10-joins-and-symmetric-aggregates">
+          Chapter 10: Joins and Symmetric Aggregates
+        </a>
+      </h1>
+    
+        <a class="edit-link" target="_blank" href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb">Open in VS Code <img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a>
+        </div>
+      <p>Real data is spread over several tables. <strong>Joins</strong> connect them. In SQL, joins are also the number-one source of <em>wrong numbers</em>, because joining a "one" table to a "many" table repeats rows, and sums and averages quietly double count. In this chapter you'll learn:</p>
+<ul>
+<li><p>the shape of a <strong>star schema</strong></p>
+</li>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">join_one</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">join_many</span></span></code>, and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">join_cross</span></span></code>, and when to use each</p>
+</li>
+<li><p>how to reach joined fields with dot paths like <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">state</span></span></code></p>
+</li>
+<li><p>why Malloy's <strong>symmetric aggregates</strong> give correct answers where naive SQL doesn't</p>
+</li>
+<li><p>how to join a table to a <strong>summary query</strong> of itself</p>
+</li></ul>
+
+      <h2>
+        <a id="the-e-commerce-star-schema" class="header-link anchor" href="#the-e-commerce-star-schema">
+          The e-commerce star schema
+        </a>
+      </h2>
+    <p>A <strong>star schema</strong> has one central <strong>fact</strong> table (events: sales, clicks, births) surrounded by <strong>dimension</strong> tables (things: customers, products, places). In our store:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">                  ┌──────────────┐</span></span>
+<span class="line"><span style="color: #000000">                  │    users     │  one row per customer</span></span>
+<span class="line"><span style="color: #000000">                  └──────▲───────┘</span></span>
+<span class="line"><span style="color: #000000">                         │ user_id</span></span>
+<span class="line"><span style="color: #000000">┌──────────────────────────────────────────┐</span></span>
+<span class="line"><span style="color: #000000">│               order_items                │  FACT: one row per item sold</span></span>
+<span class="line"><span style="color: #000000">└──────────────────────────────────────────┘</span></span>
+<span class="line"><span style="color: #000000">                         │ inventory_item_id</span></span>
+<span class="line"><span style="color: #000000">                  ┌──────▼──────────┐</span></span>
+<span class="line"><span style="color: #000000">                  │ inventory_items │  one row per physical item</span></span>
+<span class="line"><span style="color: #000000">                  └──────┬──────────┘</span></span>
+<span class="line"><span style="color: #000000">                         │ product_id</span></span>
+<span class="line"><span style="color: #000000">                  ┌──────▼───────┐</span></span>
+<span class="line"><span style="color: #000000">                  │   products   │  one row per catalog product</span></span>
+<span class="line"><span style="color: #000000">                  └──────────────┘</span></span></pre></div><p>Here's how <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">ecommerce</span><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code> describes it. (Each source also defines some measures, left out here.)</p>
+<div class="code-wrapper"><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">users</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/users.parquet&#39;</span><span style="color: #000000">) </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">primary_key</span><span style="color: #000000">: </span><span style="color: #001080">id</span></span>
+<span class="line"><span style="color: #000000">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">products</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/products.parquet&#39;</span><span style="color: #000000">) </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">primary_key</span><span style="color: #000000">: </span><span style="color: #001080">id</span></span>
+<span class="line"><span style="color: #000000">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">inventory_items</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/inventory_items.parquet&#39;</span><span style="color: #000000">) </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">primary_key</span><span style="color: #000000">: </span><span style="color: #001080">id</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">join_one</span><span style="color: #000000">: </span><span style="color: #001080">products</span><span style="color: #000000"> </span><span style="color: #AF00DB">with</span><span style="color: #000000"> </span><span style="color: #001080">product_id</span></span>
+<span class="line"><span style="color: #000000">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">order_items</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/order_items.parquet&#39;</span><span style="color: #000000">) </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">primary_key</span><span style="color: #000000">: </span><span style="color: #001080">id</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">join_one</span><span style="color: #000000">: </span><span style="color: #001080">users</span><span style="color: #000000"> </span><span style="color: #AF00DB">with</span><span style="color: #000000"> </span><span style="color: #001080">user_id</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">join_one</span><span style="color: #000000">: </span><span style="color: #001080">inventory_items</span><span style="color: #000000"> </span><span style="color: #AF00DB">with</span><span style="color: #000000"> </span><span style="color: #001080">inventory_item_id</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p>Two things to notice:</p>
+<ul>
+<li><p>Each source declares its <strong><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">primary_key</span><span style="color: #000000">:</span></span></code></strong>, the column that is unique for every row. Malloy needs it to do joins correctly.</p>
+</li>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">join_one</span><span style="color: #000000">: </span><span style="color: #001080">users</span><span style="color: #000000"> </span><span style="color: #AF00DB">with</span><span style="color: #000000"> </span><span style="color: #001080">user_id</span></span></code> means <em>"each order item has <strong>one</strong> user, found by matching my <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">user_id</span></span></code> to the user's primary key."</em> That's the most common kind of join, and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">with</span></span></code> is its shorthand.</p>
+</li></ul>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> <a href="https://docs.malloydata.dev/documentation/language/join">Joins</a> · <a href="https://docs.malloydata.dev/documentation/language/source#primary-keys">Primary keys</a></p>
+</div>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C2" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;ecommerce.malloy&quot;</span></span></pre></div>
+      <h2>
+        <a id="using-joined-fields" class="header-link anchor" href="#using-joined-fields">
+          Using joined fields
+        </a>
+      </h2>
+    <p>Once a join is declared, you reach the joined table's fields with a dot: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">state</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">inventory_items</span><span style="color: #000000">.</span><span style="color: #001080">product_category</span></span></code>. Joins can chain: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">inventory_items</span><span style="color: #000000">.</span><span style="color: #001080">products</span><span style="color: #000000">.</span><span style="color: #001080">brand</span></span></code> goes two hops.</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C4" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">order_items</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">gender</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">inventory_items</span><span style="color: #000000">.</span><span style="color: #001080">products</span><span style="color: #000000">.</span><span style="color: #001080">department</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">total_sales</span><span style="color: #000000">, </span><span style="color: #001080">order_item_count</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="5cd31e62-a916-4fd8-8fe4-66afef0cc66f">
+        <script>(()=>{var e=document.getElementById("5cd31e62-a916-4fd8-8fe4-66afef0cc66f"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"gender",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "befec6a3-a542-418a-a869-6203b168659c" drill_expression { kind = field_reference name = gender path = [users] code = "users.gender" }\n'}]},{kind:"dimension",name:"department",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "7a47e645-1a2b-421d-bb77-4d3b95ad8e14" drill_expression { kind = field_reference name = department path = [inventory_items, products] code = "inventory_items.products.department" }\n'}]},{kind:"dimension",name:"total_sales",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:'#" Revenue.\n'},{value:"# currency\n"},{value:'#(malloy) reference_id = "180a9a25-fe2f-49f7-afcc-e330bd0a7602" calculation drill_expression { kind = field_reference name = total_sales }\n'}]},{kind:"dimension",name:"order_item_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#" Number of items sold.\n'},{value:'#(malloy) reference_id = "59a2c0f6-a0cb-443d-be38-91e8cf64c8d1" calculation drill_expression { kind = field_reference name = order_item_count }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Male"},{kind:"string_cell",string_value:"Men"},{kind:"number_cell",number_value:5263847.039385796,subtype:"decimal"},{kind:"number_cell",number_value:105440,subtype:"integer"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Female"},{kind:"string_cell",string_value:"Women"},{kind:"number_cell",number_value:4683310.536727786,subtype:"decimal"},{kind:"number_cell",number_value:110637,subtype:"integer"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Female"},{kind:"string_cell",string_value:"Men"},{kind:"number_cell",number_value:2005013.7571082115,subtype:"decimal"},{kind:"number_cell",number_value:40523,subtype:"integer"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Male"},{kind:"string_cell",string_value:"Women"},{kind:"number_cell",number_value:614121.542252779,subtype:"decimal"},{kind:"number_cell",number_value:14419,subtype:"integer"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable ordered_by = [{ total_sales = desc }]\n"},{value:"#(malloy) source.name = order_items\n"},{value:"#(malloy) query_name = __stage0\n"}],sql:'SELECT \n   users_0."gender" as "gender",\n   products_0."department" as "department",\n   COALESCE(SUM(base."sale_price"),0) as "total_sales",\n   COUNT(1) as "order_item_count"\nFROM \'data/order_items.parquet\' as base\n LEFT JOIN \'data/users.parquet\' AS users_0\n  ON users_0."id"=base."user_id"\n LEFT JOIN \'data/inventory_items.parquet\' AS inventory_items_0\n  ON inventory_items_0."id"=base."inventory_item_id"\n LEFT JOIN \'data/products.parquet\' AS products_0\n  ON products_0."id"=inventory_items_0."product_id"\nGROUP BY 1,2\nORDER BY 3 desc NULLS LAST\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;gender&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Male&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;department&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Men&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">5263847.039385796</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">105440</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;gender&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Female&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;department&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Women&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4683310.536727786</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">110637</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;gender&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Female&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;department&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Men&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2005013.7571082115</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">40523</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;gender&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Male&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;department&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Women&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">614121.542252779</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">14419</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   users_0.</span><span style="color: #A31515">&quot;gender&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gender&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   products_0.</span><span style="color: #A31515">&quot;department&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;department&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;sale_price&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;total_sales&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;order_item_count&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/order_items.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #000000"> </span><span style="color: #0000FF">LEFT JOIN</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/users.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">AS</span><span style="color: #000000"> users_0</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">ON</span><span style="color: #000000"> users_0.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">=base.</span><span style="color: #A31515">&quot;user_id&quot;</span></span>
+<span class="line"><span style="color: #000000"> </span><span style="color: #0000FF">LEFT JOIN</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/inventory_items.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">AS</span><span style="color: #000000"> inventory_items_0</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">ON</span><span style="color: #000000"> inventory_items_0.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">=base.</span><span style="color: #A31515">&quot;inventory_item_id&quot;</span></span>
+<span class="line"><span style="color: #000000"> </span><span style="color: #0000FF">LEFT JOIN</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/products.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">AS</span><span style="color: #000000"> products_0</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">ON</span><span style="color: #000000"> products_0.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">=inventory_items_0.</span><span style="color: #A31515">&quot;product_id&quot;</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">,</span><span style="color: #098658">2</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">3</span><span style="color: #000000"> </span><span style="color: #0000FF">desc</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>You can use <strong>measures</strong> from joined sources, too. <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">user_count</span></span></code> counts <em>users</em>, not order items:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C6" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">order_items</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">created_at</span><span style="color: #000000"> ~ </span><span style="color: #A31515">f&#39;2022&#39;</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">traffic_source</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">order_item_count</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">order_count</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">user_count</span></span>
+<span class="line"><span style="color: #000000">    # </span><span style="color: #001080">currency</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">sales_per_customer</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">total_sales</span><span style="color: #000000"> / </span><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">user_count</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="cf261fb5-dfab-47d8-b088-d97f12a9354a">
+        <script>(()=>{var e=document.getElementById("cf261fb5-dfab-47d8-b088-d97f12a9354a"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"traffic_source",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "469543b6-b513-434b-bc80-964f6de398c6" drill_expression { kind = field_reference name = traffic_source path = [users] code = "users.traffic_source" }\n'}]},{kind:"dimension",name:"order_item_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#" Number of items sold.\n'},{value:'#(malloy) reference_id = "1cc9de64-8dc8-44e5-b29e-1bd35cb838c2" calculation drill_expression { kind = field_reference name = order_item_count }\n'}]},{kind:"dimension",name:"order_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#" Number of distinct orders (an order can contain many items).\n'},{value:'#(malloy) reference_id = "d8abda0b-a134-461c-ad94-4e4c55d16f29" calculation drill_expression { kind = field_reference name = order_count }\n'}]},{kind:"dimension",name:"user_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "375c0241-5f2a-415a-ab06-85437fb6b665" calculation drill_expression { kind = field_reference name = user_count path = [users] }\n'}]},{kind:"dimension",name:"sales_per_customer",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:"# currency\n"},{value:'#(malloy) reference_id = "b1c5ff00-11d9-47b4-977c-a51a179aac5e" calculation\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Search"},{kind:"number_cell",number_value:75639,subtype:"integer"},{kind:"number_cell",number_value:73746,subtype:"integer"},{kind:"number_cell",number_value:46939,subtype:"integer"},{kind:"number_cell",number_value:74.73365522446326,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Organic"},{kind:"number_cell",number_value:15734,subtype:"integer"},{kind:"number_cell",number_value:15362,subtype:"integer"},{kind:"number_cell",number_value:9812,subtype:"integer"},{kind:"number_cell",number_value:74.59023873888859,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Facebook"},{kind:"number_cell",number_value:4574,subtype:"integer"},{kind:"number_cell",number_value:4466,subtype:"integer"},{kind:"number_cell",number_value:2855,subtype:"integer"},{kind:"number_cell",number_value:73.19929975122996,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Display"},{kind:"number_cell",number_value:3397,subtype:"integer"},{kind:"number_cell",number_value:3336,subtype:"integer"},{kind:"number_cell",number_value:2109,subtype:"integer"},{kind:"number_cell",number_value:75.51043648033585,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Email"},{kind:"number_cell",number_value:2930,subtype:"integer"},{kind:"number_cell",number_value:2875,subtype:"integer"},{kind:"number_cell",number_value:1859,subtype:"integer"},{kind:"number_cell",number_value:73.53710085349162,subtype:"decimal"}]}]},connection_name:"duckdb",annotations:[{value:'#(malloy) drill_filters = [{ code = "created_at ~ f\'2022\'" expression { kind = field_reference name = created_at } kind = filter_expression filter_expression = "2022" }] drillable ordered_by = [{ order_item_count = desc }]\n'},{value:"#(malloy) source.name = order_items\n"},{value:"#(malloy) query_name = __stage0\n"}],sql:'SELECT \n   users_0."traffic_source" as "traffic_source",\n   COUNT(1) as "order_item_count",\n   count(distinct base."order_id") as "order_count",\n   COUNT(DISTINCT users_0."id") as "user_count",\n   (COALESCE(SUM(base."sale_price"),0))*1.0/(COUNT(DISTINCT users_0."id")) as "sales_per_customer"\nFROM \'data/order_items.parquet\' as base\n LEFT JOIN \'data/users.parquet\' AS users_0\n  ON users_0."id"=base."user_id"\nWHERE base."created_at" >= TIMESTAMP \'2022-01-01 00:00:00\' AND base."created_at" < TIMESTAMP \'2023-01-01 00:00:00\'\nGROUP BY 1\nORDER BY 2 desc NULLS LAST\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Search&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">75639</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">73746</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">46939</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sales_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">74.73365522446326</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Organic&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">15734</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">15362</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">9812</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sales_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">74.59023873888859</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Facebook&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4574</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4466</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2855</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sales_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">73.19929975122996</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Display&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3397</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3336</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2109</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sales_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">75.51043648033585</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Email&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2930</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2875</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1859</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sales_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">73.53710085349162</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   users_0.</span><span style="color: #A31515">&quot;traffic_source&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;traffic_source&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;order_item_count&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">count</span><span style="color: #000000">(</span><span style="color: #0000FF">distinct</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;order_id&quot;</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;order_count&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #0000FF">DISTINCT</span><span style="color: #000000"> users_0.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;user_count&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   (</span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;sale_price&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">))*</span><span style="color: #098658">1</span><span style="color: #000000">.</span><span style="color: #098658">0</span><span style="color: #000000">/(</span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #0000FF">DISTINCT</span><span style="color: #000000"> users_0.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">)) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;sales_per_customer&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/order_items.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #000000"> </span><span style="color: #0000FF">LEFT JOIN</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/users.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">AS</span><span style="color: #000000"> users_0</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">ON</span><span style="color: #000000"> users_0.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">=base.</span><span style="color: #A31515">&quot;user_id&quot;</span></span>
+<span class="line"><span style="color: #0000FF">WHERE</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;created_at&quot;</span><span style="color: #000000"> &gt;= </span><span style="color: #0000FF">TIMESTAMP</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;2022-01-01 00:00:00&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">AND</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;created_at&quot;</span><span style="color: #000000"> &lt; </span><span style="color: #0000FF">TIMESTAMP</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;2023-01-01 00:00:00&#39;</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000"> </span><span style="color: #0000FF">desc</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>Malloy only joins the tables a query actually uses. If your query doesn't mention <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">users</span></span></code>, the generated SQL has no join to <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">users</span></span></code> at all. Click <strong>SQL</strong> on the results above and below to compare.</p>
+
+      <h2>
+        <a id="the-three-kinds-of-join" class="header-link anchor" href="#the-three-kinds-of-join">
+          The three kinds of join
+        </a>
+      </h2>
+    <table>
+<thead>
+<tr>
+<th>Join</th>
+
+<th>Read it as</th>
+
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">join_one</span><span style="color: #000000">:</span></span></code></td>
+
+<td>each row of mine matches <strong>at most one</strong> row of theirs</td>
+
+<td>order item → its user</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">join_many</span><span style="color: #000000">:</span></span></code></td>
+
+<td>each row of mine can match <strong>many</strong> rows of theirs</td>
+
+<td>user → their order items</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">join_cross</span><span style="color: #000000">:</span></span></code></td>
+
+<td><strong>many-to-many</strong>: lots of rows on both sides</td>
+
+<td>every product × every promotion</td>
+</tr>
+</tbody></table>
+<p>You can write a join's condition two ways:</p>
+<div class="code-wrapper"><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">join_one</span><span style="color: #000000">: </span><span style="color: #001080">users</span><span style="color: #000000"> </span><span style="color: #AF00DB">with</span><span style="color: #000000"> </span><span style="color: #001080">user_id</span><span style="color: #000000">                          </span><span style="color: #008000">// my user_id = users&#39; primary key</span></span>
+<span class="line"><span style="color: #AF00DB">join_one</span><span style="color: #000000">: </span><span style="color: #001080">users</span><span style="color: #000000"> </span><span style="color: #AF00DB">on</span><span style="color: #000000"> </span><span style="color: #001080">user_id</span><span style="color: #000000"> = </span><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">id</span><span style="color: #000000">                 </span><span style="color: #008000">// any boolean condition</span></span>
+<span class="line"><span style="color: #AF00DB">join_many</span><span style="color: #000000">: </span><span style="color: #001080">order_items</span><span style="color: #000000"> </span><span style="color: #AF00DB">on</span><span style="color: #000000"> </span><span style="color: #001080">id</span><span style="color: #000000"> = </span><span style="color: #001080">order_items</span><span style="color: #000000">.</span><span style="color: #001080">user_id</span><span style="color: #000000">    </span><span style="color: #008000">// join_many always uses &quot;on&quot;</span></span></pre></div>
+      <h2>
+        <a id="join_many-looking-at-the-data-from-the-customer-s-side" class="header-link anchor" href="#join_many-looking-at-the-data-from-the-customer-s-side">
+          join_many: looking at the data from the customer's side
+        </a>
+      </h2>
+    <p>So far we started from <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">order_items</span></span></code> and looked "up" at users. To ask questions <strong>about customers</strong>, start from <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">users</span></span></code> and look "down" at their orders with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">join_many</span></span></code>:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C8" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">customers</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">users</span><span style="color: #000000"> </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">join_many</span><span style="color: #000000">: </span><span style="color: #001080">order_items</span><span style="color: #000000"> </span><span style="color: #AF00DB">on</span><span style="color: #000000"> </span><span style="color: #001080">id</span><span style="color: #000000"> = </span><span style="color: #001080">order_items</span><span style="color: #000000">.</span><span style="color: #001080">user_id</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">measure</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    # </span><span style="color: #0000FF">number</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;0.0&quot;</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">avg_age</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">age</span><span style="color: #000000">.</span><span style="color: #795E26">avg</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C9" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">customers</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">traffic_source</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">user_count</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">avg_age</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">order_items</span><span style="color: #000000">.</span><span style="color: #001080">order_item_count</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">order_items</span><span style="color: #000000">.</span><span style="color: #001080">total_sales</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="689dcc8a-7ad2-4c61-a799-22437de540ee">
+        <script>(()=>{var e=document.getElementById("689dcc8a-7ad2-4c61-a799-22437de540ee"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"traffic_source",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "8edac718-7170-4f0a-8093-49a758e7fd52" drill_expression { kind = field_reference name = traffic_source code = traffic_source }\n'}]},{kind:"dimension",name:"user_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "b8a1a43b-c4f7-42ba-895f-294512aaaf7a" calculation drill_expression { kind = field_reference name = user_count }\n'}]},{kind:"dimension",name:"avg_age",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:'# number="0.0"\n'},{value:'#(malloy) reference_id = "f6bc8aa8-d7bc-4709-9a00-2e79ee8026cd" calculation drill_expression { kind = field_reference name = avg_age }\n'}]},{kind:"dimension",name:"order_item_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#" Number of items sold.\n'},{value:'#(malloy) reference_id = "77dae0c6-540c-48f9-9377-1b37a6d7ab0d" calculation drill_expression { kind = field_reference name = order_item_count path = [order_items] }\n'}]},{kind:"dimension",name:"total_sales",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:'#" Revenue.\n'},{value:"# currency\n"},{value:'#(malloy) reference_id = "d607a601-727c-4b37-a26a-3f084313e20c" calculation drill_expression { kind = field_reference name = total_sales path = [order_items] }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Search"},{kind:"number_cell",number_value:123962,subtype:"integer"},{kind:"number_cell",number_value:38.502194220809606,subtype:"decimal"},{kind:"number_cell",number_value:225493,subtype:"integer"},{kind:"number_cell",number_value:9267111.743620992,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Organic"},{kind:"number_cell",number_value:26190,subtype:"integer"},{kind:"number_cell",number_value:38.654104620084,subtype:"decimal"},{kind:"number_cell",number_value:47548,subtype:"integer"},{kind:"number_cell",number_value:1960511.5670948029,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Facebook"},{kind:"number_cell",number_value:7432,subtype:"integer"},{kind:"number_cell",number_value:38.67680301399354,subtype:"decimal"},{kind:"number_cell",number_value:13615,subtype:"integer"},{kind:"number_cell",number_value:559297.3620294333,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Display"},{kind:"number_cell",number_value:5536,subtype:"integer"},{kind:"number_cell",number_value:38.6878612716763,subtype:"decimal"},{kind:"number_cell",number_value:10060,subtype:"integer"},{kind:"number_cell",number_value:414084.50149965286,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Email"},{kind:"number_cell",number_value:4943,subtype:"integer"},{kind:"number_cell",number_value:38.23285454177625,subtype:"decimal"},{kind:"number_cell",number_value:9021,subtype:"integer"},{kind:"number_cell",number_value:365287.7012296915,subtype:"decimal"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable ordered_by = [{ user_count = desc }]\n"},{value:"#(malloy) source.name = customers\n"},{value:"#(malloy) query_name = __stage0\n"}],sql:'SELECT \n   base."traffic_source" as "traffic_source",\n   COUNT(DISTINCT base."id") as "user_count",\n   (\n        SELECT AVG(a.val) as value\n        FROM (\n          SELECT UNNEST(list(distinct {key:base."id", val: base."age"})) a\n        )\n      ) as "avg_age",\n   COUNT(1) as "order_item_count",\n   COALESCE(SUM(order_items_0."sale_price"),0) as "total_sales"\nFROM \'data/users.parquet\' as base\n LEFT JOIN \'data/order_items.parquet\' AS order_items_0\n  ON base."id"=order_items_0."user_id"\nGROUP BY 1\nORDER BY 2 desc NULLS LAST\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Search&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">123962</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.502194220809606</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">225493</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">9267111.743620992</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Organic&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">26190</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.654104620084</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">47548</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1960511.5670948029</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Facebook&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">7432</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.67680301399354</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">13615</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">559297.3620294333</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Display&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">5536</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.6878612716763</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">10060</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">414084.50149965286</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Email&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4943</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.23285454177625</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">9021</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">365287.7012296915</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;traffic_source&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;traffic_source&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #0000FF">DISTINCT</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;user_count&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   (</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span><span style="color: #795E26">AVG</span><span style="color: #000000">(a.val) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #0000FF">value</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> (</span></span>
+<span class="line"><span style="color: #000000">          </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> UNNEST(list(</span><span style="color: #0000FF">distinct</span><span style="color: #000000"> {</span><span style="color: #0000FF">key</span><span style="color: #000000">:base.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">, val: base.</span><span style="color: #A31515">&quot;age&quot;</span><span style="color: #000000">})) a</span></span>
+<span class="line"><span style="color: #000000">        )</span></span>
+<span class="line"><span style="color: #000000">      ) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;avg_age&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;order_item_count&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(order_items_0.</span><span style="color: #A31515">&quot;sale_price&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;total_sales&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/users.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #000000"> </span><span style="color: #0000FF">LEFT JOIN</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/order_items.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">AS</span><span style="color: #000000"> order_items_0</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">ON</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">=order_items_0.</span><span style="color: #A31515">&quot;user_id&quot;</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000"> </span><span style="color: #0000FF">desc</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>Notice that <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">user_count</span></span></code> is the real number of users and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">avg_age</span></span></code> is the real average age, even though each user was joined to many order rows. That's not luck. Read on.</p>
+
+      <h2>
+        <a id="the-fan-out-problem-and-how-malloy-avoids-it" class="header-link anchor" href="#the-fan-out-problem-and-how-malloy-avoids-it">
+          The fan-out problem, and how Malloy avoids it
+        </a>
+      </h2>
+    <p>When you join a "one" table to a "many" table, the "one" rows get <strong>repeated</strong>, once per matching "many" row. A customer with 12 order items appears 12 times in the joined result. Any <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">SUM</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">COUNT</span></span></code>, or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">AVG</span></span></code> over customer columns then counts that customer 12 times.</p>
+<p>Let's prove it with plain SQL. This is the query most people would write first:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C11" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">duckdb</span><span style="color: #000000FF">.</span><span style="color: #AF00DB">sql</span><span style="color: #000000FF">(</span><span style="color: #000000FF">&quot;&quot;&quot;</span></span>
+<span class="line"><span style="color: #000000FF">  </span><span style="color: #0000FF">SELECT</span></span>
+<span class="line"><span style="color: #000000FF">    u.traffic_source,</span></span>
+<span class="line"><span style="color: #000000FF">    </span><span style="color: #795E26">COUNT</span><span style="color: #000000FF">(</span><span style="color: #000000">*</span><span style="color: #000000FF">)      </span><span style="color: #0000FF">AS</span><span style="color: #000000FF"> user_count_WRONG,</span></span>
+<span class="line"><span style="color: #000000FF">    </span><span style="color: #795E26">AVG</span><span style="color: #000000FF">(u.age)    </span><span style="color: #0000FF">AS</span><span style="color: #000000FF"> avg_age_WRONG,</span></span>
+<span class="line"><span style="color: #000000FF">    </span><span style="color: #795E26">COUNT</span><span style="color: #000000FF">(o.id)   </span><span style="color: #0000FF">AS</span><span style="color: #000000FF"> order_item_count,</span></span>
+<span class="line"><span style="color: #000000FF">    </span><span style="color: #795E26">SUM</span><span style="color: #000000FF">(o.sale_price) </span><span style="color: #0000FF">AS</span><span style="color: #000000FF"> total_sales</span></span>
+<span class="line"><span style="color: #000000FF">  </span><span style="color: #0000FF">FROM</span><span style="color: #000000FF"> </span><span style="color: #A31515">&#39;data/users.parquet&#39;</span><span style="color: #000000FF"> u</span></span>
+<span class="line"><span style="color: #000000FF">  </span><span style="color: #0000FF">LEFT JOIN</span><span style="color: #000000FF"> </span><span style="color: #A31515">&#39;data/order_items.parquet&#39;</span><span style="color: #000000FF"> o </span><span style="color: #0000FF">ON</span><span style="color: #000000FF"> o.user_id </span><span style="color: #000000">=</span><span style="color: #000000FF"> u.id</span></span>
+<span class="line"><span style="color: #000000FF">  </span><span style="color: #0000FF">GROUP BY</span><span style="color: #000000FF"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #000000FF">  </span><span style="color: #0000FF">ORDER BY</span><span style="color: #000000FF"> </span><span style="color: #098658">2</span><span style="color: #000000FF"> </span><span style="color: #0000FF">DESC</span></span>
+<span class="line"><span style="color: #000000FF">&quot;&quot;&quot;</span><span style="color: #000000FF">)</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">select</span><span style="color: #000000">: *</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="45c50211-87f8-4620-8784-d1b83e85cd58">
+        <script>(()=>{var e=document.getElementById("45c50211-87f8-4620-8784-d1b83e85cd58"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"avg_age_WRONG",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:'#(malloy) reference_id = "ed921e7f-c575-49d7-8b52-b4e021a0c31e" drill_expression.code = avg_age_WRONG\n'}]},{kind:"dimension",name:"order_item_count",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#(malloy) reference_id = "8d9950c2-e8b3-4b87-8d07-1dc9597615ee" drill_expression.code = order_item_count\n'}]},{kind:"dimension",name:"total_sales",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:'#(malloy) reference_id = "7ccda2ea-4e4f-424d-a998-7f8c9e35c60c" drill_expression.code = total_sales\n'}]},{kind:"dimension",name:"traffic_source",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "d4a338d7-9041-4d53-b6e2-5509ea6c017e" drill_expression.code = traffic_source\n'}]},{kind:"dimension",name:"user_count_WRONG",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#(malloy) reference_id = "3efd1da4-e6ba-45c4-a71e-700eec87546a" drill_expression.code = user_count_WRONG\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"number_cell",number_value:38.4772165876546,subtype:"decimal"},{kind:"number_cell",number_value:199864,subtype:"bigint",string_value:"199864"},{kind:"number_cell",number_value:9267111.743620992,subtype:"decimal"},{kind:"string_cell",string_value:"Search"},{kind:"number_cell",number_value:225493,subtype:"bigint",string_value:"225493"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:38.65068982922521,subtype:"decimal"},{kind:"number_cell",number_value:42161,subtype:"bigint",string_value:"42161"},{kind:"number_cell",number_value:1960511.5670948029,subtype:"decimal"},{kind:"string_cell",string_value:"Organic"},{kind:"number_cell",number_value:47548,subtype:"bigint",string_value:"47548"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:38.863973558575104,subtype:"decimal"},{kind:"number_cell",number_value:12055,subtype:"bigint",string_value:"12055"},{kind:"number_cell",number_value:559297.3620294333,subtype:"decimal"},{kind:"string_cell",string_value:"Facebook"},{kind:"number_cell",number_value:13615,subtype:"bigint",string_value:"13615"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:38.7875745526839,subtype:"decimal"},{kind:"number_cell",number_value:8928,subtype:"bigint",string_value:"8928"},{kind:"number_cell",number_value:414084.50149965286,subtype:"decimal"},{kind:"string_cell",string_value:"Display"},{kind:"number_cell",number_value:10060,subtype:"bigint",string_value:"10060"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:38.37966965968296,subtype:"decimal"},{kind:"number_cell",number_value:8011,subtype:"bigint",string_value:"8011"},{kind:"number_cell",number_value:365287.7012296915,subtype:"decimal"},{kind:"string_cell",string_value:"Email"},{kind:"number_cell",number_value:9021,subtype:"bigint",string_value:"9021"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable\n"},{value:"#(malloy) \n"},{value:"#(malloy) query_name = __stage0\n"}],sql:'SELECT \n   base."avg_age_WRONG" as "avg_age_WRONG",\n   base."order_item_count" as "order_item_count",\n   base."total_sales" as "total_sales",\n   base."traffic_source" as "traffic_source",\n   base."user_count_WRONG" as "user_count_WRONG"\nFROM (\n  SELECT\n    u.traffic_source,\n    COUNT(*)      AS user_count_WRONG,\n    AVG(u.age)    AS avg_age_WRONG,\n    COUNT(o.id)   AS order_item_count,\n    SUM(o.sale_price) AS total_sales\n  FROM \'data/users.parquet\' u\n  LEFT JOIN \'data/order_items.parquet\' o ON o.user_id = u.id\n  GROUP BY 1\n  ORDER BY 2 DESC\n) as base\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_WRONG&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.4772165876546</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;199864&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">9267111.743620992</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Search&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count_WRONG&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;225493&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_WRONG&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.65068982922521</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;42161&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1960511.5670948029</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Organic&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count_WRONG&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;47548&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_WRONG&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.863973558575104</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;12055&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">559297.3620294333</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Facebook&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count_WRONG&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;13615&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_WRONG&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.7875745526839</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;8928&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">414084.50149965286</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Display&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count_WRONG&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;10060&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_WRONG&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.37966965968296</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;8011&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">365287.7012296915</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;traffic_source&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Email&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count_WRONG&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;9021&quot;</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;avg_age_WRONG&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;avg_age_WRONG&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;order_item_count&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;order_item_count&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;total_sales&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;total_sales&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;traffic_source&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;traffic_source&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;user_count_WRONG&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;user_count_WRONG&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> (</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">SELECT</span></span>
+<span class="line"><span style="color: #000000">    u.traffic_source,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(*)      </span><span style="color: #0000FF">AS</span><span style="color: #000000"> user_count_WRONG,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #795E26">AVG</span><span style="color: #000000">(u.age)    </span><span style="color: #0000FF">AS</span><span style="color: #000000"> avg_age_WRONG,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(o.id)   </span><span style="color: #0000FF">AS</span><span style="color: #000000"> order_item_count,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #795E26">SUM</span><span style="color: #000000">(o.sale_price) </span><span style="color: #0000FF">AS</span><span style="color: #000000"> total_sales</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/users.parquet&#39;</span><span style="color: #000000"> u</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">LEFT JOIN</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/order_items.parquet&#39;</span><span style="color: #000000"> o </span><span style="color: #0000FF">ON</span><span style="color: #000000"> o.user_id = u.id</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000"> </span><span style="color: #0000FF">DESC</span></span>
+<span class="line"><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>Compare with the Malloy result above. The SQL <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">user_count_WRONG</span></span></code> is <strong>inflated</strong>. It's counting order rows, not users. The SQL <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">avg_age_WRONG</span></span></code> is <em>also</em> off, and much harder to notice: it's a weighted average that gives frequent shoppers more weight. These are exactly the bugs that slip into real reports.</p>
+<p>Malloy gets both right because of <strong>symmetric aggregates</strong>. Since every source has a primary key, Malloy knows which table each aggregate "belongs to". When it computes <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">user_count</span></span></code> or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">avg_age</span></span></code> (measures of <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">users</span></span></code>) across a join that repeats users, it generates SQL that counts each user <strong>once</strong>, using the primary key to remove the repeats. You write the obvious query, and the number is right.</p>
+<div class="callout callout-tip">
+<p>💡 <strong>"Locality" of an aggregate.</strong> Every aggregate is computed <em>with respect to</em> some source in the join graph. <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">age</span><span style="color: #000000">.</span><span style="color: #795E26">avg</span><span style="color: #000000">()</span></span></code> written in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">customers</span></span></code> averages over <strong>customers</strong>. <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">order_items</span><span style="color: #000000">.</span><span style="color: #001080">sale_price</span><span style="color: #000000">.</span><span style="color: #795E26">sum</span><span style="color: #000000">()</span></span></code> sums over <strong>order items</strong>. The path in front of <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #795E26">avg</span><span style="color: #000000">()</span></span></code> or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #795E26">sum</span><span style="color: #000000">()</span></span></code> tells Malloy where to aggregate.</p>
+</div>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> <a href="https://docs.malloydata.dev/documentation/language/aggregates">Aggregates and symmetric aggregation</a> · <a href="https://docs.malloydata.dev/documentation/patterns/foreign_sums">Pattern: foreign sums</a></p>
+</div>
+
+      <h3>
+        <a id="a-second-example-two-different-averages" class="header-link anchor" href="#a-second-example-two-different-averages">
+          A second example: two different averages
+        </a>
+      </h3>
+    <p>From <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">order_items</span></span></code>, what's "the average age of the customers who bought from each category"? There are actually <strong>two</strong> different questions hiding in that sentence:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C13" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">order_items</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">inventory_items</span><span style="color: #000000">.</span><span style="color: #001080">product_category</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">order_item_count</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">user_count</span></span>
+<span class="line"><span style="color: #000000">    # </span><span style="color: #0000FF">number</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;0.00&quot;</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">avg_age_per_customer</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">age</span><span style="color: #000000">.</span><span style="color: #795E26">avg</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">    # </span><span style="color: #0000FF">number</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;0.00&quot;</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">avg_age_per_item</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #AF00DB">source</span><span style="color: #000000">.</span><span style="color: #795E26">avg</span><span style="color: #000000">(</span><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">age</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">limit</span><span style="color: #000000">: </span><span style="color: #098658">8</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="7d580052-abe3-46d3-b2bc-ed4482a1c60a">
+        <script>(()=>{var e=document.getElementById("7d580052-abe3-46d3-b2bc-ed4482a1c60a"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"product_category",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "d5541475-dafc-4d5c-b694-208da1ca84e7" drill_expression { kind = field_reference name = product_category path = [inventory_items] code = "inventory_items.product_category" }\n'}]},{kind:"dimension",name:"order_item_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#" Number of items sold.\n'},{value:'#(malloy) reference_id = "b2851e84-8405-4677-88b4-c4ca67afd8e9" calculation drill_expression { kind = field_reference name = order_item_count }\n'}]},{kind:"dimension",name:"user_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "3dc7e1cc-eade-49c9-be50-e45aebfd46e1" calculation drill_expression { kind = field_reference name = user_count path = [users] }\n'}]},{kind:"dimension",name:"avg_age_per_customer",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:'# number="0.00"\n'},{value:'#(malloy) reference_id = "261ececa-c05a-455c-a33b-dc3f30a011b2" calculation\n'}]},{kind:"dimension",name:"avg_age_per_item",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:'# number="0.00"\n'},{value:'#(malloy) reference_id = "28fe13e2-a5a1-4802-b22a-46969f19681e" calculation\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Accessories"},{kind:"number_cell",number_value:33410,subtype:"integer"},{kind:"number_cell",number_value:29207,subtype:"integer"},{kind:"number_cell",number_value:38.38562673331735,subtype:"decimal"},{kind:"number_cell",number_value:38.4192158036516,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Jeans"},{kind:"number_cell",number_value:31756,subtype:"integer"},{kind:"number_cell",number_value:27851,subtype:"integer"},{kind:"number_cell",number_value:38.702452335643244,subtype:"decimal"},{kind:"number_cell",number_value:38.75283411008943,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Tops & Tees"},{kind:"number_cell",number_value:26840,subtype:"integer"},{kind:"number_cell",number_value:23961,subtype:"integer"},{kind:"number_cell",number_value:38.44897959183673,subtype:"decimal"},{kind:"number_cell",number_value:38.41464232488823,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Active"},{kind:"number_cell",number_value:22853,subtype:"integer"},{kind:"number_cell",number_value:20642,subtype:"integer"},{kind:"number_cell",number_value:38.313583955043114,subtype:"decimal"},{kind:"number_cell",number_value:38.30184220890036,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Shorts"},{kind:"number_cell",number_value:19973,subtype:"integer"},{kind:"number_cell",number_value:18169,subtype:"integer"},{kind:"number_cell",number_value:38.62601133799328,subtype:"decimal"},{kind:"number_cell",number_value:38.57011966154308,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Pants"},{kind:"number_cell",number_value:14965,subtype:"integer"},{kind:"number_cell",number_value:13703,subtype:"integer"},{kind:"number_cell",number_value:38.47405677588849,subtype:"decimal"},{kind:"number_cell",number_value:38.484263280988976,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Outerwear & Coats"},{kind:"number_cell",number_value:13078,subtype:"integer"},{kind:"number_cell",number_value:12199,subtype:"integer"},{kind:"number_cell",number_value:38.83760964013444,subtype:"decimal"},{kind:"number_cell",number_value:38.84041902431564,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Fashion Hoodies & Sweatshirts"},{kind:"number_cell",number_value:12424,subtype:"integer"},{kind:"number_cell",number_value:11559,subtype:"integer"},{kind:"number_cell",number_value:38.50869452374773,subtype:"decimal"},{kind:"number_cell",number_value:38.547247263361236,subtype:"decimal"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) limit = 8 drillable ordered_by = [{ order_item_count = desc }]\n"},{value:"#(malloy) source.name = order_items\n"},{value:"#(malloy) query_name = __stage0\n"}],sql:'SELECT \n   inventory_items_0."product_category" as "product_category",\n   COUNT(1) as "order_item_count",\n   COUNT(DISTINCT users_0."id") as "user_count",\n   (\n        SELECT AVG(a.val) as value\n        FROM (\n          SELECT UNNEST(list(distinct {key:users_0."id", val: users_0."age"})) a\n        )\n      ) as "avg_age_per_customer",\n   AVG(users_0."age") as "avg_age_per_item"\nFROM \'data/order_items.parquet\' as base\n LEFT JOIN \'data/inventory_items.parquet\' AS inventory_items_0\n  ON inventory_items_0."id"=base."inventory_item_id"\n LEFT JOIN \'data/users.parquet\' AS users_0\n  ON users_0."id"=base."user_id"\nGROUP BY 1\nORDER BY 2 desc NULLS LAST\nLIMIT 8\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;product_category&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Accessories&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">33410</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">29207</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.38562673331735</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_item&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.4192158036516</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;product_category&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Jeans&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">31756</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">27851</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.702452335643244</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_item&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.75283411008943</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;product_category&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Tops &amp; Tees&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">26840</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">23961</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.44897959183673</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_item&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.41464232488823</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;product_category&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Active&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">22853</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">20642</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.313583955043114</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_item&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.30184220890036</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;product_category&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Shorts&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">19973</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">18169</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.62601133799328</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_item&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.57011966154308</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;product_category&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Pants&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">14965</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">13703</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.47405677588849</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_item&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.484263280988976</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;product_category&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Outerwear &amp; Coats&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">13078</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">12199</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.83760964013444</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_item&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.84041902431564</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;product_category&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Fashion Hoodies &amp; Sweatshirts&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_item_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">12424</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;user_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">11559</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_customer&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.50869452374773</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;avg_age_per_item&quot;</span><span style="color: #000000">: </span><span style="color: #098658">38.547247263361236</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   inventory_items_0.</span><span style="color: #A31515">&quot;product_category&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;product_category&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;order_item_count&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #0000FF">DISTINCT</span><span style="color: #000000"> users_0.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;user_count&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   (</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span><span style="color: #795E26">AVG</span><span style="color: #000000">(a.val) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #0000FF">value</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> (</span></span>
+<span class="line"><span style="color: #000000">          </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> UNNEST(list(</span><span style="color: #0000FF">distinct</span><span style="color: #000000"> {</span><span style="color: #0000FF">key</span><span style="color: #000000">:users_0.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">, val: users_0.</span><span style="color: #A31515">&quot;age&quot;</span><span style="color: #000000">})) a</span></span>
+<span class="line"><span style="color: #000000">        )</span></span>
+<span class="line"><span style="color: #000000">      ) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;avg_age_per_customer&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">AVG</span><span style="color: #000000">(users_0.</span><span style="color: #A31515">&quot;age&quot;</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;avg_age_per_item&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/order_items.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #000000"> </span><span style="color: #0000FF">LEFT JOIN</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/inventory_items.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">AS</span><span style="color: #000000"> inventory_items_0</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">ON</span><span style="color: #000000"> inventory_items_0.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">=base.</span><span style="color: #A31515">&quot;inventory_item_id&quot;</span></span>
+<span class="line"><span style="color: #000000"> </span><span style="color: #0000FF">LEFT JOIN</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/users.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">AS</span><span style="color: #000000"> users_0</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">ON</span><span style="color: #000000"> users_0.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">=base.</span><span style="color: #A31515">&quot;user_id&quot;</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000"> </span><span style="color: #0000FF">desc</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"><span style="color: #0000FF">LIMIT</span><span style="color: #000000"> </span><span style="color: #098658">8</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><ul>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">age</span><span style="color: #000000">.</span><span style="color: #795E26">avg</span><span style="color: #000000">()</span></span></code> averages over <strong>users</strong>: each customer counts once, no matter how many items they bought.</p>
+</li>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">.</span><span style="color: #795E26">avg</span><span style="color: #000000">(</span><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">age</span><span style="color: #000000">)</span></span></code> averages over the rows of the <strong>current source</strong> (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">order_items</span></span></code>): a customer who bought 10 items counts 10 times. This is "the average age <em>per item sold</em>."</p>
+</li></ul>
+<p>Both are reasonable questions, and they give different answers. Naive SQL silently gives you the second one. Malloy makes you <strong>choose</strong>. If you write a bare <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">avg</span><span style="color: #000000">(</span><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">age</span><span style="color: #000000">)</span></span></code> across a join, Malloy warns you and asks you to be explicit.</p>
+
+      <h2>
+        <a id="joining-a-source-to-a-query" class="header-link anchor" href="#joining-a-source-to-a-query">
+          Joining a source to a query
+        </a>
+      </h2>
+    <p>A join target doesn't have to be a table. It can be a <strong>query</strong>, which is great for adding context such as totals. Let's go back to the baby names. To compare a name with the <em>total births in its state and year</em>, first build a summary, then join it with a two-column match:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C15" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;names.malloy&quot;</span></span></pre></div><div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C16" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">state_year_totals</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">names</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">state</span><span style="color: #000000">, </span><span style="color: #001080">year_born</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">all_births</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">total_births</span></span>
+<span class="line"><span style="color: #000000">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">names_with_totals</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">names</span><span style="color: #000000"> </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">join_one</span><span style="color: #000000">: </span><span style="color: #001080">sy</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">state_year_totals</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #AF00DB">on</span><span style="color: #000000"> </span><span style="color: #001080">state</span><span style="color: #000000"> = </span><span style="color: #001080">sy</span><span style="color: #000000">.</span><span style="color: #001080">state</span><span style="color: #000000"> and </span><span style="color: #001080">year_born</span><span style="color: #000000"> = </span><span style="color: #001080">sy</span><span style="color: #000000">.</span><span style="color: #001080">year_born</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">measure</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    # </span><span style="color: #001080">percent</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">share_of_state_year</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">total_births</span><span style="color: #000000"> / </span><span style="color: #001080">sy</span><span style="color: #000000">.</span><span style="color: #001080">all_births</span><span style="color: #000000">.</span><span style="color: #795E26">sum</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C17" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">names_with_totals</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">name</span><span style="color: #000000"> = </span><span style="color: #A31515">&#39;Emma&#39;</span><span style="color: #000000">, </span><span style="color: #001080">gender</span><span style="color: #000000"> = </span><span style="color: #A31515">&#39;F&#39;</span><span style="color: #000000">, </span><span style="color: #001080">year_born</span><span style="color: #000000"> ~ </span><span style="color: #A31515">f&#39;[2015 to 2021]&#39;</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">year_born</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">total_births</span><span style="color: #000000">, </span><span style="color: #001080">sy</span><span style="color: #000000">.</span><span style="color: #001080">all_births</span><span style="color: #000000">.</span><span style="color: #795E26">sum</span><span style="color: #000000">(), </span><span style="color: #001080">share_of_state_year</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">order_by</span><span style="color: #000000">: </span><span style="color: #001080">year_born</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="313b27f4-c60a-45e7-aea2-c224842256bf">
+        <script>(()=>{var e=document.getElementById("313b27f4-c60a-45e7-aea2-c224842256bf"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"year_born",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#(malloy) reference_id = "75499461-7ffc-4ad2-b3ab-4f69a1ed27ed" drill_expression { kind = field_reference name = year_born code = year_born }\n'}]},{kind:"dimension",name:"total_births",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#" Total babies born (sum of the births column).\n'},{value:'#(malloy) reference_id = "02cb010c-3dc3-4bdd-9626-2e1c518d4f3e" calculation drill_expression { kind = field_reference name = total_births }\n'}]},{kind:"dimension",name:"all_births",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#(malloy) reference_id = "608478fd-59d8-4db7-b0ee-76254ab0ba02" calculation\n'}]},{kind:"dimension",name:"share_of_state_year",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:"# percent\n"},{value:'#(malloy) reference_id = "0653d9cb-e4e1-4706-9882-5e652be5f1e4" calculation drill_expression { kind = field_reference name = share_of_state_year }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"number_cell",number_value:2015,subtype:"bigint",string_value:"2015"},{kind:"number_cell",number_value:20468,subtype:"bigint",string_value:"20468"},{kind:"number_cell",number_value:3135711,subtype:"bigint",string_value:"3135711"},{kind:"number_cell",number_value:.006527387249654066,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:2016,subtype:"bigint",string_value:"2016"},{kind:"number_cell",number_value:19531,subtype:"bigint",string_value:"19531"},{kind:"number_cell",number_value:3101063,subtype:"bigint",string_value:"3101063"},{kind:"number_cell",number_value:.006298162920263148,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:2017,subtype:"bigint",string_value:"2017"},{kind:"number_cell",number_value:19847,subtype:"bigint",string_value:"19847"},{kind:"number_cell",number_value:3011448,subtype:"bigint",string_value:"3011448"},{kind:"number_cell",number_value:.006590517252829868,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:2018,subtype:"bigint",string_value:"2018"},{kind:"number_cell",number_value:18786,subtype:"bigint",string_value:"18786"},{kind:"number_cell",number_value:2953348,subtype:"bigint",string_value:"2953348"},{kind:"number_cell",number_value:.006360916492062567,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:2019,subtype:"bigint",string_value:"2019"},{kind:"number_cell",number_value:17176,subtype:"bigint",string_value:"17176"},{kind:"number_cell",number_value:2905977,subtype:"bigint",string_value:"2905977"},{kind:"number_cell",number_value:.00591057671826033,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:2020,subtype:"bigint",string_value:"2020"},{kind:"number_cell",number_value:15656,subtype:"bigint",string_value:"15656"},{kind:"number_cell",number_value:2781980,subtype:"bigint",string_value:"2781980"},{kind:"number_cell",number_value:.005627646496380276,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:2021,subtype:"bigint",string_value:"2021"},{kind:"number_cell",number_value:15433,subtype:"bigint",string_value:"15433"},{kind:"number_cell",number_value:2812875,subtype:"bigint",string_value:"2812875"},{kind:"number_cell",number_value:.005486557347909168,subtype:"decimal"}]}]},connection_name:"duckdb",annotations:[{value:'#(malloy) drill_filters = [{ code = "name = \'Emma\'" expression { kind = field_reference name = name } kind = literal_equality value { kind = string_literal string_value = Emma } }, { code = "gender = \'F\'" expression { kind = field_reference name = gender } kind = literal_equality value { kind = string_literal string_value = F } }, { code = "year_born ~ f\'[2015 to 2021]\'" expression { kind = field_reference name = year_born } kind = filter_expression filter_expression = "[2015 to 2021]" }] drillable ordered_by = [{ year_born }]\n'},{value:"#(malloy) source.name = names_with_totals\n"},{value:"#(malloy) query_name = __stage1\n"}],sql:'WITH __stage0 AS (\n  SELECT \n     base."state" as "state",\n     base."year" as "year_born",\n     (COALESCE(SUM(base."number"),0)) as "all_births"\n  FROM \'data/usa_names.parquet\' as base\n  GROUP BY 1,2\n)\nSELECT \n   base."year" as "year_born",\n   COALESCE(SUM(base."number"),0) as "total_births",\n   COALESCE((\n        SELECT SUM(a.val) as value\n        FROM (\n          SELECT UNNEST(list(distinct {key:sy_0."__distinct_key", val: sy_0."all_births"})) a\n        )\n      ),0) as "all_births",\n   (COALESCE(SUM(base."number"),0))*1.0/COALESCE((\n        SELECT SUM(a.val) as value\n        FROM (\n          SELECT UNNEST(list(distinct {key:sy_0."__distinct_key", val: sy_0."all_births"})) a\n        )\n      ),0) as "share_of_state_year"\nFROM \'data/usa_names.parquet\' as base\n LEFT JOIN (SELECT GEN_RANDOM_UUID() as "__distinct_key", x.*  FROM __stage0 as x) AS sy_0\n  ON (base."state"=sy_0."state") and (base."year"=sy_0."year_born")\nWHERE (base."name"=\'Emma\')\nAND (base."gender"=\'F\')\nAND (base."year" >= 2015  AND  base."year" <= 2021)\nGROUP BY 1\nORDER BY 1 ASC NULLS LAST\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;year_born&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2015&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;20468&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;3135711&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;share_of_state_year&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.006527387249654066</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;year_born&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2016&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;19531&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;3101063&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;share_of_state_year&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.006298162920263148</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;year_born&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2017&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;19847&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;3011448&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;share_of_state_year&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.006590517252829868</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;year_born&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2018&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;18786&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2953348&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;share_of_state_year&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.006360916492062567</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;year_born&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2019&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;17176&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2905977&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;share_of_state_year&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.00591057671826033</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;year_born&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2020&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;15656&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2781980&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;share_of_state_year&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.005627646496380276</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;year_born&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2021&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;15433&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2812875&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;share_of_state_year&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.005486557347909168</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">WITH</span><span style="color: #000000"> __stage0 </span><span style="color: #0000FF">AS</span><span style="color: #000000"> (</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">     base.</span><span style="color: #A31515">&quot;state&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;state&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">     base.</span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;year_born&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">     (</span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">)) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;all_births&quot;</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">,</span><span style="color: #098658">2</span></span>
+<span class="line"><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;year_born&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;total_births&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">((</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span><span style="color: #795E26">SUM</span><span style="color: #000000">(a.val) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #0000FF">value</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> (</span></span>
+<span class="line"><span style="color: #000000">          </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> UNNEST(list(</span><span style="color: #0000FF">distinct</span><span style="color: #000000"> {</span><span style="color: #0000FF">key</span><span style="color: #000000">:sy_0.</span><span style="color: #A31515">&quot;__distinct_key&quot;</span><span style="color: #000000">, val: sy_0.</span><span style="color: #A31515">&quot;all_births&quot;</span><span style="color: #000000">})) a</span></span>
+<span class="line"><span style="color: #000000">        )</span></span>
+<span class="line"><span style="color: #000000">      ),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;all_births&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   (</span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">))*</span><span style="color: #098658">1</span><span style="color: #000000">.</span><span style="color: #098658">0</span><span style="color: #000000">/</span><span style="color: #795E26">COALESCE</span><span style="color: #000000">((</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span><span style="color: #795E26">SUM</span><span style="color: #000000">(a.val) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #0000FF">value</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> (</span></span>
+<span class="line"><span style="color: #000000">          </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> UNNEST(list(</span><span style="color: #0000FF">distinct</span><span style="color: #000000"> {</span><span style="color: #0000FF">key</span><span style="color: #000000">:sy_0.</span><span style="color: #A31515">&quot;__distinct_key&quot;</span><span style="color: #000000">, val: sy_0.</span><span style="color: #A31515">&quot;all_births&quot;</span><span style="color: #000000">})) a</span></span>
+<span class="line"><span style="color: #000000">        )</span></span>
+<span class="line"><span style="color: #000000">      ),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;share_of_state_year&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #000000"> </span><span style="color: #0000FF">LEFT JOIN</span><span style="color: #000000"> (</span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> GEN_RANDOM_UUID() </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;__distinct_key&quot;</span><span style="color: #000000">, x.*  </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> __stage0 </span><span style="color: #0000FF">as</span><span style="color: #000000"> x) </span><span style="color: #0000FF">AS</span><span style="color: #000000"> sy_0</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">ON</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;state&quot;</span><span style="color: #000000">=sy_0.</span><span style="color: #A31515">&quot;state&quot;</span><span style="color: #000000">) </span><span style="color: #0000FF">and</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000">=sy_0.</span><span style="color: #A31515">&quot;year_born&quot;</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #0000FF">WHERE</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;Emma&#39;</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #0000FF">AND</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;gender&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;F&#39;</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #0000FF">AND</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000"> &gt;= </span><span style="color: #098658">2015</span><span style="color: #000000">  </span><span style="color: #0000FF">AND</span><span style="color: #000000">  base.</span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000"> &lt;= </span><span style="color: #098658">2021</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000"> </span><span style="color: #0000FF">ASC</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>Many <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">names</span></span></code> rows (one per name) match the same <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">state_year_totals</span></span></code> row. That's normal for <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">join_one</span></span></code> (many of mine → one of theirs). Because of symmetric aggregates, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">sy</span><span style="color: #000000">.</span><span style="color: #001080">all_births</span><span style="color: #000000">.</span><span style="color: #795E26">sum</span><span style="color: #000000">()</span></span></code> adds each state-year total only <strong>once</strong>, even though it was matched to many name rows.</p>
+<p>(In <a href="11_percent_of_total">Chapter 11</a> you'll see an even easier way to get shares, with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">all</span><span style="color: #000000">()</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">exclude</span><span style="color: #000000">()</span></span></code>, and no join at all.)</p>
+
+      <h2>
+        <a id="join_cross-many-to-many" class="header-link anchor" href="#join_cross-many-to-many">
+          join_cross: many-to-many
+        </a>
+      </h2>
+    <p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">join_cross</span></span></code> is for joins where <strong>both</strong> sides can have many matching rows, or where you want every combination. It's the least common join, but it's handy for "what-if" scenarios. Here we cross every 2022 sale with three hypothetical discount levels:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C19" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">discount_scenarios</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000FF">.</span><span style="color: #AF00DB">sql</span><span style="color: #000000FF">(</span><span style="color: #000000FF">&quot;&quot;&quot;</span></span>
+<span class="line"><span style="color: #000000FF">  </span><span style="color: #0000FF">SELECT</span><span style="color: #000000FF"> </span><span style="color: #000000">*</span><span style="color: #000000FF"> </span><span style="color: #0000FF">FROM</span><span style="color: #000000FF"> (</span><span style="color: #0000FF">VALUES</span><span style="color: #000000FF"> (</span><span style="color: #A31515">&#39;No discount&#39;</span><span style="color: #000000FF">, </span><span style="color: #098658">0</span><span style="color: #000000FF">.</span><span style="color: #098658">0</span><span style="color: #000000FF">), (</span><span style="color: #A31515">&#39;10% off&#39;</span><span style="color: #000000FF">, </span><span style="color: #098658">0</span><span style="color: #000000FF">.</span><span style="color: #098658">10</span><span style="color: #000000FF">), (</span><span style="color: #A31515">&#39;25% off&#39;</span><span style="color: #000000FF">, </span><span style="color: #098658">0</span><span style="color: #000000FF">.</span><span style="color: #098658">25</span><span style="color: #000000FF">)) t(scenario, discount)</span></span>
+<span class="line"><span style="color: #000000FF">&quot;&quot;&quot;</span><span style="color: #000000FF">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">what_if</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">order_items</span><span style="color: #000000"> </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">created_at</span><span style="color: #000000"> ~ </span><span style="color: #A31515">f&#39;2022&#39;</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">join_cross</span><span style="color: #000000">: </span><span style="color: #001080">s</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">discount_scenarios</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">measure</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    # </span><span style="color: #001080">currency</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">discounted_sales</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">total_sales</span><span style="color: #000000"> * (</span><span style="color: #098658">1</span><span style="color: #000000"> - </span><span style="color: #795E26">max</span><span style="color: #000000">(</span><span style="color: #001080">s</span><span style="color: #000000">.</span><span style="color: #001080">discount</span><span style="color: #000000">))</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/10_joins.malloynb#C20" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">what_if</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">s</span><span style="color: #000000">.</span><span style="color: #001080">scenario</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">total_sales</span><span style="color: #000000">, </span><span style="color: #001080">discounted_sales</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="90e4bbb4-a131-4bb0-9c16-8af2b5e7a23a">
+        <script>(()=>{var e=document.getElementById("90e4bbb4-a131-4bb0-9c16-8af2b5e7a23a"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"scenario",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "b9f3997d-d9b9-40f9-9e1a-882c25aa1845" drill_expression { kind = field_reference name = scenario path = [s] code = "s.scenario" }\n'}]},{kind:"dimension",name:"total_sales",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:'#" Revenue.\n'},{value:"# currency\n"},{value:'#(malloy) reference_id = "b4960d43-ccf6-411c-a7c2-7722e4260aa8" calculation drill_expression { kind = field_reference name = total_sales }\n'}]},{kind:"dimension",name:"discounted_sales",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:"# currency\n"},{value:'#(malloy) reference_id = "3dabfc71-742d-4a09-9ad7-70e912721f0e" calculation drill_expression { kind = field_reference name = discounted_sales }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"10% off"},{kind:"number_cell",number_value:4744743.446900487,subtype:"decimal"},{kind:"number_cell",number_value:4270269.102210439,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"No discount"},{kind:"number_cell",number_value:4744743.446900487,subtype:"decimal"},{kind:"number_cell",number_value:4744743.446900487,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"25% off"},{kind:"number_cell",number_value:4744743.446900487,subtype:"decimal"},{kind:"number_cell",number_value:3558557.585175365,subtype:"decimal"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable ordered_by = [{ total_sales = desc }]\n"},{value:"#(malloy) source.name = what_if\n"},{value:"#(malloy) query_name = __stage0\n"}],sql:'SELECT \n   s_0."scenario" as "scenario",\n   COALESCE((\n        SELECT SUM(a.val) as value\n        FROM (\n          SELECT UNNEST(list(distinct {key:base."id", val: base."sale_price"})) a\n        )\n      ),0) as "total_sales",\n   (COALESCE((\n        SELECT SUM(a.val) as value\n        FROM (\n          SELECT UNNEST(list(distinct {key:base."id", val: base."sale_price"})) a\n        )\n      ),0))*((1-max(s_0."discount"))) as "discounted_sales"\nFROM \'data/order_items.parquet\' as base\n LEFT JOIN (\n  SELECT * FROM (VALUES (\'No discount\', 0.0), (\'10% off\', 0.10), (\'25% off\', 0.25)) t(scenario, discount)\n) AS s_0\n  ON 1=1\nWHERE base."created_at" >= TIMESTAMP \'2022-01-01 00:00:00\' AND base."created_at" < TIMESTAMP \'2023-01-01 00:00:00\'\nGROUP BY 1\nORDER BY 2 desc NULLS LAST\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;scenario&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;10% off&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4744743.446900487</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;discounted_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4270269.102210439</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;scenario&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;No discount&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4744743.446900487</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;discounted_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4744743.446900487</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;scenario&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;25% off&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4744743.446900487</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;discounted_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3558557.585175365</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   s_0.</span><span style="color: #A31515">&quot;scenario&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;scenario&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">((</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span><span style="color: #795E26">SUM</span><span style="color: #000000">(a.val) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #0000FF">value</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> (</span></span>
+<span class="line"><span style="color: #000000">          </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> UNNEST(list(</span><span style="color: #0000FF">distinct</span><span style="color: #000000"> {</span><span style="color: #0000FF">key</span><span style="color: #000000">:base.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">, val: base.</span><span style="color: #A31515">&quot;sale_price&quot;</span><span style="color: #000000">})) a</span></span>
+<span class="line"><span style="color: #000000">        )</span></span>
+<span class="line"><span style="color: #000000">      ),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;total_sales&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   (</span><span style="color: #795E26">COALESCE</span><span style="color: #000000">((</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span><span style="color: #795E26">SUM</span><span style="color: #000000">(a.val) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #0000FF">value</span></span>
+<span class="line"><span style="color: #000000">        </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> (</span></span>
+<span class="line"><span style="color: #000000">          </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> UNNEST(list(</span><span style="color: #0000FF">distinct</span><span style="color: #000000"> {</span><span style="color: #0000FF">key</span><span style="color: #000000">:base.</span><span style="color: #A31515">&quot;id&quot;</span><span style="color: #000000">, val: base.</span><span style="color: #A31515">&quot;sale_price&quot;</span><span style="color: #000000">})) a</span></span>
+<span class="line"><span style="color: #000000">        )</span></span>
+<span class="line"><span style="color: #000000">      ),</span><span style="color: #098658">0</span><span style="color: #000000">))*((</span><span style="color: #098658">1</span><span style="color: #000000">-</span><span style="color: #795E26">max</span><span style="color: #000000">(s_0.</span><span style="color: #A31515">&quot;discount&quot;</span><span style="color: #000000">))) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;discounted_sales&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/order_items.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #000000"> </span><span style="color: #0000FF">LEFT JOIN</span><span style="color: #000000"> (</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">SELECT</span><span style="color: #000000"> * </span><span style="color: #0000FF">FROM</span><span style="color: #000000"> (</span><span style="color: #0000FF">VALUES</span><span style="color: #000000"> (</span><span style="color: #A31515">&#39;No discount&#39;</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">.</span><span style="color: #098658">0</span><span style="color: #000000">), (</span><span style="color: #A31515">&#39;10% off&#39;</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">.</span><span style="color: #098658">10</span><span style="color: #000000">), (</span><span style="color: #A31515">&#39;25% off&#39;</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">.</span><span style="color: #098658">25</span><span style="color: #000000">)) t(scenario, discount)</span></span>
+<span class="line"><span style="color: #000000">) </span><span style="color: #0000FF">AS</span><span style="color: #000000"> s_0</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">ON</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">=</span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">WHERE</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;created_at&quot;</span><span style="color: #000000"> &gt;= </span><span style="color: #0000FF">TIMESTAMP</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;2022-01-01 00:00:00&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">AND</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;created_at&quot;</span><span style="color: #000000"> &lt; </span><span style="color: #0000FF">TIMESTAMP</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;2023-01-01 00:00:00&#39;</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000"> </span><span style="color: #0000FF">desc</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>Every order item is paired with every scenario, so the raw joined data has 3× the rows. But look at <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">total_sales</span></span></code>: it's the <strong>same correct number in every row</strong>. It isn't tripled, because <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">total_sales</span></span></code> is an <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">order_items</span></span></code> measure, and symmetric aggregates count each order item once per group. Within each scenario group, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">max</span><span style="color: #000000">(</span><span style="color: #001080">s</span><span style="color: #000000">.</span><span style="color: #001080">discount</span><span style="color: #000000">)</span></span></code> is just that scenario's discount (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">min</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">max</span></span></code> are safe across any join, because repeated values don't change them), so <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">discounted_sales</span></span></code> is the correct sales total times the discount factor.</p>
+<div class="callout callout-warning">
+<p>⚠️ <strong>Joins need primary keys.</strong> Symmetric aggregates depend on <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">primary_key</span><span style="color: #000000">:</span></span></code>. If you join a source that has no primary key and then aggregate its fields across a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">join_many</span></span></code> or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">join_cross</span></span></code>, Malloy can't protect you. Declare a primary key on every table you join.</p>
+</div>
+
+      <h2>
+        <a id="key-takeaways" class="header-link anchor" href="#key-takeaways">
+          Key takeaways
+        </a>
+      </h2>
+    <ul>
+<li><p>A <strong>star schema</strong> is a central fact table plus dimension tables. Declare a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">primary_key</span><span style="color: #000000">:</span></span></code> on each.</p>
+</li>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">join_one</span><span style="color: #000000">: </span><span style="color: #001080">x</span><span style="color: #000000"> </span><span style="color: #AF00DB">with</span><span style="color: #000000"> </span><span style="color: #001080">fk</span></span></code> is the common case (many-to-one). Use <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">join_many</span><span style="color: #000000">:</span></span></code> to look from the "one" side down at the "many" side, and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">join_cross</span><span style="color: #000000">:</span></span></code> for many-to-many and scenarios.</p>
+</li>
+<li><p>Reach joined fields with dots: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #001080">state</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">inventory_items</span><span style="color: #000000">.</span><span style="color: #001080">products</span><span style="color: #000000">.</span><span style="color: #001080">brand</span></span></code>.</p>
+</li>
+<li><p>Naive SQL joins double count. Malloy's <strong>symmetric aggregates</strong> use primary keys to compute each measure at its own grain, so counts, sums, and averages stay correct.</p>
+</li>
+<li><p>You can join to a <strong>query</strong> (for example, a summary table), not just to a table.</p>
+</li></ul>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 10.1: Two hops.</strong> Starting from <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">order_items</span></span></code>, show <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">total_sales</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">order_item_count</span></span></code> by <strong>product brand</strong> (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">inventory_items</span><span style="color: #000000">.</span><span style="color: #001080">products</span><span style="color: #000000">.</span><span style="color: #001080">brand</span></span></code>) for the 10 biggest brands. Then add the number of distinct <strong>customers</strong> who bought each brand.</p>
+</div>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 10.2: Catch the double count.</strong> Using the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">customers</span></span></code> source (users with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">join_many</span></span></code> to order items), compute the <strong>average age</strong> of customers by <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">country</span></span></code>. Then write the naive SQL version with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span><span style="color: #000000FF">.</span><span style="color: #AF00DB">sql</span><span style="color: #000000FF">(...)</span></span></code> and a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">LEFT</span><span style="color: #000000"> </span><span style="color: #001080">JOIN</span></span></code>, as in the example. Which countries differ the most, and why?</p>
+</div>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 10.3: Name share.</strong> Using <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">names_with_totals</span></span></code>, find the 10 state-years where the name <strong>Mary</strong> had the <strong>highest share</strong> of all births in that state and year. (Hint: group by <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">state</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">year_born</span></span></code>, and sort by <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">share_of_state_year</span></span></code>.)</p>
+</div>
+</div></div>
+        </div>
+        <script src="/malloy-textbook/js/view_toggles.js"></script>
+        <script src="/malloy-textbook/js/jump_to_hash.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

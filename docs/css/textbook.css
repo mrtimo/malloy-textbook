@@ -1,0 +1,274 @@
+
+/*
+ * Textbook theme. Layered over document.css (the Malloy docs stylesheet) so
+ * the textbook looks clearly different from docs.malloydata.dev.
+ */
+:root {
+  --ink: #1b2a41;
+  --ink-soft: #3b4a63;
+  --paper: #fbf8f2;
+  --card: #ffffff;
+  --rule: #e6dfd2;
+  --accent: #d9622b;
+  --accent-soft: #fbe9de;
+  --link: #0f6e7a;
+  --challenge: #1e7d46;
+  --challenge-bg: #eaf7ef;
+  --docs: #2f5fb3;
+  --docs-bg: #edf2fc;
+  --tip: #9a6b00;
+  --tip-bg: #fff6dc;
+  --warn: #b3261e;
+  --warn-bg: #fdecea;
+}
+
+body,
+div.document,
+div.sidebar div.sidebar-item a,
+div.sidebar-section-title,
+div.linear-navigation {
+  font-family: "Inter", "Roboto", Arial, Helvetica, sans-serif;
+}
+
+/* ---------- Header ---------- */
+div.top > div.header {
+  background: var(--ink);
+  color: #fff;
+  border-bottom: 4px solid var(--accent);
+  font-family: "Fraunces", Georgia, serif;
+}
+div.header a.book-mark {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+div.header .book-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 0.2px;
+}
+div.header span.subtitle {
+  color: #f3b48f;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+div.header-links a.pill {
+  color: #fff;
+  border: 1px solid #ffffff55;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  text-decoration: none;
+  margin-right: 8px;
+}
+div.header-links a.pill:hover {
+  background: #ffffff1a;
+}
+div.header-links img {
+  filter: invert(1);
+}
+div.header .search-input-outer {
+  background: #ffffff;
+  border-radius: 6px;
+}
+
+/* ---------- Sidebar ---------- */
+div.sidebar {
+  background: var(--paper);
+  border-right: 1px solid var(--rule);
+}
+.sidebar-section {
+  background-color: var(--paper);
+}
+div.sidebar-section-title {
+  color: var(--ink);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+div.sidebar div.sidebar-item a {
+  color: var(--ink-soft);
+}
+div.sidebar div.sidebar-item a:hover,
+div.sidebar div.sidebar-item.active a,
+div.sidebar-section-title:hover {
+  background-color: var(--accent-soft);
+}
+div.sidebar div.sidebar-item.active a {
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+/* ---------- Page ---------- */
+div.document-outer {
+  background-color: var(--paper);
+}
+div.footer {
+  background-color: var(--paper);
+  border-top: 1px solid var(--rule);
+}
+div.document {
+  color: #2d3440;
+  font-size: 15.5px;
+  line-height: 1.65;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 28px 36px;
+  box-shadow: 0 1px 3px #1b2a410d;
+}
+div.document p {
+  line-height: 1.65;
+}
+h1, h2, h3, h4, h5, h6,
+div.document a.header-link,
+div.document a.header-link:hover {
+  font-family: "Fraunces", Georgia, serif;
+  color: var(--ink);
+}
+div.document h1 {
+  font-size: 34px;
+}
+div.document h2 {
+  border-bottom: 2px solid var(--accent-soft);
+  padding-bottom: 4px;
+  margin-top: 36px;
+}
+a {
+  color: var(--link);
+}
+div.document a.edit-link {
+  border: 1px solid var(--link);
+  color: var(--link);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+div.document code {
+  font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+  color: #8a3b12;
+  background: #fbf3ec;
+  border-color: #f1dfd1;
+}
+div.document pre {
+  font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+  background-color: #fcfbf8;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--ink);
+  border-radius: 6px;
+}
+div.document pre code {
+  background: transparent;
+  border: none;
+  color: inherit;
+}
+
+div.document table th {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+blockquote {
+  border-left: 4px solid var(--rule);
+  color: var(--ink-soft);
+}
+
+/* ---------- Callouts ---------- */
+div.callout {
+  border-radius: 8px;
+  padding: 10px 18px;
+  margin: 20px 0;
+  border: 1px solid;
+  border-left-width: 6px;
+}
+div.callout p {
+  margin: 8px 0;
+}
+div.callout-challenge {
+  background: var(--challenge-bg);
+  border-color: var(--challenge);
+  color: #173d27;
+}
+div.callout-challenge > p:first-child {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 18px;
+  color: var(--challenge);
+}
+div.callout-challenge strong {
+  color: var(--challenge);
+}
+div.callout-docs-link {
+  background: var(--docs-bg);
+  border-color: var(--docs);
+  color: #1d3157;
+}
+div.callout-tip {
+  background: var(--tip-bg);
+  border-color: var(--tip);
+  color: #4a3500;
+}
+div.callout-warning {
+  background: var(--warn-bg);
+  border-color: var(--warn);
+  color: #5c1611;
+}
+div.callout pre {
+  background: #ffffffcc;
+}
+
+/* Query results */
+div.result-outer {
+  border-radius: 6px;
+  border-color: var(--rule);
+}
+span.result-label {
+  color: var(--accent);
+  font-weight: 600;
+}
+div.result-outer.small {
+  max-height: 360px;
+}
+div.result-outer.medium {
+  max-height: 460px;
+}
+div.result-outer.large {
+  max-height: 620px;
+}
+div.document img {
+  max-width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+div.result-outer.xlarge {
+  max-height: 1200px;
+}
+/* Only the challenge title gets the display font. */
+div.callout-challenge > p:first-child {
+  font-family: "Inter", sans-serif;
+  font-size: 15.5px;
+  color: #173d27;
+}
+div.callout-challenge > p:first-child strong:first-of-type {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 18px;
+  color: var(--challenge);
+}
+div.header-right,
+div.header-links {
+  display: flex;
+  align-items: center;
+}
+div.header-links a.pill {
+  line-height: 1.4;
+  white-space: nowrap;
+}

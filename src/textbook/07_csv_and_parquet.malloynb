@@ -1,0 +1,265 @@
+>>>markdown
+# Chapter 7: CSV and Parquet
+
+Data has to live in *some* file format. The two you'll meet most often are **CSV** and **Parquet**. In this chapter you'll learn:
+
+* how CSV and Parquet differ, and when to use each
+* what Parquet **compression codecs** (Snappy, Gzip, Zstd, ...) do, and how to choose one
+* what "Parquet 2.0" means (it's confusing!) and how Parquet compares to other formats
+* how DuckDB reads Parquet **over the network**, from web servers, Amazon S3, and Hugging Face, without downloading whole files
+* a short **Python + DuckDB** script that converts CSV files to Parquet
+
+## Two ways to store the same table
+
+**CSV** (comma-separated values) is plain text. Each line is a row, and commas separate the columns:
+
+```
+state,gender,year,name,number
+UT,F,1910,Mary,65
+UT,F,1910,Helen,40
+```
+
+**Parquet** is a binary, **columnar** format. Instead of storing row after row, it stores all the `state` values together, then all the `gender` values, and so on. It also records each column's **type** (string, integer, date, ...), compresses each column, and keeps summary statistics, such as the min and max of each chunk.
+
+| | CSV | Parquet |
+|---|---|---|
+| Human-readable | ✅ open it in any text editor or Excel | ❌ binary; needs a tool |
+| Column types | ❌ none; every reader guesses | ✅ stored in the file |
+| Size on disk | large | small (compressed per column) |
+| Read only some columns | ❌ must read every byte | ✅ reads only the columns you ask for |
+| Skip irrelevant rows | ❌ | ✅ uses min/max stats to skip chunks |
+| Append a line by hand | ✅ easy | ❌ files are written once |
+| Works everywhere | ✅ every tool on earth | ✅ most modern data tools |
+
+The short version: **CSV is for exchanging small data with humans and old tools. Parquet is for analysis.**
+
+## How big is the difference?
+
+We converted the full baby names table (6.3 million rows) to several formats and measured each file:
+
+| Format | Size | vs. CSV |
+|---|---:|---:|
+| CSV | 123.6 MB | 100% |
+| CSV, gzipped (<code>.csv.gz</code>) | 26.3 MB | 21% |
+| Parquet, uncompressed | 19.1 MB | 15% |
+| Parquet, Snappy | 15.5 MB | 13% |
+| Parquet, Zstd | 13.9 MB | 11% |
+| Parquet, Gzip | 13.6 MB | 11% |
+| Parquet, Zstd, **sorted** by state, gender, name, year | 11.5 MB | 9% |
+
+Even *uncompressed* Parquet is much smaller than CSV, because a columnar format can store repeated values (like `UT` six million times) very efficiently with **dictionary encoding**. Sorting the data first puts similar values next to each other, so it compresses even better.
+
+Speed differs just as much. On a laptop, "total births by state" took **0.23 seconds** from the CSV and **0.03 seconds** from Parquet. That's 7× faster, and the gap grows with the size of the data.
+
+## Querying a CSV in Malloy
+
+Malloy (through DuckDB) can query a CSV directly. DuckDB samples the file and *guesses* each column's type. Here's a 94,000-row CSV of just the Utah names:
+>>>malloy
+source: utah_csv is duckdb.table('data/names_utah.csv') extend {
+  measure: total_births is `number`.sum()
+}
+>>>malloy
+run: utah_csv -> {
+  where: `year` = 2021
+  group_by: name
+  aggregate: total_births
+  limit: 5
+}
+>>>markdown
+That works fine for a small file. For a big file, or one you'll query over and over, convert it to Parquet first.
+
+> ⚠️ **Type guessing can go wrong.** If a CSV column holds zip codes like <code>02134</code>, DuckDB may guess "integer" and drop the leading zero. If one row in a million has <code>N/A</code> in a numeric column, the whole column may become text. Parquet stores the types, so this problem goes away. [Chapter 9](09_data_cleaning.malloynb) shows how to handle messy CSVs.
+
+## Looking inside a Parquet file
+
+DuckDB has functions that read a Parquet file's **metadata** without reading the data. Malloy can query any SQL with `duckdb.sql("...")`, so we can look inside our names file:
+>>>malloy
+run: duckdb.sql("""
+  SELECT * FROM parquet_metadata('data/usa_names.parquet')
+""") -> {
+  group_by: column_name is path_in_schema, compression
+  aggregate:
+    row_groups is count()
+    # number="#,##0"
+    compressed_bytes is total_compressed_size.sum()
+    # number="#,##0"
+    uncompressed_bytes is total_uncompressed_size.sum()
+}
+>>>markdown
+Look at the `state` column: 6.3 million values take up about **1 KB**! Because all the rows for each state are stored together, each state code appears in long runs, and Parquet stores a run as "UT, repeated 93,764 times." The `name` column, by contrast, holds tens of thousands of different values, so it takes most of the space.
+
+This file was written with **Gzip** compression. It's split into **row groups**: chunks of rows that are stored (and can be skipped) together. Each row group stores the min and max value of each column. So if you ask for `year = 2021`, DuckDB can skip every row group whose `year` range doesn't include 2021, without decompressing it.
+
+`parquet_schema()` shows the column types stored in the file:
+>>>malloy
+run: duckdb.sql("""
+  SELECT name, type, converted_type
+  FROM parquet_schema('data/usa_names.parquet')
+""") -> {
+  select: *
+}
+>>>markdown
+## Compression codecs
+
+Parquet compresses each column chunk with a **codec**. The common ones:
+
+| Codec | Speed | Size | Notes |
+|---|---|---|---|
+| **Uncompressed** | fastest to write and read | largest | rarely worth it |
+| **Snappy** | very fast | good | the long-time default in Spark and pandas; a safe choice |
+| **Zstd** | fast | very good | the best all-round choice today; has adjustable levels (1–22) |
+| **Gzip** | slow to write | very good | very widely supported; older |
+| **LZ4** | very fast | okay | good for "hot" data that is read constantly |
+| **Brotli** | slow to write | excellent | best ratio; less widely supported |
+
+**Rule of thumb: use Zstd.** It compresses about as well as Gzip and decompresses much faster. Choose Snappy if an older tool that reads the file doesn't support Zstd.
+
+> 💡 **Compression is per column, and encoding comes first.** Before a codec runs, Parquet *encodes* each column, using a dictionary, run-length, or delta encoding. The encoding often matters more than the codec. That's why uncompressed Parquet was already 85% smaller than CSV in our test.
+
+## "Parquet 2.0" and other formats
+
+You'll see "Parquet v1" and "Parquet v2" (or "2.0") in tool options, and the name is confusing. There are really three different things:
+
+1. **The format spec version.** Modern Parquet files all follow the 2.x *specification*, which defines things like logical types for dates, decimals, and timestamps.
+2. **Data page V2.** A newer layout for the data inside each page, where the headers store levels separately so readers can skip work.
+3. **Newer encodings** such as <code>DELTA_BINARY_PACKED</code> (great for sorted integers and timestamps), <code>DELTA_LENGTH_BYTE_ARRAY</code>, and <code>BYTE_STREAM_SPLIT</code> (good for floating-point numbers).
+
+When a writer offers "version 2" (for example DuckDB's <code>PARQUET_VERSION V2</code> or pyarrow's <code>data_page_version='2.0'</code>), it turns on items 2 and 3. Files *can* get smaller and faster, but **some older readers can't open them**. That's why most tools still write v1 pages by default. On our names table, v2 changed the column encodings but the file size was nearly identical. The benefit depends on your data. Columns of sorted numbers and timestamps gain the most.
+
+**Other formats you'll hear about:**
+
+| Format | What it is | When you'd see it |
+|---|---|---|
+| **CSV / TSV** | plain-text rows | exports, spreadsheets, government data |
+| **JSON / NDJSON** | text with nesting | web APIs, logs |
+| **Parquet** | columnar, compressed, typed | analytics; the de facto standard |
+| **ORC** | columnar, similar to Parquet | the Hadoop/Hive world |
+| **Avro** | row-based binary with a schema | streaming (Kafka), write-heavy pipelines |
+| **Arrow / Feather** | columnar, *in memory* | fast hand-off between programs |
+| **Delta Lake / Iceberg / DuckLake** | "table formats" that manage *many* Parquet files with versions and transactions | data lakes and lakehouses |
+
+## Reading Parquet over the network
+
+DuckDB can read files straight from a URL. Because Parquet is columnar and has row-group statistics, DuckDB uses **HTTP range requests** to download *only the parts it needs*. A query that touches 1 column of a 127 MB file might download only a few megabytes.
+
+These examples aren't run on this website (the site is built offline), but you can paste any of them into a notebook cell.
+
+**A plain web URL (HTTPS):**
+
+```malloy
+source: taxi is duckdb.table('https://blobs.duckdb.org/data/taxi_2019_04.parquet')
+
+run: taxi -> {
+  group_by: passenger_count
+  aggregate: trips is count()
+}
+```
+
+That file is 127 MB and has 7.4 million taxi trips, but the query only needs one column. On a home internet connection it finishes in a few seconds.
+
+**This textbook's own data, straight from GitHub:**
+
+```malloy
+source: names_remote is duckdb.table(
+  'https://raw.githubusercontent.com/malloydata/malloy-samples/main/names/usa_names.parquet'
+)
+```
+
+**Hugging Face datasets** use the <code>hf://</code> prefix:
+
+```malloy
+source: imdb_reviews is duckdb.table(
+  'hf://datasets/stanfordnlp/imdb/plain_text/train-00000-of-00001.parquet'
+)
+
+run: imdb_reviews -> {
+  group_by: label
+  aggregate: reviews is count()
+}
+```
+
+**Amazon S3** (and Google Cloud Storage with <code>gs://</code>, Azure with <code>az://</code>) use the <code>s3://</code> prefix. Public buckets work as-is. Private buckets need credentials, which DuckDB gets from a "secret." With the DuckDB CLI or Python you would run something like:
+
+```sql
+CREATE SECRET (TYPE s3, PROVIDER credential_chain);
+SELECT count(*) FROM 's3://my-bucket/sales/*.parquet';
+```
+
+The <code>*</code> is a **glob**: DuckDB reads every matching file as one table. Globs work with local files too, for example <code>duckdb.table('data/sales_*.parquet')</code>.
+
+> 📘 **Malloy docs.** [DuckDB in Malloy](https://docs.malloydata.dev/documentation/language/dialect/duckdb) · [Configuring DuckDB connections](https://docs.malloydata.dev/documentation/setup/config). See also the DuckDB guides on [Parquet](https://duckdb.org/docs/stable/data/parquet/overview), [HTTP(S) and S3](https://duckdb.org/docs/stable/core_extensions/httpfs/overview), and [Hugging Face](https://duckdb.org/docs/stable/core_extensions/httpfs/hugging_face).
+
+## Converting CSV to Parquet with Python and DuckDB
+
+DuckDB has a Python package (<code>pip install duckdb</code>). One SQL statement, <code>COPY ... TO ...</code>, converts a file. Here's a reusable script. It's saved as `csv_to_parquet.py` in the `malloy-textbook-notebooks` folder:
+
+```python
+"""csv_to_parquet.py: convert CSV files to Parquet with DuckDB.
+
+Usage:
+    pip install duckdb
+    python csv_to_parquet.py data/names_utah.csv
+    python csv_to_parquet.py "data/*.csv" --codec snappy
+"""
+import argparse
+import glob
+import os
+
+import duckdb
+
+
+def csv_to_parquet(csv_path: str, codec: str = "zstd", sort_by: str | None = None) -> str:
+    parquet_path = os.path.splitext(csv_path)[0] + ".parquet"
+    order = f"ORDER BY {sort_by}" if sort_by else ""
+    duckdb.sql(f"""
+        COPY (
+            SELECT * FROM read_csv('{csv_path}', header = true)  -- DuckDB infers types
+            {order}
+        )
+        TO '{parquet_path}'
+        (FORMAT parquet, COMPRESSION {codec}, ROW_GROUP_SIZE 122880)
+    """)
+    before = os.path.getsize(csv_path)
+    after = os.path.getsize(parquet_path)
+    print(f"{csv_path} ({before:,} bytes) -> {parquet_path} ({after:,} bytes), "
+          f"{after / before:.0%} of original")
+    return parquet_path
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("pattern", help="a CSV file or a glob like 'data/*.csv'")
+    parser.add_argument("--codec", default="zstd",
+                        choices=["zstd", "snappy", "gzip", "lz4", "brotli", "uncompressed"])
+    parser.add_argument("--sort-by", default=None,
+                        help="optional ORDER BY columns, e.g. 'state, year'")
+    args = parser.parse_args()
+    for path in sorted(glob.glob(args.pattern)):
+        csv_to_parquet(path, args.codec, args.sort_by)
+```
+
+The important line is the `COPY` statement. Everything else is convenience. A few options are worth knowing:
+
+* <code>read_csv(..., all_varchar = true)</code> reads every column as text. Use it when type guessing goes wrong, then clean the data up (see [Chapter 9](09_data_cleaning.malloynb)).
+* <code>read_csv(..., types = {'zip': 'VARCHAR'})</code> forces the type of a single column.
+* <code>COMPRESSION zstd, COMPRESSION_LEVEL 9</code> trades slower writing for a smaller file.
+* <code>PARQUET_VERSION V2</code> turns on the newer encodings (check that your other tools can read them!).
+* <code>PARTITION_BY (state)</code> writes one folder per state (<code>state=CA/...</code>), which tools can skip entirely when you filter on state.
+
+If you already use **pandas**, the equivalent is <code>pd.read_csv("x.csv").to_parquet("x.parquet", compression="zstd")</code>. DuckDB is usually much faster and uses far less memory on big files, because it never loads the whole table into memory.
+
+## Key takeaways
+
+* **CSV** is plain text, has no types, is big, and is slow to query. It's good for sharing. **Parquet** is columnar, typed, compressed, and fast. It's good for analysis.
+* Parquet reads only the columns you need and skips row groups using min/max statistics.
+* Use **Zstd** compression unless an older tool needs Snappy. Sorting data before writing makes files smaller.
+* "Parquet v2" turns on newer page layouts and encodings. It can help, but older readers may not support it.
+* DuckDB (and therefore Malloy) reads Parquet straight from `https://`, `s3://`, and `hf://` URLs, downloading only what each query needs.
+* `COPY (SELECT * FROM read_csv('in.csv')) TO 'out.parquet' (FORMAT parquet, COMPRESSION zstd)` converts a file.
+
+> 🎯 **Challenge 7.1: Convert and compare.** Run `python csv_to_parquet.py data/names_utah.csv` in a terminal from the `malloy-textbook-notebooks` folder. How much smaller is the Parquet file? Then add a notebook cell that defines `source: utah_parquet is duckdb.table('data/names_utah.parquet')` and re-run the "top names in 2021" query against it.
+
+> 🎯 **Challenge 7.2: Inspect your file.** Using `duckdb.sql("SELECT * FROM parquet_metadata('data/names_utah.parquet')")` like the example above, find out which compression codec your new file uses and how many row groups it has. Run the script again with `--codec snappy` and compare.
+
+> 🎯 **Challenge 7.3: Query the internet.** In a new cell, define a source on the remote taxi file (`https://blobs.duckdb.org/data/taxi_2019_04.parquet`). Find the **average `fare_amount` by `passenger_count`**. Then use `select: *` with `limit: 5` to see what other columns are available.

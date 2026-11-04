@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ page.title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/document.css" />
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/textbook.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ site.baseurl }}/favicon.ico" />
+    <script src="{{ site.baseurl }}/js/generated/malloy-render-{{ site.malloyRenderVersion }}.js"></script>
+    <style>
+      .result-inner .malloy-render { width: 100%; }
+      .result-inner .table-container { width: 100%; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="header">
+        <div class="header-banner">
+          <a class="book-mark" href="{{ site.baseurl }}/textbook">
+            <span class="book-title">{{ site.title }}</span>
+            <span class="subtitle">{{ site.subtitle }}</span>
+          </a>
+        </div>
+        <div class="header-right">
+          <div class="header-links">
+            <a class="pill" href="{{ site.malloyDocs }}/" target="_blank">Malloy Docs ↗</a>
+            <a href="https://github.com/{{ site.githubRepo }}" target="_blank" title="Textbook source on GitHub"
+              ><img src="{{ site.baseurl }}/img/github.svg" style="transform: scale(0.5)"
+            /></a>
+          </div>
+          <form action="{{ site.baseurl }}/search">
+            <div class="search-input-outer">
+              <img src="{{ site.baseurl }}/img/search.svg" alt="search" />
+              <input placeholder="Search the textbook" id="search-input" name="query" />
+            </div>
+            <input type="submit" style="display: none" />
+          </form>
+        </div>
+      </div>
+      <div class="main">
+        {{> toc.html }}
+        <script src="{{ site.baseurl }}/js/sidebar_state.js"></script>
+        <div class="content">
+          <div class="footer">
+            {{#if page.footer }}{{{ page.footer }}} {{/if}}
+          </div>
+          <div class="document-outer">{{{ page.content }}}</div>
+        </div>
+        <script src="{{ site.baseurl }}/js/view_toggles.js"></script>
+        <script src="{{ site.baseurl }}/js/jump_to_hash.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

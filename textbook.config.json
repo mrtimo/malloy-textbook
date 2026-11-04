@@ -1,0 +1,8 @@
+{
+  "title": "Learning Malloy",
+  "subtitle": "A Hands-On Textbook",
+  "githubRepo": "mrtimo/malloy-textbook",
+  "notebooksRepo": "mrtimo/malloy-textbook-notebooks",
+  "githubBranch": "main",
+  "malloyDocs": "https://docs.malloydata.dev/documentation"
+}

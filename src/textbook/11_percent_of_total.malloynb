@@ -1,0 +1,215 @@
+>>>markdown
+# Chapter 11: Percent of Total
+
+"What share of the total is this?" is one of the most common questions in analysis. What percent of babies were named Olivia? What share of sales came from Jeans? Which category drove this year's growth? In SQL, these questions need subqueries or window functions. In Malloy, they take two functions:
+
+* `all(measure)`: compute a measure while **ignoring** the query's grouping
+* `exclude(measure, dimension)`: compute a measure while ignoring **specific** grouping dimensions
+
+You'll use them for **share**, **contribution**, and **index** calculations.
+>>>malloy
+import "names.malloy"
+import "ecommerce.malloy"
+>>>markdown
+## all(): the grand total
+
+`all(total_births)` is total births across **all** the rows the query sees, ignoring `group_by:`. Put it next to the regular measure and the idea is obvious:
+>>>malloy
+run: names -> {
+  where: year_born = 2021
+  group_by: gender
+  aggregate:
+    total_births
+    everyone is all(total_births)
+}
+>>>markdown
+Each row has its own `total_births`, and the same `everyone` total. Notice that `all()` still respects `where:`. "Everyone" means everyone born **in 2021**, because those are the only rows the query sees.
+
+## Share: percent of total
+
+Divide by `all(...)` to get a share. Add `# percent` to format it:
+>>>malloy
+run: names -> {
+  where: year_born = 2021
+  group_by: state
+  aggregate:
+    total_births
+    # percent
+    share_of_us is total_births / all(total_births)
+  limit: 10
+}
+>>>markdown
+`all()` is computed **before** `limit:` cuts off the rows, so the shares are correct even though we only display 10 of the 51 states. That's a common bug with spreadsheet or window-function approaches, and Malloy avoids it.
+
+Remember the `births_per_100k` measure in `names.malloy`? Now you can read its definition:
+
+```malloy
+births_per_100k is floor(total_births / all(total_births) * 100000)
+```
+
+It's just a share, scaled up so it's easier to read.
+
+> 📘 **Malloy docs.** [Ungrouped aggregates: all() and exclude()](https://docs.malloydata.dev/documentation/language/ungrouped-aggregates) · [Pattern: percent of total](https://docs.malloydata.dev/documentation/patterns/percent_of_total)
+
+## all() with dimensions: share within a group
+
+Give `all()` one or more dimension names, and it keeps grouping by **those** dimensions, ignoring the rest. With two `group_by:` fields, this gives "share within each group":
+>>>malloy
+run: names -> {
+  where: year_born = 2021, gender = 'F'
+  group_by: state, name
+  aggregate:
+    total_births
+    state_total is all(total_births, state)
+    # percent
+    share_of_state is total_births / all(total_births, state)
+  having: state = 'VT' | 'HI'
+  order_by: share_of_state desc
+  limit: 10
+}
+>>>markdown
+`all(total_births, state)` means *"total births, grouped only by state."* It's the state total, repeated on each of that state's rows.
+
+(We used `having:` to show just two states here. `having:` runs after the totals are computed.)
+
+## exclude(): ungroup specific dimensions
+
+`exclude(measure, dim)` is the mirror image of `all(measure, dim)`: instead of listing the dimensions to **keep**, you list the ones to **drop**. With `group_by: state, name`, these two are the same:
+
+| | keep `state`, drop `name` |
+|---|---|
+| `all(total_births, state)` | lists what to keep |
+| `exclude(total_births, name)` | lists what to drop |
+
+Here's the proof, with both forms side by side:
+>>>malloy
+run: names -> {
+  where: year_born = 2021, gender = 'F'
+  group_by: state, name
+  aggregate:
+    total_births
+    keep_state is all(total_births, state)
+    drop_name is exclude(total_births, name)
+    keep_name is all(total_births, name)
+    drop_state is exclude(total_births, state)
+  limit: 5
+}
+>>>markdown
+`keep_state` and `drop_name` are the California total (the biggest rows happen to be in California). `keep_name` and `drop_state` are each name's **national** total.
+
+### Shares inside a nest
+
+In a nested query, `all(measure)` is the total for the **parent row**. That makes "share within each group" easy to read:
+>>>malloy
+#(docs) size=large
+run: names -> {
+  where: year_born = 2021, gender = 'F'
+  group_by: state
+  aggregate:
+    total_births
+    # percent
+    share_of_us is total_births / all(total_births)
+  nest: top_names is {
+    group_by: name
+    aggregate:
+      total_births
+      # percent
+      share_of_state is total_births / all(total_births)
+    limit: 3
+  }
+  limit: 5
+}
+>>>markdown
+The outer `all()` is the U.S. total. The nested `all()` is each state's total.
+
+> ⚠️ **Check nested `exclude()` results.** The Malloy docs say `exclude()` inside a nest may name a dimension from the *outer* query (for example, `exclude(total_births, state)` in a nest under `group_by: state`). In the Malloy version used to build this book, that pattern sometimes returned the wrong number (the same value for every state). Until you've checked it, prefer flat queries with `all(m, dim)` for these comparisons, as in the index example below, and compare a few values against a query you trust.
+
+## Contribution: who drove the change?
+
+**Contribution** answers "how much of the *change* came from each group?" It's a share of a *difference*. Sales grew from 2020 to 2021, and each category contributed part of that growth:
+>>>malloy
+run: order_items -> {
+  extend: {
+    measure:
+      sales_2020 is total_sales { where: created_at ~ f'2020' }
+      sales_2021 is total_sales { where: created_at ~ f'2021' }
+  }
+  group_by: inventory_items.product_category
+  aggregate:
+    sales_2020
+    sales_2021
+    # currency
+    growth is sales_2021 - sales_2020
+    # percent
+    share_of_2021_sales is sales_2021 / all(sales_2021)
+    # percent
+    contribution_to_growth is (sales_2021 - sales_2020) / all(sales_2021 - sales_2020)
+  order_by: contribution_to_growth desc
+  limit: 10
+}
+>>>markdown
+Compare the last two columns. A category whose **contribution to growth** is bigger than its **share of sales** is growing faster than the business as a whole. It's pulling the company forward.
+
+## Index: over- or under-represented?
+
+An **index** compares a share in one group with the same share overall. 100 means "typical." 200 means "twice as common here as everywhere else." 50 means "half as common."
+
+> index = (share of the name **within this state**) ÷ (share of the name **nationally**) × 100
+
+Which girls' names are most *distinctively* associated with a state? We need four ingredients, and `all()` provides them all:
+>>>malloy
+run: names -> {
+  where: year_born ~ f'[2010 to 2021]', gender = 'F'
+  group_by: state, name
+  aggregate:
+    total_births
+    # percent
+    state_share is total_births / all(total_births, state)
+    # percent
+    national_share is all(total_births, name) / all(total_births)
+    # number="0"
+    popularity_index is (total_births / all(total_births, state))
+      / (all(total_births, name) / all(total_births)) * 100
+  having: total_births > 2000
+  order_by: popularity_index desc
+  limit: 15
+}
+>>>markdown
+Here `having: total_births > 2000` keeps out tiny names with wild ratios. Names tied to a language or culture that's concentrated in one region rise to the top.
+
+To look at one state's "signature" names, there's a neat trick. Don't group by state at all. Use **filtered measures** (from [Chapter 8](08_filtering.malloynb)) for the state's numbers, and plain measures for the national ones. `all()` works on filtered measures too:
+>>>malloy
+run: names -> {
+  where: year_born ~ f'[2010 to 2021]', gender = 'M'
+  group_by: name
+  aggregate:
+    utah_births is total_births { where: state = 'UT' }
+    # percent
+    utah_share is total_births { where: state = 'UT' } / all(total_births { where: state = 'UT' })
+    # percent
+    national_share is total_births / all(total_births)
+    # number="0"
+    utah_index is (total_births { where: state = 'UT' } / all(total_births { where: state = 'UT' }))
+      / (total_births / all(total_births)) * 100
+  having: total_births { where: state = 'UT' } > 300
+  order_by: utah_index desc
+  limit: 10
+}
+>>>markdown
+Utah's list is full of names that are much rarer in the rest of the country.
+
+> 💡 **Why not `where: state = 'UT'`?** A `where:` removes every other state's rows *before* anything is computed, so "national share" would quietly become "Utah share" and every index would be 100. When you compare a part with the whole, make sure the whole is still in the query.
+
+## Key takeaways
+
+* `all(m)` computes measure `m` over **every row the query sees**, ignoring `group_by:` (but respecting `where:`, and before `limit:`).
+* `all(m, dim)` keeps grouping by `dim`. `exclude(m, dim)` drops `dim`. Both give "share within a group."
+* In a nest, `all(m)` is the parent row's total.
+* **Share** = part ÷ `all(part)`. **Contribution** = change ÷ `all(change)`. **Index** = local share ÷ overall share × 100.
+* To compare a part with the whole, keep the whole in the query. Use filtered measures, such as `m { where: state = 'UT' }`, for the part, instead of a `where:` that throws the whole away.
+
+> 🎯 **Challenge 11.1: Name market share.** For the year 2000, show the top 10 boys' names with their `total_births` and their **share of all boys born that year**, formatted as a percent.
+
+> 🎯 **Challenge 11.2: Gender split by decade.** Group by `decade` and `gender`, and show what **percent of each decade's births** were boys vs. girls. (Hint: `all(total_births, decade)`.) Make it a `# bar_chart.stack`.
+
+> 🎯 **Challenge 11.3: Brand index.** In the e-commerce data, which `inventory_items.product_brand` sells unusually well in the **UK** compared with its share of global sales? Group by brand and build a `uk_index` with filtered measures (`total_sales { where: users.country = 'UK' }`) and `all()`, as in the Utah example. Use `having:` to ignore brands with tiny UK sales.

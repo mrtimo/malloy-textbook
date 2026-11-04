@@ -1,0 +1,171 @@
+>>>markdown
+# Chapter 3: Views and Nesting
+
+Two features make Malloy feel different from SQL:
+
+* **Views** are named, reusable queries saved inside a source.
+* **Nesting** puts a whole query *inside each row* of another query. This lets you answer questions like "what are the top 5 names **in each state**?" in a single query, with no window functions and no self-joins.
+
+## Starting point
+
+We'll use the finished `names` model from now on. It's in `names.malloy`, next to this notebook. It has the same `year_born`, `births`, `decade`, and `total_births` fields you built in Chapter 1, plus a few more.
+>>>malloy
+import "names.malloy"
+>>>markdown
+## Running a view
+
+A **view** is a query that has a name and lives in a source. The model already defines a few. Here's the definition of `by_name` from `names.malloy`:
+
+```malloy
+view: by_name is {
+  group_by: name
+  aggregate: total_births
+  limit: 10
+}
+```
+
+To run a view, put its name after the arrow, where the curly braces would normally go:
+>>>malloy
+run: names -> by_name
+>>>markdown
+A view saves typing, but more importantly it saves *decisions*. Everyone who runs `by_name` gets the same definition.
+
+> 📘 **Malloy docs.** [Views](https://docs.malloydata.dev/documentation/language/views)
+
+## Refining a view
+
+You can take a view and add to it with `+`. This is called **refinement**. Most popular names in California:
+>>>malloy
+run: names -> by_name + { where: state = 'CA' }
+>>>markdown
+You can add more than a filter. Here we add another measure (how many states each name appeared in) and a different limit:
+>>>malloy
+run: names -> by_name + {
+  where: year_born = 2021
+  aggregate: state_count is count(state)
+  limit: 5
+}
+>>>markdown
+> 📘 **Malloy docs.** [Refining views](https://docs.malloydata.dev/documentation/language/views#refining-views)
+
+## Defining your own views
+
+You can add views to a source with `extend`, the same way you added dimensions and measures in Chapter 1. Here we create `names_plus` with two new views:
+>>>malloy
+source: names_plus is names extend {
+  view: top_girls is {
+    where: gender = 'F'
+    group_by: name
+    aggregate: total_births
+    limit: 5
+  }
+
+  view: top_boys is {
+    where: gender = 'M'
+    group_by: name
+    aggregate: total_births
+    limit: 5
+  }
+}
+>>>malloy
+run: names_plus -> top_girls
+>>>markdown
+## Nesting: a query inside each row
+
+Here's the big idea of this chapter. Suppose you want the **top 5 names in each state**. In SQL, this needs a window function (`ROW_NUMBER() OVER (PARTITION BY state ...)`) and a subquery. In Malloy, you write the inner query *inside* the outer one with `nest:`.
+>>>malloy
+#(docs) size=large
+run: names -> {
+  group_by: state
+  aggregate: total_births
+  nest: top_names is {
+    group_by: name
+    aggregate: total_births
+    limit: 5
+  }
+}
+>>>markdown
+Each row of the result is a state. Each state row holds its own small table of top names. The nested query only sees the rows for *its* state. Read it as: *"for each state, show total births, and also show the top 5 names **within that state**."*
+
+Notice that `total_births` means something different at each level. At the outer level, it counts every birth in the state. Inside the nest, it counts the births for one name in that state.
+
+> 📘 **Malloy docs.** [Nested views](https://docs.malloydata.dev/documentation/language/nesting)
+
+## Nesting named views
+
+Any view can be nested by name. Since `names_plus` has `top_girls` and `top_boys`, we can show both, side by side, for each decade:
+>>>malloy
+#(docs) size=large
+run: names_plus -> {
+  group_by: decade
+  aggregate: total_births
+  nest: top_girls, top_boys
+  order_by: decade desc
+}
+>>>markdown
+Notice the `order_by: decade desc`. It sorts the **outer** rows. Each nest has its own `order_by:` and `limit:`.
+
+## Nesting more than one level
+
+A nested query can have its own nests. For each gender, show the top 3 decades by births. Then, inside each decade, show the top 3 names:
+>>>malloy
+#(docs) size=large
+run: names -> {
+  group_by: gender
+  aggregate: total_births
+  nest: best_decades is {
+    group_by: decade
+    aggregate: total_births
+    limit: 3
+    nest: top_names is {
+      group_by: name
+      aggregate: total_births
+      limit: 3
+    }
+  }
+}
+>>>markdown
+## Filtering inside a nest
+
+A nest can have its own `where:`. The filter only affects that nest. Here, the outer query covers all years, while each nest looks at one era:
+>>>malloy
+#(docs) size=large
+run: names -> {
+  where: state = 'NY'
+  group_by: gender
+  aggregate: total_births
+  nest: in_1950 is by_name + { where: year_born = 1950, limit: 5 }
+  nest: in_2020 is by_name + { where: year_born = 2020, limit: 5 }
+}
+>>>markdown
+## Top 5 products within each region
+
+Nesting is the natural way to write any "top N within each group" question. Let's try one on the e-commerce data: **the top 5 products within each region** (here, each U.S. state). Products and customers come from tables *joined* to `order_items`. You reach a joined table's fields with a dot (`users.state`, `inventory_items.product_name`). We'll explain joins fully in [Chapter 10](10_joins.malloynb).
+>>>malloy
+import "ecommerce.malloy"
+>>>malloy
+#(docs) size=large
+run: order_items -> {
+  where: users.country = 'USA'
+  group_by: users.state
+  aggregate: total_sales
+  nest: top_products is {
+    group_by: inventory_items.product_name
+    aggregate: total_sales, order_item_count
+    limit: 5
+  }
+  limit: 6
+}
+>>>markdown
+## Key takeaways
+
+* A **view** is a named query in a source: `view: name is { ... }`. Run it with `run: source -> view_name`.
+* **Refine** a view with `+ { ... }` to add filters, fields, or limits.
+* `nest:` puts a query inside each row of the outer query. It is the easy way to answer "top N per group."
+* Every level of nesting has its own `where:`, `order_by:`, and `limit:`.
+
+> 🎯 **Challenge 3.1: Your own view.** Add a cell that extends `names` into a new source with a view called `by_first_letter`. The view should group by `first_letter` and show `total_births` and `name_count`. Run it.
+
+> 🎯 **Challenge 3.2: Top names per generation.** The `names` source has a `generation` dimension (Boomer, Gen X, Millennial, ...). Write **one query** that lists each generation and nests the **top 3 girls' names** and the **top 3 boys' names** for that generation.
+
+> 🎯 **Challenge 3.3: E-commerce.** For each product **category** (`inventory_items.product_category`), show `total_sales` and nest the **top 3 brands** (`inventory_items.product_brand`) by sales. Limit the outer query to the 5 biggest categories.

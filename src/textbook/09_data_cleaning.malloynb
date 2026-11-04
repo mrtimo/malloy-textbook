@@ -1,0 +1,383 @@
+>>>markdown
+# Chapter 9: Data Cleaning
+
+Real data is messy. Names arrive in random capitalization, states are spelled five different ways, money has dollar signs in it, and dates come in every format people have ever invented. In this chapter you'll clean a deliberately messy file of fake customer records. You'll learn to:
+
+* **profile** a dataset to find problems
+* clean **text**: trimming, case, and collapsing spaces
+* **standardize categories** with `pick`
+* turn text into **numbers** safely with `:::`
+* parse **dates** in many formats with DuckDB's `strptime` family of functions
+* find and remove **duplicates**
+* put it all together in a clean, reusable **source**
+
+## The messy file
+
+`data/messy_customers.csv` has 126 rows of fake customer data. Here are a few raw rows:
+
+```
+customer_id,full_name,email,phone,state,signup_date,plan,first_purchase
+67,amelia smith,  Amelia.Smith43@example.com ,605-517-6562,ny,2024-01-06,basic,$177
+8,AVA MARTINEZ,  Ava.Martinez94@example.com ,(446) 780-2290, CA,,BASIC,352.10 USD
+59,  Evelyn   Lee ,EVELYN.LEE17@EXAMPLE.COM,(282) 529-3430,CA,"May 05, 2024",Premium,$286
+2,james lopez,James.Lopez34@example.com,+1 299 567 6635,ca,08-Mar-2024,basic,$306.58
+```
+
+You can already spot a lot of trouble: inconsistent capitalization, extra spaces, five phone formats, `ny` vs `CA` vs `California`, dates in several formats (and sometimes missing), and prices with `$` or `USD` attached.
+
+## Step 1: Load everything as text
+
+If we let DuckDB guess the column types, it will guess wrong for some columns, or fail on a weird value. When cleaning, a safer start is to read **every column as text** (`all_varchar = true`) and convert columns ourselves. `duckdb.sql("...")` lets us use DuckDB's own <code>read_csv</code> function with any options we like:
+>>>malloy
+source: raw_customers is duckdb.sql("""
+  SELECT * FROM read_csv('data/messy_customers.csv', all_varchar = true)
+""")
+>>>malloy
+run: raw_customers -> {
+  select: *
+  limit: 8
+}
+>>>markdown
+> 📘 **Malloy docs.** [Sources from SQL queries](https://docs.malloydata.dev/documentation/language/source#sources-from-sql-queries) · [DuckDB dialect notes](https://docs.malloydata.dev/documentation/language/dialect/duckdb)
+
+## Step 2: Profile the data
+
+Before fixing anything, **measure the mess**. Group by each column you care about and look at what's there. How many ways is "state" written?
+>>>malloy
+#(docs) limit=50 size=medium
+run: raw_customers -> {
+  group_by: state
+  aggregate: row_count is count()
+  order_by: state
+}
+>>>markdown
+Eight real states, written about thirty different ways. What about `plan`?
+>>>malloy
+run: raw_customers -> {
+  group_by: plan
+  aggregate: row_count is count()
+}
+>>>markdown
+And how complete is each column? Filtered measures from [Chapter 8](08_filtering.malloynb) make a nice one-row **data-quality report**. Here, `count()` counts rows and `count(customer_id)` counts *distinct* customer IDs:
+>>>malloy
+# transpose
+run: raw_customers -> {
+  aggregate:
+    total_rows is count()
+    distinct_customers is count(customer_id)
+    missing_signup is count() { where: signup_date is null or trim(signup_date) = '' }
+    na_signup is count() { where: signup_date = 'N/A' }
+    missing_purchase is count() { where: first_purchase is null or (first_purchase = 'n/a' | '-' | '') }
+}
+>>>markdown
+126 rows but only 120 customers: there are **duplicates**. We'll handle those at the end.
+
+## Step 3: Clean text
+
+Malloy has the common string functions built in: `trim()`, `lower()`, `upper()`, `length()`, `substr()`, `concat()`, `replace()`, and more. For anything else, you can call **any DuckDB function** by adding `!` and the return type after its name: `regexp_replace!string(...)`.
+
+> 📘 **Malloy docs.** [Functions](https://docs.malloydata.dev/documentation/language/functions) explains the `function!type(...)` syntax for database functions that aren't built in. See also DuckDB's [text functions](https://duckdb.org/docs/stable/sql/functions/text) and [regular expressions](https://duckdb.org/docs/stable/sql/functions/regular_expressions).
+>>>malloy
+run: raw_customers -> {
+  select:
+    full_name
+    name_trimmed is trim(full_name)
+    name_one_space is regexp_replace!string(trim(full_name), r'\s+', ' ', 'g')
+    name_lower is lower(regexp_replace!string(trim(full_name), r'\s+', ' ', 'g'))
+    email
+    email_clean is lower(trim(email))
+  limit: 8
+}
+>>>markdown
+`regexp_replace(text, pattern, replacement, 'g')` replaces **every** (`'g'` = global) match of a regular expression. Here `\s+` means "one or more whitespace characters," so runs of spaces become one space.
+
+**Phone numbers**: strip everything that isn't a digit, drop a leading country code `1`, and reformat:
+>>>malloy
+run: raw_customers -> {
+  extend: {
+    dimension: digits is regexp_replace!string(phone, r'[^0-9]', '', 'g')
+    dimension: ten_digits is pick substr(digits, 2) when length(digits) = 11 else digits
+  }
+  select:
+    phone
+    digits
+    ten_digits
+    phone_clean is concat('(', substr(ten_digits, 1, 3), ') ', substr(ten_digits, 4, 3), '-', substr(ten_digits, 7, 4))
+  limit: 8
+}
+>>>markdown
+## Step 4: Standardize categories with pick
+
+`pick` is Malloy's version of SQL <code>CASE</code>. To standardize state names, first make the value uppercase, remove the spaces and periods, and then map each known variant to its 2-letter code:
+>>>malloy
+run: raw_customers -> {
+  extend: {
+    dimension: state_key is upper(regexp_replace!string(state, r'[\s.]', '', 'g'))
+    dimension: state_clean is state_key ?
+      pick 'CA' when 'CA' | 'CALIF' | 'CALIFORNIA'
+      pick 'TX' when 'TX' | 'TEXAS'
+      pick 'NY' when 'NY' | 'NEWYORK'
+      pick 'FL' when 'FL' | 'FLA' | 'FLORIDA'
+      pick 'WA' when 'WA' | 'WASH' | 'WASHINGTON'
+      pick 'OR' when 'OR' | 'ORE' | 'OREGON'
+      pick 'UT' when 'UT' | 'UTAH'
+      pick 'CO' when 'CO' | 'COLO' | 'COLORADO'
+      else null
+  }
+  group_by: state_clean
+  aggregate: row_count is count()
+  nest: raw_spellings is {
+    group_by: state
+  }
+}
+>>>markdown
+Every row now maps to one of eight states, and the nest shows which raw spellings fed into each. **Always check for leftovers.** Ending a pick with `else null` means any variant you missed shows up as a null group instead of hiding.
+
+`plan` only needs trimming and consistent case:
+>>>malloy
+run: raw_customers -> {
+  group_by: plan_clean is concat(upper(substr(trim(plan), 1, 1)), lower(substr(trim(plan), 2)))
+  aggregate: row_count is count()
+}
+>>>markdown
+## Step 5: Text to numbers, safely
+
+`first_purchase` has values like `$177`, `352.10 USD`, `$1,234.50`, `n/a`, and `-`. The plan:
+
+1. Remove every character that isn't a digit or a period.
+2. Convert the result to a number with a **safe cast**, `:::number`.
+
+A normal cast (`::number`) **fails the whole query** if even one value can't be converted. A safe cast (`:::number`) returns **null** for bad values instead.
+>>>malloy
+run: raw_customers -> {
+  select:
+    first_purchase
+    stripped is regexp_replace!string(first_purchase, r'[^0-9.]', '', 'g')
+    # currency
+    amount is regexp_replace!string(first_purchase, r'[^0-9.]', '', 'g'):::number
+  where: first_purchase ~ '%USD' or (first_purchase = 'n/a' | '-') or first_purchase is null
+  limit: 10
+}
+>>>markdown
+`352.10 USD` became the number 352.1. The `n/a` and `-` values became empty strings, which safely cast to **null**. Blank cells were already null. That's the honest answer: we don't know those amounts.
+
+> 📘 **Malloy docs.** [Type casts and safe casts](https://docs.malloydata.dev/documentation/language/expressions#safe-type-cast) · [Pick expressions](https://docs.malloydata.dev/documentation/language/expressions#pick-expressions)
+
+## Step 6: Cleaning dates with DuckDB functions
+
+Dates are the hardest part of data cleaning. Our `signup_date` column mixes **five formats**, plus blanks and `N/A`:
+
+| Example | Format code |
+|---|---|
+| `2024-01-06` | <code>%Y-%m-%d</code> |
+| `03/14/2024` | <code>%m/%d/%Y</code> |
+| `08-Mar-2024` | <code>%d-%b-%Y</code> |
+| `May 05, 2024` | <code>%B %d, %Y</code> |
+| `20240314` | <code>%Y%m%d</code> |
+
+DuckDB has excellent functions for this, and Malloy can call all of them:
+
+| DuckDB function | What it does |
+|---|---|
+| <code>strptime(text, format)</code> | parse text into a timestamp. **Errors** if the text doesn't match. |
+| <code>try_strptime(text, format)</code> | same, but returns **null** if the text doesn't match |
+| <code>try_strptime(text, [fmt1, fmt2, ...])</code> | tries each format **in order** and uses the first one that works |
+| <code>strftime(time, format)</code> | format a time as text, e.g. <code>'%A, %B %-d'</code> → "Saturday, January 6" |
+| <code>make_date(y, m, d)</code> | build a date from three numbers |
+| <code>to_timestamp(seconds)</code> | convert a Unix epoch (seconds since 1970) to a timestamp |
+
+The format codes: <code>%Y</code> 4-digit year, <code>%m</code> month number, <code>%d</code> day, <code>%b</code> short month name (Mar), <code>%B</code> full month name (March), <code>%H:%M:%S</code> time, <code>%A</code> weekday name.
+
+First, try one format at a time with `try_strptime`, so you can see which rows each format catches:
+>>>malloy
+run: raw_customers -> {
+  select:
+    signup_date
+    iso is try_strptime!timestamp(signup_date, '%Y-%m-%d')
+    us is try_strptime!timestamp(signup_date, '%m/%d/%Y')
+    dmy is try_strptime!timestamp(signup_date, '%d-%b-%Y')
+    long_form is try_strptime!timestamp(signup_date, '%B %d, %Y')
+    compact is try_strptime!timestamp(signup_date, '%Y%m%d')
+  limit: 10
+}
+>>>markdown
+Each row matches exactly one format. Give `try_strptime` a **list** of formats, and it tries them in order and keeps the first match. Then cast the timestamp to a `date`:
+>>>malloy
+run: raw_customers -> {
+  select:
+    signup_date
+    signup is try_strptime!timestamp(
+      signup_date,
+      ['%Y-%m-%d', '%m/%d/%Y', '%d-%b-%Y', '%B %d, %Y', '%Y%m%d']
+    )::date
+  limit: 10
+}
+>>>markdown
+Now check the result. Every non-blank value should have parsed. The rows where `signup` is null should only be the blanks and `N/A`s:
+>>>malloy
+run: raw_customers -> {
+  extend: {
+    dimension: signup is try_strptime!timestamp(
+      signup_date, ['%Y-%m-%d', '%m/%d/%Y', '%d-%b-%Y', '%B %d, %Y', '%Y%m%d']
+    )::date
+  }
+  where: signup is null
+  group_by: signup_date
+  aggregate: row_count is count()
+}
+>>>markdown
+> ⚠️ **Ambiguous dates.** Is `03/04/2024` March 4th or April 3rd? Americans and most of the rest of the world disagree, and no function can know which one was meant. If a file mixes <code>%m/%d/%Y</code> and <code>%d/%m/%Y</code>, the order of your format list decides, and some dates will be **silently wrong**. Find out where the data came from, and check by looking for "months" greater than 12.
+
+Once a column is a real `date`, everything from [Chapter 2](02_time_truncation.malloynb) works on it:
+>>>malloy
+run: raw_customers -> {
+  extend: {
+    dimension: signup is try_strptime!timestamp(
+      signup_date, ['%Y-%m-%d', '%m/%d/%Y', '%d-%b-%Y', '%B %d, %Y', '%Y%m%d']
+    )::date
+  }
+  where: signup is not null
+  group_by: signup_quarter is signup.quarter
+  aggregate: signups is count(customer_id)
+  order_by: signup_quarter
+}
+>>>markdown
+### Other date shapes you'll meet
+
+Dates show up in other odd shapes too. Here are three common ones, built from a tiny inline table: an **Excel serial number** (days since 1899-12-30), a **Unix epoch** (seconds since 1970-01-01), and **separate year, month, and day columns**:
+>>>malloy
+run: duckdb.sql("""
+  SELECT * FROM (VALUES ('45365', '1710374400', '2024', '3', '14'))
+    AS t(excel_serial, unix_epoch, yr, mo, dy)
+""") -> {
+  select:
+    from_excel is @1899-12-30 + excel_serial:::number days
+    from_epoch is to_timestamp!timestamp(unix_epoch:::number)
+    from_parts is make_date!date(yr::"BIGINT", mo::"BIGINT", dy::"BIGINT")
+    pretty is strftime!string(make_date!date(yr::"BIGINT", mo::"BIGINT", dy::"BIGINT"), '%A, %B %-d, %Y')
+}
+>>>markdown
+All three are the same day: March 14, 2024 (Pi Day!). Notice `@1899-12-30 + n days`: Malloy can add an interval to a date literal. `::"BIGINT"` casts to a specific DuckDB type, because <code>make_date</code> wants integers.
+
+> 📘 **DuckDB docs.** [Date format specifiers](https://duckdb.org/docs/stable/sql/functions/dateformat) · [Date functions](https://duckdb.org/docs/stable/sql/functions/date) · [Timestamp functions](https://duckdb.org/docs/stable/sql/functions/timestamp)
+
+## Step 7: Missing values
+
+The `??` operator replaces null with a fallback value (SQL's <code>COALESCE</code>):
+>>>malloy
+run: raw_customers -> {
+  extend: {
+    dimension: signup is try_strptime!timestamp(
+      signup_date, ['%Y-%m-%d', '%m/%d/%Y', '%d-%b-%Y', '%B %d, %Y', '%Y%m%d']
+    )::date
+  }
+  group_by: signup_year is year(signup)::string ?? 'unknown'
+  aggregate: row_count is count()
+}
+>>>markdown
+Be careful with fallbacks. Replacing a missing *label* with `'unknown'` is helpful. Replacing a missing *number* with `0` usually is **not**, because it drags averages down. Leave unknown numbers null. Malloy's aggregates skip nulls.
+
+## Step 8: Duplicates
+
+Our profile found 126 rows but only 120 distinct customer IDs. Group by **every raw column** and count. Any group with more than one row is an exact duplicate:
+>>>malloy
+run: raw_customers -> {
+  group_by: customer_id, full_name, email, phone, state, signup_date, plan, first_purchase
+  aggregate: copies is count()
+  having: copies > 1
+}
+>>>markdown
+Six customers appear twice. Duplicates are dangerous because they quietly inflate sums and skew averages. Since these are *exact* copies, the simplest fix is <code>SELECT DISTINCT</code> when the file is read. (If the copies differed slightly, for example by a trailing space, you would clean first and then deduplicate on the cleaned columns.)
+
+## Step 9: Putting it together in a clean source
+
+We've been testing each fix inside a query. Now move them all into **one source** that reads the file *without duplicates*, so every query gets clean data. Notice that the dimensions can refer to each other:
+>>>malloy
+source: customers is duckdb.sql("""
+  SELECT DISTINCT * FROM read_csv('data/messy_customers.csv', all_varchar = true)
+""") extend {
+  dimension:
+    customer_key is customer_id::number
+    name is regexp_replace!string(trim(full_name), r'\s+', ' ', 'g')
+    email_clean is lower(trim(email))
+    phone_digits is regexp_replace!string(phone, r'[^0-9]', '', 'g')
+    phone_clean is pick substr(phone_digits, 2) when length(phone_digits) = 11 else phone_digits
+    state_key is upper(regexp_replace!string(state, r'[\s.]', '', 'g'))
+    state_clean is state_key ?
+      pick 'CA' when 'CA' | 'CALIF' | 'CALIFORNIA'
+      pick 'TX' when 'TX' | 'TEXAS'
+      pick 'NY' when 'NY' | 'NEWYORK'
+      pick 'FL' when 'FL' | 'FLA' | 'FLORIDA'
+      pick 'WA' when 'WA' | 'WASH' | 'WASHINGTON'
+      pick 'OR' when 'OR' | 'ORE' | 'OREGON'
+      pick 'UT' when 'UT' | 'UTAH'
+      pick 'CO' when 'CO' | 'COLO' | 'COLORADO'
+      else null
+    plan_clean is concat(upper(substr(trim(plan), 1, 1)), lower(substr(trim(plan), 2)))
+    signup is try_strptime!timestamp(
+      signup_date, ['%Y-%m-%d', '%m/%d/%Y', '%d-%b-%Y', '%B %d, %Y', '%Y%m%d']
+    )::date
+    # currency
+    first_purchase_amount is regexp_replace!string(first_purchase, r'[^0-9.]', '', 'g'):::number
+
+  measure:
+    row_count is count()
+    customer_count is count(customer_key)
+    # currency
+    avg_first_purchase is first_purchase_amount.avg()
+}
+>>>malloy
+run: customers -> {
+  aggregate: row_count, customer_count
+}
+>>>markdown
+One row per customer. 
+
+### The payoff
+
+Now analysis is easy, and it's correct:
+>>>malloy
+run: customers -> {
+  group_by: state_clean
+  aggregate: customer_count, avg_first_purchase
+  nest: by_plan is {
+    group_by: plan_clean
+    aggregate: customer_count
+  }
+}
+>>>markdown
+### Saving the cleaned data
+
+To save the clean table as a Parquet file, run the clean query's SQL through DuckDB. You can see that SQL with the **SQL** button on any result. Or do the cleaning in Python with the same functions, using the pattern from [Chapter 7](07_csv_and_parquet.malloynb):
+
+```python
+import duckdb
+duckdb.sql("""
+  COPY (
+    SELECT DISTINCT
+      customer_id::INTEGER                                        AS customer_id,
+      regexp_replace(trim(full_name), '\\s+', ' ', 'g')           AS name,
+      lower(trim(email))                                          AS email,
+      try_strptime(signup_date,
+        ['%Y-%m-%d','%m/%d/%Y','%d-%b-%Y','%B %d, %Y','%Y%m%d'])::DATE AS signup,
+      TRY_CAST(regexp_replace(first_purchase, '[^0-9.]', '', 'g') AS DOUBLE) AS first_purchase
+    FROM read_csv('data/messy_customers.csv', all_varchar = true)
+  ) TO 'data/customers_clean.parquet' (FORMAT parquet, COMPRESSION zstd)
+""")
+```
+
+## Key takeaways
+
+* **Profile first.** Group by each column and count before you change anything.
+* Read messy CSVs with `all_varchar = true`, then convert each column yourself.
+* Call any DuckDB function with `function_name!return_type(...)`, for example `regexp_replace!string(...)` or `try_strptime!timestamp(...)`.
+* Use `pick ... else null` to standardize categories, and check for leftovers.
+* Use `:::` (**safe** cast) to turn text into numbers. Bad values become null instead of errors.
+* `try_strptime(text, [list of formats])` parses mixed date formats. Watch out for ambiguous day/month orders.
+* Put all of your cleaning into **one source** so every query uses clean data.
+
+> 🎯 **Challenge 9.1: Email domains.** Add a dimension to `customers` that extracts the **domain** of each email (everything after the `@`). Hint: <code>regexp_extract!string(email_clean, '@(.*)$', 1)</code> or <code>split_part!string(email_clean, '@', 2)</code>. Count customers by domain.
+
+> 🎯 **Challenge 9.2: Signups by weekday.** Using the cleaned `signup` date, count customers by **day of the week**. Display the weekday as a *name* ("Monday") rather than a number. (Hint: <code>strftime!string(signup, '%A')</code>.)
+
+> 🎯 **Challenge 9.3: Data-quality scorecard.** Write one `# transpose` query against `customers` that reports, for the **cleaned** columns, how many rows are still null in `signup`, `state_clean`, and `first_purchase_amount`, and what **percent** of all rows each represents. Format the percentages with `# percent`.

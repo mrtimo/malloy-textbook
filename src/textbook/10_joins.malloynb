@@ -1,0 +1,248 @@
+>>>markdown
+# Chapter 10: Joins and Symmetric Aggregates
+
+Real data is spread over several tables. **Joins** connect them. In SQL, joins are also the number-one source of *wrong numbers*, because joining a "one" table to a "many" table repeats rows, and sums and averages quietly double count. In this chapter you'll learn:
+
+* the shape of a **star schema**
+* `join_one`, `join_many`, and `join_cross`, and when to use each
+* how to reach joined fields with dot paths like `users.state`
+* why Malloy's **symmetric aggregates** give correct answers where naive SQL doesn't
+* how to join a table to a **summary query** of itself
+
+## The e-commerce star schema
+
+A **star schema** has one central **fact** table (events: sales, clicks, births) surrounded by **dimension** tables (things: customers, products, places). In our store:
+
+```
+                  ┌──────────────┐
+                  │    users     │  one row per customer
+                  └──────▲───────┘
+                         │ user_id
+┌──────────────────────────────────────────┐
+│               order_items                │  FACT: one row per item sold
+└──────────────────────────────────────────┘
+                         │ inventory_item_id
+                  ┌──────▼──────────┐
+                  │ inventory_items │  one row per physical item
+                  └──────┬──────────┘
+                         │ product_id
+                  ┌──────▼───────┐
+                  │   products   │  one row per catalog product
+                  └──────────────┘
+```
+
+Here's how `ecommerce.malloy` describes it. (Each source also defines some measures, left out here.)
+
+```malloy
+source: users is duckdb.table('data/users.parquet') extend {
+  primary_key: id
+}
+
+source: products is duckdb.table('data/products.parquet') extend {
+  primary_key: id
+}
+
+source: inventory_items is duckdb.table('data/inventory_items.parquet') extend {
+  primary_key: id
+  join_one: products with product_id
+}
+
+source: order_items is duckdb.table('data/order_items.parquet') extend {
+  primary_key: id
+  join_one: users with user_id
+  join_one: inventory_items with inventory_item_id
+}
+```
+
+Two things to notice:
+
+* Each source declares its **`primary_key:`**, the column that is unique for every row. Malloy needs it to do joins correctly.
+* `join_one: users with user_id` means *"each order item has **one** user, found by matching my `user_id` to the user's primary key."* That's the most common kind of join, and `with` is its shorthand.
+
+> 📘 **Malloy docs.** [Joins](https://docs.malloydata.dev/documentation/language/join) · [Primary keys](https://docs.malloydata.dev/documentation/language/source#primary-keys)
+>>>malloy
+import "ecommerce.malloy"
+>>>markdown
+## Using joined fields
+
+Once a join is declared, you reach the joined table's fields with a dot: `users.state`, `inventory_items.product_category`. Joins can chain: `inventory_items.products.brand` goes two hops.
+>>>malloy
+run: order_items -> {
+  group_by:
+    users.gender
+    inventory_items.products.department
+  aggregate: total_sales, order_item_count
+}
+>>>markdown
+You can use **measures** from joined sources, too. `users.user_count` counts *users*, not order items:
+>>>malloy
+run: order_items -> {
+  where: created_at ~ f'2022'
+  group_by: users.traffic_source
+  aggregate:
+    order_item_count
+    order_count
+    users.user_count
+    # currency
+    sales_per_customer is total_sales / users.user_count
+}
+>>>markdown
+Malloy only joins the tables a query actually uses. If your query doesn't mention `users`, the generated SQL has no join to `users` at all. Click **SQL** on the results above and below to compare.
+
+## The three kinds of join
+
+| Join | Read it as | Example |
+|---|---|---|
+| `join_one:` | each row of mine matches **at most one** row of theirs | order item → its user |
+| `join_many:` | each row of mine can match **many** rows of theirs | user → their order items |
+| `join_cross:` | **many-to-many**: lots of rows on both sides | every product × every promotion |
+
+You can write a join's condition two ways:
+
+```malloy
+join_one: users with user_id                          // my user_id = users' primary key
+join_one: users on user_id = users.id                 // any boolean condition
+join_many: order_items on id = order_items.user_id    // join_many always uses "on"
+```
+
+## join_many: looking at the data from the customer's side
+
+So far we started from `order_items` and looked "up" at users. To ask questions **about customers**, start from `users` and look "down" at their orders with `join_many`:
+>>>malloy
+source: customers is users extend {
+  join_many: order_items on id = order_items.user_id
+  measure:
+    # number="0.0"
+    avg_age is age.avg()
+}
+>>>malloy
+run: customers -> {
+  group_by: traffic_source
+  aggregate:
+    user_count
+    avg_age
+    order_items.order_item_count
+    order_items.total_sales
+}
+>>>markdown
+Notice that `user_count` is the real number of users and `avg_age` is the real average age, even though each user was joined to many order rows. That's not luck. Read on.
+
+## The fan-out problem, and how Malloy avoids it
+
+When you join a "one" table to a "many" table, the "one" rows get **repeated**, once per matching "many" row. A customer with 12 order items appears 12 times in the joined result. Any `SUM`, `COUNT`, or `AVG` over customer columns then counts that customer 12 times.
+
+Let's prove it with plain SQL. This is the query most people would write first:
+>>>malloy
+run: duckdb.sql("""
+  SELECT
+    u.traffic_source,
+    COUNT(*)      AS user_count_WRONG,
+    AVG(u.age)    AS avg_age_WRONG,
+    COUNT(o.id)   AS order_item_count,
+    SUM(o.sale_price) AS total_sales
+  FROM 'data/users.parquet' u
+  LEFT JOIN 'data/order_items.parquet' o ON o.user_id = u.id
+  GROUP BY 1
+  ORDER BY 2 DESC
+""") -> {
+  select: *
+}
+>>>markdown
+Compare with the Malloy result above. The SQL `user_count_WRONG` is **inflated**. It's counting order rows, not users. The SQL `avg_age_WRONG` is *also* off, and much harder to notice: it's a weighted average that gives frequent shoppers more weight. These are exactly the bugs that slip into real reports.
+
+Malloy gets both right because of **symmetric aggregates**. Since every source has a primary key, Malloy knows which table each aggregate "belongs to". When it computes `user_count` or `avg_age` (measures of `users`) across a join that repeats users, it generates SQL that counts each user **once**, using the primary key to remove the repeats. You write the obvious query, and the number is right.
+
+> 💡 **"Locality" of an aggregate.** Every aggregate is computed *with respect to* some source in the join graph. `age.avg()` written in `customers` averages over **customers**. `order_items.sale_price.sum()` sums over **order items**. The path in front of `.avg()` or `.sum()` tells Malloy where to aggregate.
+
+> 📘 **Malloy docs.** [Aggregates and symmetric aggregation](https://docs.malloydata.dev/documentation/language/aggregates) · [Pattern: foreign sums](https://docs.malloydata.dev/documentation/patterns/foreign_sums)
+
+### A second example: two different averages
+
+From `order_items`, what's "the average age of the customers who bought from each category"? There are actually **two** different questions hiding in that sentence:
+>>>malloy
+run: order_items -> {
+  group_by: inventory_items.product_category
+  aggregate:
+    order_item_count
+    users.user_count
+    # number="0.00"
+    avg_age_per_customer is users.age.avg()
+    # number="0.00"
+    avg_age_per_item is source.avg(users.age)
+  limit: 8
+}
+>>>markdown
+* `users.age.avg()` averages over **users**: each customer counts once, no matter how many items they bought.
+* `source.avg(users.age)` averages over the rows of the **current source** (`order_items`): a customer who bought 10 items counts 10 times. This is "the average age *per item sold*."
+
+Both are reasonable questions, and they give different answers. Naive SQL silently gives you the second one. Malloy makes you **choose**. If you write a bare `avg(users.age)` across a join, Malloy warns you and asks you to be explicit.
+
+## Joining a source to a query
+
+A join target doesn't have to be a table. It can be a **query**, which is great for adding context such as totals. Let's go back to the baby names. To compare a name with the *total births in its state and year*, first build a summary, then join it with a two-column match:
+>>>malloy
+import "names.malloy"
+>>>malloy
+source: state_year_totals is names -> {
+  group_by: state, year_born
+  aggregate: all_births is total_births
+}
+
+source: names_with_totals is names extend {
+  join_one: sy is state_year_totals
+    on state = sy.state and year_born = sy.year_born
+
+  measure:
+    # percent
+    share_of_state_year is total_births / sy.all_births.sum()
+}
+>>>malloy
+run: names_with_totals -> {
+  where: name = 'Emma', gender = 'F', year_born ~ f'[2015 to 2021]'
+  group_by: year_born
+  aggregate: total_births, sy.all_births.sum(), share_of_state_year
+  order_by: year_born
+}
+>>>markdown
+Many `names` rows (one per name) match the same `state_year_totals` row. That's normal for `join_one` (many of mine → one of theirs). Because of symmetric aggregates, `sy.all_births.sum()` adds each state-year total only **once**, even though it was matched to many name rows.
+
+(In [Chapter 11](11_percent_of_total.malloynb) you'll see an even easier way to get shares, with `all()` and `exclude()`, and no join at all.)
+
+## join_cross: many-to-many
+
+`join_cross` is for joins where **both** sides can have many matching rows, or where you want every combination. It's the least common join, but it's handy for "what-if" scenarios. Here we cross every 2022 sale with three hypothetical discount levels:
+>>>malloy
+source: discount_scenarios is duckdb.sql("""
+  SELECT * FROM (VALUES ('No discount', 0.0), ('10% off', 0.10), ('25% off', 0.25)) t(scenario, discount)
+""")
+
+source: what_if is order_items extend {
+  where: created_at ~ f'2022'
+  join_cross: s is discount_scenarios
+  measure:
+    # currency
+    discounted_sales is total_sales * (1 - max(s.discount))
+}
+>>>malloy
+run: what_if -> {
+  group_by: s.scenario
+  aggregate: total_sales, discounted_sales
+}
+>>>markdown
+Every order item is paired with every scenario, so the raw joined data has 3× the rows. But look at `total_sales`: it's the **same correct number in every row**. It isn't tripled, because `total_sales` is an `order_items` measure, and symmetric aggregates count each order item once per group. Within each scenario group, `max(s.discount)` is just that scenario's discount (`min` and `max` are safe across any join, because repeated values don't change them), so `discounted_sales` is the correct sales total times the discount factor.
+
+> ⚠️ **Joins need primary keys.** Symmetric aggregates depend on `primary_key:`. If you join a source that has no primary key and then aggregate its fields across a `join_many` or `join_cross`, Malloy can't protect you. Declare a primary key on every table you join.
+
+## Key takeaways
+
+* A **star schema** is a central fact table plus dimension tables. Declare a `primary_key:` on each.
+* `join_one: x with fk` is the common case (many-to-one). Use `join_many:` to look from the "one" side down at the "many" side, and `join_cross:` for many-to-many and scenarios.
+* Reach joined fields with dots: `users.state`, `inventory_items.products.brand`.
+* Naive SQL joins double count. Malloy's **symmetric aggregates** use primary keys to compute each measure at its own grain, so counts, sums, and averages stay correct.
+* You can join to a **query** (for example, a summary table), not just to a table.
+
+> 🎯 **Challenge 10.1: Two hops.** Starting from `order_items`, show `total_sales` and `order_item_count` by **product brand** (`inventory_items.products.brand`) for the 10 biggest brands. Then add the number of distinct **customers** who bought each brand.
+
+> 🎯 **Challenge 10.2: Catch the double count.** Using the `customers` source (users with `join_many` to order items), compute the **average age** of customers by `country`. Then write the naive SQL version with `duckdb.sql(...)` and a `LEFT JOIN`, as in the example. Which countries differ the most, and why?
+
+> 🎯 **Challenge 10.3: Name share.** Using `names_with_totals`, find the 10 state-years where the name **Mary** had the **highest share** of all births in that state and year. (Hint: group by `state` and `year_born`, and sort by `share_of_state_year`.)

@@ -1,0 +1,179 @@
+##! experimental.givens
+
+// =============================================================================
+// names_full.malloy
+//
+// The complete U.S. baby names model, used in Chapter 14. It brings together
+// every kind of model element from the book:
+//
+//   1. compiler flags          (##! at the top)
+//   2. documentation           (// comments and #" descriptions)
+//   3. givens                  (values supplied when a query runs)
+//   4. sources                 (from a CSV, a Parquet file, and a query)
+//   5. primary keys and joins
+//   6. renames, dimensions, and measures
+//   7. render tags             (# percent, # line_chart, # dashboard ...)
+//   8. views                   (including nested and multi-stage views)
+//   9. named queries
+// =============================================================================
+
+
+// ---------------------------------------------------------------- givens ---
+
+given:
+  #" Two-letter code of the state the `home_state_names` source focuses on.
+  HOME_STATE :: string is 'OR'
+
+
+// ------------------------------------------------------ dimension tables ---
+
+#" One row per U.S. state (plus DC), with its Census Bureau region and division.
+source: states is duckdb.table('data/state_regions.csv') extend {
+  primary_key: state_code
+  measure:
+    #" Number of states.
+    state_count is count()
+}
+
+
+// ------------------------------------------------------------ fact table ---
+
+#" U.S. baby names: one row per state, gender, birth year, and name (1910–2021).
+#" Source: U.S. Social Security Administration. Names given to fewer than 5
+#" babies in a state and year are not included.
+source: names is duckdb.table('data/usa_names.parquet') extend {
+
+  // Raw columns that clash with Malloy keywords get friendlier names.
+  rename:
+    year_born is `year`
+    births is `number`
+
+  // Each row's 2-letter state code matches one row of `states`.
+  join_one: states on state = states.state_code
+
+  dimension:
+    #" The decade a baby was born in, e.g. 1990.
+    decade is floor(year_born / 10) * 10
+
+    #" Number of characters in the name.
+    name_length is length(name)
+
+    #" First letter of the name.
+    first_letter is substr(name, 1, 1)
+
+    #" Census region of the birth state (Northeast, Midwest, South, West).
+    region is states.region
+
+    #" Generational cohort, based on birth year.
+    generation is year_born ?
+      pick 'Greatest (1910–1927)'   when < 1928
+      pick 'Silent (1928–1945)'     when < 1946
+      pick 'Boomer (1946–1964)'     when < 1965
+      pick 'Gen X (1965–1980)'      when < 1981
+      pick 'Millennial (1981–1996)' when < 1997
+      pick 'Gen Z (1997–2012)'      when < 2013
+      else 'Gen Alpha (2013– )'
+
+  measure:
+    #" Total babies born.
+    total_births is births.sum()
+
+    #" Number of distinct names.
+    name_count is count(name)
+
+    #" Births to girls.
+    girls is total_births { where: gender = 'F' }
+
+    #" Births to boys.
+    boys is total_births { where: gender = 'M' }
+
+    #" Share of all births in the current result.
+    # percent
+    share_of_births is total_births / all(total_births)
+
+    #" Births per 100,000 babies in the current result.
+    # number="#,##0"
+    births_per_100k is total_births / all(total_births) * 100000
+
+  // ------------------------------------------------------------- views ---
+
+  #" The most popular names.
+  view: by_name is {
+    group_by: name
+    aggregate: total_births
+    limit: 10
+  }
+
+  #" Births per year, oldest first. Draws as a line chart.
+  # line_chart
+  view: by_year is {
+    group_by: year_born
+    aggregate: total_births
+    order_by: year_born
+  }
+
+  #" Births by Census region.
+  view: by_region is {
+    group_by: region
+    aggregate: total_births, share_of_births
+  }
+
+  #" A one-name report: trend, regions, and top states. Refine it with a
+  #" filter, e.g.  name_report + { where: name = 'Ava' }
+  # dashboard
+  view: name_report is {
+    aggregate: total_births, girls, boys
+    # line_chart
+    nest: by_year
+    # bar_chart
+    nest: by_region
+    nest: top_states is {
+      group_by: states.state_name
+      aggregate: total_births
+      limit: 5
+    }
+  }
+
+  #" How many names it took to cover half of each decade's births.
+  view: names_for_half_by_decade is {
+    group_by: decade, name
+    aggregate: total_births
+    calculate:
+      running_total is sum_cumulative(total_births) {
+        partition_by: decade
+        order_by: total_births desc
+      }
+      decade_total is sum_window(total_births) { partition_by: decade }
+  } -> {
+    where: running_total <= decade_total / 2
+    group_by: decade
+    aggregate: names_covering_half is count()
+    order_by: decade
+  }
+}
+
+
+// ------------------------------------------------------ derived sources ---
+
+#" Names, restricted to the state in the HOME_STATE given.
+source: home_state_names is names extend {
+  where: state = $HOME_STATE
+}
+
+#" One row per name and gender, with lifetime statistics. Built from a query.
+source: name_summary is names -> {
+  group_by: name, gender
+  aggregate:
+    lifetime_births is total_births
+    first_year is min(year_born)
+    last_year is max(year_born)
+} extend {
+  dimension: years_in_use is last_year - first_year + 1
+  measure: summary_name_count is count()
+}
+
+
+// --------------------------------------------------------- named queries ---
+
+#" The 10 most popular names of 2021.
+query: top_names_2021 is names -> by_name + { where: year_born = 2021 }

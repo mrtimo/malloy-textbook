@@ -1,0 +1,270 @@
+>>>markdown
+# Chapter 12: Pipelines and Window Calculations
+
+Some questions can't be answered in one pass over the data:
+
+* *How many names does it take to cover half of all babies?* First total each name, **then** add up the totals in order.
+* *In which decade did each name peak?* First find each name's best year, **then** group the names by that decade.
+* *How did sales change from last month?* First total each month, **then** compare each month with the one before it.
+
+Malloy has two tools for this:
+
+* **Pipelines** (`-> { } -> { }`): the output of one query stage becomes the input to the next.
+* **Calculations** (`calculate:`): window functions like `lag()`, `rank()`, and running totals, computed on a query's *results*.
+>>>malloy
+import "names.malloy"
+import "ecommerce.malloy"
+>>>markdown
+## Pipelines: chaining query stages
+
+You've been writing one-stage queries: `source -> { ... }`. Add another `->` and another `{ }`, and the second stage runs on the **output** of the first. The second stage can only see the first stage's output columns.
+
+**Question:** how are name lengths distributed? First get each name's total births (stage 1), then count how many *names* there are of each length (stage 2):
+>>>malloy
+run: names -> {
+  where: year_born = 2021
+  group_by: name, name_length
+  aggregate: total_births
+} -> {
+  group_by: name_length
+  aggregate:
+    names is count()
+    births is total_births.sum()
+  order_by: name_length
+}
+>>>markdown
+In stage 2, `count()` counts the rows produced by stage 1 (one per name), and `total_births.sum()` adds up stage 1's `total_births` column. To stage 2, `total_births` is just a number column. The measure definition from the model doesn't come along.
+
+> 📘 **Malloy docs.** [Multi-stage views and pipelines](https://docs.malloydata.dev/documentation/language/views#multi-stage-views) · [Queries](https://docs.malloydata.dev/documentation/language/query)
+
+### Example: when did each name peak?
+
+**Stage 1:** for each name and year, total the births. **Stage 2:** for each name, add up the lifetime total, find the biggest single year with `max()`, and use a nest with `limit: 1` (sorted by births) to show *which* year that was:
+>>>malloy
+run: names -> {
+  where: gender = 'F'
+  group_by: name, year_born
+  aggregate: births is total_births
+} -> {
+  group_by: name
+  aggregate:
+    lifetime_births is births.sum()
+    peak_births is births.max()
+  nest: peak is {
+    group_by: year_born
+    aggregate: births_that_year is births.sum()
+    order_by: births_that_year desc
+    limit: 1
+  }
+  having: births.sum() > 100000
+  order_by: lifetime_births desc
+  limit: 10
+}
+>>>markdown
+Each of these popular girls' names shows its peak year. Pipelines can be as long as you need, and each stage can use `where:`, `group_by:`, `nest:`, `having:`, and everything else.
+
+### Pipelines as sources
+
+Name a pipeline's output as a **source**, and you can query it like a table, and even `extend` it with new fields. This is how you build reusable summary tables:
+>>>malloy
+source: name_summary is names -> {
+  group_by: name, gender
+  aggregate:
+    lifetime_births is total_births
+    first_year is min(year_born)
+    last_year is max(year_born)
+    states_used is count(state)
+} extend {
+  dimension: years_in_use is last_year - first_year + 1
+  measure: name_count is count()
+}
+>>>malloy
+run: name_summary -> {
+  where: lifetime_births > 50000
+  group_by: gender
+  aggregate:
+    name_count
+    # number="0.0"
+    avg_years_in_use is years_in_use.avg()
+}
+>>>markdown
+### Query-local fields with extend:
+
+Sometimes a field is only needed by one query. `extend:` *inside* the query defines dimensions or measures that exist just for that query, without changing the model:
+>>>malloy
+run: names -> {
+  extend: {
+    dimension: is_double_letter_start is lower(substr(name, 1, 1)) = substr(name, 2, 1)
+  }
+  where: is_double_letter_start
+  group_by: name
+  aggregate: total_births
+  limit: 5
+}
+>>>markdown
+## Window calculations with calculate:
+
+A **calculation** is computed on the *rows of a query's result*, after grouping and aggregating. Each row can look at other rows: the previous one, the running total so far, its rank. These are SQL's window functions, written in `calculate:`.
+
+| Function | Meaning |
+|---|---|
+| `lag(x)` / `lag(x, n)` | the value of `x` from the previous row (or `n` rows back) |
+| `lead(x)` | the value from the next row |
+| `rank()` | the row's rank (ties share a rank) |
+| `row_number()` | 1, 2, 3, ... |
+| `sum_cumulative(x)` | running total |
+| `avg_moving(x, n)` | average of this row and the `n` before it |
+| `sum_window(x)` | sum over all rows (handy for shares) |
+| `first_value(x)` / `last_value(x)` | the first or last value in the window |
+
+> 📘 **Malloy docs.** [Calculations and window functions](https://docs.malloydata.dev/documentation/language/calculations_windows) · [Window function reference](https://docs.malloydata.dev/documentation/language/functions#window-functions)
+
+### lag: change from the previous row
+
+Calculations follow the query's `order_by:`. Sort by time, and `lag()` means "the previous period":
+>>>malloy
+run: order_items -> {
+  where: created_at ~ f'2022'
+  group_by: order_month is created_at.month
+  aggregate: total_sales
+  order_by: order_month
+  calculate:
+    # currency
+    prev_month is lag(total_sales)
+    # currency
+    change is total_sales - lag(total_sales)
+    # percent
+    pct_change is total_sales / lag(total_sales) - 1
+}
+>>>markdown
+The first row has no previous row, so its `lag` is null. This is the third way to do period-over-period comparisons, after the filtered measures and pivoted charts in [Chapter 8](08_filtering.malloynb).
+
+### rank and row_number
+
+The query's ordering also decides `rank()`:
+>>>malloy
+run: names -> {
+  where: year_born = 1990, gender = 'M'
+  group_by: name
+  aggregate: total_births
+  order_by: total_births desc
+  calculate: popularity_rank is rank()
+  limit: 10
+}
+>>>markdown
+### Running totals: sum_cumulative
+
+How many names does it take to cover **half** of all babies born in 2021? Sort names from most to least popular, keep a running total, and compare it with the overall total, `sum_window()`. Then a **second stage** counts the rows that are still under 50%. That's a pipeline *and* a window function together:
+>>>malloy
+run: names -> {
+  where: year_born = 2021
+  group_by: name
+  aggregate: total_births
+  order_by: total_births desc
+  calculate:
+    running_total is sum_cumulative(total_births)
+    grand_total is sum_window(total_births)
+} -> {
+  where: running_total <= grand_total / 2
+  aggregate: names_covering_half is count()
+}
+>>>markdown
+Just 262 names (out of more than 30,000) cover half of all babies born in 2021. How has that changed over time? We can do several years at once by restarting the running total for each year with `partition_by:` (more on that below):
+>>>malloy
+run: names -> {
+  where: year_born = 1950 | 1980 | 2000 | 2021
+  group_by: year_born, name
+  aggregate: total_births
+  calculate:
+    running_total is sum_cumulative(total_births) {
+      partition_by: year_born
+      order_by: total_births desc
+    }
+    grand_total is sum_window(total_births) {
+      partition_by: year_born
+    }
+} -> {
+  where: running_total <= grand_total / 2
+  group_by: year_born
+  aggregate: names_covering_half is count()
+  order_by: year_born
+}
+>>>markdown
+In 1950, a few dozen names covered half of all babies. By 2021, it took hundreds. Parents have been choosing more and more varied names.
+
+### Moving averages
+
+`avg_moving(x, n)` smooths a bumpy trend by averaging each row with the `n` rows before it. Here's a 3-month moving average of sales, as a chart:
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: order_items -> {
+  where: created_at ~ f'2021 to 2023'
+  group_by: order_month is created_at.month
+  aggregate: total_sales
+  order_by: order_month
+  calculate: three_month_avg is avg_moving(total_sales, 2)
+}
+>>>markdown
+### partition_by: restart the window for each group
+
+By default, a calculation runs over **all** the rows of the result. `partition_by:` restarts it for each group. Here's a year-to-date running total that starts over every January:
+>>>malloy
+run: order_items -> {
+  where: created_at ~ f'2021 to 2023'
+  group_by:
+    order_year is created_at.year
+    order_month is created_at.month
+  aggregate: total_sales
+  order_by: order_month
+  calculate:
+    # currency
+    ytd_sales is sum_cumulative(total_sales) {
+      partition_by: order_year
+      order_by: order_month
+    }
+  limit: 15
+}
+>>>markdown
+Look at the row for January 2022. `ytd_sales` starts over.
+
+The same idea works for names: year-over-year change *for each gender separately*:
+>>>malloy
+run: names -> {
+  where: name = 'Jordan', year_born ~ f'[1985 to 1995]'
+  group_by: gender, year_born
+  aggregate: total_births
+  order_by: gender, year_born
+  calculate:
+    change_from_last_year is total_births - lag(total_births) {
+      partition_by: gender
+      order_by: year_born
+    }
+}
+>>>markdown
+> ⚠️ **Calculations happen after `where:`.** A `calculate:` only sees the rows that survived the query's filters. If you filter to 2022 and ask for `lag()`, January 2022 has no "previous month," even though December 2021 exists in the data. To compare with rows you don't want to *show*, compute in one stage and filter in the next stage of a pipeline.
+
+### Calculations vs. all()
+
+Both give you numbers from "other rows." So which should you use?
+
+| `all()` / `exclude()` ([Chapter 11](11_percent_of_total.malloynb)) | `calculate:` |
+|---|---|
+| aggregates **ignoring grouping** | looks at **other result rows** |
+| order doesn't matter | order matters (`lag`, running totals) |
+| can be used in measures and in later aggregates | can't be aggregated in the same stage (use a pipeline) |
+| shares, totals, contributions | change from previous row, ranks, running totals, moving averages |
+
+## Key takeaways
+
+* A **pipeline** (`-> {...} -> {...}`) feeds one stage's output into the next. Use it whenever a question needs "first summarize, then summarize again."
+* A pipeline can be turned into a **source** (`source: x is s -> {...} extend {...}`) or a multi-stage **view**.
+* `extend:` inside a query adds fields for just that query.
+* `calculate:` runs window functions on the result rows, following the query's `order_by:`: `lag`, `lead`, `rank`, `row_number`, `sum_cumulative`, `avg_moving`, `sum_window`...
+* `partition_by:` restarts a calculation for each group, and an `order_by:` inside the calculation sets its order separately from the result's order.
+
+> 🎯 **Challenge 12.1: The #1 name each year.** For girls, find the **number-one name for each year** from 2000 to 2021. Use `group_by: year_born, name`, `calculate: r is rank() { partition_by: year_born order_by: total_births desc }`, and then a **second pipeline stage** that keeps only rows where `r = 1`. How many different names were #1?
+
+> 🎯 **Challenge 12.2: Biggest jump.** Using `lag()`, find the 10 **year-to-year increases** in births for the name **Emma** (girls only), largest first. Hint: compute the change in stage 1 (ordered by year), then sort by it in stage 2.
+
+> 🎯 **Challenge 12.3: Cumulative customers.** In the e-commerce data, count **new customers per month** (customers whose first order was in that month). Then add a running total of customers over time with `sum_cumulative`, and draw it as a `# line_chart`. (Hint: stage 1 groups by `user_id` with `first_order is min(created_at)`. Stage 2 groups by `first_order.month`.)

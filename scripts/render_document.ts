@@ -1,0 +1,639 @@
+/*
+ * Copyright 2023 Google LLC
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files
+ * (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkFrontmatter from "remark-frontmatter";
+import remarkGfm from "remark-gfm";
+import { Markdown, Position, Root } from "./markdown_types.js";
+import { runCode, runNotebookCode } from "./run_code.js";
+import { log } from "./log.js";
+import { highlight } from "./highlighter.js";
+import yaml from "yaml";
+import { DEFAULT_CONTEXT } from "./context.js";
+import { hashForHeading, isMalloyNB } from "./utils.js";
+import {
+  MalloySQLParser,
+  MalloySQLStatementType,
+} from "@malloydata/malloy-sql";
+import { DocumentPosition, DocumentRange, ModelDef } from "@malloydata/malloy";
+import { DocsError } from "./errors.js";
+
+function plainTextFromMarkdown(nodes: Markdown[]): string {
+  return nodes
+    .map((node) => {
+      if ("value" in node && typeof node.value === "string") {
+        return node.type === "html" ? "" : node.value;
+      }
+      if ("children" in node && Array.isArray(node.children)) {
+        return plainTextFromMarkdown(node.children as Markdown[]);
+      }
+      return "";
+    })
+    .join("");
+}
+
+/*
+ * A Renderer is capable of converting a parsed `Markdown` document into HTML,
+ * given that it exists at a given `path`.
+ */
+class Renderer {
+  // The path where the document being rendered exists.
+  private readonly path: string;
+  private models: Map<string, string>;
+  private _errors: DocsError[] = [];
+  private readonly titleStack: { level: number; title: string }[] = [];
+  public readonly links: {
+    link: string;
+    style: "md" | "html";
+    position: Position;
+  }[] = [];
+  public readonly hashes: string[] = [];
+  public readonly searchSegments: {
+    titles: string[];
+    paragraphs: (
+      | { type: "p"; text: string }
+      | { type: "code"; text: string }
+    )[];
+  }[] = [];
+  private cellNumber = 0;
+  private mode: "markdown" | "malloy" | undefined = undefined;
+  // Undefined until the first Malloy cell compiles: cell 1 has no base model
+  // to extend, so it is compiled on its own and every later cell extends what
+  // came before.
+  private modelDef: ModelDef | undefined = undefined;
+
+  constructor(path: string) {
+    this.path = path;
+    this.models = new Map();
+  }
+
+  private setModel(modelPath: string, source: string) {
+    this.models.set(modelPath, source);
+  }
+
+  protected async code(
+    code: string,
+    infostring: string | undefined,
+    _escaped: boolean,
+    position: Position
+  ) {
+    let lang = (infostring || "txt").trim();
+    let showCode = code;
+    let hidden = false;
+    let result = "";
+    let highlightedCode: string;
+    let prefix = "";
+    if (lang === "malloy-x") {
+      showCode = removeDocsTags(code);
+      try {
+        const { rendered, newModel, isHidden } = await runNotebookCode(
+          code,
+          showCode,
+          this.path,
+          { dataStyles: {} },
+          this.modelDef,
+          this.cellNumber
+        );
+        result = rendered;
+        hidden = isHidden;
+        this.modelDef = newModel;
+        const githubDevURL = `${notebookURL(this.path)}#C${this.cellNumber}`;
+        prefix = `<a href="${githubDevURL}" target="_blank" class="open_notebook"><img src="${DEFAULT_CONTEXT.site.baseurl}/img/open_notebook.svg" alt="document"/></a>`;
+      } catch (error) {
+        log(
+          `Error in file ${this.path}:${position.start.line}:${position.start.column}: ${error.message}`,
+          "error"
+        );
+        result = `<div class="error">Error: ${error.toString()}</div>`;
+        this._errors.push({
+          position,
+          message: `${error.message}\n\`\`\`\n${code}\n\`\`\``,
+          path: this.path,
+        });
+      }
+      highlightedCode = await highlight(showCode, "malloy");
+    } else {
+      highlightedCode = await highlight(showCode, lang);
+    }
+
+    const segment = this.searchSegments[this.searchSegments.length - 1];
+    if (segment) {
+      segment.paragraphs.push({ type: "code", text: highlightedCode });
+    }
+
+    if (showCode.startsWith("\n") || showCode.endsWith("\n\n")) {
+      this._errors.push({
+        position,
+        message: `Code snippets should not have leading or trailing newlines`,
+        path: this.path,
+      });
+    }
+
+    return `<div class="code-wrapper">${
+      hidden ? "" : prefix + highlightedCode
+    }${result ?? ""}</div>`;
+  }
+
+  protected async blockquote(content: Markdown[]) {
+    const quote = await this.children(content);
+    // Callout boxes. A blockquote whose first paragraph starts with one of
+    // these emoji becomes a styled box on the website, and still reads well as
+    // a plain blockquote inside a VS Code notebook.
+    const callouts: [string, string][] = [
+      ["🎯", "challenge"],
+      ["📘", "docs-link"],
+      ["💡", "tip"],
+      ["⚠️", "warning"],
+    ];
+    const firstText = quote.replace(/<[^>]*>/g, "").trimStart();
+    for (const [emoji, cls] of callouts) {
+      if (firstText.startsWith(emoji)) {
+        return `<div class="callout callout-${cls}">\n${quote}</div>\n`;
+      }
+    }
+    return "<blockquote>\n" + quote + "</blockquote>\n";
+  }
+
+  protected async html(html: string, position: Position) {
+    // HTML parsing with Regex lol
+    const linkRegex = /<a\s+href=["']([^"']*)["']/g;
+    let match: RegExpExecArray;
+    while ((match = linkRegex.exec(html)) != null) {
+      const before = html.slice(0, match.index);
+      const beforeLines = before.split("\n");
+      const linkPosition: Position = {
+        start: {
+          line: position.start.line + beforeLines.length - 1,
+          column:
+            beforeLines.length > 1
+              ? beforeLines[beforeLines.length - 1].length
+              : beforeLines[beforeLines.length - 1].length +
+                position.start.column,
+          offset: position.start.offset + before.length,
+        },
+        end: {
+          line: position.start.line + beforeLines.length - 1,
+          column:
+            beforeLines.length > 1
+              ? match[0].length
+              : position.start.column + match[0].length,
+          offset: position.start.offset + before.length + match[0].length,
+        },
+      };
+      this.links.push({
+        link: match[1],
+        style: "html",
+        position: linkPosition,
+      });
+    }
+    return html;
+  }
+
+  private registerTitle(titleHTML: string, level: number) {
+    for (;;) {
+      const lastTitle = this.titleStack[this.titleStack.length - 1];
+      if (lastTitle === undefined || lastTitle.level < level) {
+        break;
+      } else {
+        this.titleStack.pop();
+      }
+    }
+    this.titleStack.push({ level, title: titleHTML });
+    this.searchSegments.push({
+      titles: this.titleStack.map((item) => item.title),
+      paragraphs: [],
+    });
+  }
+
+  protected async heading(content: Markdown[], level: 1 | 2 | 3 | 4 | 5 | 6) {
+    const text = await this.children(content);
+    this.registerTitle(text, level);
+    const escapedText = hashForHeading(plainTextFromMarkdown(content));
+    this.hashes.push(escapedText);
+    // TODO handle ambiguous hashes?
+
+    const heading = `
+      <h${level}>
+        <a id="${escapedText}" class="header-link anchor" href="#${escapedText}">
+          ${text}
+        </a>
+      </h${level}>
+    `;
+    if (level === 1) {
+      return `<div class="title-row">
+        ${heading}
+        <a class="edit-link" target="_blank" href="${notebookURL(this.path)}">Open in VS Code <img src="${DEFAULT_CONTEXT.site.baseurl}/img/open_notebook.svg" alt="document"/></a>
+        </div>
+      `;
+    } else {
+      return heading;
+    }
+  }
+
+  protected async hr() {
+    return "<hr/>\n";
+  }
+
+  protected async list(content: Markdown[], ordered: boolean, start: number) {
+    const renderContent = async (item: Markdown) => {
+      if (item.type !== "listItem") {
+        throw new Error("Unexpected child of list renderer.");
+      }
+      return this.listItem(item.children, item.checked);
+    };
+    const body = (
+      await Promise.all(content.map((item) => renderContent(item)))
+    ).join("\n");
+    const type = ordered ? "ol" : "ul",
+      startatt = ordered && start !== 1 ? ' start="' + start + '"' : "";
+    return "<" + type + startatt + ">\n" + body + "</" + type + ">\n";
+  }
+
+  protected async listItem(content: Markdown[], checked: boolean | null) {
+    const text = await this.children(content);
+    if (checked !== null) {
+      return `<li class="task"><input ${checked ? "checked" : ""}
+          disabled="" type="checkbox"
+          />${text}</li>`;
+    } else {
+      return `<li>${text}</li>`;
+    }
+  }
+
+  protected async paragraph(content: Markdown[]) {
+    const text = await this.children(content);
+    const segment = this.searchSegments[this.searchSegments.length - 1];
+    if (segment) {
+      segment.paragraphs.push({ type: "p", text });
+    }
+    return "<p>" + text + "</p>\n";
+  }
+
+  protected async table(
+    content: Markdown[],
+    align: ("left" | "right" | null)[]
+  ) {
+    const renderRow = async (row: Markdown, header: boolean) => {
+      if (row.type !== "tableRow") {
+        throw new Error("Expected table row.");
+      }
+
+      return this.tableRow(row.children, header, align);
+    };
+
+    const head = await renderRow(content[0], true);
+    const body = (
+      await Promise.all(content.slice(1).map((row) => renderRow(row, false)))
+    ).join("\n");
+
+    return (
+      "<table>\n" +
+      "<thead>\n" +
+      head +
+      "</thead>\n" +
+      "<tbody>" +
+      body +
+      "</tbody>" +
+      "</table>\n"
+    );
+  }
+
+  protected async tableRow(
+    cells: Markdown[],
+    header: boolean,
+    align: ("left" | "right" | null)[]
+  ) {
+    const renderCell = async (
+      cell: Markdown,
+      align: "left" | "right" | null
+    ) => {
+      if (cell.type !== "tableCell") {
+        throw new Error("Expected table cell.");
+      }
+
+      return this.tablecell(cell.children, header, align);
+    };
+
+    const body = (
+      await Promise.all(
+        cells.map((cell, index) => renderCell(cell, align[index]))
+      )
+    ).join("\n");
+
+    return "<tr>\n" + body + "</tr>\n";
+  }
+
+  protected async tablecell(
+    content: Markdown[],
+    header: boolean,
+    align: "left" | "right" | null
+  ) {
+    const text = await this.children(content);
+    const type = header ? "th" : "td";
+    const tag = align
+      ? "<" + type + ' align="' + align + '">'
+      : "<" + type + ">";
+    return tag + text + "</" + type + ">\n";
+  }
+
+  protected async strong(content: Markdown[]) {
+    const text = await this.children(content);
+    return "<strong>" + text + "</strong>";
+  }
+
+  protected async emphasis(content: Markdown[]) {
+    const text = await this.children(content);
+    return "<em>" + text + "</em>";
+  }
+
+  protected async codeSpan(text: string) {
+    return highlight(text, "malloy", { inline: true });
+  }
+
+  protected async break() {
+    return "<br/>";
+  }
+
+  protected async delete(content: Markdown[]) {
+    const text = await this.children(content);
+    return "<del>" + text + "</del>";
+  }
+
+  protected async link(
+    href: string | null,
+    title: string | null,
+    content: Markdown[],
+    position: Position
+  ) {
+    const text = await this.children(content);
+    if (href === null) {
+      return text;
+    }
+    this.links.push({ link: href, style: "md", position });
+    // Only strip .malloynb from internal links, not external URLs
+    if (!href.startsWith("http://") && !href.startsWith("https://")) {
+      href = href.replace(/\.malloynb$/, "").replace(/\.malloynb#/, "#");
+    }
+    let out = href.startsWith("/")
+      ? `<a href="${DEFAULT_CONTEXT.site.baseurl}${href}"`
+      : `<a href="${href}"`;
+    if (title) {
+      out += ' title="' + title + '"';
+    }
+    out += ">" + text + "</a>";
+    return out;
+  }
+
+  protected async image(
+    href: string | null,
+    title: string | null,
+    text: string
+  ) {
+    if (href === null) {
+      return text;
+    }
+
+    let out = '<img src="' + href + '" alt="' + text + '"';
+    if (title) {
+      out += ' title="' + title + '"';
+    }
+    out += "/>";
+    return out;
+  }
+
+  protected async text(text: string) {
+    return text;
+  }
+
+  protected async children(children: Markdown[]) {
+    // Must be executed in order, because notebook-style queries have side effects
+    let result = "";
+    for (const child of children) {
+      result += await this.render(child);
+    }
+    return result;
+
+    // return (
+    //   await Promise.all(children.map((child) => this.render(child)))
+    // ).join("");
+  }
+
+  private async root(children: Markdown[]) {
+    return `<div class="document">${await this.children(children)}</div>`;
+  }
+
+  async render(ast: Markdown): Promise<string> {
+    if (ast.type !== "root") {
+      const isCodeCell = ast.type === "code" && ast.lang === "malloy-x";
+      if (this.mode !== "markdown" && !isCodeCell) {
+        this.mode = "markdown";
+        this.cellNumber += 1;
+      } else if (isCodeCell) {
+        this.mode = "malloy";
+        this.cellNumber += 1;
+      }
+    }
+    switch (ast.type) {
+      case "root":
+        return this.root(ast.children);
+      case "heading":
+        return this.heading(ast.children, ast.depth);
+      case "text":
+        return this.text(ast.value);
+      case "paragraph":
+        return this.paragraph(ast.children);
+      case "link":
+        return this.link(ast.url, ast.title, ast.children, ast.position);
+      case "emphasis":
+        return this.emphasis(ast.children);
+      case "strong":
+        return this.strong(ast.children);
+      case "list":
+        return this.list(ast.children, ast.ordered, ast.start || 0);
+      case "table":
+        return this.table(ast.children, ast.align);
+      case "inlineCode":
+        return this.codeSpan(ast.value);
+      case "code":
+        return this.code(ast.value, ast.lang, false, ast.position);
+      case "blockquote":
+        return this.blockquote(ast.children);
+      case "break":
+        return this.break();
+      case "thematicBreak":
+        return this.hr();
+      case "html":
+        return this.html(ast.value, ast.position);
+      case "image":
+        return this.image(ast.url, ast.title, ast.alt);
+      case "delete":
+        return this.delete(ast.children);
+      default:
+        throw new Error(`Unexpected markdown node type.`);
+    }
+  }
+
+  get errors() {
+    return this._errors;
+  }
+}
+
+function parseMarkdown(text: string): Root {
+  const ast = unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkFrontmatter, ["yaml"])
+    .parse(text);
+  return ast as unknown as Root;
+}
+
+function convertPosition(
+  text: string,
+  documentPosition: DocumentPosition
+): { line: number; column: number; offset: number } {
+  const lines = text.split("\n");
+  return {
+    line: documentPosition.line,
+    column: documentPosition.character,
+    offset:
+      documentPosition.character +
+      lines.slice(documentPosition.line).join("\n").length,
+  };
+}
+
+function convertRange(text: string, documentRange: DocumentRange): Position {
+  return {
+    start: convertPosition(text, documentRange.start),
+    end: convertPosition(text, documentRange.end),
+  };
+}
+
+function parseMalloyNB(text: string, path: string): Root {
+  const parse = MalloySQLParser.parse(text, path);
+  const children: Markdown[] = parse.statements.flatMap((stmt) => {
+    const position = convertRange(text, stmt.range);
+    if (stmt.type === MalloySQLStatementType.MALLOY) {
+      return [
+        {
+          type: "code",
+          lang: "malloy-x",
+          value: stmt.text,
+          meta: undefined,
+          position,
+        },
+      ];
+    } else if (stmt.type === MalloySQLStatementType.SQL) {
+      return [
+        {
+          type: "code",
+          lang: "sql",
+          value: stmt.text,
+          meta: undefined,
+          position,
+        },
+      ];
+    } else {
+      // TODO map positions...
+      const markdown = parseMarkdown(stmt.text);
+      return markdown.children;
+    }
+  });
+  return {
+    type: "root",
+    children,
+    position: {
+      start: { line: 0, column: 0, offset: 0 },
+      end: { line: 0, column: 0, offset: 0 },
+    },
+  };
+}
+type RenderDocResult = {
+  renderedDocument: string;
+  errors: DocsError[];
+  links: { link: string; style: "md" | "html"; position: Position }[];
+  searchSegments: {
+    titles: string[];
+    paragraphs: (
+      | { type: "p"; text: string }
+      | { type: "code"; text: string }
+    )[];
+  }[];
+  hashes: string[];
+  frontmatter: any;
+};
+
+export async function renderDoc(
+  text: string,
+  path: string
+): Promise<RenderDocResult> {
+  const ast = parseMalloyNB(text, path);
+  const renderer = new Renderer(path);
+  let frontmatter: unknown = {};
+  if (ast.children[0]?.type === "yaml") {
+    const frontmatterRaw = ast.children[0].value;
+    frontmatter = yaml.parse(frontmatterRaw);
+    ast.children = ast.children.slice(1);
+  }
+  const renderedDocument = await renderer.render(ast as unknown as Markdown);
+  return {
+    renderedDocument,
+    errors: renderer.errors,
+    searchSegments: renderer.searchSegments,
+    frontmatter,
+    hashes: renderer.hashes,
+    links: renderer.links,
+  };
+}
+
+// TODO: Do we use the returned link metadata for anything?
+export function getRenderDocResultForRenderedDoc(
+  content: string
+): RenderDocResult {
+  return {
+    renderedDocument: content,
+    errors: [],
+    links: [],
+    searchSegments: [],
+    hashes: [],
+    frontmatter: {},
+  };
+}
+
+function removeDocsTags(code: string) {
+  return code
+    .split("\n")
+    .filter((l) => !l.match(/^#\(docs\) /))
+    .join("\n");
+}
+
+/*
+ * Link to the student copy of a notebook in github.dev (VS Code in the
+ * browser). Textbook pages live at src/textbook/<file>.malloynb and the
+ * student copies live at the root of the notebooks repository.
+ */
+function notebookURL(docPath: string) {
+  const site = DEFAULT_CONTEXT.site;
+  const rel = docPath.replace(/^\/textbook\//, "");
+  return `https://github.dev/${site.notebooksRepo}/blob/${site.githubBranch}/${rel}`;
+}

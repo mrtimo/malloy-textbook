@@ -1,0 +1,142 @@
+>>>markdown
+# Chapter 6: The Malloy Explorer
+
+You've been writing Malloy by hand. The **Malloy Explorer** lets you build the same queries by **pointing and clicking** on a source's dimensions, measures, and views. Then it shows you the Malloy code it wrote. This is a great way to:
+
+* get answers fast before you're fluent in the syntax
+* discover what fields a model offers
+* **learn the language** by reading the code the Explorer generates
+
+In this chapter you'll open the Explorer on the `names` source, build a few queries, and then read (and run) the Malloy behind them.
+
+> 📘 **Malloy docs.** [Explorer: visual query builder](https://docs.malloydata.dev/documentation/user_guides/publishing/explorer)
+
+## Opening the Explorer
+
+1. In VS Code, open `names.malloy` from the `malloy-textbook-notebooks` folder.
+2. Above the line `source: names is ...` you'll see small links. Click **Explore**.
+
+<img src="img/explorer-entry-from-malloy-file-hover.png" alt="The Explore link above a source definition" style="max-width: 600px;">
+
+You can also open the Command Palette (<code>Cmd+Shift+P</code> / <code>Ctrl+Shift+P</code>), type **Malloy: Explore**, and pick a source.
+
+<img src="img/explorer-entry-from-command-palette.png" alt="Opening the Explorer from the command palette" style="max-width: 600px;">
+
+## A tour of the screen
+
+The Explorer has three panels:
+
+<img src="img/explorer-full-UI.png" alt="The full Explorer interface" style="max-width: 900px;">
+
+1. **Source panel** (left): every dimension, measure, and view in the source. For `names` you'll see `state`, `gender`, `year_born`, `decade`, `generation` ... under *Dimensions*, `total_births`, `name_count` ... under *Measures*, and `by_name`, `by_state` ... under *Views*.
+2. **Query panel** (middle): the query you're building, shown as labeled sections (Group By, Aggregate, Filter, Order By, Limit).
+3. **Results panel** (right): the result, drawn as a table or chart, with tabs that show the generated **Malloy** and **SQL**.
+
+<img src="img/source-panel.png" alt="The source panel" style="max-width: 260px;">
+
+> 💡 **Descriptions show up here.** Hover over a field in the source panel. Text written with `#"` above a field in `names.malloy` (for example `#" The decade a baby was born in`) appears as its description. This is one reason to document your model. See [Chapter 14](14_model_review.malloynb).
+
+## Exercise 1: births by state
+
+Let's build our first query without typing any code.
+
+1. In the source panel, hover over the dimension **state** and click **Add as group by**.
+
+   <img src="img/source-panel-dimension-hover-groupby.png" alt="Add as group by" style="max-width: 260px;">
+
+2. Hover over the measure **total_births** and click **Add as aggregate**.
+
+   <img src="img/source-panel-measure-hover-aggregate.png" alt="Add as aggregate" style="max-width: 260px;">
+
+3. Click **Run**.
+
+Now click the **Malloy** tab in the results panel. You'll see something like this:
+>>>malloy
+import "names.malloy"
+>>>malloy
+run: names -> {
+  group_by: state
+  aggregate: total_births
+}
+>>>markdown
+That's exactly the kind of query you wrote in Chapter 1! The Explorer is not a separate tool with its own rules. It's a friendly way to *write Malloy*.
+
+<img src="img/results-malloy.png" alt="The Malloy tab of the results panel" style="max-width: 450px;">
+
+## Exercise 2: add a filter and a chart
+
+1. Hover over **year_born** and click **Add as filter**. Choose *equal to* and type <code>2000</code>.
+2. Hover over **gender**, click **Add as filter**, and pick <code>F</code>.
+3. Use the **+** menu in the query panel to add a **Limit** of 10.
+4. Open the chart-type menu at the top of the query panel and choose **Bar Chart**.
+
+<img src="img/query-panel-chart-selector.png" alt="The chart type selector" style="max-width: 350px;">
+
+The Malloy tab now shows the filters, the limit, and a render tag from [Chapter 4](04_render_tags.malloynb). (The Explorer may write filters a little differently, for example as the [filter expressions](08_filtering.malloynb) you'll learn in Chapter 8, but the meaning is the same.)
+>>>malloy
+#(docs) size=large limit=5000
+# bar_chart
+run: names -> {
+  where: year_born = 2000, gender = 'F'
+  group_by: state
+  aggregate: total_births
+  limit: 10
+}
+>>>markdown
+## Exercise 3: a nested query
+
+The Explorer can build nests, too.
+
+1. Start a new query: group by **decade**, aggregate **total_births**.
+2. In the source panel, hover over the view **by_name** and choose **Add as new nested query**.
+3. Run it.
+
+<img src="img/query-panel-build-nested-query.png" alt="Building a nested query in the Explorer" style="max-width: 625px;">
+
+The Malloy tab shows a `nest:`, just like [Chapter 3](03_views_and_nesting.malloynb):
+>>>malloy
+#(docs) size=large
+run: names -> {
+  group_by: decade
+  aggregate: total_births
+  nest: by_name
+  order_by: decade desc
+}
+>>>markdown
+## From the Explorer to your notebook
+
+When you're happy with a query in the Explorer:
+
+1. Click the **Malloy** tab in the results panel and copy the code.
+2. In your notebook, add a new Malloy cell and paste it in.
+3. Make sure the notebook has an `import "names.malloy"` cell above it.
+4. Run the cell, and keep editing by hand if you like.
+
+This back-and-forth is a great way to learn. Build something by clicking, read the code, then change the code by hand and see what happens.
+
+Also check out the **SQL** tab. It shows the SQL that Malloy generated, which is often much longer than the Malloy that produced it.
+
+<img src="img/results-sql.png" alt="The SQL tab of the results panel" style="max-width: 600px;">
+
+## Explorer vs. writing code
+
+| The Explorer is great for... | Writing code is better for... |
+|---|---|
+| quick questions and exploring a new model | anything you'll keep, share, or reuse |
+| learning which fields exist | new dimensions and measures (the Explorer only uses what the model defines) |
+| a first draft of a complicated nest | pipelines, `calculate:`, and other advanced features |
+| people who don't know Malloy yet | notebooks with narrative, and anything you'll check into Git |
+
+The Explorer only shows what's in the **model**. If a question needs a new measure, you add it to the `.malloy` file, and then the Explorer can use it. Good models make the Explorer powerful.
+
+## Key takeaways
+
+* Click **Explore** above any `source:` to build queries by pointing and clicking.
+* The Explorer writes ordinary Malloy. Read the **Malloy** tab to learn the syntax, and copy it into notebooks.
+* The Explorer can only use the dimensions, measures, and views in the model. Better models make better Explorer sessions.
+
+> 🎯 **Challenge 6.1: Click, then type.** Use the Explorer on `names` to build this query: *the 10 most popular boys' names in Texas in the 1990s.* Copy the generated Malloy into a new cell in this notebook and run it. Then, **by hand**, change it to show girls' names instead.
+
+> 🎯 **Challenge 6.2: Explore the e-commerce model.** Open `ecommerce.malloy` and click **Explore** above `source: order_items`. Find the fields that come from the joined `users` and `inventory_items` sources. Build a query that shows `total_sales` by `users.traffic_source`, and nest `by_category` inside it. Paste the Malloy into this notebook (don't forget `import "ecommerce.malloy"`).
+
+> 🎯 **Challenge 6.3: Spot the difference.** Build any query in the Explorer, then compare the **Malloy** tab and the **SQL** tab. In a Markdown cell, write two or three sentences about which one is easier to read, and why.

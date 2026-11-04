@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>13. Givens | Learning Malloy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/malloy-textbook/css/document.css" />
+    <link rel="stylesheet" href="/malloy-textbook/css/textbook.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/malloy-textbook/favicon.ico" />
+    <script src="/malloy-textbook/js/generated/malloy-render-0.0.437.js"></script>
+    <style>
+      .result-inner .malloy-render { width: 100%; }
+      .result-inner .table-container { width: 100%; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="header">
+        <div class="header-banner">
+          <a class="book-mark" href="/malloy-textbook/textbook">
+            <span class="book-title">Learning Malloy</span>
+            <span class="subtitle">A Hands-On Textbook</span>
+          </a>
+        </div>
+        <div class="header-right">
+          <div class="header-links">
+            <a class="pill" href="https://docs.malloydata.dev/documentation/" target="_blank">Malloy Docs ↗</a>
+            <a href="https://github.com/mrtimo/malloy-textbook" target="_blank" title="Textbook source on GitHub"
+              ><img src="/malloy-textbook/img/github.svg" style="transform: scale(0.5)"
+            /></a>
+          </div>
+          <form action="/malloy-textbook/search">
+            <div class="search-input-outer">
+              <img src="/malloy-textbook/img/search.svg" alt="search" />
+              <input placeholder="Search the textbook" id="search-input" name="query" />
+            </div>
+            <input type="submit" style="display: none" />
+          </form>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+              <div id=start_here
+                class="sidebar-section-title {% unless /textbook/index.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Start Here
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                Welcome
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_i · foundations
+                class="sidebar-section-title {% unless /textbook/01_basics.html,/textbook/02_time_truncation.html,/textbook/03_views_and_nesting.html,/textbook/04_render_tags.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part I · Foundations
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/01_basics">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                1. The Basics
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/02_time_truncation">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                2. Time Truncation
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/03_views_and_nesting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                3. Views and Nesting
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/04_render_tags">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                4. Render Tags
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_ii · tools and data
+                class="sidebar-section-title {% unless /textbook/05_files_and_notebooks.html,/textbook/06_explorer.html,/textbook/07_csv_and_parquet.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part II · Tools and Data
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/05_files_and_notebooks">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                5. Files vs. Notebooks
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/06_explorer">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                6. The Malloy Explorer
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/07_csv_and_parquet">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                7. CSV and Parquet
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iii · analysis
+                class="sidebar-section-title {% unless /textbook/08_filtering.html,/textbook/09_data_cleaning.html,/textbook/10_joins.html,/textbook/11_percent_of_total.html,/textbook/12_pipelines_and_windows.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part III · Analysis
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/08_filtering">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                8. Filtering and Time Comparisons
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/09_data_cleaning">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                9. Data Cleaning
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/10_joins">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                10. Joins and Symmetric Aggregates
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/11_percent_of_total">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                11. Percent of Total
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/12_pipelines_and_windows">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                12. Pipelines and Window Calculations
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iv · modeling
+                class="sidebar-section-title {% unless /textbook/13_givens.html,/textbook/14_model_review.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part IV · Modeling
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item active'>
+              <a href="/malloy-textbook/textbook/13_givens">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                13. Givens
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/14_model_review">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                14. Anatomy of a Malloy Model
+              </a>
+            </div>
+              </div>
+            </div>
+          </div>        <script src="/malloy-textbook/js/sidebar_state.js"></script>
+        <div class="content">
+          <div class="footer">
+            
+<div class="linear-navigation">
+  <div class="item">
+      <a href="12_pipelines_and_windows.html"><img src="/malloy-textbook/img/previous.svg" alt="previous"/>12. Pipelines and Window Calculations</a>
+  </div>
+  <div class="item">
+      <a href="14_model_review.html">14. Anatomy of a Malloy Model<img src="/malloy-textbook/img/next.svg" alt="next"/></a>
+  </div>
+</div> 
+          </div>
+          <div class="document-outer"><div class="document"><div class="title-row">
+        
+      <h1>
+        <a id="chapter-13-givens" class="header-link anchor" href="#chapter-13-givens">
+          Chapter 13: Givens
+        </a>
+      </h1>
+    
+        <a class="edit-link" target="_blank" href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/13_givens.malloynb">Open in VS Code <img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a>
+        </div>
+      <p>So far every value in our queries has been written into the code: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">state</span><span style="color: #000000"> = </span><span style="color: #A31515">&#39;CA&#39;</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">year_born</span><span style="color: #000000"> = </span><span style="color: #098658">2021</span></span></code>. But often the <em>same</em> analysis should run with <em>different</em> values: a report for each state, a dashboard where the user picks a date range, an app where each customer sees only their own data.</p>
+<p><strong>Givens</strong> are named values that a Malloy model receives <strong>when a query runs</strong>. The model declares what it expects (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">given</span><span style="color: #000000">:</span></span></code>), uses those values anywhere with a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">$</span></span></code> (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">$STATE</span></span></code>), and whoever runs the query (VS Code, an app, a config file) supplies them.</p>
+<div class="callout callout-warning">
+<p>⚠️ <strong>Experimental feature.</strong> Givens are new in Malloy and still marked <em>experimental</em>. To use them, a file must turn them on with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">##! </span><span style="color: #001080">experimental</span><span style="color: #000000">.</span><span style="color: #001080">givens</span></span></code>. Details, and even the name "given," may change in future versions. The examples here were tested with the version of Malloy used to build this book.</p>
+</div>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> <a href="https://docs.malloydata.dev/documentation/experiments/givens">Givens: model-level parameters</a> · <a href="https://docs.malloydata.dev/documentation/experiments/experiments">Experimental features</a></p>
+</div>
+
+      <h2>
+        <a id="turning-givens-on" class="header-link anchor" href="#turning-givens-on">
+          Turning givens on
+        </a>
+      </h2>
+    <p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">##!</span></span></code> lines are <strong>compiler flags</strong> for the whole file. Put this one at the very top of a model or notebook:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/13_givens.malloynb#C2" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">##! </span><span style="color: #001080">experimental</span><span style="color: #000000">.</span><span style="color: #001080">givens</span></span>
+<span class="line"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;names.malloy&quot;</span></span>
+<span class="line"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;ecommerce.malloy&quot;</span></span></pre></div>
+      <h2>
+        <a id="declaring-givens" class="header-link anchor" href="#declaring-givens">
+          Declaring givens
+        </a>
+      </h2>
+    <p>A <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">given</span><span style="color: #000000">:</span></span></code> block lists each value's <strong>name</strong>, <strong>type</strong> (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">::</span></span></code>), and optional <strong>default</strong> (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">is</span></span></code>). By convention, given names are written in CAPITALS so they stand out:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/13_givens.malloynb#C4" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">given</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #001080">FOCUS_STATE</span><span style="color: #000000"> :: </span><span style="color: #0000FF">string</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;OR&#39;</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #001080">FOCUS_NAME</span><span style="color: #000000"> :: </span><span style="color: #0000FF">string</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;Olivia&#39;</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #001080">START_YEAR</span><span style="color: #000000"> :: </span><span style="color: #0000FF">number</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #098658">2000</span></span></pre></div>
+      <h2>
+        <a id="using-givens-with-" class="header-link anchor" href="#using-givens-with-">
+          Using givens with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">$</span></span></code>
+        </a>
+      </h2>
+    <p>Use a given anywhere an expression can go, by putting a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">$</span></span></code> in front of its name. (One exception in the Malloy version used for this book: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">limit</span><span style="color: #000000">:</span></span></code> needs a plain number, so <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">limit</span><span style="color: #000000">: </span><span style="color: #001080">$TOP_N</span></span></code> doesn't work.)</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/13_givens.malloynb#C6" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">names</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">state</span><span style="color: #000000"> = </span><span style="color: #001080">$FOCUS_STATE</span><span style="color: #000000">, </span><span style="color: #001080">year_born</span><span style="color: #000000"> &gt;= </span><span style="color: #001080">$START_YEAR</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">name</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">total_births</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">limit</span><span style="color: #000000">: </span><span style="color: #098658">5</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="1d6348e7-9fcf-40d5-b121-fc0a6100d34f">
+        <script>(()=>{var e=document.getElementById("1d6348e7-9fcf-40d5-b121-fc0a6100d34f"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"name",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "3625aa5f-5695-48f7-9e1f-384358e1d0f2" drill_expression { kind = field_reference name = name code = name }\n'}]},{kind:"dimension",name:"total_births",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#" Total babies born (sum of the births column).\n'},{value:'#(malloy) reference_id = "1fba6ce5-ed6d-45a0-b47d-bc84204462a4" calculation drill_expression { kind = field_reference name = total_births }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Emma"},{kind:"number_cell",number_value:5046,subtype:"bigint",string_value:"5046"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Olivia"},{kind:"number_cell",number_value:4620,subtype:"bigint",string_value:"4620"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Jacob"},{kind:"number_cell",number_value:4595,subtype:"bigint",string_value:"4595"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Ethan"},{kind:"number_cell",number_value:4202,subtype:"bigint",string_value:"4202"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Benjamin"},{kind:"number_cell",number_value:4021,subtype:"bigint",string_value:"4021"}]}]},connection_name:"duckdb",annotations:[{value:'#(malloy) limit = 5 drill_filters = [{ code = "state = $FOCUS_STATE" }, { code = "year_born >= $START_YEAR" }] drillable ordered_by = [{ total_births = desc }]\n'},{value:"#(malloy) source.name = names\n"},{value:"#(malloy) query_name = __stage0\n"}],model_annotations:[{value:"##! experimental.givens\n"}],sql:'SELECT \n   base."name" as "name",\n   COALESCE(SUM(base."number"),0) as "total_births"\nFROM \'data/usa_names.parquet\' as base\nWHERE (base."state"=\'OR\')\nAND (base."year">=2000)\nGROUP BY 1\nORDER BY 2 desc NULLS LAST\nLIMIT 5\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Emma&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;5046&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Olivia&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;4620&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Jacob&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;4595&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Ethan&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;4202&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Benjamin&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;4021&quot;</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;total_births&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #0000FF">WHERE</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;state&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;OR&#39;</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #0000FF">AND</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000">&gt;=</span><span style="color: #098658">2000</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000"> </span><span style="color: #0000FF">desc</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"><span style="color: #0000FF">LIMIT</span><span style="color: #000000"> </span><span style="color: #098658">5</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>Here's the payoff. To get the same report for Texas, you don't touch the query. Change the <strong>value</strong> of <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">FOCUS_STATE</span></span></code>, and every query that uses it follows. In a notebook, you change the value by editing the default in the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">given</span><span style="color: #000000">:</span></span></code> cell and re-running. In an application, the app supplies the value (see below).</p>
+<p>Givens work just as well inside sources and views. Here's a source that is <em>always</em> focused on the given state, and a view that compares the given name with the rest of that state:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/13_givens.malloynb#C8" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">focus</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">names</span><span style="color: #000000"> </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">state</span><span style="color: #000000"> = </span><span style="color: #001080">$FOCUS_STATE</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">view</span><span style="color: #000000">: </span><span style="color: #001080">name_vs_state</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">decade</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #001080">name_births</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">total_births</span><span style="color: #000000"> { </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">name</span><span style="color: #000000"> = </span><span style="color: #001080">$FOCUS_NAME</span><span style="color: #000000"> }</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #001080">all_births</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">total_births</span></span>
+<span class="line"><span style="color: #000000">      # </span><span style="color: #0000FF">number</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;0&quot;</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #001080">per_100k</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">total_births</span><span style="color: #000000"> { </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">name</span><span style="color: #000000"> = </span><span style="color: #001080">$FOCUS_NAME</span><span style="color: #000000"> } / </span><span style="color: #001080">total_births</span><span style="color: #000000"> * </span><span style="color: #098658">100000</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #AF00DB">order_by</span><span style="color: #000000">: </span><span style="color: #001080">decade</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/13_givens.malloynb#C9" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000"># </span><span style="color: #001080">line_chart</span><span style="color: #000000"> { </span><span style="color: #001080">y</span><span style="color: #000000">=</span><span style="color: #001080">per_100k</span><span style="color: #000000"> }</span></span>
+<span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">focus</span><span style="color: #000000"> -&gt; </span><span style="color: #001080">name_vs_state</span></span></pre><div class="result-outer large">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="f364ee80-505c-4e7e-9af4-918d8765a933">
+        <script>(()=>{var e=document.getElementById("f364ee80-505c-4e7e-9af4-918d8765a933"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"decade",type:{kind:"number_type"},annotations:[{value:'#" The decade a baby was born in, e.g. 1990.\n'},{value:'#(malloy) reference_id = "b5a5954c-54dc-4ff0-91e4-14d55cdc50b1" drill_expression { kind = field_reference name = decade path = [name_vs_state] code = "floor(year_born / 10) * 10" }\n'}]},{kind:"dimension",name:"name_births",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#(malloy) reference_id = "3ec59170-51e8-43dd-ba4e-8b132b9fefb9" calculation drill_expression { kind = field_reference name = name_births path = [name_vs_state] }\n'}]},{kind:"dimension",name:"all_births",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#(malloy) reference_id = "8d97ca47-6e6c-4a0d-9160-410fb7d58aaa" calculation drill_expression { kind = field_reference name = all_births path = [name_vs_state] }\n'}]},{kind:"dimension",name:"per_100k",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:'# number="0"\n'},{value:'#(malloy) reference_id = "f219517e-d1bb-45ee-bbc3-dd0b0d6a5c7b" calculation drill_expression { kind = field_reference name = per_100k path = [name_vs_state] }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"number_cell",number_value:1910},{kind:"number_cell",number_value:0,subtype:"bigint",string_value:"0"},{kind:"number_cell",number_value:68566,subtype:"bigint",string_value:"68566"},{kind:"number_cell",number_value:0,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:1920},{kind:"number_cell",number_value:0,subtype:"bigint",string_value:"0"},{kind:"number_cell",number_value:115863,subtype:"bigint",string_value:"115863"},{kind:"number_cell",number_value:0,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:1930},{kind:"number_cell",number_value:0,subtype:"bigint",string_value:"0"},{kind:"number_cell",number_value:113428,subtype:"bigint",string_value:"113428"},{kind:"number_cell",number_value:0,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:1940},{kind:"number_cell",number_value:0,subtype:"bigint",string_value:"0"},{kind:"number_cell",number_value:235701,subtype:"bigint",string_value:"235701"},{kind:"number_cell",number_value:0,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:1950},{kind:"number_cell",number_value:0,subtype:"bigint",string_value:"0"},{kind:"number_cell",number_value:335685,subtype:"bigint",string_value:"335685"},{kind:"number_cell",number_value:0,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:1960},{kind:"number_cell",number_value:0,subtype:"bigint",string_value:"0"},{kind:"number_cell",number_value:302090,subtype:"bigint",string_value:"302090"},{kind:"number_cell",number_value:0,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:1970},{kind:"number_cell",number_value:92,subtype:"bigint",string_value:"92"},{kind:"number_cell",number_value:302668,subtype:"bigint",string_value:"302668"},{kind:"number_cell",number_value:30.39634186633539,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:1980},{kind:"number_cell",number_value:176,subtype:"bigint",string_value:"176"},{kind:"number_cell",number_value:348311,subtype:"bigint",string_value:"348311"},{kind:"number_cell",number_value:50.52955548346162,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:1990},{kind:"number_cell",number_value:993,subtype:"bigint",string_value:"993"},{kind:"number_cell",number_value:359487,subtype:"bigint",string_value:"359487"},{kind:"number_cell",number_value:276.2269567466974,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:2e3},{kind:"number_cell",number_value:2037,subtype:"bigint",string_value:"2037"},{kind:"number_cell",number_value:359017,subtype:"bigint",string_value:"359017"},{kind:"number_cell",number_value:567.3826030522231,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:2010},{kind:"number_cell",number_value:2201,subtype:"bigint",string_value:"2201"},{kind:"number_cell",number_value:325567,subtype:"bigint",string_value:"325567"},{kind:"number_cell",number_value:676.0513196976352,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"number_cell",number_value:2020},{kind:"number_cell",number_value:382,subtype:"bigint",string_value:"382"},{kind:"number_cell",number_value:57834,subtype:"bigint",string_value:"57834"},{kind:"number_cell",number_value:660.5111180274579,subtype:"decimal"}]}]},connection_name:"duckdb",annotations:[{value:"#(docs) size=large limit=5000\n"},{value:"# line_chart { y=per_100k }\n"},{value:"#(malloy) drillable ordered_by = [{ decade }]\n"},{value:"#(malloy) source.name = focus\n"},{value:"#(malloy) query_name = name_vs_state\n"}],model_annotations:[{value:"##! experimental.givens\n"}],sql:'SELECT \n   (FLOOR(base."year"*1.0/10))*10 as "decade",\n   (COALESCE(SUM(CASE WHEN base."name"=\'Olivia\' THEN base."number" END),0)) as "name_births",\n   (COALESCE(SUM(base."number"),0)) as "all_births",\n   (((COALESCE(SUM(CASE WHEN base."name"=\'Olivia\' THEN base."number" END),0)))*1.0/(COALESCE(SUM(base."number"),0)))*100000 as "per_100k"\nFROM \'data/usa_names.parquet\' as base\nWHERE base."state"=\'OR\'\nGROUP BY 1\nORDER BY 1 ASC NULLS LAST\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1910</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;68566&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1920</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;115863&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1930</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;113428&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1940</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;235701&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1950</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;335685&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1960</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;302090&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1970</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;92&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;302668&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">30.39634186633539</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1980</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;176&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;348311&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">50.52955548346162</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1990</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;993&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;359487&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">276.2269567466974</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2000</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2037&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;359017&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">567.3826030522231</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2010</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2201&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;325567&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">676.0513196976352</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;decade&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2020</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;382&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;all_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;57834&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;per_100k&quot;</span><span style="color: #000000">: </span><span style="color: #098658">660.5111180274579</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   (</span><span style="color: #795E26">FLOOR</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000">*</span><span style="color: #098658">1</span><span style="color: #000000">.</span><span style="color: #098658">0</span><span style="color: #000000">/</span><span style="color: #098658">10</span><span style="color: #000000">))*</span><span style="color: #098658">10</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;decade&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   (</span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(</span><span style="color: #0000FF">CASE</span><span style="color: #000000"> </span><span style="color: #0000FF">WHEN</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;Olivia&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">THEN</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">END</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">)) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;name_births&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   (</span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">)) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;all_births&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   (((</span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(</span><span style="color: #0000FF">CASE</span><span style="color: #000000"> </span><span style="color: #0000FF">WHEN</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;Olivia&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">THEN</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">END</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">)))*</span><span style="color: #098658">1</span><span style="color: #000000">.</span><span style="color: #098658">0</span><span style="color: #000000">/(</span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">)))*</span><span style="color: #098658">100000</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;per_100k&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #0000FF">WHERE</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;state&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;OR&#39;</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000"> </span><span style="color: #0000FF">ASC</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>That's <em>Olivia</em> per 100,000 babies in <em>Oregon</em>, by decade. Edit the two defaults above, re-run, and you have a different report without writing a new query.</p>
+
+      <h2>
+        <a id="given-types" class="header-link anchor" href="#given-types">
+          Given types
+        </a>
+      </h2>
+    <p>A given can be any Malloy type, including <strong>arrays</strong> and even <strong>filter expressions</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+
+<th>Example declaration</th>
+
+<th>Example use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">string</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">REGION</span><span style="color: #000000"> :: </span><span style="color: #0000FF">string</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;West&#39;</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">region</span><span style="color: #000000"> = </span><span style="color: #001080">$REGION</span></span></code></td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">number</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">MIN_BIRTHS</span><span style="color: #000000"> :: </span><span style="color: #0000FF">number</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #098658">1000</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">having</span><span style="color: #000000">: </span><span style="color: #001080">total_births</span><span style="color: #000000"> &gt; </span><span style="color: #001080">$MIN_BIRTHS</span></span></code></td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">date</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">CUTOFF</span><span style="color: #000000"> :: </span><span style="color: #0000FF">date</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #098658">@2022-01-01</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">created_at</span><span style="color: #000000">::</span><span style="color: #0000FF">date</span><span style="color: #000000"> &gt;= </span><span style="color: #001080">$CUTOFF</span></span></code></td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">boolean</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">INCLUDE_RETURNS</span><span style="color: #000000"> :: </span><span style="color: #0000FF">boolean</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #0000FF">false</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">$INCLUDE_RETURNS</span><span style="color: #000000"> or </span><span style="color: #001080">status</span><span style="color: #000000"> != </span><span style="color: #A31515">&#39;Returned&#39;</span></span></code></td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">string</span><span style="color: #000000">[]</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">STATES</span><span style="color: #000000"> :: </span><span style="color: #0000FF">string</span><span style="color: #000000">[] </span><span style="color: #AF00DB">is</span><span style="color: #000000"> [</span><span style="color: #A31515">&#39;UT&#39;</span><span style="color: #000000">, </span><span style="color: #A31515">&#39;ID&#39;</span><span style="color: #000000">]</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">state</span><span style="color: #000000"> in </span><span style="color: #001080">$STATES</span></span></code></td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">filter</span><span style="color: #000000">&lt;</span><span style="color: #0000FF">string</span><span style="color: #000000">&gt;</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">NAME_FILTER</span><span style="color: #000000"> :: </span><span style="color: #AF00DB">filter</span><span style="color: #000000">&lt;</span><span style="color: #0000FF">string</span><span style="color: #000000">&gt; </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #A31515">f&#39;Ja%, -Jason&#39;</span></span></code></td>
+
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">name</span><span style="color: #000000"> ~ </span><span style="color: #001080">$NAME_FILTER</span></span></code></td>
+</tr>
+</tbody></table>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/13_givens.malloynb#C11" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">given</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #001080">STATES</span><span style="color: #000000"> :: </span><span style="color: #0000FF">string</span><span style="color: #000000">[] </span><span style="color: #AF00DB">is</span><span style="color: #000000"> [</span><span style="color: #A31515">&#39;UT&#39;</span><span style="color: #000000">, </span><span style="color: #A31515">&#39;ID&#39;</span><span style="color: #000000">, </span><span style="color: #A31515">&#39;MT&#39;</span><span style="color: #000000">, </span><span style="color: #A31515">&#39;WY&#39;</span><span style="color: #000000">]</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #001080">NAME_FILTER</span><span style="color: #000000"> :: </span><span style="color: #AF00DB">filter</span><span style="color: #000000">&lt;</span><span style="color: #0000FF">string</span><span style="color: #000000">&gt; </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #A31515">f&#39;Ja%, -Jason&#39;</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #001080">CUTOFF</span><span style="color: #000000"> :: </span><span style="color: #0000FF">date</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #098658">@2022-07-01</span></span></pre></div><div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/13_givens.malloynb#C12" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">names</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">state</span><span style="color: #000000"> in </span><span style="color: #001080">$STATES</span><span style="color: #000000">, </span><span style="color: #001080">name</span><span style="color: #000000"> ~ </span><span style="color: #001080">$NAME_FILTER</span><span style="color: #000000">, </span><span style="color: #001080">year_born</span><span style="color: #000000"> &gt;= </span><span style="color: #098658">2010</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">name</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">total_births</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">limit</span><span style="color: #000000">: </span><span style="color: #098658">5</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="5892f52e-fae1-4433-a935-cae14dde0d63">
+        <script>(()=>{var e=document.getElementById("5892f52e-fae1-4433-a935-cae14dde0d63"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"name",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "a09a0a0c-882d-4d17-ab49-7da64f129b9c" drill_expression { kind = field_reference name = name code = name }\n'}]},{kind:"dimension",name:"total_births",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#" Total babies born (sum of the births column).\n'},{value:'#(malloy) reference_id = "78705911-7670-4b36-ba93-0338e1ccce01" calculation drill_expression { kind = field_reference name = total_births }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"James"},{kind:"number_cell",number_value:4399,subtype:"bigint",string_value:"4399"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Jack"},{kind:"number_cell",number_value:3608,subtype:"bigint",string_value:"3608"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Jackson"},{kind:"number_cell",number_value:3509,subtype:"bigint",string_value:"3509"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Jacob"},{kind:"number_cell",number_value:3084,subtype:"bigint",string_value:"3084"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Jaxon"},{kind:"number_cell",number_value:2449,subtype:"bigint",string_value:"2449"}]}]},connection_name:"duckdb",annotations:[{value:'#(malloy) limit = 5 drill_filters = [{ code = "state in $STATES" }, { code = "name ~ $NAME_FILTER" }, { code = "year_born >= 2010" }] drillable ordered_by = [{ total_births = desc }]\n'},{value:"#(malloy) source.name = names\n"},{value:"#(malloy) query_name = __stage0\n"}],model_annotations:[{value:"##! experimental.givens\n"}],sql:'SELECT \n   base."name" as "name",\n   COALESCE(SUM(base."number"),0) as "total_births"\nFROM \'data/usa_names.parquet\' as base\nWHERE (base."state" IN (\'UT\',\'ID\',\'MT\',\'WY\'))\nAND ((base."name" LIKE \'Ja%\') AND ((base."name" != \'Jason\' OR base."name" IS NULL)))\nAND (base."year">=2010)\nGROUP BY 1\nORDER BY 2 desc NULLS LAST\nLIMIT 5\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;James&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;4399&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Jack&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;3608&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Jackson&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;3509&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Jacob&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;3084&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Jaxon&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2449&quot;</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;total_births&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #0000FF">WHERE</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;state&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">IN</span><span style="color: #000000"> (</span><span style="color: #A31515">&#39;UT&#39;</span><span style="color: #000000">,</span><span style="color: #A31515">&#39;ID&#39;</span><span style="color: #000000">,</span><span style="color: #A31515">&#39;MT&#39;</span><span style="color: #000000">,</span><span style="color: #A31515">&#39;WY&#39;</span><span style="color: #000000">))</span></span>
+<span class="line"><span style="color: #0000FF">AND</span><span style="color: #000000"> ((base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">LIKE</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;Ja%&#39;</span><span style="color: #000000">) </span><span style="color: #0000FF">AND</span><span style="color: #000000"> ((base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000"> != </span><span style="color: #A31515">&#39;Jason&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">OR</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">IS</span><span style="color: #000000"> </span><span style="color: #0000FF">NULL</span><span style="color: #000000">)))</span></span>
+<span class="line"><span style="color: #0000FF">AND</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000">&gt;=</span><span style="color: #098658">2010</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000"> </span><span style="color: #0000FF">desc</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"><span style="color: #0000FF">LIMIT</span><span style="color: #000000"> </span><span style="color: #098658">5</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>A <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">filter</span><span style="color: #000000">&lt;</span><span style="color: #0000FF">string</span><span style="color: #000000">&gt;</span></span></code> given is especially powerful. The <strong>user</strong> can type a whole <a href="08_filtering#part-3-filter-expressions">filter expression</a> like <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Ja</span><span style="color: #000000">%, -</span><span style="color: #001080">Jason</span></span></code> or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Em</span><span style="color: #000000">%, </span><span style="color: #001080">Ol</span><span style="color: #000000">%</span></span></code>, and your model applies it safely, without anyone writing code.</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/13_givens.malloynb#C14" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">order_items</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">created_at</span><span style="color: #000000">::</span><span style="color: #0000FF">date</span><span style="color: #000000"> &gt;= </span><span style="color: #001080">$CUTOFF</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">order_month</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">created_at</span><span style="color: #000000">.</span><span style="color: #0000FF">month</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">total_sales</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">order_by</span><span style="color: #000000">: </span><span style="color: #001080">order_month</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="3195ad55-efa2-4f0c-93e1-19cc1d4e4b65">
+        <script>(()=>{var e=document.getElementById("3195ad55-efa2-4f0c-93e1-19cc1d4e4b65"),a=(new window.index.MalloyRenderer).createViz();a.setResult({schema:{fields:[{kind:"dimension",name:"order_month",type:{kind:"timestamp_type",timeframe:"month"},annotations:[{value:'#(malloy) reference_id = "e91f8227-139a-4e60-8e48-b266f1bc62de" drill_expression { kind = time_truncation field_reference.name = created_at truncation = month code = "created_at.month" }\n'}]},{kind:"dimension",name:"total_sales",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:'#" Revenue.\n'},{value:"# currency\n"},{value:'#(malloy) reference_id = "57ea1c8f-135e-4730-bfc9-1d6cf9af6230" calculation drill_expression { kind = field_reference name = total_sales }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"timestamp_cell",timestamp_value:"2022-07-01T00:00:00.000Z"},{kind:"number_cell",number_value:447580.49193573,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"timestamp_cell",timestamp_value:"2022-08-01T00:00:00.000Z"},{kind:"number_cell",number_value:485047.5716575384,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"timestamp_cell",timestamp_value:"2022-09-01T00:00:00.000Z"},{kind:"number_cell",number_value:521697.4319289923,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"timestamp_cell",timestamp_value:"2022-10-01T00:00:00.000Z"},{kind:"number_cell",number_value:532215.8820621967,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"timestamp_cell",timestamp_value:"2022-11-01T00:00:00.000Z"},{kind:"number_cell",number_value:233779.9508742094,subtype:"decimal"}]}]},connection_name:"duckdb",annotations:[{value:'#(malloy) drill_filters = [{ code = "created_at::date >= $CUTOFF" }] drillable ordered_by = [{ order_month }]\n'},{value:"#(malloy) source.name = order_items\n"},{value:"#(malloy) query_name = __stage0\n"}],model_annotations:[{value:"##! experimental.givens\n"}],sql:'SELECT \n   DATE_TRUNC(\'month\', base."created_at") as "order_month",\n   COALESCE(SUM(base."sale_price"),0) as "total_sales"\nFROM \'data/order_items.parquet\' as base\nWHERE CAST(base."created_at" AS DATE)>=DATE \'2022-07-01\'\nGROUP BY 1\nORDER BY 1 ASC NULLS LAST\n'}),a.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_month&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2022-07-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">447580.49193573</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_month&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2022-08-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">485047.5716575384</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_month&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2022-09-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">521697.4319289923</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_month&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2022-10-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">532215.8820621967</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;order_month&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2022-11-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">233779.9508742094</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   DATE_TRUNC(</span><span style="color: #A31515">&#39;month&#39;</span><span style="color: #000000">, base.</span><span style="color: #A31515">&quot;created_at&quot;</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;order_month&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;sale_price&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;total_sales&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/order_items.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #0000FF">WHERE</span><span style="color: #000000"> </span><span style="color: #795E26">CAST</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;created_at&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">AS</span><span style="color: #000000"> </span><span style="color: #0000FF">DATE</span><span style="color: #000000">)&gt;=</span><span style="color: #0000FF">DATE</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;2022-07-01&#39;</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000"> </span><span style="color: #0000FF">ASC</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div>
+      <h2>
+        <a id="supplying-values-from-outside-the-notebook" class="header-link anchor" href="#supplying-values-from-outside-the-notebook">
+          Supplying values from outside the notebook
+        </a>
+      </h2>
+    <p>Defaults are what you get when no one supplies a value. Applications and tools can supply values in several ways (see the <a href="https://docs.malloydata.dev/documentation/experiments/givens#supplying-values-from-a-host-application">docs</a> for the full details):</p>
+<p><strong>A JSON values file</strong>, pointed to by <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>. Each key is a given's name:</p>
+<div class="code-wrapper"><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">{</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0451A5">&quot;connections&quot;</span><span style="color: #000000">: { </span><span style="color: #0451A5">&quot;duckdb&quot;</span><span style="color: #000000">: { </span><span style="color: #0451A5">&quot;is&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;duckdb&quot;</span><span style="color: #000000"> } },</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0451A5">&quot;givensPath&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;./my-givens.json&quot;</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><div class="code-wrapper"><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">{</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0451A5">&quot;FOCUS_STATE&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;TX&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0451A5">&quot;FOCUS_NAME&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Sofia&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0451A5">&quot;START_YEAR&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2010</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p><strong>From code</strong>, for example in a web app that uses the Malloy JavaScript API: <code>new Runtime({ givens: { FOCUS_STATE: "TX" } })</code> for the whole runtime, or <code>query.run({ givens: { START_YEAR: 2015 } })</code> for a single query.</p>
+<div class="callout callout-tip">
+<p>💡 <strong>A given with no default must be supplied.</strong> <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">TENANT</span><span style="color: #000000"> :: </span><span style="color: #0000FF">string</span></span></code> (no <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">is</span><span style="color: #000000"> ...</span></span></code>) means "the app <em>must</em> provide this." If a query uses <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">$TENANT</span></span></code> and nobody supplied it, the query fails with a "missing given" error. That's exactly what you want for security-sensitive values.</p>
+</div>
+
+      <h2>
+        <a id="a-real-use-row-level-security" class="header-link anchor" href="#a-real-use-row-level-security">
+          A real use: row-level security
+        </a>
+      </h2>
+    <p>The motivating use for givens is <strong>row-level access control</strong>: one model, many users, each allowed to see only some of the rows. The model writes the rule once:</p>
+<div class="code-wrapper"><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">##! </span><span style="color: #001080">experimental</span><span style="color: #000000">.</span><span style="color: #001080">givens</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #AF00DB">given</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #001080">ALLOWED_STATES</span><span style="color: #000000"> :: </span><span style="color: #0000FF">string</span><span style="color: #000000">[]        </span><span style="color: #008000">// no default: the app MUST supply it</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">secure_names</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000">) </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">state</span><span style="color: #000000"> in </span><span style="color: #001080">$ALLOWED_STATES</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p>The web application looks up the logged-in user's permissions and supplies <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">ALLOWED_STATES</span></span></code> for every query. Since the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">where</span><span style="color: #000000">:</span></span></code> is part of the <strong>source</strong>, no query, view, or Explorer session built on <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">secure_names</span></span></code> can see other states. Applications can even <em>finalize</em> a given (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #A31515">&quot;finalizeGivens&quot;</span><span style="color: #000000">: [</span><span style="color: #A31515">&quot;ALLOWED_STATES&quot;</span><span style="color: #000000">]</span></span></code> in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>) so a query can never override it.</p>
+
+      <h2>
+        <a id="inline-givens-values-derived-from-other-givens" class="header-link anchor" href="#inline-givens-values-derived-from-other-givens">
+          Inline givens: values derived from other givens
+        </a>
+      </h2>
+    <p>An <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">inline</span></span></code> given is computed from other givens when the query is compiled, and it reaches the SQL as a plain constant. Its main use is turning a list of permissions into a yes/no switch:</p>
+<div class="code-wrapper"><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">given</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #001080">CAPABILITIES</span><span style="color: #000000"> :: </span><span style="color: #0000FF">string</span><span style="color: #000000">[]</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #001080">inline</span><span style="color: #000000"> </span><span style="color: #001080">CAN_SEE_SALES</span><span style="color: #000000"> :: </span><span style="color: #0000FF">boolean</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;read_sales&#39;</span><span style="color: #000000"> in </span><span style="color: #001080">$CAPABILITIES</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">secure_orders</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">order_items</span><span style="color: #000000"> </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">$CAN_SEE_SALES</span><span style="color: #000000">        </span><span style="color: #008000">// becomes WHERE ... AND TRUE (or FALSE)</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div>
+      <h2>
+        <a id="givens-vs-source-parameters" class="header-link anchor" href="#givens-vs-source-parameters">
+          Givens vs. source parameters
+        </a>
+      </h2>
+    <p>Malloy also has (experimental) <strong>source parameters</strong>: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #795E26">by_state</span><span style="color: #000000">(</span><span style="color: #001080">st</span><span style="color: #000000"> :: </span><span style="color: #0000FF">string</span><span style="color: #000000">) </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">names</span><span style="color: #000000"> </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> { </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">state</span><span style="color: #000000"> = </span><span style="color: #001080">st</span><span style="color: #000000"> }</span></span></code>. How are they different?</p>
+<table>
+<thead>
+<tr>
+<th></th>
+
+<th>Givens</th>
+
+<th>Source parameters</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Scope</td>
+
+<td>one value per name, for the <strong>whole model</strong></td>
+
+<td>one value per <strong>use</strong> of the source</td>
+</tr>
+
+<tr>
+<td>Supplied by</td>
+
+<td>the runtime: config, app, or query options</td>
+
+<td>the code that uses the source: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">by_state</span><span style="color: #000000">(</span><span style="color: #001080">st</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;CA&#39;</span><span style="color: #000000">)</span></span></code></td>
+</tr>
+
+<tr>
+<td>Good for</td>
+
+<td>settings, security, "the user picked X"</td>
+
+<td>two differently-filtered copies of a source in one query</td>
+</tr>
+</tbody></table>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> <a href="https://docs.malloydata.dev/documentation/experiments/parameters">Source parameters</a></p>
+</div>
+
+      <h2>
+        <a id="key-takeaways" class="header-link anchor" href="#key-takeaways">
+          Key takeaways
+        </a>
+      </h2>
+    <ul>
+<li><p>Turn givens on with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">##! </span><span style="color: #001080">experimental</span><span style="color: #000000">.</span><span style="color: #001080">givens</span></span></code>.</p>
+</li>
+<li><p>Declare them with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">given</span><span style="color: #000000">: </span><span style="color: #001080">NAME</span><span style="color: #000000"> :: </span><span style="color: #001080">type</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">default</span></span></code>, and use them with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">$NAME</span></span></code> anywhere an expression can go: in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">where</span><span style="color: #000000">:</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">having</span><span style="color: #000000">:</span></span></code>, measures, sources, and views.</p>
+</li>
+<li><p>Givens can be strings, numbers, dates, booleans, arrays (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">in </span><span style="color: #001080">$ARRAY</span></span></code>), and filter expressions (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">~ </span><span style="color: #001080">$FILTER</span></span></code>).</p>
+</li>
+<li><p>Defaults are used unless a value is supplied by a values file, the app's runtime, or per-query options. A given with no default <em>must</em> be supplied.</p>
+</li>
+<li><p>Main uses: reusable reports, user-chosen filters, and row-level security.</p>
+</li></ul>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 13.1: Your state, your name.</strong> Change the defaults of <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">FOCUS_STATE</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">FOCUS_NAME</span></span></code> in this notebook to your home state and your own name (or any name), then re-run the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">name_vs_state</span></span></code> chart. What decade was your name most popular in your state?</p>
+</div>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 13.2: A minimum-size given.</strong> Declare a new given, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">MIN_BIRTHS</span><span style="color: #000000"> :: </span><span style="color: #0000FF">number</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #098658">10000</span></span></code>, in a new cell. Then write a query that lists girls' names born since <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">$START_YEAR</span></span></code> in the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">$STATES</span></span></code> states, but only names with more than <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">$MIN_BIRTHS</span></span></code> births in total. (Hint: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">having</span><span style="color: #000000">:</span></span></code>.)</p>
+</div>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 13.3: A filter the user can type.</strong> Declare <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">STATUS_FILTER</span><span style="color: #000000"> :: </span><span style="color: #AF00DB">filter</span><span style="color: #000000">&lt;</span><span style="color: #0000FF">string</span><span style="color: #000000">&gt; </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #A31515">f&#39;Complete, Shipped&#39;</span></span></code>. Write a query on <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">order_items</span></span></code> that uses <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">status</span><span style="color: #000000"> ~ </span><span style="color: #001080">$STATUS_FILTER</span></span></code> and shows <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">order_item_count</span></span></code> by <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">status</span></span></code>. Then change the default to <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #A31515">f&#39;-Cancelled&#39;</span></span></code> and run it again. What changed?</p>
+</div>
+</div></div>
+        </div>
+        <script src="/malloy-textbook/js/view_toggles.js"></script>
+        <script src="/malloy-textbook/js/jump_to_hash.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

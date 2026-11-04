@@ -1,0 +1,244 @@
+>>>markdown
+# Chapter 4: Render Tags
+
+So far every result has been a table. Malloy's renderer can also draw **bar charts, line charts, dashboards, and big-number KPI cards**. It can also format numbers as currency, percentages, or "12.3k." You ask for all of this with **render tags**: short lines that start with `#` and sit right above a query or a field.
+
+From this chapter on, any result in the book can be a chart.
+>>>malloy
+import "names.malloy"
+import "ecommerce.malloy"
+>>>markdown
+## How tags work
+
+A tag is a line beginning with `# ` (a hash and a space). It attaches to whatever comes **directly after it**:
+
+* above `run:`, it applies to the whole result
+* above a field (`aggregate:`, `group_by:`, or a single field name), it applies to that column
+* above `nest:`, it applies to that nested result
+
+Tags don't change *what* data comes back. They only change *how it's drawn*.
+
+> ⚠️ **`#` is not a comment.** In Malloy, comments start with `//` or `--`. A line that starts with `#` is a tag. A misspelled tag is quietly ignored.
+
+> 📘 **Malloy docs.** [Visualizations overview](https://docs.malloydata.dev/documentation/visualizations/overview) · [Annotations and tags](https://docs.malloydata.dev/documentation/language/tags)
+
+## Bar charts
+
+`# bar_chart` draws the first `group_by:` field along the x-axis and the first measure as the bar height.
+>>>malloy
+#(docs) size=large limit=5000
+# bar_chart
+run: names -> {
+  group_by: state
+  aggregate: total_births
+  limit: 15
+}
+>>>markdown
+Add a **second** `group_by:` and the bars split into colored series. Here each decade gets a bar for girls and one for boys:
+>>>malloy
+#(docs) size=large limit=5000
+# bar_chart
+run: names -> {
+  where: decade >= 1950
+  group_by: decade, gender
+  aggregate: total_births
+  order_by: decade
+}
+>>>markdown
+Use `# bar_chart.stack` to stack the series instead of putting them side by side:
+>>>malloy
+#(docs) size=large limit=5000
+# bar_chart.stack
+run: names -> {
+  where: decade >= 1950
+  group_by: decade, gender
+  aggregate: total_births
+  order_by: decade
+}
+>>>markdown
+> 📘 **Malloy docs.** [Bar charts](https://docs.malloydata.dev/documentation/visualizations/bar_charts)
+
+## Line charts
+
+`# line_chart` is the natural choice for trends. Put a time (or a year) first in `group_by:`. How popular were three classic names over time?
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: names -> {
+  where: name = 'Mary' | 'Linda' | 'Emma', gender = 'F'
+  group_by: year_born, name
+  aggregate: total_births
+  order_by: year_born
+}
+>>>markdown
+Again, the second `group_by:` (`name`) became the series, so each name gets its own line. *Linda* had one enormous spike after World War II. *Emma* came back in the 2000s.
+
+Line charts work great with the truncated timestamps from Chapter 2:
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: order_items -> {
+  group_by: order_month is created_at.month
+  aggregate: total_sales
+  group_by: status
+  order_by: order_month
+}
+>>>markdown
+> 📘 **Malloy docs.** [Line charts](https://docs.malloydata.dev/documentation/visualizations/charts_line_chart)
+
+## Charts inside nests
+
+Tags work on `nest:` too. This puts a small chart *inside every row*, which is one of Malloy's best tricks. For each of the 5 most popular girls' names of all time, show its trend line:
+>>>malloy
+#(docs) size=large limit=5000
+run: names -> {
+  where: gender = 'F'
+  group_by: name
+  aggregate: total_births
+  # line_chart
+  nest: trend is {
+    group_by: year_born
+    aggregate: total_births
+    order_by: year_born
+  }
+  limit: 5
+}
+>>>markdown
+## Number formatting
+
+Raw numbers like `0.0734` or `4744743.4469` are hard to read. Tags on a field fix that:
+
+| Tag | Example output |
+|---|---|
+| `# percent` | 7.34% |
+| `# currency` | $4,744,743.45 |
+| `# number="#,##0.0"` | 4,744,743.4 |
+| `# number=1k` | 4,745k |
+| `# number=1m` | 4.74m |
+| `# number=auto` | picks k, m, or b for you |
+| `# label="Total Sales"` | changes the column heading |
+>>>malloy
+run: order_items -> {
+  group_by: order_year is created_at.year
+  aggregate:
+    # label="Revenue"
+    # currency
+    revenue is sale_price.sum()
+
+    # number=1k
+    items_sold_k is count()
+
+    # percent
+    share_of_revenue is sale_price.sum() / all(sale_price.sum())
+  order_by: order_year
+}
+>>>markdown
+(`all()` gives the grand total across all rows. You'll learn it properly in [Chapter 11](11_percent_of_total.malloynb).)
+
+Put format tags **in the model**, and every query that uses the field gets the formatting for free. In `ecommerce.malloy`, `total_sales` is defined like this:
+
+```malloy
+measure:
+  # currency
+  total_sales is sale_price.sum()
+```
+
+That's why `total_sales` has shown up as dollars in every chapter.
+
+> 📘 **Malloy docs.** [Number formatting](https://docs.malloydata.dev/documentation/visualizations/numbers)
+
+## Big values (KPI cards)
+
+`# big_value` shows each measure as a large number. It's great for the top of a report.
+>>>malloy
+#(docs) size=medium limit=5000
+# big_value
+run: order_items -> {
+  where: created_at.year = @2022
+  aggregate:
+    # label="2022 Revenue"
+    total_sales
+    # label="Orders"
+    order_count
+    # label="Avg Item Price"
+    avg_sale_price
+}
+>>>markdown
+> 📘 **Malloy docs.** [Big values](https://docs.malloydata.dev/documentation/visualizations/big_values)
+
+## Dashboards
+
+`# dashboard` lays a nested query out as tiles instead of a table. Each top-level measure becomes a KPI card, and each nest becomes a panel that can carry its own chart tag. `# break` starts a new row of tiles.
+>>>malloy
+#(docs) size=xlarge limit=5000
+# dashboard
+run: names -> {
+  where: state = 'CA'
+  aggregate:
+    total_births
+    name_count
+  # line_chart
+  nest: births_by_year is {
+    group_by: year_born
+    aggregate: total_births
+    order_by: year_born
+  }
+  # bar_chart
+  nest: by_gender is {
+    group_by: gender
+    aggregate: total_births
+  }
+  # break
+  nest: top_girls is by_name + { where: gender = 'F', limit: 5 }
+  nest: top_boys is by_name + { where: gender = 'M', limit: 5 }
+}
+>>>markdown
+A dashboard with a `group_by:` at the top level makes one dashboard per group. Here's one for each of three states:
+>>>malloy
+#(docs) size=xlarge limit=5000
+# dashboard
+run: names -> {
+  where: state = 'UT' | 'VT' | 'HI'
+  group_by: state
+  aggregate: total_births
+  # bar_chart
+  nest: by_decade is {
+    group_by: decade
+    aggregate: total_births
+    order_by: decade
+  }
+  nest: top_names is by_name + { limit: 5 }
+}
+>>>markdown
+> 📘 **Malloy docs.** [Dashboards](https://docs.malloydata.dev/documentation/visualizations/dashboards)
+
+## A few more tags worth knowing
+
+| Tag | What it does |
+|---|---|
+| `# transpose` | swaps rows and columns |
+| `# hidden` | hides a field (handy for sort-only columns) |
+| `# list` / `# list_detail` | shows a nest as a compact comma-separated list |
+| `# shape_map` | colors a U.S. map by state (needs 2-letter state codes) |
+| `# scatter_chart` | x/y scatter plot |
+>>>malloy
+#(docs) size=large limit=5000
+# shape_map
+run: names -> {
+  where: name = 'Brittany'
+  group_by: state
+  aggregate: total_births
+}
+>>>markdown
+## Key takeaways
+
+* A **render tag** is a `# ...` line above a query, field, or nest. It changes how results are drawn, not what they are.
+* `# bar_chart` and `# line_chart` use the first `group_by:` as the x-axis. A second `group_by:` becomes the series.
+* `# dashboard` turns nests into tiles. `# big_value` shows KPI cards.
+* Format numbers with `# currency`, `# percent`, `# number=...`, and rename columns with `# label=...`. Put formats in the model so they're always applied.
+
+> 🎯 **Challenge 4.1: Chart your name.** Make a `# line_chart` of births per year for your name (or any name), with one line per `gender`.
+
+> 🎯 **Challenge 4.2: Bar chart of name lengths.** Make a `# bar_chart` that shows `total_births` by `name_length` for babies born in 2021. Sort by `name_length` so the bars go from short to long names.
+
+> 🎯 **Challenge 4.3: Build a dashboard.** Make a `# dashboard` for the e-commerce store for **2021**. It should include: a `# big_value`-style row of measures at the top (`total_sales`, `order_count`), a `# line_chart` nest of sales by month, and a `# bar_chart` nest of the top 10 product categories (`inventory_items.product_category`) by sales.

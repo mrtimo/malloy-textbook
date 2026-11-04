@@ -1,0 +1,201 @@
+>>>markdown
+# Chapter 14: Anatomy of a Malloy Model
+
+You've now met every major part of a Malloy model. This last chapter puts them all together in one file, `names_full.malloy` (it's in the `malloy-textbook-notebooks` folder), and walks through it section by section. Use this chapter as a **review** and as a **checklist** when you build your own models.
+
+| Element | Syntax | Chapter |
+|---|---|---|
+| Documentation | `// comments`, `#" descriptions` | 5, 6, 14 |
+| Compiler flags | `##! experimental.givens` | 13 |
+| Givens | `given: NAME :: type is default`, `$NAME` | 13 |
+| Sources | `source: x is duckdb.table(...)`, `duckdb.sql(...)`, `other -> {...}` | 1, 7, 9, 12 |
+| Primary keys and joins | `primary_key:`, `join_one:`, `join_many:`, `join_cross:` | 10 |
+| Renames | `rename: new is old` | 1 |
+| Dimensions | `dimension: x is ...` | 1, 2, 9 |
+| Measures | `measure: m is ...`, filtered measures, `all()` | 1, 8, 11 |
+| Render tags | `# percent`, `# line_chart`, `# dashboard` | 4 |
+| Views | `view: v is {...}`, nests, pipelines, `calculate:` | 3, 12 |
+| Named queries | `query: q is source -> view` | 5 |
+
+> 📘 **Malloy docs.** [Building a semantic model](https://docs.malloydata.dev/documentation/user_guides/quickstart_modeling) · [Models](https://docs.malloydata.dev/documentation/language/statement) · [Sources](https://docs.malloydata.dev/documentation/language/source) · [Fields](https://docs.malloydata.dev/documentation/language/fields)
+>>>malloy
+import "names_full.malloy"
+>>>markdown
+## 1. Compiler flags
+
+```malloy
+##! experimental.givens
+```
+
+`##!` lines at the top of a file turn on compiler features for that file. Only experimental features need them. Right now that's givens (and, in older versions, things like `partition_by:`).
+
+## 2. Documentation
+
+A model is read by people, by the Explorer, and more and more by AI assistants. Two kinds of documentation help them:
+
+* **`//` comments** are for people reading the *code*: why a choice was made, what a section is for. The compiler ignores them.
+* **`#"` descriptions** attach to the *next object* (a source, field, view, or given). Tools can read them: the Explorer shows them when you hover over a field, and AI tools that query the model see them too.
+
+```malloy
+#" U.S. baby names: one row per state, gender, birth year, and name (1910–2021).
+#" Source: U.S. Social Security Administration. Names given to fewer than 5
+#" babies in a state and year are not included.
+source: names is duckdb.table('data/usa_names.parquet') extend {
+  dimension:
+    #" The decade a baby was born in, e.g. 1990.
+    decade is floor(year_born / 10) * 10
+```
+
+> 💡 **Good descriptions say what a field *means*, not what the code does.** "Births to girls" is better than "sum of births where gender = F." Also note the grain ("one row per...") and the source of the data on every source.
+
+> 📘 **Malloy docs.** [Annotations](https://docs.malloydata.dev/documentation/language/tags) · [Comments](https://docs.malloydata.dev/documentation/language/statement#comments)
+
+## 3. Givens
+
+```malloy
+given:
+  #" Two-letter code of the state the `home_state_names` source focuses on.
+  HOME_STATE :: string is 'OR'
+
+source: home_state_names is names extend {
+  where: state = $HOME_STATE
+}
+```
+
+The model declares the values it needs from outside, near the top where they're easy to find. Here `home_state_names` follows whatever `HOME_STATE` is set to:
+>>>malloy
+run: home_state_names -> by_name + { where: year_born = 2021, limit: 5 }
+>>>markdown
+## 4. Sources
+
+A model usually has three kinds of sources:
+
+* **Base sources** read a table or file: `duckdb.table('data/usa_names.parquet')`, or the CSV `duckdb.table('data/state_regions.csv')`.
+* **SQL sources** run any SQL your database understands: `duckdb.sql("SELECT ...")` ([Chapter 9](09_data_cleaning.malloynb)).
+* **Query sources** are built from another source's query: `name_summary is names -> {...} extend {...}` ([Chapter 12](12_pipelines_and_windows.malloynb)).
+
+Any of them can be `extend`ed with fields, joins, and views.
+>>>malloy
+run: name_summary -> {
+  where: lifetime_births > 100000
+  group_by: gender
+  aggregate:
+    summary_name_count
+    # number="0.0"
+    avg_years_in_use is years_in_use.avg()
+}
+>>>markdown
+## 5. Primary keys and joins
+
+```malloy
+source: states is duckdb.table('data/state_regions.csv') extend {
+  primary_key: state_code
+}
+
+source: names is duckdb.table('data/usa_names.parquet') extend {
+  join_one: states on state = states.state_code
+  dimension: region is states.region
+  ...
+}
+```
+
+`states` is a small **dimension table**: one row per state, with its Census region and division. Every `names` row matches exactly one state, so it's a `join_one`. The primary key lets symmetric aggregates count each state once ([Chapter 10](10_joins.malloynb)). Promoting `states.region` to a dimension called `region` makes the most useful joined field easy to find.
+>>>malloy
+run: names -> {
+  where: year_born = 2021
+  group_by: region, states.division
+  aggregate: total_births, states.state_count
+  order_by: region
+}
+>>>markdown
+## 6. Renames, dimensions, and measures
+
+* **Renames** fix awkward raw column names: `` rename: year_born is `year` ``.
+* **Dimensions** are per-row values you group by and filter on: `decade`, `name_length`, `generation`.
+* **Measures** are aggregates. Good models include:
+  * base measures: `total_births`, `name_count`
+  * **filtered measures** for common slices: `girls`, `boys` ([Chapter 8](08_filtering.malloynb))
+  * **ratio measures** using `all()`: `share_of_births`, `births_per_100k` ([Chapter 11](11_percent_of_total.malloynb))
+
+Because they live in the model, every query, notebook, and Explorer session uses the same definitions:
+>>>malloy
+run: names -> {
+  group_by: generation
+  aggregate:
+    total_births, girls, boys, share_of_births
+    # hidden
+    first_year is min(year_born)
+  order_by: first_year
+}
+>>>markdown
+(The `# hidden` tag keeps `first_year` out of the display, but the query can still sort by it, so the generations come out in time order instead of alphabetically.)
+
+> 💡 **Limiting what users see.** In a bigger model, you may want to hide helper fields. `accept: a, b, c` keeps only the listed fields, and `except: x, y` removes fields. See [Limiting access to fields](https://docs.malloydata.dev/documentation/language/source#limiting-access-to-fields).
+
+## 7. Render tags in the model
+
+Format and chart tags written in the model apply everywhere a field or view is used:
+
+```malloy
+# percent
+share_of_births is total_births / all(total_births)
+
+# line_chart
+view: by_year is { ... }
+```
+>>>malloy
+#(docs) size=large limit=5000
+run: names -> by_year + { where: name = 'Ava' }
+>>>markdown
+## 8. Views
+
+Views are the model's ready-made answers. `names_full.malloy` has every kind:
+
+* **simple views**: `by_name`, `by_year`, `by_region`
+* **a dashboard view** made of nests: `name_report`
+* **a multi-stage view** with window calculations: `names_for_half_by_decade`
+
+A dashboard view plus refinement gives a whole report in one line:
+>>>malloy
+#(docs) size=xlarge limit=5000
+run: names -> name_report + { where: name = 'Harper' }
+>>>malloy
+#(docs) limit=20
+run: names -> names_for_half_by_decade
+>>>markdown
+It took about 60 names to cover half of all births in each decade from the 1910s to the 1950s. Since then the number has climbed, and it has quadrupled since the 1980s.
+
+## 9. Named queries
+
+```malloy
+query: top_names_2021 is names -> by_name + { where: year_born = 2021 }
+```
+
+A named query is a finished question with a name, ready to be run by tools, scheduled, or referenced by other queries:
+>>>malloy
+run: top_names_2021
+>>>markdown
+## A checklist for your own models
+
+When you build a model, run through this list:
+
+1. ☐ Every source has a `#"` description that says **what one row is** and **where the data comes from**.
+2. ☐ Every table you join has a `primary_key:`.
+3. ☐ Awkward raw columns are **renamed**, and messy columns are **cleaned** in dimensions ([Chapter 9](09_data_cleaning.malloynb)).
+4. ☐ The important business numbers are **measures**, with filtered and ratio versions of the common ones.
+5. ☐ Number formats (`# currency`, `# percent`) are on the measures, not repeated in every query.
+6. ☐ Common questions are **views**, and one dashboard view gives a quick overview.
+7. ☐ Values that should change at run time are **givens**, declared near the top.
+8. ☐ Notebooks `import` the model, and contain narrative and questions, not definitions ([Chapter 5](05_files_and_notebooks.malloynb)).
+
+## Key takeaways
+
+* A Malloy model is a set of documented **sources**, each with **joins**, **dimensions**, **measures**, and **views**, plus optional **givens** and **named queries**.
+* Logic lives in **one place** (the model), so every notebook, the Explorer, and every app agree on what the numbers mean.
+* Document with `//` for people reading code and `#"` for tools and users.
+
+> 🎯 **Challenge 14.1: Extend the full model.** Open `names_full.malloy` and add to the `names` source: (a) a dimension `starts_with_vowel` that is true when the name starts with A, E, I, O, or U, and (b) a measure `avg_name_length` (the average of `name_length`). Give each one a `#"` description. Save the file, re-run this notebook's import cell, and write a query that shows `avg_name_length` and `share_of_births` by `starts_with_vowel` for each `decade`.
+
+> 🎯 **Challenge 14.2: A view for the Explorer.** Add a view called `region_report` to `names` in `names_full.malloy`. It should be a `# dashboard` with `total_births` and `share_of_births` at the top, a `# bar_chart` of births by `states.division`, and the top 5 names. Open the Explorer on `names_full.malloy` and run your view from the **Views** list.
+
+> 🎯 **Challenge 14.3: Capstone — model the store.** Create a new file, `my_ecommerce.malloy`, that imports nothing and models the e-commerce data from scratch: sources for `order_items`, `users`, `inventory_items`, and `products` with primary keys, joins, at least 3 documented dimensions, at least 4 documented measures (including one filtered measure, one `all()` ratio, and one `# currency`), at least 2 views (one nested), and one given. Then write a short notebook, `my_ecommerce_report.malloynb`, that imports your model and tells a story about the business in 3–5 Markdown + Malloy cells.

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>5. Files vs. Notebooks | Learning Malloy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/malloy-textbook/css/document.css" />
+    <link rel="stylesheet" href="/malloy-textbook/css/textbook.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/malloy-textbook/favicon.ico" />
+    <script src="/malloy-textbook/js/generated/malloy-render-0.0.437.js"></script>
+    <style>
+      .result-inner .malloy-render { width: 100%; }
+      .result-inner .table-container { width: 100%; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="header">
+        <div class="header-banner">
+          <a class="book-mark" href="/malloy-textbook/textbook">
+            <span class="book-title">Learning Malloy</span>
+            <span class="subtitle">A Hands-On Textbook</span>
+          </a>
+        </div>
+        <div class="header-right">
+          <div class="header-links">
+            <a class="pill" href="https://docs.malloydata.dev/documentation/" target="_blank">Malloy Docs ↗</a>
+            <a href="https://github.com/mrtimo/malloy-textbook" target="_blank" title="Textbook source on GitHub"
+              ><img src="/malloy-textbook/img/github.svg" style="transform: scale(0.5)"
+            /></a>
+          </div>
+          <form action="/malloy-textbook/search">
+            <div class="search-input-outer">
+              <img src="/malloy-textbook/img/search.svg" alt="search" />
+              <input placeholder="Search the textbook" id="search-input" name="query" />
+            </div>
+            <input type="submit" style="display: none" />
+          </form>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+              <div id=start_here
+                class="sidebar-section-title {% unless /textbook/index.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Start Here
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                Welcome
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_i · foundations
+                class="sidebar-section-title {% unless /textbook/01_basics.html,/textbook/02_time_truncation.html,/textbook/03_views_and_nesting.html,/textbook/04_render_tags.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part I · Foundations
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/01_basics">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                1. The Basics
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/02_time_truncation">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                2. Time Truncation
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/03_views_and_nesting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                3. Views and Nesting
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/04_render_tags">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                4. Render Tags
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_ii · tools and data
+                class="sidebar-section-title {% unless /textbook/05_files_and_notebooks.html,/textbook/06_explorer.html,/textbook/07_csv_and_parquet.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part II · Tools and Data
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item active'>
+              <a href="/malloy-textbook/textbook/05_files_and_notebooks">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                5. Files vs. Notebooks
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/06_explorer">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                6. The Malloy Explorer
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/07_csv_and_parquet">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                7. CSV and Parquet
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iii · analysis
+                class="sidebar-section-title {% unless /textbook/08_filtering.html,/textbook/09_data_cleaning.html,/textbook/10_joins.html,/textbook/11_percent_of_total.html,/textbook/12_pipelines_and_windows.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part III · Analysis
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/08_filtering">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                8. Filtering and Time Comparisons
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/09_data_cleaning">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                9. Data Cleaning
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/10_joins">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                10. Joins and Symmetric Aggregates
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/11_percent_of_total">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                11. Percent of Total
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/12_pipelines_and_windows">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                12. Pipelines and Window Calculations
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iv · modeling
+                class="sidebar-section-title {% unless /textbook/13_givens.html,/textbook/14_model_review.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part IV · Modeling
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/13_givens">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                13. Givens
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/14_model_review">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                14. Anatomy of a Malloy Model
+              </a>
+            </div>
+              </div>
+            </div>
+          </div>        <script src="/malloy-textbook/js/sidebar_state.js"></script>
+        <div class="content">
+          <div class="footer">
+            
+<div class="linear-navigation">
+  <div class="item">
+      <a href="04_render_tags.html"><img src="/malloy-textbook/img/previous.svg" alt="previous"/>4. Render Tags</a>
+  </div>
+  <div class="item">
+      <a href="06_explorer.html">6. The Malloy Explorer<img src="/malloy-textbook/img/next.svg" alt="next"/></a>
+  </div>
+</div> 
+          </div>
+          <div class="document-outer"><div class="document"><div class="title-row">
+        
+      <h1>
+        <a id="chapter-5-malloy-files-vs-malloy-notebooks" class="header-link anchor" href="#chapter-5-malloy-files-vs-malloy-notebooks">
+          Chapter 5: Malloy Files vs. Malloy Notebooks
+        </a>
+      </h1>
+    
+        <a class="edit-link" target="_blank" href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/05_files_and_notebooks.malloynb">Open in VS Code <img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a>
+        </div>
+      <p>You've already used both kinds of Malloy file without thinking about it. Every chapter is a <strong>notebook</strong> (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code>), and since Chapter 2 each one has started with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;names.malloy&quot;</span></span></code> or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;ecommerce.malloy&quot;</span></span></code>, which are <strong>model files</strong> (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code>). This chapter explains the difference, shows how they work together, and walks you through setting up VS Code and DuckDB on your own computer.</p>
+
+      <h2>
+        <a id="the-big-idea" class="header-link anchor" href="#the-big-idea">
+          The big idea
+        </a>
+      </h2>
+    <table>
+<thead>
+<tr>
+<th></th>
+
+<th><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code> file</th>
+
+<th><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code> notebook</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Holds</strong></td>
+
+<td>the <strong>model</strong>: sources, dimensions, measures, views, joins</td>
+
+<td><strong>narrative + queries + results</strong></td>
+</tr>
+
+<tr>
+<td><strong>Audience</strong></td>
+
+<td>the people who maintain the data definitions</td>
+
+<td>readers: classmates, managers, your future self</td>
+</tr>
+
+<tr>
+<td><strong>Contains prose?</strong></td>
+
+<td>only <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #008000">//</span></span></code> comments and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #008000">#&quot;</span></span></code> descriptions</td>
+
+<td>yes, as Markdown cells</td>
+</tr>
+
+<tr>
+<td><strong>Typical size</strong></td>
+
+<td>grows slowly; reused by many notebooks</td>
+
+<td>one per analysis or report</td>
+</tr>
+
+<tr>
+<td><strong>Analogy</strong></td>
+
+<td>a dictionary</td>
+
+<td>an essay that uses the dictionary</td>
+</tr>
+</tbody></table>
+<p>Here's the rule of thumb: <strong>definitions go in the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code> file, and questions go in the notebook.</strong> If you write the same expression in two notebooks, it probably belongs in the model.</p>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> <a href="https://docs.malloydata.dev/documentation/user_guides/notebooks">Analyzing with notebooks</a> · <a href="https://docs.malloydata.dev/documentation/language/statement">Models and statements</a></p>
+</div>
+
+      <h2>
+        <a id="inside-a-malloy-file" class="header-link anchor" href="#inside-a-malloy-file">
+          Inside a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code> file
+        </a>
+      </h2>
+    <p>A model file is just Malloy statements: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">:</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">query</span><span style="color: #000000">:</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">:</span></span></code>, and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span></span></code>. Here's the start of <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">names</span><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code>, which sits next to this notebook:</p>
+<div class="code-wrapper"><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #008000">#&quot; U.S. baby names by state, gender, and birth year (1910–2021).</span></span>
+<span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">names</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000">) </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">rename</span><span style="color: #000000">: </span><span style="color: #001080">year_born</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">`year`</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">rename</span><span style="color: #000000">: </span><span style="color: #001080">births</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">`number`</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">dimension</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #008000">#&quot; The decade a baby was born in, e.g. 1990.</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">decade</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #795E26">floor</span><span style="color: #000000">(</span><span style="color: #001080">year_born</span><span style="color: #000000"> / </span><span style="color: #098658">10</span><span style="color: #000000">) * </span><span style="color: #098658">10</span></span>
+<span class="line"><span style="color: #000000">  ...</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">measure</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #008000">#&quot; Total babies born (sum of the births column).</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">total_births</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">births</span><span style="color: #000000">.</span><span style="color: #795E26">sum</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">  ...</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p>When you open a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code> file in VS Code, small <strong>Run</strong>, <strong>Explore</strong>, and <strong>Schema</strong> links appear above each <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">:</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">:</span></span></code>, and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">query</span><span style="color: #000000">:</span></span></code>. Click <strong>Run</strong> to see results in a panel on the right.</p>
+<img src="img/vscode-explore-schema-preview.png" alt="Explore and Schema links above a source in VS Code" style="max-width: 600px;">
+      <h2>
+        <a id="inside-a-malloynb-notebook" class="header-link anchor" href="#inside-a-malloynb-notebook">
+          Inside a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code> notebook
+        </a>
+      </h2>
+    <p>A notebook is a list of <strong>cells</strong>. Each cell is either Markdown (text, tables, images, links) or Malloy (code). When you open the file in VS Code, you see the cells drawn nicely, with each Malloy cell's results right underneath it.</p>
+<img src="img/notebook-screenshot.png" alt="A Malloy notebook open in VS Code" style="max-width: 700px;"><p>The file itself is plain text. Open one in any text editor and you'll see that cells are separated by <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">&gt;&gt;&gt;</span><span style="color: #001080">markdown</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">&gt;&gt;&gt;</span><span style="color: #001080">malloy</span></span></code> lines. (In the real file these lines start at the very left edge. We indented them here so this notebook doesn't treat them as real cell breaks.)</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">  &gt;&gt;&gt;markdown</span></span>
+<span class="line"><span style="color: #000000">  # My analysis</span></span>
+<span class="line"><span style="color: #000000">  Which names were popular in Ohio?</span></span>
+<span class="line"><span style="color: #000000">  &gt;&gt;&gt;malloy</span></span>
+<span class="line"><span style="color: #000000">  import &quot;names.malloy&quot;</span></span>
+<span class="line"><span style="color: #000000">  &gt;&gt;&gt;malloy</span></span>
+<span class="line"><span style="color: #000000">  run: names -&gt; by_name + { where: state = &#39;OH&#39; }</span></span></pre></div><p>Because notebooks are plain text, they work well with Git. You can see exactly what changed between two versions. (Results are <em>not</em> saved in the file. They're recomputed each time you run the cell.)</p>
+
+      <h3>
+        <a id="cells-build-on-each-other" class="header-link anchor" href="#cells-build-on-each-other">
+          Cells build on each other
+        </a>
+      </h3>
+    <p>Each Malloy cell can use anything defined in the cells <strong>above</strong> it. That's why the first cell of a chapter is usually the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span></span></code>. Let's prove it. This cell imports the model:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/05_files_and_notebooks.malloynb#C2" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;names.malloy&quot;</span></span></pre></div><p>This cell defines a new source, with a new dimension, on top of the imported one:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/05_files_and_notebooks.malloynb#C4" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">names_ch5</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">names</span><span style="color: #000000"> </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">dimension</span><span style="color: #000000">: </span><span style="color: #001080">is_vowel_start</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">first_letter</span><span style="color: #000000"> = </span><span style="color: #A31515">&#39;A&#39;</span><span style="color: #000000"> | </span><span style="color: #A31515">&#39;E&#39;</span><span style="color: #000000"> | </span><span style="color: #A31515">&#39;I&#39;</span><span style="color: #000000"> | </span><span style="color: #A31515">&#39;O&#39;</span><span style="color: #000000"> | </span><span style="color: #A31515">&#39;U&#39;</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p>And this cell uses both:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/05_files_and_notebooks.malloynb#C6" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">names_ch5</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">year_born</span><span style="color: #000000"> = </span><span style="color: #098658">2021</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">is_vowel_start</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">total_births</span><span style="color: #000000">, </span><span style="color: #001080">name_count</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="a1adb2df-04a2-4aae-9296-025106e18983">
+        <script>(()=>{var e=document.getElementById("a1adb2df-04a2-4aae-9296-025106e18983"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"is_vowel_start",type:{kind:"boolean_type"},annotations:[{value:"#(malloy) reference_id = \"406cb290-ed81-4a9f-96d7-d96e54ec586c\" drill_expression { kind = field_reference name = is_vowel_start code = \"first_letter = 'A' | 'E' | 'I' | 'O' | 'U'\" }\n"}]},{kind:"dimension",name:"total_births",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#" Total babies born (sum of the births column).\n'},{value:'#(malloy) reference_id = "02ea169e-333c-4ebd-9d9a-81857b533432" calculation drill_expression { kind = field_reference name = total_births }\n'}]},{kind:"dimension",name:"name_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#" How many different names appear.\n'},{value:'#(malloy) reference_id = "e527f3d7-4ecd-4901-bfb3-9901c3b59213" calculation drill_expression { kind = field_reference name = name_count }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"boolean_cell",boolean_value:!1},{kind:"number_cell",number_value:2071946,subtype:"bigint",string_value:"2071946"},{kind:"number_cell",number_value:6734,subtype:"integer"}]},{kind:"record_cell",record_value:[{kind:"boolean_cell",boolean_value:!0},{kind:"number_cell",number_value:740929,subtype:"bigint",string_value:"740929"},{kind:"number_cell",number_value:2190,subtype:"integer"}]}]},connection_name:"duckdb",annotations:[{value:'#(malloy) drill_filters = [{ code = "year_born = 2021" expression { kind = field_reference name = year_born } kind = literal_equality value { kind = number_literal number_value = 2021 } }] drillable ordered_by = [{ total_births = desc }]\n'},{value:"#(malloy) source.name = names_ch5\n"},{value:"#(malloy) query_name = __stage0\n"}],sql:'SELECT \n   (SUBSTR(base."name",1,1)) IN (\'A\',\'E\',\'I\',\'O\',\'U\') as "is_vowel_start",\n   COALESCE(SUM(base."number"),0) as "total_births",\n   count(distinct base."name") as "name_count"\nFROM \'data/usa_names.parquet\' as base\nWHERE base."year"=2021\nGROUP BY 1\nORDER BY 2 desc NULLS LAST\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;is_vowel_start&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">false</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2071946&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">6734</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;is_vowel_start&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;740929&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2190</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   (SUBSTR(base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">,</span><span style="color: #098658">1</span><span style="color: #000000">,</span><span style="color: #098658">1</span><span style="color: #000000">)) </span><span style="color: #0000FF">IN</span><span style="color: #000000"> (</span><span style="color: #A31515">&#39;A&#39;</span><span style="color: #000000">,</span><span style="color: #A31515">&#39;E&#39;</span><span style="color: #000000">,</span><span style="color: #A31515">&#39;I&#39;</span><span style="color: #000000">,</span><span style="color: #A31515">&#39;O&#39;</span><span style="color: #000000">,</span><span style="color: #A31515">&#39;U&#39;</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;is_vowel_start&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;total_births&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">count</span><span style="color: #000000">(</span><span style="color: #0000FF">distinct</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;name_count&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #0000FF">WHERE</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000">=</span><span style="color: #098658">2021</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000"> </span><span style="color: #0000FF">desc</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><div class="callout callout-warning">
+<p>⚠️ <strong>Order matters.</strong> If you run a cell before the cells above it have run, you'll get errors like <em>"Reference to undefined object."</em> When in doubt, use <strong>Run All</strong> at the top of the notebook.</p>
+</div>
+
+      <h2>
+        <a id="named-queries" class="header-link anchor" href="#named-queries">
+          Named queries
+        </a>
+      </h2>
+    <p>Besides views (which belong to a source), a model can hold top-level <strong>named queries</strong> with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">query</span><span style="color: #000000">:</span></span></code>. You can run them by name later, from the model or from any notebook that imports it:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/05_files_and_notebooks.malloynb#C8" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">query</span><span style="color: #000000">: </span><span style="color: #001080">popular_in_2021</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">names</span><span style="color: #000000"> -&gt; </span><span style="color: #001080">by_name</span><span style="color: #000000"> + { </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">year_born</span><span style="color: #000000"> = </span><span style="color: #098658">2021</span><span style="color: #000000"> }</span></span></pre></div><div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/05_files_and_notebooks.malloynb#C9" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">popular_in_2021</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="5ce4922c-e873-4ed2-a6e5-ef120a5b32f4">
+        <script>(()=>{var e=document.getElementById("5ce4922c-e873-4ed2-a6e5-ef120a5b32f4"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"name",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "80da829b-f5c0-4e5d-96a3-c6c526f7617e" drill_expression { kind = field_reference name = name code = name }\n'}]},{kind:"dimension",name:"total_births",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#" Total babies born (sum of the births column).\n'},{value:'#(malloy) reference_id = "3e5ebbfd-1acd-4648-9f9c-0431d735de0c" calculation drill_expression { kind = field_reference name = total_births }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Liam"},{kind:"number_cell",number_value:20272,subtype:"bigint",string_value:"20272"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Noah"},{kind:"number_cell",number_value:19114,subtype:"bigint",string_value:"19114"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Olivia"},{kind:"number_cell",number_value:17728,subtype:"bigint",string_value:"17728"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Emma"},{kind:"number_cell",number_value:15433,subtype:"bigint",string_value:"15433"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Oliver"},{kind:"number_cell",number_value:14616,subtype:"bigint",string_value:"14616"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Charlotte"},{kind:"number_cell",number_value:13285,subtype:"bigint",string_value:"13285"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Amelia"},{kind:"number_cell",number_value:12952,subtype:"bigint",string_value:"12952"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Ava"},{kind:"number_cell",number_value:12759,subtype:"bigint",string_value:"12759"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Elijah"},{kind:"number_cell",number_value:12708,subtype:"bigint",string_value:"12708"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"Sophia"},{kind:"number_cell",number_value:12496,subtype:"bigint",string_value:"12496"}]}]},connection_name:"duckdb",annotations:[{value:'#(malloy) limit = 10 drill_filters = [{ code = "year_born = 2021" expression { kind = field_reference name = year_born } kind = literal_equality value { kind = number_literal number_value = 2021 } }] drillable ordered_by = [{ total_births = desc }]\n'},{value:"#(malloy) source.name = names\n"},{value:"#(malloy) query_name = popular_in_2021\n"}],sql:'SELECT \n   base."name" as "name",\n   COALESCE(SUM(base."number"),0) as "total_births"\nFROM \'data/usa_names.parquet\' as base\nWHERE base."year"=2021\nGROUP BY 1\nORDER BY 2 desc NULLS LAST\nLIMIT 10\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Liam&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;20272&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Noah&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;19114&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Olivia&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;17728&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Emma&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;15433&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Oliver&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;14616&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Charlotte&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;13285&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Amelia&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;12952&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Ava&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;12759&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Elijah&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;12708&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Sophia&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;total_births&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;12496&quot;</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;name&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COALESCE</span><span style="color: #000000">(</span><span style="color: #795E26">SUM</span><span style="color: #000000">(base.</span><span style="color: #A31515">&quot;number&quot;</span><span style="color: #000000">),</span><span style="color: #098658">0</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;total_births&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #0000FF">WHERE</span><span style="color: #000000"> base.</span><span style="color: #A31515">&quot;year&quot;</span><span style="color: #000000">=</span><span style="color: #098658">2021</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000"> </span><span style="color: #0000FF">desc</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"><span style="color: #0000FF">LIMIT</span><span style="color: #000000"> </span><span style="color: #098658">10</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div>
+      <h2>
+        <a id="imports" class="header-link anchor" href="#imports">
+          Imports
+        </a>
+      </h2>
+    <p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;names.malloy&quot;</span></span></code> reads another file and makes everything it defines available. The path is <strong>relative to the file doing the importing</strong>. So <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;names.malloy&quot;</span></span></code> looks in the same folder, and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;../models/names.malloy&quot;</span></span></code> would look one folder up and then in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">models</span><span style="color: #000000">/</span></span></code>.</p>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> <a href="https://docs.malloydata.dev/documentation/language/imports">Imports</a></p>
+</div>
+
+      <h2>
+        <a id="setting-up-your-environment" class="header-link anchor" href="#setting-up-your-environment">
+          Setting up your environment
+        </a>
+      </h2>
+    <p>You need three things: <strong>VS Code</strong>, the <strong>Malloy extension</strong>, and <strong>DuckDB</strong>. DuckDB comes <em>inside</em> the extension, so it's really only two installs.</p>
+
+      <h3>
+        <a id="option-a-vs-code-on-your-computer-recommended-" class="header-link anchor" href="#option-a-vs-code-on-your-computer-recommended-">
+          Option A: VS Code on your computer (recommended)
+        </a>
+      </h3>
+    <ol>
+<li><p><strong>Install VS Code</strong> from <a href="https://code.visualstudio.com/">code.visualstudio.com</a>.</p>
+</li>
+<li><p><strong>Install the Malloy extension.</strong> Open the Extensions panel (<code>Cmd+Shift+X</code> on Mac, <code>Ctrl+Shift+X</code> on Windows), search for <strong>Malloy</strong>, and click <strong>Install</strong>. Or install it from the <a href="https://marketplace.visualstudio.com/items?itemName=malloydata.malloy-vscode">VS Code Marketplace</a>.</p>
+</li>
+<li><p><strong>Get the notebooks.</strong> Go to <a href="https://github.com/mrtimo/malloy-textbook-notebooks">github.com/mrtimo/malloy-textbook-notebooks</a> and click <strong>Code → Download ZIP</strong> (then unzip it), or clone it with <code>git clone <a href="https://github.com/mrtimo/malloy-textbook-notebooks.git">https://github.com/mrtimo/malloy-textbook-notebooks.git</a></code>.</p>
+</li>
+<li><p><strong>Open the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span></span></code> folder</strong> with <strong>File → Open Folder…</strong>. Open <em>that</em> folder, not its parent. Then open <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #098658">0</span><span style="color: #000000">1_basics.</span><span style="color: #001080">malloynb</span></span></code> and click <strong>Run All</strong>.</p>
+</li></ol>
+<img src="img/running_extension.gif" alt="Running a query in the Malloy VS Code extension" style="max-width: 700px;">
+      <h3>
+        <a id="option-b-github-dev-nothing-to-install-" class="header-link anchor" href="#option-b-github-dev-nothing-to-install-">
+          Option B: github.dev (nothing to install)
+        </a>
+      </h3>
+    <p><a href="https://github.dev">github.dev</a> is VS Code running in your web browser.</p>
+<ol>
+<li><p>On the <a href="https://github.com/mrtimo/malloy-textbook-notebooks">notebooks repository page</a>, press the <code>.</code> (period) key, or use the <strong>Open in VS Code</strong> button at the top of any chapter on this website.</p>
+</li>
+<li><p>When VS Code opens in the browser, install the <strong>Malloy</strong> extension from the Extensions panel.</p>
+</li>
+<li><p>Open any notebook and run it.</p>
+</li></ol>
+<p>github.dev can only use DuckDB with files that are in the repository (Parquet, CSV, JSON). That's all we need. It's a little slower than desktop VS Code with big files, and you'll need to commit your changes to keep them.</p>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> <a href="https://docs.malloydata.dev/documentation/setup/extension">VS Code extension setup</a> · <a href="https://docs.malloydata.dev/documentation/setup/extension#vs-code-web-github-dev-">github.dev</a></p>
+</div>
+
+      <h3>
+        <a id="why-the-folder-matters-malloy-config-json" class="header-link anchor" href="#why-the-folder-matters-malloy-config-json">
+          Why the folder matters: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>
+        </a>
+      </h3>
+    <p>The models refer to data with <em>relative</em> paths like <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000">)</span></span></code>. In VS Code, DuckDB resolves relative paths from the <strong>project root</strong>: the folder that holds <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>, or else the workspace folder. The <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span></span></code> folder includes this small <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>:</p>
+<div class="code-wrapper"><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">{</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0451A5">&quot;connections&quot;</span><span style="color: #000000">: {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;duckdb&quot;</span><span style="color: #000000">: { </span><span style="color: #0451A5">&quot;is&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;duckdb&quot;</span><span style="color: #000000"> }</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p>It does two things. It declares a connection named <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span></span></code> (the name we use in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(...)</span></span></code>), and it marks <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span><span style="color: #000000">/</span></span></code> as the root, so <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/...</span></span></code> paths work no matter how you opened the repository.</p>
+<div class="callout callout-warning">
+<p>⚠️ <strong>"File not found: data/usa_names.parquet"?</strong> VS Code is resolving the path from the wrong folder. Open the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span></span></code> folder itself, or make sure <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> is still in it.</p>
+</div>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> <a href="https://docs.malloydata.dev/documentation/setup/config">Configuration: malloy-config.json</a></p>
+</div>
+
+      <h3>
+        <a id="creating-your-own-notebook" class="header-link anchor" href="#creating-your-own-notebook">
+          Creating your own notebook
+        </a>
+      </h3>
+    <ul>
+<li><p><strong>New notebook:</strong> create a file whose name ends in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code> (for example <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">my_analysis</span><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code>). VS Code opens it as a notebook.</p>
+</li>
+<li><p><strong>Add cells:</strong> hover between cells and click <strong>+ Code</strong> or <strong>+ Markdown</strong>. Make sure a code cell's language (bottom-right corner of the cell) says <strong>Malloy</strong>.</p>
+</li>
+<li><p><strong>Run a cell:</strong> click the ▶ button or press <code>Shift+Enter</code>.</p>
+</li>
+<li><p><strong>Edit Markdown:</strong> double-click a Markdown cell. Press <code>Esc</code> or click away to see it formatted.</p>
+</li></ul>
+
+      <h3>
+        <a id="creating-your-own-model" class="header-link anchor" href="#creating-your-own-model">
+          Creating your own model
+        </a>
+      </h3>
+    <ul>
+<li><p>Create a file ending in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code>, for example <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">my_model</span><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code>.</p>
+</li>
+<li><p>Define sources in it, then <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;my_model.malloy&quot;</span></span></code> from a notebook.</p>
+</li>
+<li><p>After you edit the model, re-run the notebook's import cell (or <strong>Run All</strong>) so the notebook sees the change.</p>
+</li></ul>
+
+      <h2>
+        <a id="key-takeaways" class="header-link anchor" href="#key-takeaways">
+          Key takeaways
+        </a>
+      </h2>
+    <ul>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code> files hold the <strong>model</strong> (definitions). <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code> notebooks hold <strong>narrative, queries, and results</strong>, and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span></span></code> the model.</p>
+</li>
+<li><p>Notebooks are plain text with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">&gt;&gt;&gt;</span><span style="color: #001080">markdown</span></span></code> / <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">&gt;&gt;&gt;</span><span style="color: #001080">malloy</span></span></code> separators. Cells build on the cells above them.</p>
+</li>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">query</span><span style="color: #000000">:</span></span></code> names a query so it can be run later. <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span></span></code> paths are relative to the importing file.</p>
+</li>
+<li><p>Install VS Code and the Malloy extension (DuckDB is built in), and open <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span><span style="color: #000000">/</span></span></code> as the workspace root.</p>
+</li></ul>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 5.1: Your first notebook.</strong> Create a new notebook called <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">my_first_notebook</span><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code> in the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span></span></code> folder. Give it a Markdown cell with a title and one sentence that explains what you're investigating. Then add a Malloy cell that imports <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">names</span><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code>, and two query cells that answer your question.</p>
+</div>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 5.2: Change the model.</strong> Open <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">names</span><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code> and add a new view called <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">by_generation</span></span></code> that groups by <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">generation</span></span></code> and shows <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">total_births</span></span></code>, sorted by <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">total_births</span></span></code> descending. Save the file. Then, in your notebook, re-run the import and run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">names</span><span style="color: #000000"> -&gt; </span><span style="color: #001080">by_generation</span></span></code>. You've just changed a definition once and used it everywhere.</p>
+</div>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 5.3: Read the raw file.</strong> Open <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #098658">0</span><span style="color: #000000">5_files_and_notebooks.</span><span style="color: #001080">malloynb</span></span></code> with a plain text editor (in VS Code, right-click the file → <strong>Open With… → Text Editor</strong>). Find the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">&gt;&gt;&gt;</span><span style="color: #001080">malloy</span></span></code> lines. How many Malloy cells does this chapter have?</p>
+</div>
+</div></div>
+        </div>
+        <script src="/malloy-textbook/js/view_toggles.js"></script>
+        <script src="/malloy-textbook/js/jump_to_hash.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

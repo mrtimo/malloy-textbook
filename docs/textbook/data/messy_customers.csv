@@ -1,0 +1,127 @@
+customer_id,full_name,email,phone,state,signup_date,plan,first_purchase
+67,amelia smith,  Amelia.Smith43@example.com ,605-517-6562,ny,2024-01-06,basic,$177
+8,AVA MARTINEZ,  Ava.Martinez94@example.com ,(446) 780-2290, CA,,BASIC,352.10 USD
+37,Isabella Garcia,Isabella.Garcia16@example.com,776-511-2395,Wash.,2023-04-27,Pro,$253.63
+69,abigail clark,ABIGAIL.CLARK5@EXAMPLE.COM,2755178565,OR,2024-03-26,basic,$319.55
+59,  Evelyn   Lee ,EVELYN.LEE17@EXAMPLE.COM,(282) 529-3430,CA,"May 05, 2024",Premium,$286
+120,james brown,James.Brown52@example.com,(282) 869-1519,Ore.,2024-02-11,Basic,228.18
+66,  Elijah   Garcia ,Elijah.Garcia52@example.com,+1 520 789 8033,Florida,2023-12-29,basic,$177
+54,abigail davis,ABIGAIL.DAVIS15@EXAMPLE.COM,8506755951,tx,2024-04-27,pro ,134.56
+100,  Lucas   Johnson ,LUCAS.JOHNSON69@EXAMPLE.COM,965-690-4505,Utah,,pro ,$36
+32,emma wilson,Emma.Wilson79@example.com,645.380.9548,California,2024-05-16,Pro,$357
+2,james lopez,James.Lopez34@example.com,+1 299 567 6635,ca,08-Mar-2024,basic,$306.58
+53,Lucas Martinez,Lucas.Martinez16@example.com,+1 604 214 5332,CO,05/25/2023,pro ,392.08 USD
+33,harper davis,Harper.Davis28@example.com,7065323979,OR,30-Mar-2023,pro ,$189
+96,elijah davis,Elijah.Davis40@example.com,+1 889 312 7824,Oregon,20240605,Basic,$192.58
+22,EVELYN WILSON,  EVELYN.WILSON90@EXAMPLE.COM ,8826186344,Ore.,13-Mar-2023,premium,54.23 USD
+77,James Davis,James.Davis58@example.com,4936833273,OR,29-Jan-2023,Basic,261.73
+81,  Ava   Johnson ,Ava.Johnson97@example.com,(756) 684-5150,Calif.,2023-07-26,Basic,129.66 USD
+71,  James   Lopez ,James.Lopez13@example.com,862.542.2079,New York,17-Jan-2024,pro ,$273.16
+26,  Harper   Clark ,HARPER.CLARK31@EXAMPLE.COM,481.650.2269,CO,"May 01, 2024",basic,$257
+62,liam lee,Liam.Lee29@example.com,+1 576 317 5564,OR,06/03/2024,Basic,339.67 USD
+106,noah lee,NOAH.LEE98@EXAMPLE.COM,682-975-9806,FL,"May 17, 2023",basic,$244
+60,amelia clark,  Amelia.Clark52@example.com ,4336236553,Colorado,2024-03-16,premium,263.61
+102,sophia lee,  Sophia.Lee51@example.com ,(379) 627-3880,Washington,2023-03-02,pro ,$296.78
+105,MIA DAVIS,MIA.DAVIS40@EXAMPLE.COM,2638832936,Colo.,04-Dec-2023,pro ,108.31 USD
+17,MIA LEE,MIA.LEE99@EXAMPLE.COM,483.245.1058,OR,20230928,BASIC,$339.21
+97,jackson lopez,  JACKSON.LOPEZ90@EXAMPLE.COM ,+1 897 448 1517,Florida,20230222,Premium,$290
+34,Jackson Lee,Jackson.Lee52@example.com,217-295-5820,FL,"September 05, 2023",Premium,$278
+15,mia brown,  Mia.Brown28@example.com ,+1 776 302 2200,Fla,02/10/2024,Premium,-
+14,  Liam   Clark ,Liam.Clark11@example.com,+1 783 452 1651,NY,2024-06-04,Premium,31.84
+91,Harper Johnson,Harper.Johnson66@example.com,553.608.3142,ny,"March 01, 2024",Pro,61.75 USD
+98,  Ethan   Garcia ,Ethan.Garcia68@example.com,7314126325,Fla,20240528,Pro,$295.66
+9,AVA LOPEZ,Ava.Lopez67@example.com,8878657118,Washington,03/09/2024,basic,277.50 USD
+55,Logan Johnson,Logan.Johnson63@example.com,(944) 358-7797,Florida,"May 19, 2023",pro ,$299
+48,Aiden Smith,Aiden.Smith42@example.com,(910) 506-1474,Florida,10/22/2023,Premium,$43.89
+79,Lucas Davis,Lucas.Davis3@example.com,+1 757 719 9316,OR,03/02/2024,premium,$389.99
+29,  Ethan   Garcia ,  Ethan.Garcia3@example.com ,6314582341,NY,"September 24, 2023",Premium,$138
+20,LOGAN BROWN,Logan.Brown52@example.com,+1 991 485 6753,Colo.,11/09/2023,Premium,162.39 USD
+1,noah smith,Noah.Smith4@example.com,+1 423 438 9279,FL,2023-05-23,premium,
+64,isabella garcia,Isabella.Garcia78@example.com,4786537947,Washington,20231129,basic,$66.45
+78,MIA BROWN,Mia.Brown81@example.com,(711) 811-9782,UT,10/23/2023,BASIC,$171
+24,emma lee,Emma.Lee81@example.com,9862748461,tx,11/14/2023,premium,$23
+90,Abigail Smith,Abigail.Smith32@example.com,7584965949,TX,09/29/2023,pro ,$257
+72,jackson garcia,Jackson.Garcia86@example.com,585-858-6381,tx,25-Dec-2023,basic,$159.82
+47,  Harper   Johnson ,Harper.Johnson41@example.com,5368909742,ca,02/24/2024,Pro,$110
+99,aiden martinez,Aiden.Martinez62@example.com,921.412.9011,Washington,05/10/2024,pro ,122.91 USD
+117,  Olivia   Lee ,Olivia.Lee22@example.com,7009409037,WA,20-Jul-2023,BASIC,102.06 USD
+74,ISABELLA CLARK,Isabella.Clark57@example.com,244-620-6968,UT,06/16/2023,Pro,324.57
+82,Isabella Lee,Isabella.Lee94@example.com,(576) 731-5369,Ore.,"February 14, 2024",BASIC,$390
+57,LIAM MARTINEZ,Liam.Martinez17@example.com,810-202-5542,N.Y.,20230312,basic,348.53 USD
+90,Abigail Smith,Abigail.Smith32@example.com,7584965949,TX,09/29/2023,pro ,$257
+80,Mason Lee,Mason.Lee88@example.com,560-759-6546,OR,12/20/2023,BASIC,309.74 USD
+16,emma brown,  EMMA.BROWN34@EXAMPLE.COM ,767-506-2697,WA,20240324,BASIC,$394.96
+52,noah smith,Noah.Smith35@example.com,+1 752 574 9697,CO,01/09/2024,Pro,300.25
+95,amelia martinez,  Amelia.Martinez78@example.com ,685-731-8487,OR,20230723,Premium,22.89
+40,Ava Johnson,Ava.Johnson6@example.com,+1 705 648 2317,New York,"October 23, 2023",pro ,281.39 USD
+22,EVELYN WILSON,  EVELYN.WILSON90@EXAMPLE.COM ,8826186344,Ore.,13-Mar-2023,premium,54.23 USD
+108,LIAM LOPEZ,LIAM.LOPEZ10@EXAMPLE.COM,+1 203 963 4570,Utah,20230301,basic,$291
+25,LOGAN DAVIS,Logan.Davis60@example.com,455-324-8478,NY,"April 20, 2023",Premium,$280
+84,emma davis,Emma.Davis5@example.com,+1 575 570 7272,NY,20230527,Premium,54.86
+38,  Evelyn   Davis ,EVELYN.DAVIS85@EXAMPLE.COM,412.840.4457,Colo.,15-Mar-2024,basic,$384.24
+87,MASON WILSON,Mason.Wilson40@example.com,(764) 332-2412,tx,N/A,Pro,223.84 USD
+12,  Sophia   Brown ,Sophia.Brown22@example.com,753-215-2528,ny,07-Jul-2023,premium,$34.78
+114,  Liam   Wilson ,Liam.Wilson35@example.com,(294) 748-4120,ut,"May 18, 2023",Basic,$260
+49,ETHAN GARCIA,ETHAN.GARCIA82@EXAMPLE.COM,7973464804,ut,07/04/2023,Basic,156.1
+46,  Sophia   Brown ,Sophia.Brown17@example.com,(867) 355-9115,Fla,14-Feb-2023,basic,$326
+75,JAMES WILSON,  James.Wilson26@example.com ,714-740-7859,Wash.,18-Jul-2023,pro ,179.04 USD
+63,Jackson Lee,Jackson.Lee96@example.com,(958) 848-1502,New York,13-Nov-2023,Pro,$62
+58,Olivia Garcia,OLIVIA.GARCIA76@EXAMPLE.COM,+1 687 659 6931,OR,2023-11-28,Basic,$297.98
+64,isabella garcia,Isabella.Garcia78@example.com,4786537947,Washington,20231129,basic,$66.45
+4,Sophia Lee,Sophia.Lee5@example.com,986-994-1916,N.Y.,"June 17, 2023",basic,257.8
+42,  Elijah   Martinez ,  Elijah.Martinez60@example.com ,+1 613 726 1018,Colo.,,Premium,$104.70
+93,  Logan   Lee ,  LOGAN.LEE69@EXAMPLE.COM ,706.811.8710,CA,20240207,BASIC,$235.42
+44,  James   Johnson ,James.Johnson77@example.com,764-348-7284,tx,25-May-2024,basic,$335
+94,  Mia   Martinez ,  Mia.Martinez88@example.com ,+1 661 982 5582,OR,2024-02-15,basic,$223.52
+118,AIDEN LOPEZ,AIDEN.LOPEZ2@EXAMPLE.COM,845-436-2113, CA,2023-02-04,Basic,$307
+11,  James   Lopez ,James.Lopez94@example.com,8613001993,FL,"April 10, 2023",Pro,$346.22
+119,  Jackson   Clark ,  JACKSON.CLARK23@EXAMPLE.COM ,4932179228,CO,N/A,BASIC,214.12 USD
+7,aiden lee,AIDEN.LEE81@EXAMPLE.COM,(980) 382-9317,Texas,03/21/2024,Pro,350.96 USD
+45,mia davis,Mia.Davis98@example.com,+1 695 553 6446,WA,17-Oct-2023,Premium,265.68
+65,Mason Davis,  Mason.Davis38@example.com ,416.985.3248,Washington,20240513,premium,n/a
+11,  James   Lopez ,James.Lopez94@example.com,8613001993,FL,"April 10, 2023",Pro,$346.22
+18,  Harper   Wilson ,HARPER.WILSON46@EXAMPLE.COM,(242) 515-6974,CA,03/19/2023,basic,235.09
+86,Logan Brown,Logan.Brown39@example.com,926.266.9882,NY,04/07/2024,BASIC,39.68 USD
+2,james lopez,James.Lopez34@example.com,+1 299 567 6635,ca,08-Mar-2024,basic,$306.58
+104,elijah smith,Elijah.Smith18@example.com,288-610-2562,Washington,07/17/2023,Basic,$165
+50,HARPER LEE,Harper.Lee31@example.com,(403) 593-8916,TX ,20231220,pro ,$278
+113,  Ethan   Wilson ,  Ethan.Wilson39@example.com ,750-684-4948,Calif.,20240126,Pro,$64
+31,Elijah Lee,Elijah.Lee6@example.com,+1 991 508 2983,Calif.,"January 20, 2024",Premium,238.88
+103,liam smith,LIAM.SMITH43@EXAMPLE.COM,(679) 479-4159,Texas,"October 19, 2023",pro ,200.1
+21,olivia johnson,OLIVIA.JOHNSON25@EXAMPLE.COM,+1 723 318 7311,New York,2023-02-09,Basic,$316
+39,  Elijah   Smith ,Elijah.Smith15@example.com,4394704241,Colorado,,pro ,$117
+107,evelyn lopez,  Evelyn.Lopez92@example.com ,732-652-2904,TX,20230305,Pro,216.98
+51,  Lucas   Smith ,Lucas.Smith33@example.com,+1 560 424 4115,WA,20230220,BASIC,361.66
+92,  Noah   Lee ,NOAH.LEE98@EXAMPLE.COM,363-535-6123,FL,2023-04-10,Pro,248.07
+19,  Mason   Wilson ,  Mason.Wilson21@example.com ,621.885.5065,N.Y.,N/A,Basic,295.94 USD
+76,liam lopez,Liam.Lopez4@example.com,293.427.8391,TX,2023-10-19,Premium,362.6
+27,AVA GARCIA,Ava.Garcia49@example.com,+1 630 598 1320,ut,06/06/2023,pro ,$219
+3,amelia johnson,  Amelia.Johnson82@example.com ,3035895554,Oregon,,Premium,$119.31
+41,OLIVIA JOHNSON,Olivia.Johnson61@example.com,(646) 850-9056,Calif.,02/11/2023,basic,366.85
+23,amelia garcia,Amelia.Garcia61@example.com,+1 652 891 4501,ut,01-Jan-2023,BASIC,234.09 USD
+5,sophia clark,Sophia.Clark55@example.com,+1 774 751 5304,Florida,"May 26, 2024",Pro,61.43
+85,Mason Lopez,Mason.Lopez34@example.com,596.775.2929,New York,12-Feb-2024,pro ,49.81
+111,Sophia Johnson,SOPHIA.JOHNSON70@EXAMPLE.COM,245-611-8191,ut,01/17/2023,Basic,$18.26
+70,  Emma   Clark ,EMMA.CLARK92@EXAMPLE.COM,263.661.2695,Colorado,"February 12, 2023",Basic,$79
+36,noah brown,Noah.Brown2@example.com,(914) 329-9042,Fla,,Pro,$113.35
+88,  Evelyn   Davis ,Evelyn.Davis16@example.com,(332) 643-9238,tx,2023-11-21,BASIC,141.08
+10,ISABELLA SMITH,ISABELLA.SMITH70@EXAMPLE.COM,485-885-8953,FL,2023-03-14,Pro,$344.56
+116,  Lucas   Davis ,LUCAS.DAVIS53@EXAMPLE.COM,527.408.7073,Ore.,25-Sep-2023,BASIC,$44
+35,logan wilson,LOGAN.WILSON25@EXAMPLE.COM,523-322-9779,ut,05-Dec-2023,pro ,$104.30
+61,isabella lee,Isabella.Lee53@example.com,(769) 261-6400,ny,2023-03-10,premium,43.14 USD
+82,Isabella Lee,Isabella.Lee94@example.com,(576) 731-5369,Ore.,"February 14, 2024",BASIC,$390
+89,isabella brown,ISABELLA.BROWN75@EXAMPLE.COM,+1 295 714 3762,WA,09/14/2023,Premium,54.44 USD
+112,ava wilson,AVA.WILSON39@EXAMPLE.COM,8767334621,Florida,20231123,BASIC,131.66 USD
+28,AMELIA DAVIS,Amelia.Davis51@example.com,(678) 330-9751,CO,"October 07, 2023",basic,$269
+30,James Johnson,James.Johnson22@example.com,423.676.5198,ca,2023-07-24,basic,$192.06
+6,  Ava   Wilson ,  Ava.Wilson71@example.com ,810.679.9669,TX,04/23/2023,basic,$171.75
+68,EVELYN WILSON,Evelyn.Wilson60@example.com,8712773902,Ore.,06/01/2023,Pro,73.53
+115,EMMA BROWN,EMMA.BROWN91@EXAMPLE.COM,+1 972 690 4974,CO,N/A,Premium,$375.18
+13,  Liam   Garcia ,Liam.Garcia95@example.com,+1 503 422 1958,California,"September 29, 2023",Basic,$294
+110,MASON JOHNSON,MASON.JOHNSON30@EXAMPLE.COM,7576349715,ut,05/11/2023,pro ,$392
+73,ethan wilson,Ethan.Wilson13@example.com,340.358.2264,Calif.,11/13/2023,Basic,307.63
+43,  Jackson   Lopez ,Jackson.Lopez40@example.com,845-823-4920,ca,20231001,basic,$353
+101,AVA JOHNSON,Ava.Johnson84@example.com,3402053587,FL,08/20/2023,Pro,$288.36
+83,aiden lee,AIDEN.LEE56@EXAMPLE.COM,+1 243 944 6776,TX,02-Dec-2023,Basic,$173
+56,LIAM MARTINEZ,Liam.Martinez12@example.com,4823943001,Colo.,30-Aug-2023,Basic,220.06 USD
+109,Aiden Smith,Aiden.Smith11@example.com,5916597184,CO,"October 21, 2023",BASIC,$258
