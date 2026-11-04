@@ -1,0 +1,852 @@
+>>>markdown
+# Worked Example: ICE Arrests, Start to Finish
+
+This worked example follows one real dataset through **every chapter of the book, in order**. You'll start with nothing but a file, and finish with a documented semantic model, a dashboard, and analyses that use filter expressions, joins, percent of total, window functions, and givens.
+
+After every code cell there's a small **🎯 Try it** challenge. It usually asks you to change one value, one time grain, or one field and run the cell again. Do them as you go. Each one takes a minute, and together they're the best practice in the book.
+
+### About the data
+
+The data is a record of **arrests made by U.S. Immigration and Customs Enforcement (ICE)**. The records were obtained through Freedom of Information Act (FOIA) requests and cleaned and published by the [Deportation Data Project](https://deportationdata.org/data/processed/ice.html) ([GitHub](https://github.com/deportationdata/ice)) under a public-domain (CC0) license. The file used here is a snapshot of their `arrests-latest.parquet`, taken on November 4, 2026.
+
+* **One row = one arrest record.** About 896,000 rows, from **October 1, 2022 to August 6, 2026**.
+* That's U.S. government **fiscal years 2023–2026**. A fiscal year runs October 1 – September 30 and is named for the year it ends. FY2026 is incomplete in this snapshot.
+* Columns describe when and where the arrest happened, the ICE office responsible, how the arrest was made, the person's country of citizenship, approximate age, gender, criminal history category, case status, and whether they later departed (were removed) from the U.S.
+
+> ⚠️ **Read administrative data carefully.** These are records kept by an agency for its own purposes, not a survey designed for research. Categories are ICE's own (for example, "Other Immigration Violator" means no criminal conviction or pending charge was recorded). Some records are duplicates, some fields are missing, and the definitions can change between releases. Every row is a real person's arrest. Describe what the data shows precisely, and say what it can't tell you. The Deportation Data Project's documentation explains the fields and known issues.
+
+> 📘 **Book chapters.** Each part below matches a chapter: [1](01_basics.malloynb) · [2](02_time_truncation.malloynb) · [3](03_views_and_nesting.malloynb) · [4](04_render_tags.malloynb) · [5](05_files_and_notebooks.malloynb) · [6](06_explorer.malloynb) · [7](07_csv_and_parquet.malloynb) · [8](08_filtering.malloynb) · [9](09_data_cleaning.malloynb) · [10](10_joins.malloynb) · [11](11_percent_of_total.malloynb) · [12](12_pipelines_and_windows.malloynb) · [13](13_givens.malloynb) · [14](14_model_review.malloynb)
+
+## Part 1 · The Basics
+
+### A source from a file, or from a URL
+
+Every analysis starts with a **source**. DuckDB can read a file on disk:
+>>>malloy
+source: ice_raw is duckdb.table('data/ice_arrests.parquet')
+>>>markdown
+DuckDB can just as easily read a file **straight from the internet**, including the latest version published by the Deportation Data Project. (This website was built offline from the local snapshot, so this version isn't run here.)
+
+```malloy
+source: ice_live is duckdb.table(
+  'https://github.com/deportationdata/ice/raw/refs/heads/main/data/arrests-latest.parquet'
+)
+```
+
+> 🎯 **Try it:** In your notebook, add a cell with the `ice_live` source above and run `run: ice_live -> { aggregate: rows is count() }`. Does the live file have more rows than our snapshot?
+
+### How many rows?
+>>>malloy
+run: ice_raw -> {
+  aggregate: arrest_records is count()
+}
+>>>markdown
+> 🎯 **Try it:** Add a second aggregate, `people is count(unique_identifier)`. `count(column)` counts **distinct** values, so it counts people instead of rows. Why are there fewer people than arrest records?
+
+### Look at some rows
+>>>malloy
+run: ice_raw -> {
+  select:
+    apprehension_date
+    apprehension_state_filled_in
+    apprehension_aor
+    citizenship_country
+    apprehension_criminality
+    apprehension_method_simple
+  limit: 10
+}
+>>>markdown
+> 🎯 **Try it:** Add `gender` and `age_at_apprehension_approximate` to the `select:` list. Then change `limit: 10` to `limit: 3`.
+
+### group_by and aggregate
+
+How are arrests split across ICE's three criminality categories?
+>>>malloy
+run: ice_raw -> {
+  group_by: apprehension_criminality
+  aggregate: arrests is count()
+}
+>>>markdown
+> 🎯 **Try it:** Change the `group_by:` to `apprehension_method_simple` (how the arrest was made). Which method is most common?
+
+### where, order_by, and limit
+
+The top countries of citizenship for arrests made in Texas:
+>>>malloy
+run: ice_raw -> {
+  where: apprehension_state_filled_in = 'TEXAS'
+  group_by: citizenship_country
+  aggregate: arrests is count()
+  order_by: arrests desc
+  limit: 10
+}
+>>>markdown
+> 🎯 **Try it:** Change `'TEXAS'` to another state (the data uses full names in capitals, like `'ILLINOIS'`). Then change `desc` to `asc`. What do the least common countries look like?
+
+### Extending the source with dimensions and measures
+
+Typing `apprehension_state_filled_in` gets old fast, and "count of rows" should have a name. Let's build a better source with **renames**, **dimensions**, and **measures**:
+>>>malloy
+source: arrests is ice_raw extend {
+  rename:
+    arrest_date is apprehension_date
+    state is apprehension_state_filled_in
+    country is citizenship_country
+    method is apprehension_method_simple
+
+  dimension:
+    age is age_at_apprehension_approximate
+    is_female is gender = 'Female'
+
+  measure:
+    arrest_count is count()
+    person_count is count(unique_identifier)
+    avg_age is age.avg()
+}
+>>>malloy
+run: arrests -> {
+  group_by: method
+  aggregate: arrest_count, person_count, avg_age
+}
+>>>markdown
+> 🎯 **Try it:** Add a measure `female_count is count() { where: is_female }` to the `arrests` source cell, re-run that cell, and add `female_count` to this query.
+
+## Part 2 · Time Truncation
+
+`arrest_date` is a `date`. `.year`, `.quarter`, `.month`, and `.week` turn it into trends.
+>>>malloy
+run: arrests -> {
+  group_by: arrest_quarter is arrest_date.quarter
+  aggregate: arrest_count
+  order_by: arrest_quarter
+}
+>>>markdown
+> 🎯 **Try it:** Change `.quarter` to `.month`, then to `.week`. What changes about the story when the grain gets finer?
+
+### Fiscal years
+
+The government counts in **fiscal years** (October – September). There's no `.fiscal_year` truncation, but a dimension can compute one. If the month is October or later, the fiscal year is next year:
+>>>malloy
+source: arrests_fy is arrests extend {
+  dimension: fiscal_year is year(arrest_date) + (pick 1 when month(arrest_date) >= 10 else 0)
+}
+>>>malloy
+run: arrests_fy -> {
+  group_by: fiscal_year
+  aggregate: arrest_count, person_count
+  order_by: fiscal_year
+}
+>>>markdown
+Remember that FY2026 stops on August 6, 2026, so it's missing almost two months.
+
+> 🎯 **Try it:** Change `fiscal_year` to `calendar_year is arrest_date.year`. Why do the totals differ from the fiscal-year totals?
+
+### Extraction: which day of the week?
+>>>malloy
+run: arrests_fy -> {
+  group_by: weekday is day_of_week(arrest_date)
+  aggregate: arrest_count
+  order_by: weekday
+}
+>>>markdown
+(1 = Sunday, 7 = Saturday.)
+
+> 🎯 **Try it:** Change `day_of_week(arrest_date)` to `month(arrest_date)`. Are some months of the year consistently busier?
+
+### Time between two dates
+
+How long between an arrest and a recorded departure from the U.S.?
+>>>malloy
+run: arrests_fy -> {
+  where: departed_date is not null
+  group_by: fiscal_year
+  aggregate: avg_days_to_departure is avg(days(arrest_date to departed_date))
+  order_by: fiscal_year
+}
+>>>markdown
+Careful: recent arrests haven't had as much time for a departure to happen, so later years are cut short.
+
+> 🎯 **Try it:** Change `days(...)` to `months(...)`, and `avg` to `max`.
+
+## Part 3 · Views and Nesting
+
+Let's save the most useful queries as **views**, and add a couple of tidier dimensions:
+>>>malloy
+source: arrests_v is arrests_fy extend {
+  dimension:
+    criminality is regexp_replace!string(apprehension_criminality, r'^[0-9] ', '')
+    aor is replace(apprehension_aor, ' Area of Responsibility', '')
+
+  view: by_month is {
+    group_by: arrest_month is arrest_date.month
+    aggregate: arrest_count
+    order_by: arrest_month
+  }
+  view: by_country is {
+    group_by: country
+    aggregate: arrest_count
+    limit: 10
+  }
+  view: by_criminality is {
+    group_by: criminality
+    aggregate: arrest_count
+  }
+}
+>>>malloy
+run: arrests_v -> by_country
+>>>markdown
+> 🎯 **Try it:** Refine the view: `run: arrests_v -> by_country + { where: fiscal_year = 2024, limit: 5 }`.
+
+### Top 5 countries within each ICE office
+
+ICE organizes enforcement by **Area of Responsibility** (AOR), regional field offices like "Miami" or "Chicago." Nesting answers "top N within each group":
+>>>malloy
+#(docs) size=large
+run: arrests_v -> {
+  group_by: aor
+  aggregate: arrest_count
+  nest: top_countries is by_country + { limit: 5 }
+  limit: 8
+}
+>>>markdown
+> 🎯 **Try it:** Replace `top_countries` with a nest of `by_criminality`. Which offices have the highest share of convicted criminals?
+
+### More than one nest, and nests within nests
+>>>malloy
+#(docs) size=large
+run: arrests_v -> {
+  group_by: fiscal_year
+  aggregate: arrest_count
+  nest: by_criminality
+  nest: by_method is {
+    group_by: method
+    aggregate: arrest_count
+    nest: top_states is {
+      group_by: state
+      aggregate: arrest_count
+      limit: 3
+    }
+  }
+  order_by: fiscal_year
+}
+>>>markdown
+> 🎯 **Try it:** Change `limit: 3` in the innermost nest to `limit: 1`. You now have "the top state for each method in each fiscal year."
+
+## Part 4 · Render Tags
+
+The same queries become charts with one line.
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: arrests_v -> {
+  group_by: arrest_month is arrest_date.month
+  aggregate: arrest_count
+  group_by: criminality
+  order_by: arrest_month
+}
+>>>markdown
+> 🎯 **Try it:** Change the second `group_by:` from `criminality` to `method`. Then try `.week` instead of `.month`.
+>>>malloy
+#(docs) size=large limit=5000
+# bar_chart.stack
+run: arrests_v -> {
+  group_by: fiscal_year, method
+  aggregate: arrest_count
+  order_by: fiscal_year
+}
+>>>markdown
+> 🎯 **Try it:** Remove `.stack` to put the bars side by side. Which version makes it easier to compare methods?
+
+### KPIs and formats
+>>>malloy
+#(docs) size=medium limit=5000
+# big_value
+run: arrests_v -> {
+  where: fiscal_year = 2025
+  aggregate:
+    # label="Arrests, FY2025"
+    arrest_count
+    # label="People"
+    person_count
+    # label="Convicted criminal"
+    # percent
+    pct_convicted is count() { where: criminality = 'Convicted Criminal' } / count()
+    # label="Average age"
+    # number="0.0"
+    avg_age
+}
+>>>markdown
+> 🎯 **Try it:** Change the fiscal year to 2024. Then change the `# number="0.0"` tag to `# number="0"`.
+
+### A dashboard
+>>>malloy
+#(docs) size=xlarge limit=5000
+# dashboard
+run: arrests_v -> {
+  where: aor = 'Chicago'
+  aggregate: arrest_count, person_count
+  # line_chart
+  nest: by_month
+  # bar_chart
+  nest: by_criminality
+  # break
+  nest: by_country + { limit: 5 }
+}
+>>>markdown
+> 🎯 **Try it:** Change `'Chicago'` to another office, such as `'Miami'`, `'Dallas'`, or `'Los Angeles'`. Add `nest: top_cities is { group_by: apprehension_city_original, aggregate: arrest_count, limit: 5 }`.
+
+## Part 5 · Malloy Files vs. Notebooks
+
+Everything so far lives in **this notebook**. That's fine for exploring, but the definitions (fiscal year, criminality, views) belong in a **model file** that every notebook can share. This worked example comes with that file: `ice.malloy`, the finished version of everything this notebook builds, documented with `#"` descriptions.
+
+A **selective import** brings in just the source we ask for:
+>>>malloy
+import { ice_arrests } from "ice.malloy"
+>>>malloy
+run: ice_arrests -> by_fiscal_year
+>>>markdown
+One line, and the whole fiscal-year report runs from the model's definitions. We'll keep building the pieces here in the notebook, so you can see each step. In [Part 14](#part-14-model-review) we'll come back to `ice.malloy` and review it.
+
+> 🎯 **Try it:** Open `ice.malloy` in VS Code and find the `by_fiscal_year` view. Add `avg_age` to its `aggregate:` list, save, re-run the import cell and this cell. The notebook picks up the change.
+
+## Part 6 · The Malloy Explorer
+
+Open `ice.malloy` in VS Code and click **Explore** above `source: ice_arrests`. Then, without typing code:
+
+1. Add **fiscal_year** as a group by, and **arrest_count** and **pct_convicted** as aggregates.
+2. Add a nested query from the **by_country** view.
+3. Run it, and open the **Malloy** tab.
+
+You should get something very close to this:
+>>>malloy
+#(docs) size=large
+run: ice_arrests -> {
+  group_by: fiscal_year
+  aggregate: arrest_count, pct_convicted
+  nest: by_country
+  order_by: fiscal_year
+}
+>>>markdown
+Hover over fields in the Explorer's source panel. The `#"` descriptions from `ice.malloy` show up as help text.
+
+> 🎯 **Try it:** In the Explorer, add a filter on **criminality** equal to `Convicted Criminal`, switch the chart type to **Bar Chart**, and paste the generated Malloy into a new cell here.
+
+## Part 7 · CSV and Parquet
+
+Our file is Parquet. What's inside?
+>>>malloy
+run: duckdb.sql("""
+  SELECT * FROM parquet_metadata('data/ice_arrests.parquet')
+""") -> {
+  group_by: column_name is path_in_schema, compression
+  aggregate:
+    row_groups is count()
+    # number="#,##0"
+    compressed_bytes is total_compressed_size.sum()
+    # number="#,##0"
+    uncompressed_bytes is total_uncompressed_size.sum()
+  order_by: compressed_bytes desc
+  limit: 12
+}
+>>>markdown
+Three things to notice:
+
+* The file uses **Zstd** compression.
+* It's written as **one row group** holding all ~896,000 rows. That's fine for a file this size, but it means DuckDB can't use row-group min/max statistics to *skip* parts of the file. Writing it with smaller row groups, sorted by date, would let date filters skip most of the file.
+* Columns with long, repetitive text (like `file_original`, which says which spreadsheet each row came from) compress extremely well.
+
+To see what CSV would cost, export it with DuckDB, in Python or the DuckDB CLI:
+
+```python
+import duckdb, os
+duckdb.sql("COPY (FROM 'data/ice_arrests.parquet') TO 'ice_arrests.csv' (HEADER)")
+print(os.path.getsize("data/ice_arrests.parquet"), os.path.getsize("ice_arrests.csv"))
+
+# Re-write the Parquet file sorted by date, in smaller row groups
+duckdb.sql("""
+  COPY (FROM 'data/ice_arrests.parquet' ORDER BY apprehension_date)
+  TO 'ice_sorted.parquet' (FORMAT parquet, COMPRESSION zstd, ROW_GROUP_SIZE 100000)
+""")
+```
+
+> 🎯 **Try it:** Change `order_by: compressed_bytes desc` to `order_by: uncompressed_bytes desc`. Which column shrinks the most? Then run the Python above and compare the CSV's size with the Parquet file's.
+
+## Part 8 · Filtering and Time Comparisons
+
+### Filter expressions on strings
+>>>malloy
+run: arrests_v -> {
+  where: country ~ f'%SALVADOR%, GUATEMALA, HONDURAS'
+  group_by: country, fiscal_year
+  aggregate: arrest_count
+  order_by: country, fiscal_year
+}
+>>>markdown
+> 🎯 **Try it:** Change the filter to `f'C%'` (every country starting with C). Then exclude one: `f'C%, -CUBA'`.
+
+### Filter expressions on numbers
+
+Arrests of young adults. Square brackets include the endpoints:
+>>>malloy
+run: arrests_v -> {
+  where: age ~ f'[18 to 24]'
+  group_by: criminality
+  aggregate: arrest_count, avg_age
+}
+>>>markdown
+> 🎯 **Try it:** Change the range to `f'< 18'` (minors), then to `f'>= 65'`.
+
+### Filter expressions on dates
+>>>malloy
+run: arrests_v -> {
+  aggregate:
+    all_records is arrest_count
+    calendar_2025 is arrest_count { where: arrest_date ~ f'2025' }
+    q1_2025 is arrest_count { where: arrest_date ~ f'2025-Q1' }
+    june_2025 is arrest_count { where: arrest_date ~ f'2025-06' }
+    since_jan_20_2025 is arrest_count { where: arrest_date ~ f'starting 2025-01-20' }
+    last_6_months is arrest_count { where: arrest_date ~ f'last 6 months' }
+}
+>>>markdown
+`last 6 months` is measured from **today**, the moment the query runs. This snapshot ends in August 2026, so as time passes, that column will shrink to zero.
+
+> 🎯 **Try it:** Change `f'2025-06'` to a range like `f'2025-06 to 2025-09'`, and `f'2025-Q1'` to `f'2024-Q1'`.
+
+### Fiscal year over fiscal year
+
+Compare FY2024 with FY2025 for each state, using filtered measures:
+>>>malloy
+run: arrests_v -> {
+  extend: {
+    measure:
+      fy2024 is arrest_count { where: fiscal_year = 2024 }
+      fy2025 is arrest_count { where: fiscal_year = 2025 }
+  }
+  group_by: state
+  aggregate:
+    fy2024
+    fy2025
+    # number="0.00"
+    ratio is fy2025 / nullif(fy2024, 0)
+  having: fy2024 > 1000
+  order_by: ratio desc
+  limit: 10
+}
+>>>markdown
+> 🎯 **Try it:** Change `group_by: state` to `group_by: country`, and the `having:` threshold to `500`.
+
+### Comparing like with like
+
+FY2026 is incomplete, so comparing it with all of FY2025 isn't fair. Compare the **same stretch of each fiscal year** instead: October 1 through August 6. Date ranges in filter expressions don't use brackets. `A to B` **includes A and stops just before B**, so "through August 6" is written `to ...-08-07`.
+>>>malloy
+run: arrests_v -> {
+  group_by: criminality
+  aggregate:
+    fy2025_to_aug6 is arrest_count { where: arrest_date ~ f'2024-10-01 to 2025-08-07' }
+    fy2026_to_aug6 is arrest_count { where: arrest_date ~ f'2025-10-01 to 2026-08-07' }
+    # percent
+    change is arrest_count { where: arrest_date ~ f'2025-10-01 to 2026-08-07' }
+      / arrest_count { where: arrest_date ~ f'2024-10-01 to 2025-08-07' } - 1
+}
+>>>markdown
+> 🎯 **Try it:** Change `group_by: criminality` to `group_by: method`. Which arrest method changed the most?
+
+## Part 9 · Data Cleaning
+
+### Profile first
+
+City names are typed in by hand. The same city appears in several spellings:
+>>>malloy
+run: arrests_v -> {
+  where: upper(trim(apprehension_city_original)) = 'CONROE' | 'HOUSTON' | 'DALLAS'
+  group_by: apprehension_city_original
+  aggregate: arrest_count
+  order_by: apprehension_city_original
+}
+>>>markdown
+> 🎯 **Try it:** Add `'NEWARK'` and `'SAN ANTONIO'` to the list. Are their spellings consistent?
+
+`case_threat_level` mixes real nulls with the *text* `'NA'`, and age has some impossible values:
+>>>malloy
+# transpose
+run: arrests_v -> {
+  aggregate:
+    threat_null is count() { where: case_threat_level is null }
+    threat_text_na is count() { where: case_threat_level = 'NA' }
+    age_under_1 is count() { where: age < 1 }
+    age_over_100 is count() { where: age > 100 }
+    no_person_id is count() { where: unique_identifier is null }
+    likely_duplicate_rows is count() { where: duplicate_drop_row }
+}
+>>>markdown
+The Deportation Data Project already flagged likely duplicate records with `duplicate_drop_row`. Using their flag is better than inventing our own rule.
+
+> 🎯 **Try it:** Add `missing_state is count() { where: state is null }` and `missing_city is count() { where: apprehension_city_original is null }`.
+
+The "state" column isn't only U.S. states, either:
+>>>malloy
+run: arrests_v -> {
+  group_by: state
+  aggregate: arrest_count
+  order_by: arrest_count asc
+  limit: 12
+}
+>>>markdown
+U.S. territories, military mail regions ("ARMED FORCES - ..."), and a few Mexican states are mixed in. We'll handle these with a join in Part 10.
+
+> 🎯 **Try it:** Change `asc` to `desc`. Then add `where: state ~ f'ARMED%'`.
+
+### A clean source
+
+Put the fixes into one source: drop flagged duplicates, normalize the city, turn `'NA'` into a real null, and null out impossible ages:
+>>>malloy
+source: arrests_clean is arrests_v extend {
+  where: duplicate_drop_row = false
+
+  dimension:
+    city is upper(trim(apprehension_city_original))
+    threat_level is nullif(case_threat_level, 'NA')
+    age_clean is pick null when age < 1 or age > 100 else age
+    age_group is age_clean ?
+      pick 'Under 18' when < 18
+      pick '18–24' when < 25
+      pick '25–34' when < 35
+      pick '35–44' when < 45
+      pick '45–54' when < 55
+      pick '55+' when >= 55
+      else null
+
+  measure:
+    # number="0.0"
+    avg_age_clean is age_clean.avg()
+}
+>>>malloy
+run: arrests_clean -> {
+  group_by: age_group
+  aggregate: arrest_count, avg_age_clean
+  order_by: age_group
+}
+>>>markdown
+> 🎯 **Try it:** Change the age bands, for example split `'55+'` into `'55–64'` and `'65+'`. Re-run the source cell and then this one.
+
+The cleaned city now groups correctly:
+>>>malloy
+run: arrests_clean -> {
+  group_by: city
+  aggregate: arrest_count
+  limit: 10
+}
+>>>markdown
+> 🎯 **Try it:** Add `where: state = 'CALIFORNIA'` to see the top California cities.
+
+## Part 10 · Joins and Symmetric Aggregates
+
+### Joining a lookup table
+
+`state_regions.csv` (from Chapter 14) has one row per U.S. state with its 2-letter code and Census region. The arrest data uses capitalized full names, so we join on an **expression**:
+>>>malloy
+source: state_regions is duckdb.table('data/state_regions.csv') extend {
+  primary_key: state_code
+  dimension: state_upper is upper(state_name)
+  measure: state_count is count()
+}
+
+source: arrests_joined is arrests_clean extend {
+  join_one: state_regions on state = state_regions.state_upper
+}
+>>>malloy
+run: arrests_joined -> {
+  group_by: state_regions.region
+  aggregate: arrest_count, state_regions.state_count
+}
+>>>markdown
+The `null` region collects the territories, military regions, and missing states, which have no match in the lookup table. `state_regions.state_count` counts **states**, not arrests, even though each state matched thousands of arrest rows. That's symmetric aggregation at work.
+
+> 🎯 **Try it:** Change `state_regions.region` to `state_regions.division`.
+
+Now that we have 2-letter codes, a map works:
+>>>malloy
+#(docs) size=large limit=5000
+# shape_map
+run: arrests_joined -> {
+  where: fiscal_year = 2025
+  group_by: state_regions.state_code
+  aggregate: arrest_count
+}
+>>>markdown
+> 🎯 **Try it:** Change `arrest_count` to a share: `pct_convicted is count() { where: criminality = 'Convicted Criminal' } / count()`.
+
+### One row per person: joining to a query
+
+Some people appear in more than one arrest record. Build a **person-level** source with a query, give it a primary key, and join it back:
+>>>malloy
+source: people is arrests_clean -> {
+  where: unique_identifier is not null
+  group_by: unique_identifier
+  aggregate:
+    arrests_of_person is count()
+    first_arrest is min(arrest_date)
+} extend {
+  primary_key: unique_identifier
+  dimension: repeat_person is arrests_of_person > 1
+  measure: people_count is count()
+}
+
+source: arrests_people is arrests_joined extend {
+  join_one: people with unique_identifier
+}
+>>>malloy
+run: arrests_people -> {
+  group_by: people.repeat_person
+  aggregate:
+    arrest_count
+    people.people_count
+    # number="0.000"
+    avg_arrests_per_person is people.arrests_of_person.avg()
+    # number="0.000"
+    avg_arrests_per_record is source.avg(people.arrests_of_person)
+}
+>>>markdown
+Look at the `true` row. `people.arrests_of_person.avg()` averages over **people**: each person counts once. `source.avg(people.arrests_of_person)` averages over **arrest records**, so someone arrested three times counts three times. Both are legitimate questions with different answers, and Malloy makes you choose which one you mean. (The `null` row holds the records with no person identifier, so they can't be matched to a person.)
+
+> 🎯 **Try it:** Group by `fiscal_year` instead of `people.repeat_person`. What share of each year's people were arrested more than once?
+
+## Part 11 · Percent of Total
+
+Share of all arrests by country of citizenship:
+>>>malloy
+run: arrests_clean -> {
+  group_by: country
+  aggregate:
+    arrest_count
+    # percent
+    share is arrest_count / all(arrest_count)
+  limit: 10
+}
+>>>markdown
+> 🎯 **Try it:** Add `where: fiscal_year = 2023`, then `2026`. How did the mix change?
+
+### Share within a group
+
+Within each criminality category, what share of arrests did each method account for?
+>>>malloy
+run: arrests_clean -> {
+  group_by: criminality, method
+  aggregate:
+    arrest_count
+    # percent
+    share_of_category is arrest_count / all(arrest_count, criminality)
+  order_by: criminality, share_of_category desc
+}
+>>>markdown
+> 🎯 **Try it:** Swap it around: `all(arrest_count, method)` gives the criminality mix *within* each method.
+
+### Contribution to change
+
+Which ICE offices drove the change from FY2024 to FY2025?
+>>>malloy
+run: arrests_clean -> {
+  extend: {
+    measure:
+      fy2024 is arrest_count { where: fiscal_year = 2024 }
+      fy2025 is arrest_count { where: fiscal_year = 2025 }
+  }
+  group_by: aor
+  aggregate:
+    fy2024
+    fy2025
+    change is fy2025 - fy2024
+    # percent
+    contribution_to_change is (fy2025 - fy2024) / all(fy2025 - fy2024)
+  order_by: contribution_to_change desc
+  limit: 10
+}
+>>>markdown
+> 🎯 **Try it:** Group by `state` instead of `aor`.
+
+### Index: over- or under-represented?
+
+Compare the mix of countries in one office with the national mix, using filtered measures as in Chapter 11. An index of 200 means "twice as common here as nationally":
+>>>malloy
+run: arrests_clean -> {
+  group_by: country
+  aggregate:
+    miami_arrests is arrest_count { where: aor = 'Miami' }
+    # number="0"
+    miami_index is (arrest_count { where: aor = 'Miami' } / all(arrest_count { where: aor = 'Miami' }))
+      / (arrest_count / all(arrest_count)) * 100
+  having: arrest_count { where: aor = 'Miami' } > 1000
+  order_by: miami_index desc
+  limit: 10
+}
+>>>markdown
+> 🎯 **Try it:** Change `'Miami'` (all four places!) to `'New York City'` or `'Seattle'`. Better yet, think about how you'd avoid typing it four times (Part 13 has an answer).
+
+## Part 12 · Pipelines and Window Calculations
+
+### A two-stage pipeline: how often are people re-arrested?
+
+Stage 1 counts arrests per person. Stage 2 counts people by that number:
+>>>malloy
+run: arrests_clean -> {
+  where: unique_identifier is not null
+  group_by: unique_identifier
+  aggregate: arrests_of_person is count()
+} -> {
+  group_by: arrests_of_person
+  aggregate: people is count()
+  order_by: arrests_of_person
+}
+>>>markdown
+> 🎯 **Try it:** Add `where: criminality = 'Convicted Criminal'` to stage 1. Does the pattern change?
+
+### lag: month over month
+>>>malloy
+run: arrests_clean -> {
+  where: arrest_date ~ f'2025-01-01 to 2026-08-01'
+  group_by: arrest_month is arrest_date.month
+  aggregate: arrest_count
+  order_by: arrest_month
+  calculate:
+    prev_month is lag(arrest_count)
+    # percent
+    pct_change is arrest_count / lag(arrest_count) - 1
+}
+>>>markdown
+> 🎯 **Try it:** Change `.month` to `.quarter`, and `lag(arrest_count)` to `lag(arrest_count, 4)` for change from the same quarter a year earlier.
+
+### rank within each fiscal year
+>>>malloy
+run: arrests_clean -> {
+  where: fiscal_year ~ f'[2024 to 2025]'
+  group_by: fiscal_year, aor
+  aggregate: arrest_count
+  calculate: office_rank is rank() {
+    partition_by: fiscal_year
+    order_by: arrest_count desc
+  }
+} -> {
+  where: office_rank <= 5
+  select: fiscal_year, office_rank, aor, arrest_count
+  order_by: fiscal_year, office_rank
+}
+>>>markdown
+Stage 1 ranks offices within each year (`partition_by:`), and stage 2 keeps the top 5. Calculations can't be filtered in the same stage, so a pipeline does it.
+
+> 🎯 **Try it:** Change `aor` to `state`, and `<= 5` to `<= 3`.
+
+### Running totals and moving averages
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: arrests_clean -> {
+  group_by: arrest_week is arrest_date.week
+  aggregate: arrest_count
+  order_by: arrest_week
+  calculate: four_week_avg is avg_moving(arrest_count, 3)
+}
+>>>markdown
+> 🎯 **Try it:** Change `avg_moving(arrest_count, 3)` to `avg_moving(arrest_count, 7)` (an 8-week average). How much smoother is it?
+>>>malloy
+run: arrests_clean -> {
+  where: fiscal_year ~ f'[2024 to 2026]'
+  group_by: fiscal_year, arrest_month is arrest_date.month
+  aggregate: arrest_count
+  order_by: arrest_month
+  calculate: fiscal_ytd is sum_cumulative(arrest_count) {
+    partition_by: fiscal_year
+    order_by: arrest_month
+  }
+  limit: 15
+}
+>>>markdown
+The running total restarts every October, when a new fiscal year begins.
+
+> 🎯 **Try it:** Remove the `partition_by:` line. What does the running total mean now?
+
+## Part 13 · Givens
+
+The office comparison in Part 11 typed `'Miami'` four times. **Givens** fix that: declare the value once, use it everywhere with `$`.
+>>>malloy
+##! experimental.givens
+given:
+  OFFICE :: string is 'Miami'
+  COUNTRIES :: filter<string> is f'MEXICO, GUATEMALA, HONDURAS, VENEZUELA'
+  SINCE :: date is @2025-01-20
+>>>malloy
+run: arrests_clean -> {
+  group_by: country
+  aggregate:
+    office_arrests is arrest_count { where: aor = $OFFICE }
+    # number="0"
+    office_index is (arrest_count { where: aor = $OFFICE } / all(arrest_count { where: aor = $OFFICE }))
+      / (arrest_count / all(arrest_count)) * 100
+  having: arrest_count { where: aor = $OFFICE } > 1000
+  order_by: office_index desc
+  limit: 10
+}
+>>>markdown
+> 🎯 **Try it:** Change `OFFICE` to `'Chicago'` in the `given:` cell, and run both cells again. You changed one value, not four.
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: arrests_clean -> {
+  where: country ~ $COUNTRIES, arrest_date >= $SINCE
+  group_by: arrest_month is arrest_date.month, country
+  aggregate: arrest_count
+  order_by: arrest_month
+}
+>>>markdown
+A `filter<string>` given holds a whole filter expression, which a user (or an app) could type.
+
+> 🎯 **Try it:** Change `COUNTRIES` to `f'C%'` and `SINCE` to `@2023-01-01`.
+
+## Part 14 · Model Review
+
+Everything this notebook built is collected, documented, in `ice.malloy`. Here's how it maps to the parts above:
+
+| `ice.malloy` element | Built in |
+|---|---|
+| `given: FOCUS_STATE` and `source: ice_focus_state` | Part 13 |
+| `source: ice_state_regions` (lookup, `primary_key: state_code`) | Part 10 |
+| `source: ice_people` (person-level source built from a query) | Parts 10 and 12 |
+| `source: ice_arrests` → `where: duplicate_drop_row = false` | Part 9 |
+| renames (`arrest_date`, `state`, `country`, `method`) | Part 1 |
+| `fiscal_year` dimension | Part 2 |
+| `criminality`, `aor` dimensions | Part 3 |
+| `city`, `age`, `age_group`, `threat_level` dimensions | Part 9 |
+| `join_one: ice_state_regions`, `join_one: ice_people` | Part 10 |
+| `pct_convicted`, `share_of_arrests` (`all()`) measures | Parts 4 and 11 |
+| views `by_month` (`# line_chart`), `by_country`, ..., `overview` (`# dashboard`) | Parts 3 and 4 |
+| `query: top_countries_fy2025` | Part 5 |
+| `#"` descriptions on everything | Part 6 |
+
+Import the rest of the model's pieces and run its dashboard view:
+>>>malloy
+import { ice_focus_state, top_countries_fy2025 } from "ice.malloy"
+>>>malloy
+#(docs) size=xlarge limit=5000
+run: ice_arrests -> overview + { where: fiscal_year = 2025 }
+>>>markdown
+> 🎯 **Try it:** Change the refinement to `{ where: aor = 'Atlanta' }`, then to `{ where: country = 'VENEZUELA' }`.
+>>>malloy
+run: top_countries_fy2025
+>>>markdown
+> 🎯 **Try it:** In `ice.malloy`, add a second named query, `top_offices_fy2025`, using the `by_aor` view. Import it here and run it.
+>>>malloy
+run: ice_focus_state -> by_fiscal_year
+>>>markdown
+`ice_focus_state` uses the `FOCUS_STATE` given from `ice.malloy` (default `'TEXAS'`).
+
+> 🎯 **Try it:** Change the default of `FOCUS_STATE` in `ice.malloy` to another state, save, and re-run the import cell and this one.
+
+### Your turn: a final project
+
+Use what you've built to answer a question of your own, in a new notebook that imports `ice.malloy`:
+
+1. **Ask** a specific question, such as "How did arrest methods change in my state after January 2025?" or "Which countries' arrests grew fastest between FY2024 and FY2025, compared like-with-like?"
+2. **Answer** it with at least one view, one nest, one filter expression, and one chart.
+3. **Check** your answer: profile the fields you rely on, watch for partial periods and duplicates, and make sure every denominator is the one you mean.
+4. **Explain** what the data shows, and what it can't tell you, in two or three Markdown cells.
+
+> 🎯 **Final challenge.** Add one new documented dimension *and* one new documented measure to `ice.malloy` that your question needs. Use them in your notebook, and in the Explorer.

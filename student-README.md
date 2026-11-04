@@ -20,6 +20,8 @@ install the Malloy extension there, and open any notebook.
 |---|---|
 | `index.malloynb` | Welcome and table of contents |
 | `01_basics.malloynb` … `14_model_review.malloynb` | One notebook per chapter |
+| `15_worked_example_ice.malloynb` | Worked example: ICE arrests data taken through every chapter |
+| `ice.malloy` | The finished model for the worked example |
 | `names.malloy` | The baby names model (used from Chapter 2 on) |
 | `names_full.malloy` | The complete names model reviewed in Chapter 14 |
 | `ecommerce.malloy` | The e-commerce star-schema model |

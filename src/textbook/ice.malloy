@@ -1,0 +1,178 @@
+##! experimental.givens
+
+// =============================================================================
+// ice.malloy
+//
+// The finished model for the worked example "ICE Arrests, Start to Finish".
+// The notebook builds every piece of this step by step. This file collects
+// the final versions so you can open the Explorer on them (Part 6) and review
+// them (Part 14).
+//
+// Data: U.S. Immigration and Customs Enforcement (ICE) arrest records obtained
+// via FOIA and processed by the Deportation Data Project
+// (https://deportationdata.org, https://github.com/deportationdata/ice),
+// released under CC0. Snapshot of arrests-latest.parquet taken 2026-11-04.
+// =============================================================================
+
+given:
+  #" State to focus on in `ice_focus_state` (upper case, as written in the data).
+  FOCUS_STATE :: string is 'TEXAS'
+
+
+#" One row per U.S. state (plus DC), with its Census Bureau region and division.
+source: ice_state_regions is duckdb.table('data/state_regions.csv') extend {
+  primary_key: state_code
+  dimension: state_upper is upper(state_name)
+  measure: state_count is count()
+}
+
+
+#" One row per person (unique_identifier), summarizing all of their arrest records.
+source: ice_people is duckdb.table('data/ice_arrests.parquet') -> {
+  where: duplicate_drop_row = false and unique_identifier is not null
+  group_by: unique_identifier
+  aggregate:
+    arrests_of_person is count()
+    first_arrest is min(apprehension_date)
+    last_arrest is max(apprehension_date)
+} extend {
+  primary_key: unique_identifier
+  dimension:
+    #" True when the same person appears in more than one arrest record.
+    repeat_person is arrests_of_person > 1
+  measure:
+    #" Number of distinct people.
+    people_count is count()
+}
+
+
+#" ICE arrests, Oct 2022 – Aug 2026 (U.S. fiscal years 2023–2026; FY2026 is partial).
+#" One row per arrest record, with rows the data provider flagged as likely duplicates removed.
+source: ice_arrests is duckdb.table('data/ice_arrests.parquet') extend {
+  where: duplicate_drop_row = false
+
+  rename:
+    arrest_date is apprehension_date
+    state is apprehension_state_filled_in
+    country is citizenship_country
+    method is apprehension_method_simple
+
+  join_one: ice_state_regions on state = ice_state_regions.state_upper
+  join_one: ice_people with unique_identifier
+
+  dimension:
+    #" U.S. federal fiscal year (Oct 1 – Sep 30), named for the year it ends.
+    fiscal_year is year(arrest_date) + (pick 1 when month(arrest_date) >= 10 else 0)
+
+    #" Criminality category, without the "1 ", "2 ", "3 " prefix.
+    criminality is regexp_replace!string(apprehension_criminality, r'^[0-9] ', '')
+
+    #" ICE Area of Responsibility (field office region), short name.
+    aor is replace(apprehension_aor, ' Area of Responsibility', '')
+
+    #" City of arrest, upper-cased and trimmed so spellings group together.
+    city is upper(trim(apprehension_city_original))
+
+    #" Approximate age at arrest; implausible values (under 1 or over 100) set to null.
+    age is pick null when age_at_apprehension_approximate < 1 or age_at_apprehension_approximate > 100
+      else age_at_apprehension_approximate
+
+    #" Age band at arrest.
+    age_group is age ?
+      pick 'Under 18' when < 18
+      pick '18–24' when < 25
+      pick '25–34' when < 35
+      pick '35–44' when < 45
+      pick '45–54' when < 55
+      pick '55+' when >= 55
+      else null
+
+    #" Case threat level (1 = highest); the text 'NA' is converted to null.
+    threat_level is nullif(case_threat_level, 'NA')
+
+    #" True when the record has a departure (removal) date.
+    has_departed is departed_date is not null
+
+    #" Days from arrest to departure, when the person departed.
+    days_to_departure is days(arrest_date to departed_date)
+
+  measure:
+    #" Number of arrest records.
+    arrest_count is count()
+    #" Number of distinct people arrested.
+    person_count is count(unique_identifier)
+    #" Arrests of people with a criminal conviction.
+    convicted_arrests is arrest_count { where: criminality = 'Convicted Criminal' }
+    #" Share of arrests where the person had a criminal conviction.
+    # percent
+    pct_convicted is convicted_arrests / arrest_count
+    #" Share of all arrests in the current result.
+    # percent
+    share_of_arrests is arrest_count / all(arrest_count)
+    #" Average approximate age at arrest.
+    # number="0.0"
+    avg_age is age.avg()
+    #" Average days from arrest to departure (people who departed).
+    # number="0.0"
+    avg_days_to_departure is days_to_departure.avg()
+
+  #" Arrests per month, oldest first.
+  # line_chart
+  view: by_month is {
+    group_by: arrest_month is arrest_date.month
+    aggregate: arrest_count
+    order_by: arrest_month
+  }
+
+  #" Arrests per fiscal year.
+  view: by_fiscal_year is {
+    group_by: fiscal_year
+    aggregate: arrest_count, person_count, pct_convicted
+    order_by: fiscal_year
+  }
+
+  #" Top countries of citizenship.
+  view: by_country is {
+    group_by: country
+    aggregate: arrest_count, share_of_arrests
+    limit: 10
+  }
+
+  #" Arrests by state of arrest.
+  view: by_state is {
+    group_by: state
+    aggregate: arrest_count, pct_convicted
+  }
+
+  #" Arrests by ICE Area of Responsibility.
+  view: by_aor is {
+    group_by: aor
+    aggregate: arrest_count, pct_convicted
+  }
+
+  #" One-screen overview.
+  # dashboard
+  view: overview is {
+    aggregate: arrest_count, person_count, pct_convicted
+    # line_chart
+    nest: by_month
+    # bar_chart
+    nest: by_criminality is {
+      group_by: criminality
+      aggregate: arrest_count
+    }
+    # break
+    nest: by_country
+    nest: by_aor + { limit: 10 }
+  }
+}
+
+
+#" Arrests in the state named by the FOCUS_STATE given.
+source: ice_focus_state is ice_arrests extend {
+  where: state = $FOCUS_STATE
+}
+
+
+#" The 10 most common countries of citizenship in FY2025.
+query: top_countries_fy2025 is ice_arrests -> by_country + { where: fiscal_year = 2025 }

@@ -25,7 +25,7 @@ We use two datasets throughout the book. Both ship with the notebooks in the `da
 | **U.S. baby names** | `data/usa_names.parquet` | 6.3 million rows: the number of babies given each name, by state, gender, and year, from 1910 to 2021 (Social Security Administration) | Almost everything |
 | **E-commerce store** | `data/order_items.parquet`, `users.parquet`, `inventory_items.parquet`, `products.parquet` | 271,000 items sold by an online clothing store from Jan 2019 to Nov 2022 | Dates, time trends, and joins |
 
-We also use a few small CSV files filled with deliberately messy fake data for the [data cleaning chapter](09_data_cleaning.malloynb).
+We also use a few small CSV files filled with deliberately messy fake data for the [data cleaning chapter](09_data_cleaning.malloynb). The [worked example](15_worked_example_ice.malloynb) uses a third, real dataset: about 896,000 ICE arrest records published by the Deportation Data Project.
 
 ## Conventions
 
@@ -68,5 +68,9 @@ You will see a few kinds of colored boxes:
 
 13. [Givens](13_givens.malloynb): values your model receives when a query runs
 14. [Anatomy of a Malloy Model](14_model_review.malloynb): putting all the pieces together
+
+**Part V · Worked Example**
+
+15. [ICE Arrests, Start to Finish](15_worked_example_ice.malloynb): one real dataset taken through every chapter, with a small challenge after every cell
 
 > 📘 **Malloy docs.** The official documentation is at [docs.malloydata.dev](https://docs.malloydata.dev/documentation/). Keep it open in another tab. Every chapter links to the pages that go deeper.

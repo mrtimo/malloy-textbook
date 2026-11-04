@@ -4766,6 +4766,1148 @@ window.SEARCH_SEGMENTS = [
   },
   {
     "titles": [
+      "Worked Example: ICE Arrests, Start to Finish"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "This worked example follows one real dataset through <strong>every chapter of the book, in order</strong>. You'll start with nothing but a file, and finish with a documented semantic model, a dashboard, and analyses that use filter expressions, joins, percent of total, window functions, and givens."
+      },
+      {
+        "type": "p",
+        "text": "After every code cell there's a small <strong>🎯 Try it</strong> challenge. It usually asks you to change one value, one time grain, or one field and run the cell again. Do them as you go. Each one takes a minute, and together they're the best practice in the book."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "About the data"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The data is a record of <strong>arrests made by U.S. Immigration and Customs Enforcement (ICE)</strong>. The records were obtained through Freedom of Information Act (FOIA) requests and cleaned and published by the <a href=\"https://deportationdata.org/data/processed/ice.html\">Deportation Data Project</a> (<a href=\"https://github.com/deportationdata/ice\">GitHub</a>) under a public-domain (CC0) license. The file used here is a snapshot of their <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">arrests</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">latest</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">parquet</span></span></code>, taken on November 4, 2026."
+      },
+      {
+        "type": "p",
+        "text": "Columns describe when and where the arrest happened, the ICE office responsible, how the arrest was made, the person's country of citizenship, approximate age, gender, criminal history category, case status, and whether they later departed (were removed) from the U.S."
+      },
+      {
+        "type": "p",
+        "text": "That's U.S. government <strong>fiscal years 2023–2026</strong>. A fiscal year runs October 1 – September 30 and is named for the year it ends. FY2026 is incomplete in this snapshot."
+      },
+      {
+        "type": "p",
+        "text": "<strong>One row = one arrest record.</strong> About 896,000 rows, from <strong>October 1, 2022 to August 6, 2026</strong>."
+      },
+      {
+        "type": "p",
+        "text": "⚠️ <strong>Read administrative data carefully.</strong> These are records kept by an agency for its own purposes, not a survey designed for research. Categories are ICE's own (for example, \"Other Immigration Violator\" means no criminal conviction or pending charge was recorded). Some records are duplicates, some fields are missing, and the definitions can change between releases. Every row is a real person's arrest. Describe what the data shows precisely, and say what it can't tell you. The Deportation Data Project's documentation explains the fields and known issues."
+      },
+      {
+        "type": "p",
+        "text": "📘 <strong>Book chapters.</strong> Each part below matches a chapter: <a href=\"01_basics\">1</a> · <a href=\"02_time_truncation\">2</a> · <a href=\"03_views_and_nesting\">3</a> · <a href=\"04_render_tags\">4</a> · <a href=\"05_files_and_notebooks\">5</a> · <a href=\"06_explorer\">6</a> · <a href=\"07_csv_and_parquet\">7</a> · <a href=\"08_filtering\">8</a> · <a href=\"09_data_cleaning\">9</a> · <a href=\"10_joins\">10</a> · <a href=\"11_percent_of_total\">11</a> · <a href=\"12_pipelines_and_windows\">12</a> · <a href=\"13_givens\">13</a> · <a href=\"14_model_review\">14</a>"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 1 · The Basics"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 1 · The Basics",
+      "A source from a file, or from a URL"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Every analysis starts with a <strong>source</strong>. DuckDB can read a file on disk:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_raw</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/ice_arrests.parquet&#39;</span><span style=\"color: #000000\">)</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "DuckDB can just as easily read a file <strong>straight from the internet</strong>, including the latest version published by the Deportation Data Project. (This website was built offline from the local snapshot, so this version isn't run here.)"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_live</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #A31515\">&#39;https://github.com/deportationdata/ice/raw/refs/heads/main/data/arrests-latest.parquet&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">)</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> In your notebook, add a cell with the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice_live</span></span></code> source above and run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_live</span><span style=\"color: #000000\"> -&gt; { </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rows</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() }</span></span></code>. Does the live file have more rows than our snapshot?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 1 · The Basics",
+      "How many rows?"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_raw</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_records</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Add a second aggregate, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">people</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">unique_identifier</span><span style=\"color: #000000\">)</span></span></code>. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">column</span><span style=\"color: #000000\">)</span></span></code> counts <strong>distinct</strong> values, so it counts people instead of rows. Why are there fewer people than arrest records?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 1 · The Basics",
+      "Look at some rows"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_raw</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">apprehension_date</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">apprehension_state_filled_in</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">apprehension_aor</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">citizenship_country</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">apprehension_criminality</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">apprehension_method_simple</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">gender</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">age_at_apprehension_approximate</span></span></code> to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">:</span></span></code> list. Then change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 1 · The Basics",
+      "group_by and aggregate"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "How are arrests split across ICE's three criminality categories?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_raw</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">apprehension_criminality</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">apprehension_method_simple</span></span></code> (how the arrest was made). Which method is most common?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 1 · The Basics",
+      "where, order_by, and limit"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The top countries of citizenship for arrests made in Texas:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_raw</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">apprehension_state_filled_in</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;TEXAS&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">citizenship_country</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;TEXAS&#39;</span></span></code> to another state (the data uses full names in capitals, like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;ILLINOIS&#39;</span></span></code>). Then change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">desc</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">asc</span></span></code>. What do the least common countries look like?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 1 · The Basics",
+      "Extending the source with dimensions and measures"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Typing <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">apprehension_state_filled_in</span></span></code> gets old fast, and \"count of rows\" should have a name. Let's build a better source with <strong>renames</strong>, <strong>dimensions</strong>, and <strong>measures</strong>:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">ice_raw</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">rename</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">apprehension_date</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">apprehension_state_filled_in</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">country</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">citizenship_country</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">method</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">apprehension_method_simple</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">age</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">age_at_apprehension_approximate</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">is_female</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Female&#39;</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">person_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">unique_identifier</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_age</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">age</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">method</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">person_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_age</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Add a measure <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">female_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">is_female</span><span style=\"color: #000000\"> }</span></span></code> to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">arrests</span></span></code> source cell, re-run that cell, and add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">female_count</span></span></code> to this query."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 2 · Time Truncation"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">arrest_date</span></span></code> is a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">date</span></span></code>. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">quarter</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">week</span></span></code> turn it into trends."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_quarter</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">quarter</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_quarter</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">quarter</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span></code>, then to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">week</span></span></code>. What changes about the story when the grain gets finer?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 2 · Time Truncation",
+      "Fiscal years"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The government counts in <strong>fiscal years</strong> (October – September). There's no <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">fiscal_year</span></span></code> truncation, but a dimension can compute one. If the month is October or later, the fiscal year is next year:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_fy</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrests</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">year</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">) + (</span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">1</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">month</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">) &gt;= </span><span style=\"color: #098658\">10</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">else</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">0</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_fy</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">person_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Remember that FY2026 stops on August 6, 2026, so it's missing almost two months."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">fiscal_year</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">calendar_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span></span></code>. Why do the totals differ from the fiscal-year totals?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 2 · Time Truncation",
+      "Extraction: which day of the week?"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_fy</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">weekday</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">day_of_week</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">weekday</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "(1 = Sunday, 7 = Saturday.)"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">day_of_week</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">)</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">month</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">)</span></span></code>. Are some months of the year consistently busier?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 2 · Time Truncation",
+      "Time between two dates"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "How long between an arrest and a recorded departure from the U.S.?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_fy</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">departed_date</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> not </span><span style=\"color: #0000FF\">null</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">avg_days_to_departure</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">(</span><span style=\"color: #795E26\">days</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> to </span><span style=\"color: #001080\">departed_date</span><span style=\"color: #000000\">))</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Careful: recent arrests haven't had as much time for a departure to happen, so later years are cut short."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">days</span><span style=\"color: #000000\">(...)</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">months</span><span style=\"color: #000000\">(...)</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">max</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 3 · Views and Nesting"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Let's save the most useful queries as <strong>views</strong>, and add a couple of tidier dimensions:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrests_fy</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">criminality</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">regexp_replace</span><span style=\"color: #000000\">!</span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">apprehension_criminality</span><span style=\"color: #000000\">, </span><span style=\"color: #811F3F\">r&#39;^[0-9] &#39;</span><span style=\"color: #000000\">, </span><span style=\"color: #A31515\">&#39;&#39;</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">replace</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">apprehension_aor</span><span style=\"color: #000000\">, </span><span style=\"color: #A31515\">&#39; Area of Responsibility&#39;</span><span style=\"color: #000000\">, </span><span style=\"color: #A31515\">&#39;&#39;</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">view</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_month</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_month</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">view</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_country</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">view</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_criminality</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">by_country</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Refine the view: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">by_country</span><span style=\"color: #000000\"> + { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2024</span><span style=\"color: #000000\">, </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span><span style=\"color: #000000\"> }</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 3 · Views and Nesting",
+      "Top 5 countries within each ICE office"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "ICE organizes enforcement by <strong>Area of Responsibility</strong> (AOR), regional field offices like \"Miami\" or \"Chicago.\" Nesting answers \"top N within each group\":"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_countries</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">by_country</span><span style=\"color: #000000\"> + { </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">8</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Replace <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">top_countries</span></span></code> with a nest of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">by_criminality</span></span></code>. Which offices have the highest share of convicted criminals?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 3 · Views and Nesting",
+      "More than one nest, and nests within nests"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_criminality</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_method</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">method</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span></span></code> in the innermost nest to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">1</span></span></code>. You now have \"the top state for each method in each fiscal year.\""
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 4 · Render Tags"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The same queries become charts with one line."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_month</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change the second <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code> from <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">criminality</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">method</span></span></code>. Then try <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">week</span></span></code> instead of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span></code>."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">bar_chart</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">stack</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">method</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Remove <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">stack</span></span></code> to put the bars side by side. Which version makes it easier to compare methods?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 4 · Render Tags",
+      "KPIs and formats"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">big_value</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2025</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">label</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;Arrests, FY2025&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">label</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;People&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">person_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">label</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;Convicted criminal&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_convicted</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Convicted Criminal&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">label</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;Average age&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0.0&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_age</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change the fiscal year to 2024. Then change the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0.0&quot;</span></span></code> tag to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0&quot;</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 4 · Render Tags",
+      "A dashboard"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">dashboard</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Chicago&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">person_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">bar_chart</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_criminality</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">break</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_country</span><span style=\"color: #000000\"> + { </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Chicago&#39;</span></span></code> to another office, such as <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Miami&#39;</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Dallas&#39;</span></span></code>, or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Los Angeles&#39;</span></span></code>. Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_cities</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">apprehension_city_original</span><span style=\"color: #000000\">, </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span><span style=\"color: #000000\"> }</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 5 · Malloy Files vs. Notebooks"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Everything so far lives in <strong>this notebook</strong>. That's fine for exploring, but the definitions (fiscal year, criminality, views) belong in a <strong>model file</strong> that every notebook can share. This worked example comes with that file: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>, the finished version of everything this notebook builds, documented with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> descriptions."
+      },
+      {
+        "type": "p",
+        "text": "A <strong>selective import</strong> brings in just the source we ask for:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> { </span><span style=\"color: #001080\">ice_arrests</span><span style=\"color: #000000\"> } </span><span style=\"color: #AF00DB\">from</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;ice.malloy&quot;</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_arrests</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">by_fiscal_year</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "One line, and the whole fiscal-year report runs from the model's definitions. We'll keep building the pieces here in the notebook, so you can see each step. In <a href=\"#part-14-model-review\">Part 14</a> we'll come back to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> and review it."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Open <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> in VS Code and find the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">by_fiscal_year</span></span></code> view. Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_age</span></span></code> to its <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span></code> list, save, re-run the import cell and this cell. The notebook picks up the change."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 6 · The Malloy Explorer"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Open <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> in VS Code and click <strong>Explore</strong> above <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_arrests</span></span></code>. Then, without typing code:"
+      },
+      {
+        "type": "p",
+        "text": "Add a nested query from the <strong>by_country</strong> view."
+      },
+      {
+        "type": "p",
+        "text": "Run it, and open the <strong>Malloy</strong> tab."
+      },
+      {
+        "type": "p",
+        "text": "Add <strong>fiscal_year</strong> as a group by, and <strong>arrest_count</strong> and <strong>pct_convicted</strong> as aggregates."
+      },
+      {
+        "type": "p",
+        "text": "You should get something very close to this:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_arrests</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_convicted</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_country</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Hover over fields in the Explorer's source panel. The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> descriptions from <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> show up as help text."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> In the Explorer, add a filter on <strong>criminality</strong> equal to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">Convicted</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">Criminal</span></span></code>, switch the chart type to <strong>Bar Chart</strong>, and paste the generated Malloy into a new cell here."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 7 · CSV and Parquet"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Our file is Parquet. What's inside?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000FF\">.</span><span style=\"color: #AF00DB\">sql</span><span style=\"color: #000000FF\">(</span><span style=\"color: #000000FF\">&quot;&quot;&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">  </span><span style=\"color: #0000FF\">SELECT</span><span style=\"color: #000000FF\"> </span><span style=\"color: #000000\">*</span><span style=\"color: #000000FF\"> </span><span style=\"color: #0000FF\">FROM</span><span style=\"color: #000000FF\"> parquet_metadata(</span><span style=\"color: #A31515\">&#39;data/ice_arrests.parquet&#39;</span><span style=\"color: #000000FF\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">&quot;&quot;&quot;</span><span style=\"color: #000000FF\">)</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">column_name</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">path_in_schema</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">compression</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">row_groups</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;#,##0&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">compressed_bytes</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_compressed_size</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;#,##0&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">uncompressed_bytes</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_uncompressed_size</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">compressed_bytes</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">12</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Three things to notice:"
+      },
+      {
+        "type": "p",
+        "text": "Columns with long, repetitive text (like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">file_original</span></span></code>, which says which spreadsheet each row came from) compress extremely well."
+      },
+      {
+        "type": "p",
+        "text": "The file uses <strong>Zstd</strong> compression."
+      },
+      {
+        "type": "p",
+        "text": "It's written as <strong>one row group</strong> holding all ~896,000 rows. That's fine for a file this size, but it means DuckDB can't use row-group min/max statistics to <em>skip</em> parts of the file. Writing it with smaller row groups, sorted by date, would let date filters skip most of the file."
+      },
+      {
+        "type": "p",
+        "text": "To see what CSV would cost, export it with DuckDB, in Python or the DuckDB CLI:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">import duckdb, os</span></span>\n<span class=\"line\"><span style=\"color: #000000\">duckdb.sql(&quot;COPY (FROM &#39;data/ice_arrests.parquet&#39;) TO &#39;ice_arrests.csv&#39; (HEADER)&quot;)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">print(os.path.getsize(&quot;data/ice_arrests.parquet&quot;), os.path.getsize(&quot;ice_arrests.csv&quot;))</span></span>\n<span class=\"line\"><span style=\"color: #000000\"></span></span>\n<span class=\"line\"><span style=\"color: #000000\"># Re-write the Parquet file sorted by date, in smaller row groups</span></span>\n<span class=\"line\"><span style=\"color: #000000\">duckdb.sql(&quot;&quot;&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  COPY (FROM &#39;data/ice_arrests.parquet&#39; ORDER BY apprehension_date)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  TO &#39;ice_sorted.parquet&#39; (FORMAT parquet, COMPRESSION zstd, ROW_GROUP_SIZE 100000)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">&quot;&quot;&quot;)</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">compressed_bytes</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">uncompressed_bytes</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span></code>. Which column shrinks the most? Then run the Python above and compare the CSV's size with the Parquet file's."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 8 · Filtering and Time Comparisons"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 8 · Filtering and Time Comparisons",
+      "Filter expressions on strings"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;%SALVADOR%, GUATEMALA, HONDURAS&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change the filter to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;C%&#39;</span></span></code> (every country starting with C). Then exclude one: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;C%, -CUBA&#39;</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 8 · Filtering and Time Comparisons",
+      "Filter expressions on numbers"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Arrests of young adults. Square brackets include the endpoints:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">age</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;[18 to 24]&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_age</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change the range to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;&lt; 18&#39;</span></span></code> (minors), then to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;&gt;= 65&#39;</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 8 · Filtering and Time Comparisons",
+      "Filter expressions on dates"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">all_records</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">calendar_2025</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;2025&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">q1_2025</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;2025-Q1&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">june_2025</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;2025-06&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">since_jan_20_2025</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;starting 2025-01-20&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">last_6_months</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;last 6 months&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">last</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">6</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">months</span></span></code> is measured from <strong>today</strong>, the moment the query runs. This snapshot ends in August 2026, so as time passes, that column will shrink to zero."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;2025-06&#39;</span></span></code> to a range like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;2025-06 to 2025-09&#39;</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;2025-Q1&#39;</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;2024-Q1&#39;</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 8 · Filtering and Time Comparisons",
+      "Fiscal year over fiscal year"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Compare FY2024 with FY2025 for each state, using filtered measures:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\">: {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">fy2024</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2024</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">fy2025</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2025</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">fy2024</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">fy2025</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0.00&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">ratio</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">fy2025</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">nullif</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">fy2024</span><span style=\"color: #000000\">, </span><span style=\"color: #098658\">0</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fy2024</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">1000</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ratio</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span></span></code>, and the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">:</span></span></code> threshold to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">500</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 8 · Filtering and Time Comparisons",
+      "Comparing like with like"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "FY2026 is incomplete, so comparing it with all of FY2025 isn't fair. Compare the <strong>same stretch of each fiscal year</strong> instead: October 1 through August 6. Date ranges in filter expressions don't use brackets. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">A</span><span style=\"color: #000000\"> to </span><span style=\"color: #001080\">B</span></span></code> <strong>includes A and stops just before B</strong>, so \"through August 6\" is written <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">to ...-</span><span style=\"color: #098658\">0</span><span style=\"color: #000000\">8-</span><span style=\"color: #098658\">0</span><span style=\"color: #000000\">7</span></span></code>."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">fy2025_to_aug6</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;2024-10-01 to 2025-08-07&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">fy2026_to_aug6</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;2025-10-01 to 2026-08-07&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">change</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;2025-10-01 to 2026-08-07&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      / </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;2024-10-01 to 2025-08-07&#39;</span><span style=\"color: #000000\"> } - </span><span style=\"color: #098658\">1</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">method</span></span></code>. Which arrest method changed the most?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 9 · Data Cleaning"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 9 · Data Cleaning",
+      "Profile first"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "City names are typed in by hand. The same city appears in several spellings:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #795E26\">upper</span><span style=\"color: #000000\">(</span><span style=\"color: #795E26\">trim</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">apprehension_city_original</span><span style=\"color: #000000\">)) = </span><span style=\"color: #A31515\">&#39;CONROE&#39;</span><span style=\"color: #000000\"> | </span><span style=\"color: #A31515\">&#39;HOUSTON&#39;</span><span style=\"color: #000000\"> | </span><span style=\"color: #A31515\">&#39;DALLAS&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">apprehension_city_original</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">apprehension_city_original</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;NEWARK&#39;</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;SAN ANTONIO&#39;</span></span></code> to the list. Are their spellings consistent?"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">case_threat_level</span></span></code> mixes real nulls with the <em>text</em> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;NA&#39;</span></span></code>, and age has some impossible values:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">transpose</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">threat_null</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">case_threat_level</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">null</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">threat_text_na</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">case_threat_level</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;NA&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">age_under_1</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">age</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">1</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">age_over_100</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">age</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">100</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">no_person_id</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">unique_identifier</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">null</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">likely_duplicate_rows</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">duplicate_drop_row</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "The Deportation Data Project already flagged likely duplicate records with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duplicate_drop_row</span></span></code>. Using their flag is better than inventing our own rule."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">missing_state</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">null</span><span style=\"color: #000000\"> }</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">missing_city</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">apprehension_city_original</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">null</span><span style=\"color: #000000\"> }</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "The \"state\" column isn't only U.S. states, either:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">asc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">12</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "U.S. territories, military mail regions (\"ARMED FORCES - ...\"), and a few Mexican states are mixed in. We'll handle these with a join in Part 10."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">asc</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">desc</span></span></code>. Then add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;ARMED%&#39;</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 9 · Data Cleaning",
+      "A clean source"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Put the fixes into one source: drop flagged duplicates, normalize the city, turn <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;NA&#39;</span></span></code> into a real null, and null out impossible ages:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">duplicate_drop_row</span><span style=\"color: #000000\"> = </span><span style=\"color: #0000FF\">false</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">city</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">upper</span><span style=\"color: #000000\">(</span><span style=\"color: #795E26\">trim</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">apprehension_city_original</span><span style=\"color: #000000\">))</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">threat_level</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">nullif</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">case_threat_level</span><span style=\"color: #000000\">, </span><span style=\"color: #A31515\">&#39;NA&#39;</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">age_clean</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">null</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">age</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">1</span><span style=\"color: #000000\"> or </span><span style=\"color: #001080\">age</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">100</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">else</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">age</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">age_group</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">age_clean</span><span style=\"color: #000000\"> ?</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;Under 18&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">18</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;18–24&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">25</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;25–34&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">35</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;35–44&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">45</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;45–54&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">55</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;55+&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">55</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">else</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">null</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0.0&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_age_clean</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">age_clean</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">age_group</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_age_clean</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">age_group</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change the age bands, for example split <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;55+&#39;</span></span></code> into <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;55–64&#39;</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;65+&#39;</span></span></code>. Re-run the source cell and then this one."
+      },
+      {
+        "type": "p",
+        "text": "The cleaned city now groups correctly:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">city</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;CALIFORNIA&#39;</span></span></code> to see the top California cities."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 10 · Joins and Symmetric Aggregates"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 10 · Joins and Symmetric Aggregates",
+      "Joining a lookup table"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">csv</span></span></code> (from Chapter 14) has one row per U.S. state with its 2-letter code and Census region. The arrest data uses capitalized full names, so we join on an <strong>expression</strong>:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/state_regions.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state_code</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state_upper</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">upper</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">state_name</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_joined</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">on</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state_upper</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_joined</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">region</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">null</span></span></code> region collects the territories, military regions, and missing states, which have no match in the lookup table. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state_count</span></span></code> counts <strong>states</strong>, not arrests, even though each state matched thousands of arrest rows. That's symmetric aggregation at work."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">region</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">division</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "Now that we have 2-letter codes, a map works:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">shape_map</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_joined</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2025</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state_code</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">arrest_count</span></span></code> to a share: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pct_convicted</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Convicted Criminal&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 10 · Joins and Symmetric Aggregates",
+      "One row per person: joining to a query"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Some people appear in more than one arrest record. Build a <strong>person-level</strong> source with a query, give it a primary key, and join it back:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">people</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">unique_identifier</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> not </span><span style=\"color: #0000FF\">null</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">unique_identifier</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">arrests_of_person</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">first_arrest</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">min</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">unique_identifier</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">repeat_person</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrests_of_person</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">1</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">people_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_people</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrests_joined</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">people</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">unique_identifier</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_people</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">people</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">repeat_person</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">people</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">people_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0.000&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_arrests_per_person</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">people</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">arrests_of_person</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0.000&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_arrests_per_record</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">people</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">arrests_of_person</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Look at the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">true</span></span></code> row. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">people</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">arrests_of_person</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span></code> averages over <strong>people</strong>: each person counts once. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">people</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">arrests_of_person</span><span style=\"color: #000000\">)</span></span></code> averages over <strong>arrest records</strong>, so someone arrested three times counts three times. Both are legitimate questions with different answers, and Malloy makes you choose which one you mean. (The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">null</span></span></code> row holds the records with no person identifier, so they can't be matched to a person.)"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">fiscal_year</span></span></code> instead of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">people</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">repeat_person</span></span></code>. What share of each year's people were arrested more than once?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 11 · Percent of Total"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Share of all arrests by country of citizenship:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2023</span></span></code>, then <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">2026</span></span></code>. How did the mix change?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 11 · Percent of Total",
+      "Share within a group"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Within each criminality category, what share of arrests did each method account for?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">method</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">share_of_category</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">criminality</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">share_of_category</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Swap it around: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">method</span><span style=\"color: #000000\">)</span></span></code> gives the criminality mix <em>within</em> each method."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 11 · Percent of Total",
+      "Contribution to change"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Which ICE offices drove the change from FY2024 to FY2025?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\">: {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">fy2024</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2024</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">fy2025</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2025</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">fy2024</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">fy2025</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">change</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">fy2025</span><span style=\"color: #000000\"> - </span><span style=\"color: #001080\">fy2024</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">contribution_to_change</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> (</span><span style=\"color: #001080\">fy2025</span><span style=\"color: #000000\"> - </span><span style=\"color: #001080\">fy2024</span><span style=\"color: #000000\">) / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">fy2025</span><span style=\"color: #000000\"> - </span><span style=\"color: #001080\">fy2024</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">contribution_to_change</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state</span></span></code> instead of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">aor</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 11 · Percent of Total",
+      "Index: over- or under-represented?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Compare the mix of countries in one office with the national mix, using filtered measures as in Chapter 11. An index of 200 means \"twice as common here as nationally\":"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">miami_arrests</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Miami&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">miami_index</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> (</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Miami&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Miami&#39;</span><span style=\"color: #000000\"> }))</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      / (</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">)) * </span><span style=\"color: #098658\">100</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Miami&#39;</span><span style=\"color: #000000\"> } &gt; </span><span style=\"color: #098658\">1000</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">miami_index</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Miami&#39;</span></span></code> (all four places!) to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;New York City&#39;</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Seattle&#39;</span></span></code>. Better yet, think about how you'd avoid typing it four times (Part 13 has an answer)."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 12 · Pipelines and Window Calculations"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 12 · Pipelines and Window Calculations",
+      "A two-stage pipeline: how often are people re-arrested?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Stage 1 counts arrests per person. Stage 2 counts people by that number:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">unique_identifier</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> not </span><span style=\"color: #0000FF\">null</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">unique_identifier</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_of_person</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_of_person</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">people</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_of_person</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Convicted Criminal&#39;</span></span></code> to stage 1. Does the pattern change?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 12 · Pipelines and Window Calculations",
+      "lag: month over month"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;2025-01-01 to 2026-08-01&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_month</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">prev_month</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_change</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">) - </span><span style=\"color: #098658\">1</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">quarter</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">)</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #098658\">4</span><span style=\"color: #000000\">)</span></span></code> for change from the same quarter a year earlier."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 12 · Pipelines and Window Calculations",
+      "rank within each fiscal year"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;[2024 to 2025]&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">aor</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">office_rank</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">office_rank</span><span style=\"color: #000000\"> &lt;= </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">office_rank</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">office_rank</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Stage 1 ranks offices within each year (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">:</span></span></code>), and stage 2 keeps the top 5. Calculations can't be filtered in the same stage, so a pipeline does it."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">aor</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">&lt;= </span><span style=\"color: #098658\">5</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">&lt;= </span><span style=\"color: #098658\">3</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 12 · Pipelines and Window Calculations",
+      "Running totals and moving averages"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_week</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">week</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_week</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">four_week_avg</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">avg_moving</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #098658\">3</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">avg_moving</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #098658\">3</span><span style=\"color: #000000\">)</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">avg_moving</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #098658\">7</span><span style=\"color: #000000\">)</span></span></code> (an 8-week average). How much smoother is it?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;[2024 to 2026]&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">arrest_month</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_ytd</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">sum_cumulative</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">) {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">15</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "The running total restarts every October, when a new fiscal year begins."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Remove the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">:</span></span></code> line. What does the running total mean now?"
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 13 · Givens"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The office comparison in Part 11 typed <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Miami&#39;</span></span></code> four times. <strong>Givens</strong> fix that: declare the value once, use it everywhere with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">$</span></span></code>."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">##! </span><span style=\"color: #001080\">experimental</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">givens</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">given</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">OFFICE</span><span style=\"color: #000000\"> :: </span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;Miami&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">COUNTRIES</span><span style=\"color: #000000\"> :: </span><span style=\"color: #AF00DB\">filter</span><span style=\"color: #000000\">&lt;</span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\">&gt; </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">f&#39;MEXICO, GUATEMALA, HONDURAS, VENEZUELA&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">SINCE</span><span style=\"color: #000000\"> :: </span><span style=\"color: #0000FF\">date</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">@2025-01-20</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">office_arrests</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">$OFFICE</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">office_index</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> (</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">$OFFICE</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">$OFFICE</span><span style=\"color: #000000\"> }))</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      / (</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">)) * </span><span style=\"color: #098658\">100</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">$OFFICE</span><span style=\"color: #000000\"> } &gt; </span><span style=\"color: #098658\">1000</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">office_index</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">OFFICE</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Chicago&#39;</span></span></code> in the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">given</span><span style=\"color: #000000\">:</span></span></code> cell, and run both cells again. You changed one value, not four."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_clean</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #001080\">$COUNTRIES</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #001080\">$SINCE</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_month</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">country</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "A <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">filter</span><span style=\"color: #000000\">&lt;</span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\">&gt;</span></span></code> given holds a whole filter expression, which a user (or an app) could type."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">COUNTRIES</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;C%&#39;</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">SINCE</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">@2023-01-01</span></span></code>."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 14 · Model Review"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Everything this notebook built is collected, documented, in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>. Here's how it maps to the parts above:"
+      },
+      {
+        "type": "p",
+        "text": "Import the rest of the model's pieces and run its dashboard view:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> { </span><span style=\"color: #001080\">ice_focus_state</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">top_countries_fy2025</span><span style=\"color: #000000\"> } </span><span style=\"color: #AF00DB\">from</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;ice.malloy&quot;</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_arrests</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">overview</span><span style=\"color: #000000\"> + { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2025</span><span style=\"color: #000000\"> }</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change the refinement to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">{ </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">aor</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Atlanta&#39;</span><span style=\"color: #000000\"> }</span></span></code>, then to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">{ </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;VENEZUELA&#39;</span><span style=\"color: #000000\"> }</span></span></code>."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_countries_fy2025</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> In <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>, add a second named query, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">top_offices_fy2025</span></span></code>, using the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">by_aor</span></span></code> view. Import it here and run it."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_focus_state</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">by_fiscal_year</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice_focus_state</span></span></code> uses the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">FOCUS_STATE</span></span></code> given from <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> (default <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;TEXAS&#39;</span></span></code>)."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change the default of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">FOCUS_STATE</span></span></code> in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> to another state, save, and re-run the import cell and this one."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
+      "Worked Example: ICE Arrests, Start to Finish",
+      "Part 14 · Model Review",
+      "Your turn: a final project"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Use what you've built to answer a question of your own, in a new notebook that imports <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Ask</strong> a specific question, such as \"How did arrest methods change in my state after January 2025?\" or \"Which countries' arrests grew fastest between FY2024 and FY2025, compared like-with-like?\""
+      },
+      {
+        "type": "p",
+        "text": "<strong>Answer</strong> it with at least one view, one nest, one filter expression, and one chart."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Check</strong> your answer: profile the fields you rely on, watch for partial periods and duplicates, and make sure every denominator is the one you mean."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Explain</strong> what the data shows, and what it can't tell you, in two or three Markdown cells."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Final challenge.</strong> Add one new documented dimension <em>and</em> one new documented measure to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> that your question needs. Use them in your notebook, and in the Explorer."
+      }
+    ],
+    "path": "/textbook/15_worked_example_ice.malloynb"
+  },
+  {
+    "titles": [
       "Learning Malloy"
     ],
     "paragraphs": [
@@ -4821,7 +5963,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "We also use a few small CSV files filled with deliberately messy fake data for the <a href=\"09_data_cleaning\">data cleaning chapter</a>."
+        "text": "We also use a few small CSV files filled with deliberately messy fake data for the <a href=\"09_data_cleaning\">data cleaning chapter</a>. The <a href=\"15_worked_example_ice\">worked example</a> uses a third, real dataset: about 896,000 ICE arrest records published by the Deportation Data Project."
       }
     ],
     "path": "/textbook/index.malloynb"
@@ -4936,6 +6078,14 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "<a href=\"14_model_review\">Anatomy of a Malloy Model</a>: putting all the pieces together"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Part V · Worked Example</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<a href=\"15_worked_example_ice\">ICE Arrests, Start to Finish</a>: one real dataset taken through every chapter, with a small challenge after every cell"
       },
       {
         "type": "p",
