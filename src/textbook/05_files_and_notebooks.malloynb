@@ -137,7 +137,7 @@ The models refer to data with *relative* paths like `duckdb.table('data/usa_name
 
 It does two things. It declares a connection named `duckdb` (the name we use in `duckdb.table(...)`), and it marks `malloy-textbook-notebooks/` as the root, so `data/...` paths work no matter how you opened the repository.
 
-> ⚠️ **"File not found: data/usa_names.parquet"?** VS Code is resolving the path from the wrong folder. Open the `malloy-textbook-notebooks` folder itself, or make sure `malloy-config.json` is still in it.
+> ⚠️ **"File not found: data/usa_names.parquet"?** VS Code is resolving the path from the wrong folder. Open the `malloy-textbook-notebooks` folder itself, or make sure `malloy-config.json` is still in it. [Chapter 17](17_troubleshooting.malloynb) shows how to create the file if it's missing.
 
 > 📘 **Malloy docs.** [Configuration: malloy-config.json](https://docs.malloydata.dev/documentation/setup/config)
 

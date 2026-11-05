@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>17. Troubleshooting | Learning Malloy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/malloy-textbook/css/document.css" />
+    <link rel="stylesheet" href="/malloy-textbook/css/textbook.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/malloy-textbook/favicon.ico" />
+    <script src="/malloy-textbook/js/generated/malloy-render-0.0.437.js"></script>
+    <style>
+      .result-inner .malloy-render { width: 100%; }
+      .result-inner .table-container { width: 100%; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="header">
+        <div class="header-banner">
+          <a class="book-mark" href="/malloy-textbook/textbook">
+            <span class="book-title">Learning Malloy</span>
+            <span class="subtitle">A Hands-On Textbook</span>
+          </a>
+        </div>
+        <div class="header-right">
+          <div class="header-links">
+            <a class="pill" href="https://docs.malloydata.dev/documentation/" target="_blank">Malloy Docs ↗</a>
+            <a href="https://github.com/mrtimo/malloy-textbook" target="_blank" title="Textbook source on GitHub"
+              ><img src="/malloy-textbook/img/github.svg" style="transform: scale(0.5)"
+            /></a>
+          </div>
+          <form action="/malloy-textbook/search">
+            <div class="search-input-outer">
+              <img src="/malloy-textbook/img/search.svg" alt="search" />
+              <input placeholder="Search the textbook" id="search-input" name="query" />
+            </div>
+            <input type="submit" style="display: none" />
+          </form>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+              <div id=start_here
+                class="sidebar-section-title {% unless /textbook/index.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Start Here
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                Welcome
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_i · foundations
+                class="sidebar-section-title {% unless /textbook/01_basics.html,/textbook/02_time_truncation.html,/textbook/03_views_and_nesting.html,/textbook/04_render_tags.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part I · Foundations
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/01_basics">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                1. The Basics
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/02_time_truncation">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                2. Time Truncation
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/03_views_and_nesting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                3. Views and Nesting
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/04_render_tags">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                4. Render Tags
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_ii · tools and data
+                class="sidebar-section-title {% unless /textbook/05_files_and_notebooks.html,/textbook/06_explorer.html,/textbook/07_csv_and_parquet.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part II · Tools and Data
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/05_files_and_notebooks">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                5. Files vs. Notebooks
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/06_explorer">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                6. The Malloy Explorer
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/07_csv_and_parquet">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                7. CSV and Parquet
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iii · analysis
+                class="sidebar-section-title {% unless /textbook/08_filtering.html,/textbook/09_data_cleaning.html,/textbook/10_joins.html,/textbook/11_percent_of_total.html,/textbook/12_pipelines_and_windows.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part III · Analysis
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/08_filtering">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                8. Filtering and Time Comparisons
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/09_data_cleaning">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                9. Data Cleaning
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/10_joins">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                10. Joins and Symmetric Aggregates
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/11_percent_of_total">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                11. Percent of Total
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/12_pipelines_and_windows">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                12. Pipelines and Window Calculations
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iv · modeling
+                class="sidebar-section-title {% unless /textbook/13_givens.html,/textbook/14_model_review.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part IV · Modeling
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/13_givens">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                13. Givens
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/14_model_review">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                14. Anatomy of a Malloy Model
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_v · worked example
+                class="sidebar-section-title {% unless /textbook/15_worked_example_ice.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part V · Worked Example
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/15_worked_example_ice">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                15. ICE Arrests, Start to Finish
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_vi · going further
+                class="sidebar-section-title {% unless /textbook/16_data_sources.html,/textbook/17_troubleshooting.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part VI · Going Further
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/16_data_sources">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                16. Data Sources
+              </a>
+            </div>
+        <div class='sidebar-item active'>
+              <a href="/malloy-textbook/textbook/17_troubleshooting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                17. Troubleshooting
+              </a>
+            </div>
+              </div>
+            </div>
+          </div>        <script src="/malloy-textbook/js/sidebar_state.js"></script>
+        <div class="content">
+          <div class="footer">
+            
+<div class="linear-navigation">
+  <div class="item">
+      <a href="16_data_sources.html"><img src="/malloy-textbook/img/previous.svg" alt="previous"/>16. Data Sources</a>
+  </div>
+  <div class="item">
+  </div>
+</div> 
+          </div>
+          <div class="document-outer"><div class="document"><div class="title-row">
+        
+      <h1>
+        <a id="chapter-17-troubleshooting" class="header-link anchor" href="#chapter-17-troubleshooting">
+          Chapter 17: Troubleshooting
+        </a>
+      </h1>
+    
+        <a class="edit-link" target="_blank" href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/17_troubleshooting.malloynb">Open in VS Code <img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a>
+        </div>
+      <p>Something isn't working? Start here. Most problems students run into come from <strong>setup</strong>, not from Malloy itself: the wrong folder is open, or the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> file is missing. This chapter covers:</p>
+<ul>
+<li><p>what <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> is, what goes in it, and how to create it if yours is missing</p>
+</li>
+<li><p>a two-line test that tells you whether your setup works</p>
+</li>
+<li><p>the most common error messages, what they mean, and how to fix them</p>
+</li></ul>
+
+      <h2>
+        <a id="start-here-malloy-config-json" class="header-link anchor" href="#start-here-malloy-config-json">
+          Start here: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>
+        </a>
+      </h2>
+    <p><strong><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> is where Malloy's settings live.</strong> It's a small text file that tells the Malloy extension which databases ("connections") you can query and how to set them up. When you want to change how Malloy connects to data, this is the file you change.</p>
+<p>This is the whole file used throughout this book:</p>
+<div class="code-wrapper"><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">{</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0451A5">&quot;connections&quot;</span><span style="color: #000000">: {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;duckdb&quot;</span><span style="color: #000000">: {</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #0451A5">&quot;is&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;duckdb&quot;</span></span>
+<span class="line"><span style="color: #000000">    }</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p>It does two jobs:</p>
+<ol>
+<li><p><strong>It creates a connection named <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span></span></code>.</strong> That's the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span></span></code> in every <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;...&#39;</span><span style="color: #000000">)</span></span></code> you write. If no connection has that name, none of the book's code can run.</p>
+</li>
+<li><p><strong>It marks the project's root folder.</strong> DuckDB looks up relative paths like <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span><span style="color: #001080">usa_names</span><span style="color: #000000">.</span><span style="color: #001080">parquet</span></span></code> <em>from the folder that holds <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code></em>. With the file in place, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/...</span></span></code> paths work even if you opened a different folder in VS Code. Without it, they're looked up from whatever folder you opened, which is often the wrong one.</p>
+</li></ol>
+<div class="callout callout-warning">
+<p>⚠️ <strong>No <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>? That's probably your error.</strong> If you see <em>"No files found that match the pattern"</em> or errors about the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span></span></code> connection, check this file first.</p>
+</div>
+
+      <h3>
+        <a id="where-it-goes" class="header-link anchor" href="#where-it-goes">
+          Where it goes
+        </a>
+      </h3>
+    <p>The file must sit in the <strong>top level of the notebooks folder</strong>, next to the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span></span></code> folder and the chapter notebooks, not inside <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span></span></code> or any other subfolder:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">malloy-textbook-notebooks/        ← open THIS folder in VS Code (File → Open Folder…)</span></span>
+<span class="line"><span style="color: #000000">├── malloy-config.json            ← Malloy&#39;s settings live here</span></span>
+<span class="line"><span style="color: #000000">├── data/</span></span>
+<span class="line"><span style="color: #000000">│   ├── usa_names.parquet</span></span>
+<span class="line"><span style="color: #000000">│   └── …</span></span>
+<span class="line"><span style="color: #000000">├── names.malloy</span></span>
+<span class="line"><span style="color: #000000">├── ecommerce.malloy</span></span>
+<span class="line"><span style="color: #000000">├── 01_basics.malloynb</span></span>
+<span class="line"><span style="color: #000000">└── …</span></span></pre></div><p>When you run a query, Malloy looks for <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> in the same folder as your file, then in each folder above it, up to the folder you opened in VS Code. It uses the first one it finds.</p>
+
+      <h3>
+        <a id="if-yours-is-missing-create-it" class="header-link anchor" href="#if-yours-is-missing-create-it">
+          If yours is missing: create it
+        </a>
+      </h3>
+    <p>You can create it in VS Code in under a minute:</p>
+<ol>
+<li><p>In VS Code, open the <strong>Explorer</strong> sidebar (the file list on the left).</p>
+</li>
+<li><p>Right-click an empty spot at the <strong>top level</strong> of the notebooks folder (not inside <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span></span></code>) and choose <strong>New File…</strong>.</p>
+</li>
+<li><p>Name it exactly <strong><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code></strong>: all lowercase, a hyphen (not an underscore), ending in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>.</p>
+</li>
+<li><p>Paste in the contents shown above and save (<strong>Ctrl+S</strong>, or <strong>⌘S</strong> on a Mac).</p>
+</li>
+<li><p>Run your query again. You don't need to restart VS Code; Malloy notices the new file on the next query.</p>
+</li></ol>
+<p>Or download it straight into the folder from a terminal opened in the notebooks folder:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000"># Mac or Linux</span></span>
+<span class="line"><span style="color: #000000">curl -O https://raw.githubusercontent.com/mrtimo/malloy-textbook-notebooks/main/malloy-config.json</span></span></pre></div><div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000"># Windows PowerShell</span></span>
+<span class="line"><span style="color: #000000">Invoke-WebRequest https://raw.githubusercontent.com/mrtimo/malloy-textbook-notebooks/main/malloy-config.json -OutFile malloy-config.json</span></span></pre></div><div class="callout callout-warning">
+<p>⚠️ <strong>Don't create it in Notepad or TextEdit.</strong> They tend to save it as <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span><span style="color: #000000">.</span><span style="color: #001080">txt</span></span></code> (Windows hides the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">txt</span></span></code>) or as rich text (TextEdit), and Malloy won't recognize it. Create it inside VS Code.</p>
+</div>
+<div class="callout callout-tip">
+<p>💡 <strong>Check which settings Malloy is using.</strong> Open the <strong>Malloy</strong> panel in VS Code's left-hand activity bar and look at <strong>Connections</strong>. When a config file is in use, it shows a <strong>Config</strong> group with the path to the file, and you can click the file icon to open it. If you see <strong>Settings</strong> and <strong>Defaults</strong> groups instead, Malloy didn't find a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> for the file you're editing.</p>
+</div>
+
+      <h3>
+        <a id="changing-settings" class="header-link anchor" href="#changing-settings">
+          Changing settings
+        </a>
+      </h3>
+    <p>Every change to how Malloy connects to data goes in this file. Some examples:</p>
+<p><strong>Give DuckDB more memory or threads</strong>, for very large files:</p>
+<div class="code-wrapper"><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">{</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0451A5">&quot;connections&quot;</span><span style="color: #000000">: {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;duckdb&quot;</span><span style="color: #000000">: {</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #0451A5">&quot;is&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;duckdb&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #0451A5">&quot;memoryLimit&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;4GB&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #0451A5">&quot;threads&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4</span></span>
+<span class="line"><span style="color: #000000">    }</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p><strong>Load an extra DuckDB extension</strong>, such as <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">spatial</span></span></code> for maps and geometry:</p>
+<div class="code-wrapper"><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">{</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0451A5">&quot;connections&quot;</span><span style="color: #000000">: {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;duckdb&quot;</span><span style="color: #000000">: {</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #0451A5">&quot;is&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;duckdb&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #0451A5">&quot;additionalExtensions&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;spatial&quot;</span></span>
+<span class="line"><span style="color: #000000">    }</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p><strong>Add a second connection</strong>, such as a saved DuckDB database file. Keep the original <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span></span></code> entry too, because the book's code uses it:</p>
+<div class="code-wrapper"><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">{</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0451A5">&quot;connections&quot;</span><span style="color: #000000">: {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;duckdb&quot;</span><span style="color: #000000">: {</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #0451A5">&quot;is&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;duckdb&quot;</span></span>
+<span class="line"><span style="color: #000000">    },</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;my_db&quot;</span><span style="color: #000000">: {</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #0451A5">&quot;is&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;duckdb&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">      </span><span style="color: #0451A5">&quot;databasePath&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;data/my_database.duckdb&quot;</span></span>
+<span class="line"><span style="color: #000000">    }</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p>Then use it with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">my_db</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;some_table&#39;</span><span style="color: #000000">)</span></span></code>.</p>
+<div class="callout callout-warning">
+<p>⚠️ <strong>The config file replaces all other connection settings.</strong> When a project has a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>, Malloy uses <em>only</em> the connections listed in it. Connections you set up elsewhere in VS Code are ignored. If you add a connection and the book's queries stop working, make sure <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #A31515">&quot;duckdb&quot;</span></span></code> is still in the file.</p>
+</div>
+<div class="callout callout-warning">
+<p>⚠️ <strong>Never put passwords or access tokens in a file you share or commit to GitHub.</strong> Connections to cloud databases (BigQuery, Snowflake, Postgres) need credentials. Put those in a separate <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">-</span><span style="color: #001080">local</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> in the same folder, and add that file name to <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">gitignore</span></span></code>. Malloy merges the two files automatically.</p>
+</div>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> <a href="https://docs.malloydata.dev/documentation/setup/config">Configuration: malloy-config.json</a> (every setting for every database) · <a href="https://docs.malloydata.dev/documentation/setup/extension">VS Code extension: configuring connections</a></p>
+</div>
+
+      <h2>
+        <a id="test-your-setup" class="header-link anchor" href="#test-your-setup">
+          Test your setup
+        </a>
+      </h2>
+    <p>Copy this into a new cell in any notebook in the notebooks folder and run it. If you get a number back (6,311,504), your setup is working: the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span></span></code> connection exists and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span></span></code> paths are found.</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/17_troubleshooting.malloynb#C2" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000">) -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">row_count</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #795E26">count</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="3c2ac958-a8b2-453d-87a6-a13f426afec8">
+        <script>(()=>{var e=document.getElementById("3c2ac958-a8b2-453d-87a6-a13f426afec8"),a=(new window.index.MalloyRenderer).createViz();a.setResult({schema:{fields:[{kind:"dimension",name:"row_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "bc51b8a0-437e-45f3-9df4-6ec2550c61c4" calculation\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"number_cell",number_value:6311504,subtype:"integer"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable ordered_by = [{ row_count = desc }]\n"},{value:"#(malloy) \n"},{value:"#(malloy) query_name = __stage0\n"}],sql:"SELECT \n   COUNT(1) as \"row_count\"\nFROM 'data/usa_names.parquet' as base\n"}),a.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;row_count&quot;</span><span style="color: #000000">: </span><span style="color: #098658">6311504</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;row_count&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p>And this one tells you which version of DuckDB the Malloy extension is using (handy when you ask for help):</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/17_troubleshooting.malloynb#C4" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">duckdb</span><span style="color: #000000FF">.</span><span style="color: #AF00DB">sql</span><span style="color: #000000FF">(</span><span style="color: #000000FF">&quot;</span><span style="color: #0000FF">SELECT</span><span style="color: #000000FF"> </span><span style="color: #0000FF">version</span><span style="color: #000000FF">() </span><span style="color: #0000FF">AS</span><span style="color: #000000FF"> duckdb_version</span><span style="color: #000000FF">&quot;</span><span style="color: #000000FF">)</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="0d270f1f-92c7-4453-9f60-9531c701f7b3">
+        <script>(()=>{var e=document.getElementById("0d270f1f-92c7-4453-9f60-9531c701f7b3"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"duckdb_version",type:{kind:"string_type"}}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"v1.5.5"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) \n"},{value:'#(malloy) query_name = "sql://duckdb/81236b4f-1003-5bfd-8e71-a101ce7607ac"\n'}],sql:"SELECT version() AS duckdb_version"}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;duckdb_version&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;v1.5.5&quot;</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span><span style="color: #0000FF">version</span><span style="color: #000000">() </span><span style="color: #0000FF">AS</span><span style="color: #000000"> duckdb_version</span></span></pre></pre>
+      </div>
+    </div>
+  </div></div>
+      <h2>
+        <a id="setup-checklist" class="header-link anchor" href="#setup-checklist">
+          Setup checklist
+        </a>
+      </h2>
+    <p>If the test above fails, work down this list:</p>
+<ol>
+<li><p>☐ <strong>The Malloy extension is installed.</strong> In VS Code, open <strong>Extensions</strong> and search for "Malloy". If <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code> files open as raw text with lines like <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">&gt;&gt;&gt;</span><span style="color: #001080">markdown</span></span></code>, the extension isn't installed or enabled.</p>
+</li>
+<li><p>☐ <strong>You opened the notebooks folder itself</strong> (<strong>File → Open Folder…</strong> → <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span></span></code>), not a single file, and not your whole <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Downloads</span></span></code> folder.</p>
+</li>
+<li><p>☐ <strong><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> is in that folder's top level</strong>, spelled exactly right, with the contents shown above.</p>
+</li>
+<li><p>☐ <strong>The <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span></span></code> folder is there</strong>, next to <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>, with the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">parquet</span></span></code> files in it. If you downloaded single files rather than the whole repository, you're missing the data. Download the whole thing: on <a href="https://github.com/mrtimo/malloy-textbook-notebooks">the repository page</a> click <strong>Code → Download ZIP</strong>, then unzip it.</p>
+</li>
+<li><p>☐ <strong>You unzipped the download.</strong> VS Code can't read files inside a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">zip</span></span></code>. If the path in VS Code looks like <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span><span style="color: #000000">-</span><span style="color: #001080">main</span><span style="color: #000000">/</span><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span><span style="color: #000000">-</span><span style="color: #001080">main</span><span style="color: #000000">/…</span></span></code>, open the inner folder (the one that holds <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>).</p>
+</li>
+<li><p>☐ <strong>You ran the cells in order.</strong> In notebooks, later cells use sources defined in earlier ones. Use <strong>Run All</strong> at the top of the notebook.</p>
+</li></ol>
+
+      <h2>
+        <a id="common-error-messages" class="header-link anchor" href="#common-error-messages">
+          Common error messages
+        </a>
+      </h2>
+    <table>
+<thead>
+<tr>
+<th>Error message (or what you see)</th>
+
+<th>What it means</th>
+
+<th>How to fix it</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">No</span><span style="color: #000000"> </span><span style="color: #001080">files</span><span style="color: #000000"> </span><span style="color: #001080">found</span><span style="color: #000000"> </span><span style="color: #001080">that</span><span style="color: #000000"> </span><span style="color: #001080">match</span><span style="color: #000000"> </span><span style="color: #001080">the</span><span style="color: #000000"> </span><span style="color: #001080">pattern</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;data/usa_names.parquet&quot;</span></span></code></td>
+
+<td>DuckDB looked for the file in the wrong folder, or the file isn't there</td>
+
+<td>Check <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> (above), open the notebooks folder itself, and make sure <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span></span></code> exists</td>
+</tr>
+
+<tr>
+<td>An error saying the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span></span></code> connection can't be found</td>
+
+<td>No connection named <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span></span></code> is set up</td>
+
+<td>Add <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> with the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #A31515">&quot;duckdb&quot;</span></span></code> entry. If you already have one, make sure <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #A31515">&quot;duckdb&quot;</span></span></code> is still listed</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Reference</span><span style="color: #000000"> to </span><span style="color: #001080">undefined</span><span style="color: #000000"> </span><span style="color: #001080">object</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;names&#39;</span></span></code></td>
+
+<td>You used a source that hasn't been defined yet</td>
+
+<td>Run the earlier cells first (<strong>Run All</strong>), or check the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">import</span></span></code> line and that the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code> file it names is in the folder</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #A31515">&#39;nme&#39;</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> not </span><span style="color: #001080">defined</span></span></code></td>
+
+<td>A typo in a field name, or the field isn't in that source</td>
+
+<td>Check the spelling. The <strong>Schema</strong> view (or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">select</span><span style="color: #000000">: *</span></span></code> with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">limit</span><span style="color: #000000">: </span><span style="color: #098658">5</span></span></code>) shows every field</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #A31515">&#39;year&#39;</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">a</span><span style="color: #000000"> </span><span style="color: #001080">reserved</span><span style="color: #000000"> </span><span style="color: #001080">word</span><span style="color: #000000">, </span><span style="color: #001080">so</span><span style="color: #000000"> to </span><span style="color: #001080">use</span><span style="color: #000000"> </span><span style="color: #001080">it</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #001080">a</span><span style="color: #000000"> </span><span style="color: #001080">name</span><span style="color: #000000"> </span><span style="color: #001080">you</span><span style="color: #000000"> </span><span style="color: #001080">must</span><span style="color: #000000"> </span><span style="color: #001080">quote</span><span style="color: #000000"> </span><span style="color: #001080">it</span></span></code></td>
+
+<td>Your column has the same name as a Malloy keyword, such as <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">year</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">month</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">date</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">count</span></span></code> or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">number</span></span></code></td>
+
+<td>Put backticks around it: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">`year`</span></span></code>. Or rename it: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">rename</span><span style="color: #000000">: </span><span style="color: #001080">release_year</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">`year`</span><span style="color: #000000"> </span></span></code></td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Aggregate</span><span style="color: #000000"> </span><span style="color: #001080">expressions</span><span style="color: #000000"> </span><span style="color: #001080">are</span><span style="color: #000000"> not </span><span style="color: #001080">allowed</span><span style="color: #000000"> in </span><span style="color: #AF00DB">where</span><span style="color: #000000">:; </span><span style="color: #001080">use</span><span style="color: #000000"> </span><span style="color: #AF00DB">having</span><span style="color: #000000">:</span></span></code></td>
+
+<td>You filtered on a measure (like <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">total_births</span><span style="color: #000000"> &gt; </span><span style="color: #098658">5</span></span></code>) in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">where</span><span style="color: #000000">:</span></span></code></td>
+
+<td>Use <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">having</span><span style="color: #000000">:</span></span></code> for measures; <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">where</span><span style="color: #000000">:</span></span></code> is for dimensions (<a href="08_filtering">Chapter 8</a>)</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">unexpected</span></span></code> followed by a vertical bar</td>
+
+<td>You used SQL's double vertical bar to join strings</td>
+
+<td>Use <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">concat</span><span style="color: #000000">(</span><span style="color: #001080">a</span><span style="color: #000000">, </span><span style="color: #001080">b</span><span style="color: #000000">)</span></span></code> instead</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Conversion</span><span style="color: #000000"> </span><span style="color: #001080">Error</span><span style="color: #000000">: </span><span style="color: #001080">Could</span><span style="color: #000000"> not </span><span style="color: #001080">convert</span><span style="color: #000000"> </span><span style="color: #0000FF">string</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;NA&#39;</span><span style="color: #000000"> to </span><span style="color: #001080">DOUBLE</span></span></code></td>
+
+<td>A number column contains text such as <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">NA</span></span></code> or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">-</span></span></code>, so a normal cast fails</td>
+
+<td>Use a <strong>safe cast</strong>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">column</span><span style="color: #000000">:::</span><span style="color: #0000FF">number</span></span></code>, which turns bad values into null (<a href="09_data_cleaning">Chapter 9</a>)</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">HTTP</span><span style="color: #000000"> </span><span style="color: #001080">Error</span><span style="color: #000000"> … </span><span style="color: #098658">404</span><span style="color: #000000"> (Not </span><span style="color: #001080">Found</span><span style="color: #000000">)</span></span></code></td>
+
+<td>A URL in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;https://…&#39;</span><span style="color: #000000">)</span></span></code> is wrong, or the file has moved</td>
+
+<td>Open the link in a browser. It should download the file, not show a web page</td>
+</tr>
+
+<tr>
+<td>A column named <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">column0</span></span></code> full of HTML (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">&lt;!</span><span style="color: #001080">DOCTYPE</span><span style="color: #000000"> </span><span style="color: #001080">html</span><span style="color: #000000">&gt;</span></span></code>) when reading from GitHub</td>
+
+<td>You used a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">github</span><span style="color: #000000">.</span><span style="color: #001080">com</span><span style="color: #000000">/…/</span><span style="color: #001080">blob</span><span style="color: #000000">/…</span></span></code> link, which is the <em>web page</em>, so DuckDB read the page's HTML</td>
+
+<td>Use the <strong>Raw</strong> link (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">raw</span><span style="color: #000000">.</span><span style="color: #001080">githubusercontent</span><span style="color: #000000">.</span><span style="color: #001080">com</span><span style="color: #000000">/…</span></span></code>). See <a href="16_data_sources#getting-the-right-link">Chapter 16</a></td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">SSL</span></span></code> or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">certificate</span></span></code> errors when reading a URL</td>
+
+<td>That site's security certificate can't be checked from DuckDB</td>
+
+<td>Download the file, put it in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span></span></code>, and use the local path</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Could</span><span style="color: #000000"> not </span><span style="color: #001080">set</span><span style="color: #000000"> </span><span style="color: #001080">lock</span><span style="color: #000000"> </span><span style="color: #AF00DB">on</span><span style="color: #000000"> </span><span style="color: #001080">file</span></span></code></td>
+
+<td>Another program (or another VS Code window) already has that <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">duckdb</span></span></code> database file open</td>
+
+<td>Close the other program, or see the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">readOnly</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">shareable</span></span></code> settings in the <a href="https://docs.malloydata.dev/documentation/setup/config">config docs</a></td>
+</tr>
+</tbody></table>
+<div class="callout callout-tip">
+<p>💡 <strong>Read the whole error message.</strong> Malloy's errors usually say exactly what's wrong and often suggest the fix, as several of the messages above do. In VS Code, the problem is also underlined in red in your code; hover over the underline to see the message.</p>
+</div>
+
+      <h2>
+        <a id="results-look-wrong-but-there-s-no-error-" class="header-link anchor" href="#results-look-wrong-but-there-s-no-error-">
+          Results look wrong (but there's no error)
+        </a>
+      </h2>
+    <ul>
+<li><p><strong>Only some rows appear.</strong> VS Code shows a limited number of rows by default. Add <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">limit</span><span style="color: #000000">:</span></span></code> to your query, or open the result as a table and scroll.</p>
+</li>
+<li><p><strong>Numbers are much too big after a join.</strong> You probably joined on a column that isn't unique. See <a href="10_joins">Chapter 10</a> and the Malloy docs' <a href="https://docs.malloydata.dev/documentation/user_guides/troubleshooting#problem-1-non-unique-join-key">troubleshooting guide</a>.</p>
+</li>
+<li><p><strong>The results here don't match the website.</strong> Some datasets update over time (the live feeds in <a href="16_data_sources">Chapter 16</a>), and queries using relative dates like <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">now</span></span></code> or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">last</span><span style="color: #000000"> </span><span style="color: #098658">6</span><span style="color: #000000"> </span><span style="color: #0000FF">months</span></span></code> change with the date.</p>
+</li>
+<li><p><strong>A <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #008000">#(docs)</span></span></code> line seems to do nothing.</strong> That's expected: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #008000">#(docs)</span></span></code> lines only control how this website displays results. VS Code ignores them.</p>
+</li></ul>
+
+      <h2>
+        <a id="getting-help" class="header-link anchor" href="#getting-help">
+          Getting help
+        </a>
+      </h2>
+    <p>When you ask a classmate, your instructor or the <a href="https://docs.malloydata.dev/slack">Malloy community Slack</a> for help, include:</p>
+<ol>
+<li><p><strong>The complete error message</strong>, copied as text rather than retyped.</p>
+</li>
+<li><p><strong>The query</strong> that caused it.</p>
+</li>
+<li><p><strong>A screenshot of the VS Code Explorer sidebar</strong>, showing which folder is open and where <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span></span></code> are.</p>
+</li>
+<li><p><strong>The DuckDB version</strong> from the test query above, and your operating system.</p>
+</li></ol>
+<div class="callout callout-docs-link">
+<p>📘 <strong>Malloy docs.</strong> <a href="https://docs.malloydata.dev/documentation/user_guides/troubleshooting">Troubleshooting</a> (joins, slow queries, common errors) · <a href="https://docs.malloydata.dev/documentation/error_dictionary">Error dictionary</a> (every Malloy error message explained)</p>
+</div>
+<div class="callout callout-challenge">
+<p>🎯 <strong>Challenge 17.1: Break it on purpose.</strong> In a copy of the notebooks folder, rename <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> to <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span><span style="color: #000000">.</span><span style="color: #001080">bak</span></span></code>, open a different parent folder in VS Code, and run the setup test. Read the error. Then rename the file back and run it again. Knowing what this error looks like will save you time later.</p>
+</div>
+
+      <h2>
+        <a id="summary" class="header-link anchor" href="#summary">
+          Summary
+        </a>
+      </h2>
+    <ul>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> holds Malloy's settings: it <strong>defines the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span></span></code> connection</strong> and <strong>marks the root folder</strong> that <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/...</span></span></code> paths are read from.</p>
+</li>
+<li><p>It belongs at the <strong>top level of the notebooks folder</strong>. Open that folder itself in VS Code.</p>
+</li>
+<li><p>If it's missing, create it in VS Code with the five-line contents shown in this chapter. Changes take effect on the next query.</p>
+</li>
+<li><p>Most other errors come from typos, reserved words, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">where</span><span style="color: #000000">:</span></span></code> vs. <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">having</span><span style="color: #000000">:</span></span></code>, text values in number columns, or the wrong kind of URL. The error message usually says which.</p>
+</li></ul>
+</div></div>
+        </div>
+        <script src="/malloy-textbook/js/view_toggles.js"></script>
+        <script src="/malloy-textbook/js/jump_to_hash.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

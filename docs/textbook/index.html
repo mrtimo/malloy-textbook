@@ -210,7 +210,7 @@
             </div>
         <div class="sidebar-section">
               <div id=part_vi · going further
-                class="sidebar-section-title {% unless /textbook/16_data_sources.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+                class="sidebar-section-title {% unless /textbook/16_data_sources.html,/textbook/17_troubleshooting.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
               >
                 Part VI · Going Further
                 <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
@@ -221,6 +221,12 @@
               <a href="/malloy-textbook/textbook/16_data_sources">
                 <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
                 16. Data Sources
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/17_troubleshooting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                17. Troubleshooting
               </a>
             </div>
               </div>
@@ -263,7 +269,7 @@
 </li></ol>
 <p>Read the web page to learn. Open the notebook to practice. The <strong>Open in VS Code</strong> button at the top of each chapter opens that chapter's notebook in <a href="https://github.dev">github.dev</a>, a free copy of VS Code that runs in your browser.</p>
 <div class="callout callout-tip">
-<p>💡 <strong>Fast start.</strong> Want to run queries right now? Go to <a href="05_files_and_notebooks#setting-up-your-environment">Chapter 5</a> for the full setup. The short version: install VS Code, install the <strong>Malloy</strong> extension, then download the <a href="https://github.com/mrtimo/malloy-textbook-notebooks">notebooks repository</a> and open its folder <em>as the workspace root</em>. That's it. DuckDB is built into the extension.</p>
+<p>💡 <strong>Fast start.</strong> Want to run queries right now? Go to <a href="05_files_and_notebooks#setting-up-your-environment">Chapter 5</a> for the full setup. The short version: install VS Code, install the <strong>Malloy</strong> extension, then download the <a href="https://github.com/mrtimo/malloy-textbook-notebooks">notebooks repository</a> and open its folder <em>as the workspace root</em>. That's it. DuckDB is built into the extension. Getting errors? See <a href="17_troubleshooting">Chapter 17: Troubleshooting</a>.</p>
 </div>
 
       <h2>
@@ -390,6 +396,12 @@
 </tr>
 
 <tr>
+<td><a href="17_troubleshooting">Chapter 17: Troubleshooting</a></td>
+
+<td>Errors? Start here, especially if you're missing <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code></td>
+</tr>
+
+<tr>
 <td><a href="16_data_sources">Chapter 16: Data Sources</a></td>
 
 <td>20 public datasets to explore, and how to find more</td>
@@ -512,6 +524,8 @@
 <p><strong>Part VI · Going Further</strong></p>
 <ol start="16">
 <li><p><a href="16_data_sources">Data Sources</a>: 20 public datasets you can query straight from the internet, and how to find more</p>
+</li>
+<li><p><a href="17_troubleshooting">Troubleshooting</a>: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code>, setup checks, and common error messages</p>
 </li></ol>
 <div class="callout callout-docs-link">
 <p>📘 <strong>Malloy docs.</strong> The official documentation is at <a href="https://docs.malloydata.dev/documentation/">docs.malloydata.dev</a>. Keep it open in another tab. Every chapter links to the pages that go deeper.</p>

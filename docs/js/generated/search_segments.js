@@ -1421,7 +1421,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "⚠️ <strong>\"File not found: data/usa_names.parquet\"?</strong> VS Code is resolving the path from the wrong folder. Open the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">textbook</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">notebooks</span></span></code> folder itself, or make sure <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> is still in it."
+        "text": "⚠️ <strong>\"File not found: data/usa_names.parquet\"?</strong> VS Code is resolving the path from the wrong folder. Open the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">textbook</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">notebooks</span></span></code> folder itself, or make sure <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> is still in it. <a href=\"17_troubleshooting\">Chapter 17</a> shows how to create the file if it's missing."
       },
       {
         "type": "p",
@@ -6558,6 +6558,359 @@ window.SEARCH_SEGMENTS = [
   },
   {
     "titles": [
+      "Chapter 17: Troubleshooting"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Something isn't working? Start here. Most problems students run into come from <strong>setup</strong>, not from Malloy itself: the wrong folder is open, or the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> file is missing. This chapter covers:"
+      },
+      {
+        "type": "p",
+        "text": "a two-line test that tells you whether your setup works"
+      },
+      {
+        "type": "p",
+        "text": "the most common error messages, what they mean, and how to fix them"
+      },
+      {
+        "type": "p",
+        "text": "what <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> is, what goes in it, and how to create it if yours is missing"
+      }
+    ],
+    "path": "/textbook/17_troubleshooting.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 17: Troubleshooting",
+      "Start here: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> is where Malloy's settings live.</strong> It's a small text file that tells the Malloy extension which databases (\"connections\") you can query and how to set them up. When you want to change how Malloy connects to data, this is the file you change."
+      },
+      {
+        "type": "p",
+        "text": "This is the whole file used throughout this book:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-json\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">{</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #0451A5\">&quot;connections&quot;</span><span style=\"color: #000000\">: {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #0451A5\">&quot;duckdb&quot;</span><span style=\"color: #000000\">: {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #0451A5\">&quot;is&quot;</span><span style=\"color: #000000\">: </span><span style=\"color: #A31515\">&quot;duckdb&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "It does two jobs:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>It creates a connection named <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span></span></code>.</strong> That's the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span></span></code> in every <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;...&#39;</span><span style=\"color: #000000\">)</span></span></code> you write. If no connection has that name, none of the book's code can run."
+      },
+      {
+        "type": "p",
+        "text": "<strong>It marks the project's root folder.</strong> DuckDB looks up relative paths like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">usa_names</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">parquet</span></span></code> <em>from the folder that holds <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code></em>. With the file in place, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/...</span></span></code> paths work even if you opened a different folder in VS Code. Without it, they're looked up from whatever folder you opened, which is often the wrong one."
+      },
+      {
+        "type": "p",
+        "text": "⚠️ <strong>No <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>? That's probably your error.</strong> If you see <em>\"No files found that match the pattern\"</em> or errors about the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span></span></code> connection, check this file first."
+      }
+    ],
+    "path": "/textbook/17_troubleshooting.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 17: Troubleshooting",
+      "Start here: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>",
+      "Where it goes"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The file must sit in the <strong>top level of the notebooks folder</strong>, next to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/</span></span></code> folder and the chapter notebooks, not inside <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/</span></span></code> or any other subfolder:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">malloy-textbook-notebooks/        ← open THIS folder in VS Code (File → Open Folder…)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">├── malloy-config.json            ← Malloy&#39;s settings live here</span></span>\n<span class=\"line\"><span style=\"color: #000000\">├── data/</span></span>\n<span class=\"line\"><span style=\"color: #000000\">│   ├── usa_names.parquet</span></span>\n<span class=\"line\"><span style=\"color: #000000\">│   └── …</span></span>\n<span class=\"line\"><span style=\"color: #000000\">├── names.malloy</span></span>\n<span class=\"line\"><span style=\"color: #000000\">├── ecommerce.malloy</span></span>\n<span class=\"line\"><span style=\"color: #000000\">├── 01_basics.malloynb</span></span>\n<span class=\"line\"><span style=\"color: #000000\">└── …</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "When you run a query, Malloy looks for <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> in the same folder as your file, then in each folder above it, up to the folder you opened in VS Code. It uses the first one it finds."
+      }
+    ],
+    "path": "/textbook/17_troubleshooting.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 17: Troubleshooting",
+      "Start here: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>",
+      "If yours is missing: create it"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "You can create it in VS Code in under a minute:"
+      },
+      {
+        "type": "p",
+        "text": "Run your query again. You don't need to restart VS Code; Malloy notices the new file on the next query."
+      },
+      {
+        "type": "p",
+        "text": "In VS Code, open the <strong>Explorer</strong> sidebar (the file list on the left)."
+      },
+      {
+        "type": "p",
+        "text": "Name it exactly <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code></strong>: all lowercase, a hyphen (not an underscore), ending in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "Paste in the contents shown above and save (<strong>Ctrl+S</strong>, or <strong>⌘S</strong> on a Mac)."
+      },
+      {
+        "type": "p",
+        "text": "Right-click an empty spot at the <strong>top level</strong> of the notebooks folder (not inside <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/</span></span></code>) and choose <strong>New File…</strong>."
+      },
+      {
+        "type": "p",
+        "text": "Or download it straight into the folder from a terminal opened in the notebooks folder:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># Mac or Linux</span></span>\n<span class=\"line\"><span style=\"color: #000000\">curl -O https://raw.githubusercontent.com/mrtimo/malloy-textbook-notebooks/main/malloy-config.json</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># Windows PowerShell</span></span>\n<span class=\"line\"><span style=\"color: #000000\">Invoke-WebRequest https://raw.githubusercontent.com/mrtimo/malloy-textbook-notebooks/main/malloy-config.json -OutFile malloy-config.json</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "⚠️ <strong>Don't create it in Notepad or TextEdit.</strong> They tend to save it as <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">txt</span></span></code> (Windows hides the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">txt</span></span></code>) or as rich text (TextEdit), and Malloy won't recognize it. Create it inside VS Code."
+      },
+      {
+        "type": "p",
+        "text": "💡 <strong>Check which settings Malloy is using.</strong> Open the <strong>Malloy</strong> panel in VS Code's left-hand activity bar and look at <strong>Connections</strong>. When a config file is in use, it shows a <strong>Config</strong> group with the path to the file, and you can click the file icon to open it. If you see <strong>Settings</strong> and <strong>Defaults</strong> groups instead, Malloy didn't find a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> for the file you're editing."
+      }
+    ],
+    "path": "/textbook/17_troubleshooting.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 17: Troubleshooting",
+      "Start here: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>",
+      "Changing settings"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Every change to how Malloy connects to data goes in this file. Some examples:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Give DuckDB more memory or threads</strong>, for very large files:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-json\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">{</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #0451A5\">&quot;connections&quot;</span><span style=\"color: #000000\">: {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #0451A5\">&quot;duckdb&quot;</span><span style=\"color: #000000\">: {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #0451A5\">&quot;is&quot;</span><span style=\"color: #000000\">: </span><span style=\"color: #A31515\">&quot;duckdb&quot;</span><span style=\"color: #000000\">,</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #0451A5\">&quot;memoryLimit&quot;</span><span style=\"color: #000000\">: </span><span style=\"color: #A31515\">&quot;4GB&quot;</span><span style=\"color: #000000\">,</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #0451A5\">&quot;threads&quot;</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">4</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Load an extra DuckDB extension</strong>, such as <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">spatial</span></span></code> for maps and geometry:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-json\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">{</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #0451A5\">&quot;connections&quot;</span><span style=\"color: #000000\">: {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #0451A5\">&quot;duckdb&quot;</span><span style=\"color: #000000\">: {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #0451A5\">&quot;is&quot;</span><span style=\"color: #000000\">: </span><span style=\"color: #A31515\">&quot;duckdb&quot;</span><span style=\"color: #000000\">,</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #0451A5\">&quot;additionalExtensions&quot;</span><span style=\"color: #000000\">: </span><span style=\"color: #A31515\">&quot;spatial&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Add a second connection</strong>, such as a saved DuckDB database file. Keep the original <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span></span></code> entry too, because the book's code uses it:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-json\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">{</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #0451A5\">&quot;connections&quot;</span><span style=\"color: #000000\">: {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #0451A5\">&quot;duckdb&quot;</span><span style=\"color: #000000\">: {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #0451A5\">&quot;is&quot;</span><span style=\"color: #000000\">: </span><span style=\"color: #A31515\">&quot;duckdb&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    },</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #0451A5\">&quot;my_db&quot;</span><span style=\"color: #000000\">: {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #0451A5\">&quot;is&quot;</span><span style=\"color: #000000\">: </span><span style=\"color: #A31515\">&quot;duckdb&quot;</span><span style=\"color: #000000\">,</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #0451A5\">&quot;databasePath&quot;</span><span style=\"color: #000000\">: </span><span style=\"color: #A31515\">&quot;data/my_database.duckdb&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Then use it with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">my_db</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;some_table&#39;</span><span style=\"color: #000000\">)</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "⚠️ <strong>The config file replaces all other connection settings.</strong> When a project has a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>, Malloy uses <em>only</em> the connections listed in it. Connections you set up elsewhere in VS Code are ignored. If you add a connection and the book's queries stop working, make sure <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&quot;duckdb&quot;</span></span></code> is still in the file."
+      },
+      {
+        "type": "p",
+        "text": "⚠️ <strong>Never put passwords or access tokens in a file you share or commit to GitHub.</strong> Connections to cloud databases (BigQuery, Snowflake, Postgres) need credentials. Put those in a separate <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">local</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> in the same folder, and add that file name to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">gitignore</span></span></code>. Malloy merges the two files automatically."
+      },
+      {
+        "type": "p",
+        "text": "📘 <strong>Malloy docs.</strong> <a href=\"https://docs.malloydata.dev/documentation/setup/config\">Configuration: malloy-config.json</a> (every setting for every database) · <a href=\"https://docs.malloydata.dev/documentation/setup/extension\">VS Code extension: configuring connections</a>"
+      }
+    ],
+    "path": "/textbook/17_troubleshooting.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 17: Troubleshooting",
+      "Test your setup"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Copy this into a new cell in any notebook in the notebooks folder and run it. If you get a number back (6,311,504), your setup is working: the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span></span></code> connection exists and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/</span></span></code> paths are found."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/usa_names.parquet&#39;</span><span style=\"color: #000000\">) -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">row_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "And this one tells you which version of DuckDB the Malloy extension is using (handy when you ask for help):"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000FF\">.</span><span style=\"color: #AF00DB\">sql</span><span style=\"color: #000000FF\">(</span><span style=\"color: #000000FF\">&quot;</span><span style=\"color: #0000FF\">SELECT</span><span style=\"color: #000000FF\"> </span><span style=\"color: #0000FF\">version</span><span style=\"color: #000000FF\">() </span><span style=\"color: #0000FF\">AS</span><span style=\"color: #000000FF\"> duckdb_version</span><span style=\"color: #000000FF\">&quot;</span><span style=\"color: #000000FF\">)</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/17_troubleshooting.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 17: Troubleshooting",
+      "Setup checklist"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "If the test above fails, work down this list:"
+      },
+      {
+        "type": "p",
+        "text": "☐ <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> is in that folder's top level</strong>, spelled exactly right, with the contents shown above."
+      },
+      {
+        "type": "p",
+        "text": "☐ <strong>You ran the cells in order.</strong> In notebooks, later cells use sources defined in earlier ones. Use <strong>Run All</strong> at the top of the notebook."
+      },
+      {
+        "type": "p",
+        "text": "☐ <strong>You unzipped the download.</strong> VS Code can't read files inside a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">zip</span></span></code>. If the path in VS Code looks like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">textbook</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">notebooks</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">main</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">textbook</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">notebooks</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">main</span><span style=\"color: #000000\">/…</span></span></code>, open the inner folder (the one that holds <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>)."
+      },
+      {
+        "type": "p",
+        "text": "☐ <strong>The Malloy extension is installed.</strong> In VS Code, open <strong>Extensions</strong> and search for \"Malloy\". If <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloynb</span></span></code> files open as raw text with lines like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">&gt;&gt;&gt;</span><span style=\"color: #001080\">markdown</span></span></code>, the extension isn't installed or enabled."
+      },
+      {
+        "type": "p",
+        "text": "☐ <strong>You opened the notebooks folder itself</strong> (<strong>File → Open Folder…</strong> → <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">textbook</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">notebooks</span></span></code>), not a single file, and not your whole <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">Downloads</span></span></code> folder."
+      },
+      {
+        "type": "p",
+        "text": "☐ <strong>The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/</span></span></code> folder is there</strong>, next to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>, with the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">parquet</span></span></code> files in it. If you downloaded single files rather than the whole repository, you're missing the data. Download the whole thing: on <a href=\"https://github.com/mrtimo/malloy-textbook-notebooks\">the repository page</a> click <strong>Code → Download ZIP</strong>, then unzip it."
+      }
+    ],
+    "path": "/textbook/17_troubleshooting.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 17: Troubleshooting",
+      "Common error messages"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "💡 <strong>Read the whole error message.</strong> Malloy's errors usually say exactly what's wrong and often suggest the fix, as several of the messages above do. In VS Code, the problem is also underlined in red in your code; hover over the underline to see the message."
+      }
+    ],
+    "path": "/textbook/17_troubleshooting.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 17: Troubleshooting",
+      "Results look wrong (but there's no error)"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Only some rows appear.</strong> VS Code shows a limited number of rows by default. Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">:</span></span></code> to your query, or open the result as a table and scroll."
+      },
+      {
+        "type": "p",
+        "text": "<strong>A <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#(docs)</span></span></code> line seems to do nothing.</strong> That's expected: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#(docs)</span></span></code> lines only control how this website displays results. VS Code ignores them."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Numbers are much too big after a join.</strong> You probably joined on a column that isn't unique. See <a href=\"10_joins\">Chapter 10</a> and the Malloy docs' <a href=\"https://docs.malloydata.dev/documentation/user_guides/troubleshooting#problem-1-non-unique-join-key\">troubleshooting guide</a>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>The results here don't match the website.</strong> Some datasets update over time (the live feeds in <a href=\"16_data_sources\">Chapter 16</a>), and queries using relative dates like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">now</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">last</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">6</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">months</span></span></code> change with the date."
+      }
+    ],
+    "path": "/textbook/17_troubleshooting.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 17: Troubleshooting",
+      "Getting help"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "When you ask a classmate, your instructor or the <a href=\"https://docs.malloydata.dev/slack\">Malloy community Slack</a> for help, include:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>The complete error message</strong>, copied as text rather than retyped."
+      },
+      {
+        "type": "p",
+        "text": "<strong>The query</strong> that caused it."
+      },
+      {
+        "type": "p",
+        "text": "<strong>The DuckDB version</strong> from the test query above, and your operating system."
+      },
+      {
+        "type": "p",
+        "text": "<strong>A screenshot of the VS Code Explorer sidebar</strong>, showing which folder is open and where <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/</span></span></code> are."
+      },
+      {
+        "type": "p",
+        "text": "📘 <strong>Malloy docs.</strong> <a href=\"https://docs.malloydata.dev/documentation/user_guides/troubleshooting\">Troubleshooting</a> (joins, slow queries, common errors) · <a href=\"https://docs.malloydata.dev/documentation/error_dictionary\">Error dictionary</a> (every Malloy error message explained)"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 17.1: Break it on purpose.</strong> In a copy of the notebooks folder, rename <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">bak</span></span></code>, open a different parent folder in VS Code, and run the setup test. Read the error. Then rename the file back and run it again. Knowing what this error looks like will save you time later."
+      }
+    ],
+    "path": "/textbook/17_troubleshooting.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 17: Troubleshooting",
+      "Summary"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "If it's missing, create it in VS Code with the five-line contents shown in this chapter. Changes take effect on the next query."
+      },
+      {
+        "type": "p",
+        "text": "It belongs at the <strong>top level of the notebooks folder</strong>. Open that folder itself in VS Code."
+      },
+      {
+        "type": "p",
+        "text": "Most other errors come from typos, reserved words, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">:</span></span></code> vs. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">:</span></span></code>, text values in number columns, or the wrong kind of URL. The error message usually says which."
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> holds Malloy's settings: it <strong>defines the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span></span></code> connection</strong> and <strong>marks the root folder</strong> that <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/...</span></span></code> paths are read from."
+      }
+    ],
+    "path": "/textbook/17_troubleshooting.malloynb"
+  },
+  {
+    "titles": [
       "Learning Malloy"
     ],
     "paragraphs": [
@@ -6596,7 +6949,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "💡 <strong>Fast start.</strong> Want to run queries right now? Go to <a href=\"05_files_and_notebooks#setting-up-your-environment\">Chapter 5</a> for the full setup. The short version: install VS Code, install the <strong>Malloy</strong> extension, then download the <a href=\"https://github.com/mrtimo/malloy-textbook-notebooks\">notebooks repository</a> and open its folder <em>as the workspace root</em>. That's it. DuckDB is built into the extension."
+        "text": "💡 <strong>Fast start.</strong> Want to run queries right now? Go to <a href=\"05_files_and_notebooks#setting-up-your-environment\">Chapter 5</a> for the full setup. The short version: install VS Code, install the <strong>Malloy</strong> extension, then download the <a href=\"https://github.com/mrtimo/malloy-textbook-notebooks\">notebooks repository</a> and open its folder <em>as the workspace root</em>. That's it. DuckDB is built into the extension. Getting errors? See <a href=\"17_troubleshooting\">Chapter 17: Troubleshooting</a>."
       }
     ],
     "path": "/textbook/index.malloynb"
@@ -6769,6 +7122,10 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "<a href=\"16_data_sources\">Data Sources</a>: 20 public datasets you can query straight from the internet, and how to find more"
+      },
+      {
+        "type": "p",
+        "text": "<a href=\"17_troubleshooting\">Troubleshooting</a>: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>, setup checks, and common error messages"
       },
       {
         "type": "p",

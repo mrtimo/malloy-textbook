@@ -1,0 +1,199 @@
+>>>markdown
+# Chapter 17: Troubleshooting
+
+Something isn't working? Start here. Most problems students run into come from **setup**, not from Malloy itself: the wrong folder is open, or the `malloy-config.json` file is missing. This chapter covers:
+
+* what `malloy-config.json` is, what goes in it, and how to create it if yours is missing
+* a two-line test that tells you whether your setup works
+* the most common error messages, what they mean, and how to fix them
+
+## Start here: `malloy-config.json`
+
+**`malloy-config.json` is where Malloy's settings live.** It's a small text file that tells the Malloy extension which databases ("connections") you can query and how to set them up. When you want to change how Malloy connects to data, this is the file you change.
+
+This is the whole file used throughout this book:
+
+```json
+{
+  "connections": {
+    "duckdb": {
+      "is": "duckdb"
+    }
+  }
+}
+```
+
+It does two jobs:
+
+1. **It creates a connection named `duckdb`.** That's the `duckdb` in every `duckdb.table('...')` you write. If no connection has that name, none of the book's code can run.
+2. **It marks the project's root folder.** DuckDB looks up relative paths like `data/usa_names.parquet` *from the folder that holds `malloy-config.json`*. With the file in place, `data/...` paths work even if you opened a different folder in VS Code. Without it, they're looked up from whatever folder you opened, which is often the wrong one.
+
+> ⚠️ **No `malloy-config.json`? That's probably your error.** If you see *"No files found that match the pattern"* or errors about the `duckdb` connection, check this file first.
+
+### Where it goes
+
+The file must sit in the **top level of the notebooks folder**, next to the `data/` folder and the chapter notebooks, not inside `data/` or any other subfolder:
+
+```
+malloy-textbook-notebooks/        ← open THIS folder in VS Code (File → Open Folder…)
+├── malloy-config.json            ← Malloy's settings live here
+├── data/
+│   ├── usa_names.parquet
+│   └── …
+├── names.malloy
+├── ecommerce.malloy
+├── 01_basics.malloynb
+└── …
+```
+
+When you run a query, Malloy looks for `malloy-config.json` in the same folder as your file, then in each folder above it, up to the folder you opened in VS Code. It uses the first one it finds.
+
+### If yours is missing: create it
+
+You can create it in VS Code in under a minute:
+
+1. In VS Code, open the **Explorer** sidebar (the file list on the left).
+2. Right-click an empty spot at the **top level** of the notebooks folder (not inside `data/`) and choose **New File…**.
+3. Name it exactly **`malloy-config.json`**: all lowercase, a hyphen (not an underscore), ending in `.json`.
+4. Paste in the contents shown above and save (**Ctrl+S**, or **⌘S** on a Mac).
+5. Run your query again. You don't need to restart VS Code; Malloy notices the new file on the next query.
+
+Or download it straight into the folder from a terminal opened in the notebooks folder:
+
+```bash
+# Mac or Linux
+curl -O https://raw.githubusercontent.com/mrtimo/malloy-textbook-notebooks/main/malloy-config.json
+```
+
+```powershell
+# Windows PowerShell
+Invoke-WebRequest https://raw.githubusercontent.com/mrtimo/malloy-textbook-notebooks/main/malloy-config.json -OutFile malloy-config.json
+```
+
+> ⚠️ **Don't create it in Notepad or TextEdit.** They tend to save it as `malloy-config.json.txt` (Windows hides the `.txt`) or as rich text (TextEdit), and Malloy won't recognize it. Create it inside VS Code.
+
+> 💡 **Check which settings Malloy is using.** Open the **Malloy** panel in VS Code's left-hand activity bar and look at **Connections**. When a config file is in use, it shows a **Config** group with the path to the file, and you can click the file icon to open it. If you see **Settings** and **Defaults** groups instead, Malloy didn't find a `malloy-config.json` for the file you're editing.
+
+### Changing settings
+
+Every change to how Malloy connects to data goes in this file. Some examples:
+
+**Give DuckDB more memory or threads**, for very large files:
+
+```json
+{
+  "connections": {
+    "duckdb": {
+      "is": "duckdb",
+      "memoryLimit": "4GB",
+      "threads": 4
+    }
+  }
+}
+```
+
+**Load an extra DuckDB extension**, such as `spatial` for maps and geometry:
+
+```json
+{
+  "connections": {
+    "duckdb": {
+      "is": "duckdb",
+      "additionalExtensions": "spatial"
+    }
+  }
+}
+```
+
+**Add a second connection**, such as a saved DuckDB database file. Keep the original `duckdb` entry too, because the book's code uses it:
+
+```json
+{
+  "connections": {
+    "duckdb": {
+      "is": "duckdb"
+    },
+    "my_db": {
+      "is": "duckdb",
+      "databasePath": "data/my_database.duckdb"
+    }
+  }
+}
+```
+
+Then use it with `my_db.table('some_table')`.
+
+> ⚠️ **The config file replaces all other connection settings.** When a project has a `malloy-config.json`, Malloy uses *only* the connections listed in it. Connections you set up elsewhere in VS Code are ignored. If you add a connection and the book's queries stop working, make sure `"duckdb"` is still in the file.
+
+> ⚠️ **Never put passwords or access tokens in a file you share or commit to GitHub.** Connections to cloud databases (BigQuery, Snowflake, Postgres) need credentials. Put those in a separate `malloy-config-local.json` in the same folder, and add that file name to `.gitignore`. Malloy merges the two files automatically.
+
+> 📘 **Malloy docs.** [Configuration: malloy-config.json](https://docs.malloydata.dev/documentation/setup/config) (every setting for every database) · [VS Code extension: configuring connections](https://docs.malloydata.dev/documentation/setup/extension)
+
+## Test your setup
+
+Copy this into a new cell in any notebook in the notebooks folder and run it. If you get a number back (6,311,504), your setup is working: the `duckdb` connection exists and `data/` paths are found.
+>>>malloy
+run: duckdb.table('data/usa_names.parquet') -> {
+  aggregate: row_count is count()
+}
+>>>markdown
+And this one tells you which version of DuckDB the Malloy extension is using (handy when you ask for help):
+>>>malloy
+run: duckdb.sql("SELECT version() AS duckdb_version")
+>>>markdown
+## Setup checklist
+
+If the test above fails, work down this list:
+
+1. ☐ **The Malloy extension is installed.** In VS Code, open **Extensions** and search for "Malloy". If `.malloynb` files open as raw text with lines like `>>>markdown`, the extension isn't installed or enabled.
+2. ☐ **You opened the notebooks folder itself** (**File → Open Folder…** → `malloy-textbook-notebooks`), not a single file, and not your whole `Downloads` folder.
+3. ☐ **`malloy-config.json` is in that folder's top level**, spelled exactly right, with the contents shown above.
+4. ☐ **The `data/` folder is there**, next to `malloy-config.json`, with the `.parquet` files in it. If you downloaded single files rather than the whole repository, you're missing the data. Download the whole thing: on [the repository page](https://github.com/mrtimo/malloy-textbook-notebooks) click **Code → Download ZIP**, then unzip it.
+5. ☐ **You unzipped the download.** VS Code can't read files inside a `.zip`. If the path in VS Code looks like `malloy-textbook-notebooks-main/malloy-textbook-notebooks-main/…`, open the inner folder (the one that holds `malloy-config.json`).
+6. ☐ **You ran the cells in order.** In notebooks, later cells use sources defined in earlier ones. Use **Run All** at the top of the notebook.
+
+## Common error messages
+
+| Error message (or what you see) | What it means | How to fix it |
+|---|---|---|
+| `No files found that match the pattern "data/usa_names.parquet"` | DuckDB looked for the file in the wrong folder, or the file isn't there | Check `malloy-config.json` (above), open the notebooks folder itself, and make sure `data/` exists |
+| An error saying the `duckdb` connection can't be found | No connection named `duckdb` is set up | Add `malloy-config.json` with the `"duckdb"` entry. If you already have one, make sure `"duckdb"` is still listed |
+| `Reference to undefined object 'names'` | You used a source that hasn't been defined yet | Run the earlier cells first (**Run All**), or check the `import` line and that the `.malloy` file it names is in the folder |
+| `'nme' is not defined` | A typo in a field name, or the field isn't in that source | Check the spelling. The **Schema** view (or `select: *` with `limit: 5`) shows every field |
+| `'year' is a reserved word, so to use it as a name you must quote it` | Your column has the same name as a Malloy keyword, such as `year`, `month`, `date`, `count` or `number` | Put backticks around it: `` `year` ``. Or rename it: ``rename: release_year is `year` `` |
+| `Aggregate expressions are not allowed in where:; use having:` | You filtered on a measure (like `total_births > 5`) in `where:` | Use `having:` for measures; `where:` is for dimensions ([Chapter 8](08_filtering.malloynb)) |
+| `unexpected` followed by a vertical bar | You used SQL's double vertical bar to join strings | Use `concat(a, b)` instead |
+| `Conversion Error: Could not convert string 'NA' to DOUBLE` | A number column contains text such as `NA` or `-`, so a normal cast fails | Use a **safe cast**, `column:::number`, which turns bad values into null ([Chapter 9](09_data_cleaning.malloynb)) |
+| `HTTP Error … 404 (Not Found)` | A URL in `duckdb.table('https://…')` is wrong, or the file has moved | Open the link in a browser. It should download the file, not show a web page |
+| A column named `column0` full of HTML (`<!DOCTYPE html>`) when reading from GitHub | You used a `github.com/…/blob/…` link, which is the *web page*, so DuckDB read the page's HTML | Use the **Raw** link (`raw.githubusercontent.com/…`). See [Chapter 16](16_data_sources.malloynb#getting-the-right-link) |
+| `SSL` or `certificate` errors when reading a URL | That site's security certificate can't be checked from DuckDB | Download the file, put it in `data/`, and use the local path |
+| `Could not set lock on file` | Another program (or another VS Code window) already has that `.duckdb` database file open | Close the other program, or see the `readOnly` and `shareable` settings in the [config docs](https://docs.malloydata.dev/documentation/setup/config) |
+
+> 💡 **Read the whole error message.** Malloy's errors usually say exactly what's wrong and often suggest the fix, as several of the messages above do. In VS Code, the problem is also underlined in red in your code; hover over the underline to see the message.
+
+## Results look wrong (but there's no error)
+
+* **Only some rows appear.** VS Code shows a limited number of rows by default. Add `limit:` to your query, or open the result as a table and scroll.
+* **Numbers are much too big after a join.** You probably joined on a column that isn't unique. See [Chapter 10](10_joins.malloynb) and the Malloy docs' [troubleshooting guide](https://docs.malloydata.dev/documentation/user_guides/troubleshooting#problem-1-non-unique-join-key).
+* **The results here don't match the website.** Some datasets update over time (the live feeds in [Chapter 16](16_data_sources.malloynb)), and queries using relative dates like `now` or `last 6 months` change with the date.
+* **A `#(docs)` line seems to do nothing.** That's expected: `#(docs)` lines only control how this website displays results. VS Code ignores them.
+
+## Getting help
+
+When you ask a classmate, your instructor or the [Malloy community Slack](https://docs.malloydata.dev/slack) for help, include:
+
+1. **The complete error message**, copied as text rather than retyped.
+2. **The query** that caused it.
+3. **A screenshot of the VS Code Explorer sidebar**, showing which folder is open and where `malloy-config.json` and `data/` are.
+4. **The DuckDB version** from the test query above, and your operating system.
+
+> 📘 **Malloy docs.** [Troubleshooting](https://docs.malloydata.dev/documentation/user_guides/troubleshooting) (joins, slow queries, common errors) · [Error dictionary](https://docs.malloydata.dev/documentation/error_dictionary) (every Malloy error message explained)
+
+> 🎯 **Challenge 17.1: Break it on purpose.** In a copy of the notebooks folder, rename `malloy-config.json` to `malloy-config.json.bak`, open a different parent folder in VS Code, and run the setup test. Read the error. Then rename the file back and run it again. Knowing what this error looks like will save you time later.
+
+## Summary
+
+* `malloy-config.json` holds Malloy's settings: it **defines the `duckdb` connection** and **marks the root folder** that `data/...` paths are read from.
+* It belongs at the **top level of the notebooks folder**. Open that folder itself in VS Code.
+* If it's missing, create it in VS Code with the five-line contents shown in this chapter. Changes take effect on the next query.
+* Most other errors come from typos, reserved words, `where:` vs. `having:`, text values in number columns, or the wrong kind of URL. The error message usually says which.

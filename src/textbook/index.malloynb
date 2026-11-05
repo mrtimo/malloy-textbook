@@ -14,7 +14,7 @@ Every chapter exists in two forms:
 
 Read the web page to learn. Open the notebook to practice. The **Open in VS Code** button at the top of each chapter opens that chapter's notebook in [github.dev](https://github.dev), a free copy of VS Code that runs in your browser.
 
-> 💡 **Fast start.** Want to run queries right now? Go to [Chapter 5](05_files_and_notebooks.malloynb#setting-up-your-environment) for the full setup. The short version: install VS Code, install the **Malloy** extension, then download the [notebooks repository](https://github.com/mrtimo/malloy-textbook-notebooks) and open its folder *as the workspace root*. That's it. DuckDB is built into the extension.
+> 💡 **Fast start.** Want to run queries right now? Go to [Chapter 5](05_files_and_notebooks.malloynb#setting-up-your-environment) for the full setup. The short version: install VS Code, install the **Malloy** extension, then download the [notebooks repository](https://github.com/mrtimo/malloy-textbook-notebooks) and open its folder *as the workspace root*. That's it. DuckDB is built into the extension. Getting errors? See [Chapter 17: Troubleshooting](17_troubleshooting.malloynb).
 
 ## Helpful links
 
@@ -49,6 +49,7 @@ Keep a few of these open in other tabs while you work.
 | [Malloy community Slack](https://docs.malloydata.dev/slack) | Ask questions and see what others are building |
 | [Malloy blog](https://docs.malloydata.dev/blog/) | New features and longer articles |
 | [DuckDB documentation](https://duckdb.org/docs/) and [DuckDB functions](https://duckdb.org/docs/stable/sql/functions/overview) | The database behind this book's queries; useful when you need a SQL function |
+| [Chapter 17: Troubleshooting](17_troubleshooting.malloynb) | Errors? Start here, especially if you're missing `malloy-config.json` |
 | [Chapter 16: Data Sources](16_data_sources.malloynb) | 20 public datasets to explore, and how to find more |
 | [Making Data Sing](https://making-data-sing.pages.dev) | A framework for asking better questions of any dataset |
 
@@ -112,5 +113,6 @@ You will see a few kinds of colored boxes:
 **Part VI · Going Further**
 
 16. [Data Sources](16_data_sources.malloynb): 20 public datasets you can query straight from the internet, and how to find more
+17. [Troubleshooting](17_troubleshooting.malloynb): `malloy-config.json`, setup checks, and common error messages
 
 > 📘 **Malloy docs.** The official documentation is at [docs.malloydata.dev](https://docs.malloydata.dev/documentation/). Keep it open in another tab. Every chapter links to the pages that go deeper.

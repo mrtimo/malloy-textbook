@@ -100,6 +100,10 @@
         {
           "title": "16. Data Sources",
           "link": "/16_data_sources.malloynb"
+        },
+        {
+          "title": "17. Troubleshooting",
+          "link": "/17_troubleshooting.malloynb"
         }
       ]
     }
