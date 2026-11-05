@@ -73,4 +73,8 @@ You will see a few kinds of colored boxes:
 
 15. [ICE Arrests, Start to Finish](15_worked_example_ice.malloynb): one real dataset taken through every chapter, with a small challenge after every cell
 
+**Part VI · Going Further**
+
+16. [Data Sources](16_data_sources.malloynb): 20 public datasets you can query straight from the internet, and how to find more
+
 > 📘 **Malloy docs.** The official documentation is at [docs.malloydata.dev](https://docs.malloydata.dev/documentation/). Keep it open in another tab. Every chapter links to the pages that go deeper.

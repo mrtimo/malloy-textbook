@@ -5908,6 +5908,656 @@ window.SEARCH_SEGMENTS = [
   },
   {
     "titles": [
+      "Chapter 16: Data Sources"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The best way to get good at Malloy is to explore data <em>you</em> find interesting. This chapter gives you 20 public datasets to start with, each with ready-made Malloy code that reads it <strong>straight from the internet</strong>, plus advice on finding more."
+      },
+      {
+        "type": "p",
+        "text": "In this chapter you'll find:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>20 interesting datasets</strong>, from penguins and Pokémon to 3 million taxi rides, each with a source you can copy and a first query"
+      },
+      {
+        "type": "p",
+        "text": "<strong>where to find more data</strong>: GitHub, Hugging Face, government portals and more"
+      },
+      {
+        "type": "p",
+        "text": "<strong>how to ask an AI assistant for data</strong>, with prompts that get you real, working links"
+      },
+      {
+        "type": "p",
+        "text": "💡 <strong>How these work.</strong> Each source below points <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">()</span></span></code> at a URL. DuckDB downloads the data as it reads it, so there's nothing to install and no file to save. You need an internet connection, and bigger files take a few seconds. <a href=\"07_csv_and_parquet\">Chapter 7</a> explains how DuckDB reads files over the network."
+      },
+      {
+        "type": "p",
+        "text": "💡 <strong>To use one:</strong> copy the code into a new <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> file or notebook cell in VS Code and click <strong>Run</strong>. Then change the query, add dimensions and measures, and explore. Every query on this page ran when the site was built."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "The datasets at a glance"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "They're roughly in order of size, from tiny to large."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "1. Palmer Penguins"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🐧 <strong>Body measurements of 344 Antarctic penguins from three species.</strong> 344 rows · CSV · 15 KB · <a href=\"https://github.com/allisonhorst/palmerpenguins\">GitHub: allisonhorst/palmerpenguins</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">penguins</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #008000\">// The numbers arrive as text because missing values are written &quot;NA&quot;.</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #008000\">// A safe cast (:::) turns &quot;NA&quot; into null instead of failing.</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">body_mass</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">body_mass_g</span><span style=\"color: #000000\">:::</span><span style=\"color: #0000FF\">number</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">flipper_length</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">flipper_length_mm</span><span style=\"color: #000000\">:::</span><span style=\"color: #0000FF\">number</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">penguin_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_body_mass</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">body_mass</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">penguins</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">species</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">island</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">penguin_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_body_mass</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Compare <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flipper_length</span></span></code> by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">sex</span></span></code> within each species. The numbers come in as text because missing values are written <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">NA</span></span></code>, so the source uses a safe cast (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">:::</span></span></code>) to turn <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">NA</span></span></code> into null."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "2. Pokémon"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "⚡ <strong>Battle stats for 1,215 Pokémon and their alternate forms, Generations 1–9.</strong> 1,215 rows · CSV · 74 KB · <a href=\"https://github.com/lgreski/pokemonData\">GitHub: lgreski/pokemonData</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">pokemon</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/lgreski/pokemonData/master/Pokemon.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">rename</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">special_attack</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">`Sp. Atk`</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pokemon_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_total</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">`Total`</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">pokemon</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">Type1</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">pokemon_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_total</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">avg_total</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Which <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">Generation</span></span></code> has the strongest Pokémon on average? Column names with spaces or dots, like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">`Sp. Atk`</span></span></code>, need backticks."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "3. Gapminder"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🌍 <strong>Life expectancy, population and GDP per person for 142 countries, 1952–2007.</strong> 1,704 rows · TSV · 82 KB · <a href=\"https://github.com/jennybc/gapminder\">GitHub: jennybc/gapminder</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gapminder</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/jennybc/gapminder/main/inst/extdata/gapminder.tsv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_life_expectancy</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">lifeExp</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_population</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">pop</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gapminder</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">`year`</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">continent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">avg_life_expectancy</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">`year`</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change the chart to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_life_expectancy</span></span></code> by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">country</span></span></code> for one continent. Which country improved the most?"
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "4. Coffee Quality Ratings"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "☕ <strong>Expert cupping scores for 1,339 coffees from the Coffee Quality Institute.</strong> 1,339 rows · CSV · 0.6 MB · <a href=\"https://github.com/rfordatascience/tidytuesday/tree/main/data/2020/2020-07-07\">TidyTuesday 2020-07-07</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">coffee</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-07-07/coffee_ratings.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">coffee_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_score</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_cup_points</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">coffee</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country_of_origin</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">coffee_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_score</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">coffee_count</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">avg_score</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">processing_method</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">variety</span></span></code> instead. Does washed coffee score higher than natural?"
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "5. Central Park Squirrel Census"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🐿️ <strong>Every squirrel spotted in New York's Central Park during the 2018 census.</strong> 3,023 rows · CSV · 0.8 MB · <a href=\"https://github.com/rfordatascience/tidytuesday/tree/main/data/2019/2019-10-29\">TidyTuesday 2019-10-29 (NYC Open Data)</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">squirrels</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2019/2019-10-29/nyc_squirrels.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">squirrel_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_running_away</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">runs_from</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">squirrels</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">primary_fur_color</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">squirrel_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_running_away</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Do squirrels behave differently in the morning and afternoon? Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">shift</span></span></code> and add measures for <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">eating</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">chasing</span></span></code>."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "6. Eurovision Song Contest"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🎤 <strong>Every Eurovision entry and result, 1956–2022.</strong> 2,005 rows · CSV · 0.5 MB · <a href=\"https://github.com/rfordatascience/tidytuesday/tree/main/data/2022/2022-05-17\">TidyTuesday 2022-05-17</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">eurovision</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2022/2022-05-17/eurovision.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">wins</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">winner</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">section</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;final&#39;</span><span style=\"color: #000000\"> | </span><span style=\"color: #A31515\">&#39;grand-final&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">eurovision</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">artist_country</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">wins</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">wins</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Which countries host most often? Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">host_country</span></span></code> and count the distinct <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">year</span></span></code> values."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "7. LEGO Sets"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🧱 <strong>Every LEGO set released from 1949 to 2022, with its piece count.</strong> 19,798 rows · CSV.GZ · 0.4 MB · <a href=\"https://github.com/rfordatascience/tidytuesday/tree/main/data/2022/2022-09-06\">TidyTuesday 2022-09-06 (Rebrickable)</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">lego_sets</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2022/2022-09-06/sets.csv.gz&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">rename</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">release_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">`year`</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">set_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_parts</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">num_parts</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">lego_sets</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">release_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">set_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_parts</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">release_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span></code> above the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">:</span></span></code> to see sets getting bigger over time. DuckDB reads the gzipped CSV directly."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "8. Netflix Titles"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🎬 <strong>About 7,800 movies and TV shows on Netflix as of 2021.</strong> 7,787 rows · CSV · 3 MB · <a href=\"https://github.com/rfordatascience/tidytuesday/tree/main/data/2021/2021-04-20\">TidyTuesday 2021-04-20</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">netflix</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-04-20/netflix_titles.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">title_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">netflix</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">release_year</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">2000</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">release_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">movies</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">title_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">`type`</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Movie&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">tv_shows</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">title_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">`type`</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;TV Show&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">release_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">rating</span></span></code>, or by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">country</span></span></code>. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">date_added</span></span></code> is text like “April 15, 2018”, a good data-cleaning exercise."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "9. Adult Census Income"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "💼 <strong>32,561 records from the 1994 U.S. Census, used to predict who earns over $50K.</strong> 32,561 rows · CSV · 4 MB · <a href=\"https://huggingface.co/datasets/scikit-learn/adult-census-income\">Hugging Face: scikit-learn/adult-census-income</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">census_income</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://huggingface.co/datasets/scikit-learn/adult-census-income/resolve/main/adult.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">rename</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">years_of_school</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">`education.num`</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">people</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_over_50k</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">income</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;&gt;50K&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">census_income</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">education</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">years_of_school</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">people</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_over_50k</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">years_of_school</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Swap <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">education</span></span></code> for <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">occupation</span></span></code>, or add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">sex</span></span></code> to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code>. Hugging Face links use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">/</span><span style=\"color: #001080\">resolve</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">main</span><span style=\"color: #000000\">/</span></span></code>."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "10. USGS Earthquakes (live)"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🌋 <strong>Every earthquake recorded worldwide in the past 30 days, updated every minute.</strong> ~10,000 rows · CSV · ~4 MB · live · <a href=\"https://earthquake.usgs.gov/earthquakes/feed/v1.0/csv.php\">U.S. Geological Survey</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">earthquakes</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">rename</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">quake_time</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">`time`</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">quake_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">biggest</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">mag</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">max</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">earthquakes</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">quake_day</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">quake_time</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">day</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">quake_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">biggest</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">quake_day</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> This feed changes every time you run it! Find the 10 biggest quakes with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">quake_time</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">mag</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">place</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">mag</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span></code>."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "11. U.S. Tornadoes"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🌪️ <strong>Every U.S. tornado since 1950, with strength, path length, injuries and deaths.</strong> 68,693 rows · CSV · 9.5 MB · <a href=\"https://github.com/rfordatascience/tidytuesday/tree/main/data/2023/2023-05-16\">TidyTuesday 2023-05-16 (NOAA Storm Prediction Center)</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">tornadoes</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-05-16/tornados.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">rename</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">st</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">deaths</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">fat</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">injuries</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">inj</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">floor</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">yr</span><span style=\"color: #000000\"> / </span><span style=\"color: #098658\">10</span><span style=\"color: #000000\">) * </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">tornado_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_deaths</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">deaths</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">tornadoes</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">tornado_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">total_deaths</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Which <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state</span></span></code> has the most tornadoes? Which <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">mo</span></span></code> (month) is the peak? <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">mag</span></span></code> is the (E)F scale, and −9 means unknown."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "12. Global Power Plants"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🔌 <strong>About 35,000 power plants worldwide, with fuel type and capacity.</strong> 34,936 rows · CSV · 12 MB · <a href=\"https://github.com/wri/global-power-plant-database\">GitHub: wri/global-power-plant-database</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">power_plants</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/wri/global-power-plant-database/master/output_database/global_power_plant_database.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">plant_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">capacity_gw</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">capacity_mw</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">() / </span><span style=\"color: #098658\">1000</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">power_plants</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">primary_fuel</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">plant_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">capacity_gw</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">country_long</span></span></code> to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">primary_fuel</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Solar&#39;</span></span></code>. Who has the most solar capacity?"
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "13. CO₂ Emissions"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🏭 <strong>CO₂ emissions, energy use and population for every country since 1750.</strong> 50,411 rows · CSV · 14 MB · <a href=\"https://github.com/owid/co2-data\">GitHub: owid/co2-data (Our World in Data)</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">emissions</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">iso_code</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> not </span><span style=\"color: #0000FF\">null</span><span style=\"color: #000000\">   </span><span style=\"color: #008000\">// drop &quot;World&quot;, &quot;Asia&quot;, and other groups</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_co2</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">co2</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_population</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">population</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">emissions</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">`year`</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2023</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_co2</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">co2_per_person</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_co2</span><span style=\"color: #000000\"> * </span><span style=\"color: #098658\">1000000</span><span style=\"color: #000000\"> / </span><span style=\"color: #001080\">total_population</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_co2</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change the year to 1990 and compare. Then try <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">co2_per_capita</span></span></code> over time for a few countries."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "14. UFO Sightings"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🛸 <strong>80,000 UFO sightings reported to NUFORC, with shape and duration.</strong> 80,332 rows · CSV · 14 MB · <a href=\"https://github.com/rfordatascience/tidytuesday/tree/main/data/2019/2019-06-25\">TidyTuesday 2019-06-25</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ufo</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2019/2019-06-25/ufo_sightings.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">sighting_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ufo</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;us&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ufo_shape</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">sighting_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Which <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state</span></span></code> reports the most sightings? Does the favorite <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ufo_shape</span></span></code> differ by state? (Try <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">:</span></span></code>.)"
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "15. Spotify Tracks"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🎧 <strong>114,000 Spotify tracks across 114 genres, with danceability, energy and tempo.</strong> 114,000 rows · CSV · 20 MB · <a href=\"https://huggingface.co/datasets/maharshipandya/spotify-tracks-dataset\">Hugging Face: maharshipandya/spotify-tracks-dataset</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">spotify</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://huggingface.co/datasets/maharshipandya/spotify-tracks-dataset/resolve/main/dataset.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">track_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_danceability</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">danceability</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_energy</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">energy</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">spotify</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">track_genre</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">track_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_danceability</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_energy</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">avg_danceability</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Order by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_energy</span></span></code> instead. Or find the most <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">popularity</span></span></code> artist in each genre with a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">:</span></span></code>."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "16. Billboard Hot 100"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "📈 <strong>Every Billboard Hot 100 chart since August 1958, updated weekly.</strong> ~356,000 rows · CSV · 21 MB · <a href=\"https://github.com/utdata/rwd-billboard-data\">GitHub: utdata/rwd-billboard-data</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">hot100</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/utdata/rwd-billboard-data/main/data-out/hot-100-current.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">weeks_on_chart</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">weeks_at_no1</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">current_week</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">1</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">hot100</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">title</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">performer</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">weeks_at_no1</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">weeks_on_chart</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">weeks_at_no1</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Which <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">performer</span></span></code> has the most different songs on the chart? Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">title</span><span style=\"color: #000000\">)</span></span></code>."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "17. Olympic Athletes"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🏅 <strong>Every Olympic athlete and event result from Athens 1896 to Rio 2016.</strong> 271,116 rows · CSV · 36 MB · <a href=\"https://github.com/rfordatascience/tidytuesday/tree/main/data/2021/2021-07-27\">TidyTuesday 2021-07-27</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">olympians</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-07-27/olympics.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">athlete_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">id</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">medals</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">medal</span><span style=\"color: #000000\"> != </span><span style=\"color: #A31515\">&#39;NA&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">gold_medals</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">medal</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Gold&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">olympians</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">season</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Summer&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">team</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">medals</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">gold_medals</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">athlete_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">season</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Winter&#39;</span></span></code>. Careful: in team events every team member gets a medal, so these counts are athlete-medals, not podium places."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "18. Wine Reviews"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🍷 <strong>130,000 Wine Enthusiast reviews, with points, price and tasting notes.</strong> 129,971 rows · CSV · 53 MB · <a href=\"https://github.com/rfordatascience/tidytuesday/tree/main/data/2019/2019-05-28\">TidyTuesday 2019-05-28</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">wine_reviews</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2019/2019-05-28/winemag-data-130k-v2.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">review_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_points</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">points</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_price</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">price</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">wine_reviews</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">variety</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">review_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_points</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_price</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">review_count</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">1000</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">avg_points</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Is expensive wine better? Group by a price band using <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">pick</span></span></code> and compare <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_points</span></span></code>."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "19. Airline Flights"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "✈️ <strong>345,000 U.S. airline flights, with airport and carrier tables to join.</strong> 344,827 rows · Parquet · 12 MB · <a href=\"https://github.com/malloydata/malloy-samples/tree/main/data\">GitHub: malloydata/malloy-samples</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carriers</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://github.com/malloydata/malloy-samples/raw/main/data/carriers.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">code</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">airports</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://github.com/malloydata/malloy-samples/raw/main/data/airports.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">code</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://github.com/malloydata/malloy-samples/raw/main/data/flights.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carriers</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">carrier</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">origin_airport</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">airports</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">origin</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_delay</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dep_delay</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carriers</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">nickname</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_delay</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_airports</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">origin_airport</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">city</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Join a destination airport too (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">destination_airport</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">airports</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">destination</span></span></code>) and find the longest routes."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "20 datasets to explore",
+      "20. NYC Yellow Taxi Trips"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "🚕 <strong>Every yellow-cab ride in New York City in January 2024.</strong> ~3 million rows · Parquet · 50 MB · <a href=\"https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page\">NYC Taxi & Limousine Commission</a>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">taxi_zones</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">LocationID</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">taxi_trips</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-01.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">pickup_zone</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">taxi_zones</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">on</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">PULocationID</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">pickup_zone</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">LocationID</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">trip_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_fare</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">fare_amount</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">tip_rate</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">tip_amount</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">() / </span><span style=\"color: #001080\">fare_amount</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">taxi_trips</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">pickup_zone</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">Borough</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">trip_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_fare</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">tip_rate</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">2024</span><span style=\"color: #000000\">-</span><span style=\"color: #098658\">0</span><span style=\"color: #000000\">1</span></span></code> in the URL to another month (any month since 2009 works). Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">tpep_pickup_datetime</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">hour</span></span></code> to see the daily rhythm."
+      },
+      {
+        "type": "p",
+        "text": "📘 <strong>Malloy docs.</strong> <a href=\"https://docs.malloydata.dev/documentation/language/dialect/duckdb\">DuckDB in Malloy</a> (reading CSV, Parquet and JSON files) · <a href=\"https://docs.malloydata.dev/documentation/language/join\">Joins</a> · <a href=\"https://docs.malloydata.dev/documentation/visualizations/overview\">Render tags</a>"
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "Where to find more data"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Any CSV, TSV, Parquet or JSON file with a public <strong>direct download link</strong> works the same way: put the link inside <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;...&#39;</span><span style=\"color: #000000\">)</span></span></code>."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "Where to find more data",
+      "Getting the right link"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The link must point to the <strong>file itself</strong>, not to a web page <em>about</em> the file:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Zip files don't work.</strong> DuckDB can read <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">gz</span></span></code> files but not <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">zip</span></span></code>. Download and unzip it, then point to the local file."
+      },
+      {
+        "type": "p",
+        "text": "<strong>If a file is big and you'll use it a lot,</strong> save a copy in your <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/</span></span></code> folder and use the local path instead. It's much faster. <a href=\"07_csv_and_parquet\">Chapter 7</a> shows how to convert a CSV to Parquet."
+      },
+      {
+        "type": "p",
+        "text": "<strong>GitHub:</strong> open the file and click <strong>Raw</strong>. Use the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">raw</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">githubusercontent</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">com</span><span style=\"color: #000000\">/...</span></span></code> link, or a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">github</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">com</span><span style=\"color: #000000\">/.../</span><span style=\"color: #001080\">raw</span><span style=\"color: #000000\">/...</span></span></code> link. A <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">github</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">com</span><span style=\"color: #000000\">/.../</span><span style=\"color: #001080\">blob</span><span style=\"color: #000000\">/...</span></span></code> link is a web page and won't work."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Hugging Face:</strong> open the <strong>Files and versions</strong> tab, right-click the download arrow next to a file, and copy the link. It contains <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">/</span><span style=\"color: #001080\">resolve</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">main</span><span style=\"color: #000000\">/</span></span></code>. DuckDB also understands <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">hf</span><span style=\"color: #000000\">:</span><span style=\"color: #008000\">//</span></span></code> paths, such as <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;hf://datasets/scikit-learn/adult-census-income/adult.csv&#39;</span><span style=\"color: #000000\">)</span></span></code>. Datasets that aren't Parquet often have an automatic Parquet copy too: look for <strong>Auto-converted to Parquet</strong>."
+      },
+      {
+        "type": "p",
+        "text": "⚠️ <strong>Check the license and the documentation.</strong> Most of the datasets here are free to use for learning, but read the source's license before you publish anything. Always read the data's documentation (the README or \"data dictionary\"). It tells you what each column means and how the data was collected, which is often where the surprises are."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "Asking an AI assistant for data sources"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "An AI assistant such as Claude or ChatGPT is a great way to brainstorm datasets, but it can <strong>invent links that don't exist</strong> or remember files that have moved. Use it to get <em>ideas and leads</em>, then check every link yourself by running it in Malloy."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Ask for the things you need to start immediately:</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>A direct download link</strong> to a CSV, TSV, Parquet or JSON file (not a web page, not a zip file, no login)."
+      },
+      {
+        "type": "p",
+        "text": "<strong>What one row means</strong> (\"one row per flight\", \"one row per song per week\"). This is the most important fact about any dataset."
+      },
+      {
+        "type": "p",
+        "text": "<strong>The columns</strong>, with their types: dates, places, categories, numbers."
+      },
+      {
+        "type": "p",
+        "text": "<strong>The license</strong>, and whether it's still being updated."
+      },
+      {
+        "type": "p",
+        "text": "<strong>The size</strong> (rows and megabytes), the <strong>time period</strong>, and <strong>who published it</strong>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>A prompt that works well:</strong>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">I&#39;m a student learning Malloy, which reads data with DuckDB.</span></span>\n<span class=\"line\"><span style=\"color: #000000\">Suggest 5 public datasets about [your topic, e.g. &quot;college sports&quot; or &quot;air quality&quot;].</span></span>\n<span class=\"line\"><span style=\"color: #000000\"></span></span>\n<span class=\"line\"><span style=\"color: #000000\">For each one, give me:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">- a direct download URL to a CSV or Parquet file that needs no login and is not zipped</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  (for GitHub, the raw.githubusercontent.com link; for Hugging Face, a /resolve/main/ link)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">- what one row represents</span></span>\n<span class=\"line\"><span style=\"color: #000000\">- the main columns and their types</span></span>\n<span class=\"line\"><span style=\"color: #000000\">- approximate row count and file size</span></span>\n<span class=\"line\"><span style=\"color: #000000\">- the time period covered and who publishes it</span></span>\n<span class=\"line\"><span style=\"color: #000000\">- the license</span></span>\n<span class=\"line\"><span style=\"color: #000000\"></span></span>\n<span class=\"line\"><span style=\"color: #000000\">Only include links you are confident exist. If you&#39;re not sure of the exact file URL,</span></span>\n<span class=\"line\"><span style=\"color: #000000\">give me the page where I can find it instead and say so.</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Ask for data that fits the kind of analysis you want to do.</strong> The most interesting datasets have columns that work <em>together</em>. <a href=\"https://making-data-sing.pages.dev\">Making Data Sing</a> is a framework for spotting them. For example:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">Find a public dataset (direct CSV or Parquet link) that has:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">- an entity (like a person, product, or song),</span></span>\n<span class=\"line\"><span style=\"color: #000000\">- a date or timestamp,</span></span>\n<span class=\"line\"><span style=\"color: #000000\">- a place (state, country, or city),</span></span>\n<span class=\"line\"><span style=\"color: #000000\">- and a number I can add up.</span></span>\n<span class=\"line\"><span style=\"color: #000000\">It should have at least 10,000 rows and be about [your interest].</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">Find a public dataset that works as an event log: one row per event, with a case ID,</span></span>\n<span class=\"line\"><span style=\"color: #000000\">an activity name, and a timestamp, so I can study the paths cases take.</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Then test it.</strong> Paste the link into this template and run it. If it fails, ask the assistant for another source, or check the page yourself:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">my_data</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;PASTE-THE-URL-HERE&#39;</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">my_data</span><span style=\"color: #000000\"> -&gt; { </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: *  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span><span style=\"color: #000000\"> }</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "⚠️ <strong>Never trust a number the AI tells you about a dataset.</strong> Row counts, date ranges and \"interesting facts\" from an assistant are often wrong. Run the query and look at the data yourself."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 16.1: Your own dataset.</strong> Find a dataset you care about, using the sites above or an AI prompt. Write a Malloy source for it with at least two dimensions, two measures and one view. Then write three questions about it, and answer them with queries."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 16.2: Join two sources.</strong> Pick a dataset from this chapter and find a second one that shares a column with it, such as a country, state or year. For example, join <strong>CO₂ Emissions</strong> to <strong>Gapminder</strong> on country and year, or <strong>Power Plants</strong> to <strong>CO₂ Emissions</strong> on country. Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">:</span></span></code> and explain what the combined data lets you ask that neither could alone."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "Summary"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Good places to look include TidyTuesday, FiveThirtyEight, Our World in Data, Hugging Face, government open-data portals and Data Is Plural."
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://...&#39;</span><span style=\"color: #000000\">)</span></span></code> reads a CSV, TSV, Parquet or JSON file straight from the internet. Gzipped files work; zip files don't."
+      },
+      {
+        "type": "p",
+        "text": "An AI assistant is a good way to find ideas, but <strong>test every link and check every fact</strong> by running a query."
+      },
+      {
+        "type": "p",
+        "text": "Use <strong>direct file links</strong>: GitHub's <strong>Raw</strong> link, or Hugging Face's <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">/</span><span style=\"color: #001080\">resolve</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">main</span><span style=\"color: #000000\">/</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">hf</span><span style=\"color: #000000\">:</span><span style=\"color: #008000\">//</span></span></code> path."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
       "Learning Malloy"
     ],
     "paragraphs": [
@@ -6086,6 +6736,14 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "<a href=\"15_worked_example_ice\">ICE Arrests, Start to Finish</a>: one real dataset taken through every chapter, with a small challenge after every cell"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Part VI · Going Further</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<a href=\"16_data_sources\">Data Sources</a>: 20 public datasets you can query straight from the internet, and how to find more"
       },
       {
         "type": "p",

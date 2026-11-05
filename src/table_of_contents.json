@@ -93,6 +93,15 @@
           "link": "/15_worked_example_ice.malloynb"
         }
       ]
+    },
+    {
+      "title": "Part VI \u00b7 Going Further",
+      "items": [
+        {
+          "title": "16. Data Sources",
+          "link": "/16_data_sources.malloynb"
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,284 @@
+// ===== taxi
+source: taxi_zones is duckdb.table('https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv') extend {
+  primary_key: LocationID
+}
+
+source: taxi_trips is duckdb.table('https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-01.parquet') extend {
+  join_one: pickup_zone is taxi_zones on PULocationID = pickup_zone.LocationID
+  measure:
+    trip_count is count()
+    avg_fare is fare_amount.avg()
+    tip_rate is tip_amount.sum() / fare_amount.sum()
+}
+
+run: taxi_trips -> {
+  group_by: pickup_zone.Borough
+  aggregate: trip_count, avg_fare, tip_rate
+}
+// ===== billboard
+source: hot100 is duckdb.table('https://raw.githubusercontent.com/utdata/rwd-billboard-data/main/data-out/hot-100-current.csv') extend {
+  measure:
+    weeks_on_chart is count()
+    weeks_at_no1 is count() { where: current_week = 1 }
+}
+
+run: hot100 -> {
+  group_by: title, performer
+  aggregate: weeks_at_no1, weeks_on_chart
+  order_by: weeks_at_no1 desc
+  limit: 10
+}
+// ===== spotify
+source: spotify is duckdb.table('https://huggingface.co/datasets/maharshipandya/spotify-tracks-dataset/resolve/main/dataset.csv') extend {
+  measure:
+    track_count is count()
+    avg_danceability is danceability.avg()
+    avg_energy is energy.avg()
+}
+
+run: spotify -> {
+  group_by: track_genre
+  aggregate: track_count, avg_danceability, avg_energy
+  order_by: avg_danceability desc
+  limit: 10
+}
+// ===== olympics
+source: olympians is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-07-27/olympics.csv') extend {
+  measure:
+    athlete_count is count(id)
+    medals is count() { where: medal != 'NA' }
+    gold_medals is count() { where: medal = 'Gold' }
+}
+
+run: olympians -> {
+  where: season = 'Summer'
+  group_by: team
+  aggregate: medals, gold_medals, athlete_count
+  limit: 10
+}
+// ===== co2
+source: emissions is duckdb.table('https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv') extend {
+  where: iso_code is not null   // drop "World", "Asia", and other groups
+  measure:
+    total_co2 is co2.sum()
+    total_population is population.sum()
+}
+
+run: emissions -> {
+  where: `year` = 2023
+  group_by: country
+  aggregate:
+    total_co2
+    co2_per_person is total_co2 * 1000000 / total_population
+  order_by: total_co2 desc
+  limit: 10
+}
+// ===== quakes
+source: earthquakes is duckdb.table('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv') extend {
+  rename: quake_time is `time`
+  measure:
+    quake_count is count()
+    biggest is mag.max()
+}
+
+run: earthquakes -> {
+  group_by: quake_day is quake_time.day
+  aggregate: quake_count, biggest
+  order_by: quake_day
+}
+// ===== tornadoes
+source: tornadoes is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-05-16/tornados.csv') extend {
+  rename:
+    state is st
+    deaths is fat
+    injuries is inj
+  dimension: decade is floor(yr / 10) * 10
+  measure:
+    tornado_count is count()
+    total_deaths is deaths.sum()
+}
+
+run: tornadoes -> {
+  group_by: decade
+  aggregate: tornado_count, total_deaths
+  order_by: decade
+}
+// ===== power
+source: power_plants is duckdb.table('https://raw.githubusercontent.com/wri/global-power-plant-database/master/output_database/global_power_plant_database.csv') extend {
+  measure:
+    plant_count is count()
+    capacity_gw is capacity_mw.sum() / 1000
+}
+
+run: power_plants -> {
+  group_by: primary_fuel
+  aggregate: plant_count, capacity_gw
+}
+// ===== netflix
+source: netflix is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-04-20/netflix_titles.csv') extend {
+  measure: title_count is count()
+}
+
+run: netflix -> {
+  where: release_year >= 2000
+  group_by: release_year
+  aggregate:
+    movies is title_count { where: `type` = 'Movie' }
+    tv_shows is title_count { where: `type` = 'TV Show' }
+  order_by: release_year
+}
+// ===== wine
+source: wine_reviews is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2019/2019-05-28/winemag-data-130k-v2.csv') extend {
+  measure:
+    review_count is count()
+    avg_points is points.avg()
+    avg_price is price.avg()
+}
+
+run: wine_reviews -> {
+  group_by: variety
+  aggregate: review_count, avg_points, avg_price
+  having: review_count > 1000
+  order_by: avg_points desc
+  limit: 10
+}
+// ===== coffee
+source: coffee is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-07-07/coffee_ratings.csv') extend {
+  measure:
+    coffee_count is count()
+    avg_score is total_cup_points.avg()
+}
+
+run: coffee -> {
+  group_by: country_of_origin
+  aggregate: coffee_count, avg_score
+  having: coffee_count >= 10
+  order_by: avg_score desc
+  limit: 10
+}
+// ===== squirrels
+source: squirrels is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2019/2019-10-29/nyc_squirrels.csv') extend {
+  measure:
+    squirrel_count is count()
+    pct_running_away is count() { where: runs_from } / count()
+}
+
+run: squirrels -> {
+  group_by: primary_fur_color
+  aggregate: squirrel_count, pct_running_away
+}
+// ===== penguins
+source: penguins is duckdb.table('https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv') extend {
+  dimension:
+    // The numbers arrive as text because missing values are written "NA".
+    // A safe cast (:::) turns "NA" into null instead of failing.
+    body_mass is body_mass_g:::number
+    flipper_length is flipper_length_mm:::number
+  measure:
+    penguin_count is count()
+    avg_body_mass is body_mass.avg()
+}
+
+run: penguins -> {
+  group_by: species, island
+  aggregate: penguin_count, avg_body_mass
+}
+// ===== pokemon
+source: pokemon is duckdb.table('https://raw.githubusercontent.com/lgreski/pokemonData/master/Pokemon.csv') extend {
+  rename: special_attack is `Sp. Atk`
+  measure:
+    pokemon_count is count()
+    avg_total is `Total`.avg()
+}
+
+run: pokemon -> {
+  group_by: Type1
+  aggregate: pokemon_count, avg_total
+  order_by: avg_total desc
+}
+// ===== ufo
+source: ufo is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2019/2019-06-25/ufo_sightings.csv') extend {
+  measure: sighting_count is count()
+}
+
+run: ufo -> {
+  where: country = 'us'
+  group_by: ufo_shape
+  aggregate: sighting_count
+  limit: 10
+}
+// ===== lego
+source: lego_sets is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2022/2022-09-06/sets.csv.gz') extend {
+  rename: release_year is `year`
+  measure:
+    set_count is count()
+    avg_parts is num_parts.avg()
+}
+
+run: lego_sets -> {
+  group_by: release_year
+  aggregate: set_count, avg_parts
+  order_by: release_year
+}
+// ===== eurovision
+source: eurovision is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2022/2022-05-17/eurovision.csv') extend {
+  measure: wins is count() { where: winner and section = 'final' | 'grand-final' }
+}
+
+run: eurovision -> {
+  group_by: artist_country
+  aggregate: wins
+  order_by: wins desc
+  limit: 10
+}
+// ===== flights
+source: carriers is duckdb.table('https://github.com/malloydata/malloy-samples/raw/main/data/carriers.parquet') extend {
+  primary_key: code
+}
+source: airports is duckdb.table('https://github.com/malloydata/malloy-samples/raw/main/data/airports.parquet') extend {
+  primary_key: code
+}
+
+source: flights is duckdb.table('https://github.com/malloydata/malloy-samples/raw/main/data/flights.parquet') extend {
+  join_one: carriers with carrier
+  join_one: origin_airport is airports with origin
+  measure:
+    flight_count is count()
+    avg_delay is dep_delay.avg()
+}
+
+run: flights -> {
+  group_by: carriers.nickname
+  aggregate: flight_count, avg_delay
+  nest: top_airports is {
+    group_by: origin_airport.city
+    aggregate: flight_count
+    limit: 3
+  }
+}
+// ===== adult
+source: census_income is duckdb.table('https://huggingface.co/datasets/scikit-learn/adult-census-income/resolve/main/adult.csv') extend {
+  rename: years_of_school is `education.num`
+  measure:
+    people is count()
+    pct_over_50k is count() { where: income = '>50K' } / count()
+}
+
+run: census_income -> {
+  group_by: education, years_of_school
+  aggregate: people, pct_over_50k
+  order_by: years_of_school
+}
+// ===== gapminder
+source: gapminder is duckdb.table('https://raw.githubusercontent.com/jennybc/gapminder/main/inst/extdata/gapminder.tsv') extend {
+  measure:
+    avg_life_expectancy is lifeExp.avg()
+    total_population is pop.sum()
+}
+
+# line_chart
+run: gapminder -> {
+  group_by: `year`, continent
+  aggregate: avg_life_expectancy
+  order_by: `year`
+}

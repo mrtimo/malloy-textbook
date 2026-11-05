@@ -1,0 +1,613 @@
+>>>markdown
+# Chapter 16: Data Sources
+
+The best way to get good at Malloy is to explore data *you* find interesting. This chapter gives you 20 public datasets to start with, each with ready-made Malloy code that reads it **straight from the internet**, plus advice on finding more.
+
+In this chapter you'll find:
+
+* **20 interesting datasets**, from penguins and Pokémon to 3 million taxi rides, each with a source you can copy and a first query
+* **where to find more data**: GitHub, Hugging Face, government portals and more
+* **how to ask an AI assistant for data**, with prompts that get you real, working links
+
+> 💡 **How these work.** Each source below points `duckdb.table()` at a URL. DuckDB downloads the data as it reads it, so there's nothing to install and no file to save. You need an internet connection, and bigger files take a few seconds. [Chapter 7](07_csv_and_parquet.malloynb) explains how DuckDB reads files over the network.
+
+> 💡 **To use one:** copy the code into a new `.malloy` file or notebook cell in VS Code and click **Run**. Then change the query, add dimensions and measures, and explore. Every query on this page ran when the site was built.
+
+>>>markdown
+## The datasets at a glance
+
+They're roughly in order of size, from tiny to large.
+
+| # | Dataset | What it is | Rows | Format · size |
+|---|---|---|---|---|
+| 1 | [🐧 Palmer Penguins](#1-palmer-penguins) | Body measurements of 344 Antarctic penguins from three species. | 344 | CSV · 15 KB |
+| 2 | [⚡ Pokémon](#2-pok-mon) | Battle stats for 1,215 Pokémon and their alternate forms, Generations 1–9. | 1,215 | CSV · 74 KB |
+| 3 | [🌍 Gapminder](#3-gapminder) | Life expectancy, population and GDP per person for 142 countries, 1952–2007. | 1,704 | TSV · 82 KB |
+| 4 | [☕ Coffee Quality Ratings](#4-coffee-quality-ratings) | Expert cupping scores for 1,339 coffees from the Coffee Quality Institute. | 1,339 | CSV · 0.6 MB |
+| 5 | [🐿️ Central Park Squirrel Census](#5-central-park-squirrel-census) | Every squirrel spotted in New York's Central Park during the 2018 census. | 3,023 | CSV · 0.8 MB |
+| 6 | [🎤 Eurovision Song Contest](#6-eurovision-song-contest) | Every Eurovision entry and result, 1956–2022. | 2,005 | CSV · 0.5 MB |
+| 7 | [🧱 LEGO Sets](#7-lego-sets) | Every LEGO set released from 1949 to 2022, with its piece count. | 19,798 | CSV.GZ · 0.4 MB |
+| 8 | [🎬 Netflix Titles](#8-netflix-titles) | About 7,800 movies and TV shows on Netflix as of 2021. | 7,787 | CSV · 3 MB |
+| 9 | [💼 Adult Census Income](#9-adult-census-income) | 32,561 records from the 1994 U.S. Census, used to predict who earns over $50K. | 32,561 | CSV · 4 MB |
+| 10 | [🌋 USGS Earthquakes (live)](#10-usgs-earthquakes-live-) | Every earthquake recorded worldwide in the past 30 days, updated every minute. | ~10,000 | CSV · ~4 MB · live |
+| 11 | [🌪️ U.S. Tornadoes](#11-u-s-tornadoes) | Every U.S. tornado since 1950, with strength, path length, injuries and deaths. | 68,693 | CSV · 9.5 MB |
+| 12 | [🔌 Global Power Plants](#12-global-power-plants) | About 35,000 power plants worldwide, with fuel type and capacity. | 34,936 | CSV · 12 MB |
+| 13 | [🏭 CO₂ Emissions](#13-co-emissions) | CO₂ emissions, energy use and population for every country since 1750. | 50,411 | CSV · 14 MB |
+| 14 | [🛸 UFO Sightings](#14-ufo-sightings) | 80,000 UFO sightings reported to NUFORC, with shape and duration. | 80,332 | CSV · 14 MB |
+| 15 | [🎧 Spotify Tracks](#15-spotify-tracks) | 114,000 Spotify tracks across 114 genres, with danceability, energy and tempo. | 114,000 | CSV · 20 MB |
+| 16 | [📈 Billboard Hot 100](#16-billboard-hot-100) | Every Billboard Hot 100 chart since August 1958, updated weekly. | ~356,000 | CSV · 21 MB |
+| 17 | [🏅 Olympic Athletes](#17-olympic-athletes) | Every Olympic athlete and event result from Athens 1896 to Rio 2016. | 271,116 | CSV · 36 MB |
+| 18 | [🍷 Wine Reviews](#18-wine-reviews) | 130,000 Wine Enthusiast reviews, with points, price and tasting notes. | 129,971 | CSV · 53 MB |
+| 19 | [✈️ Airline Flights](#19-airline-flights) | 345,000 U.S. airline flights, with airport and carrier tables to join. | 344,827 | Parquet · 12 MB |
+| 20 | [🚕 NYC Yellow Taxi Trips](#20-nyc-yellow-taxi-trips) | Every yellow-cab ride in New York City in January 2024. | ~3 million | Parquet · 50 MB |
+
+>>>markdown
+## 20 datasets to explore
+
+>>>markdown
+### 1. Palmer Penguins
+
+🐧 **Body measurements of 344 Antarctic penguins from three species.** 344 rows · CSV · 15 KB · [GitHub: allisonhorst/palmerpenguins](https://github.com/allisonhorst/palmerpenguins)
+
+>>>malloy
+source: penguins is duckdb.table('https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv') extend {
+  dimension:
+    // The numbers arrive as text because missing values are written "NA".
+    // A safe cast (:::) turns "NA" into null instead of failing.
+    body_mass is body_mass_g:::number
+    flipper_length is flipper_length_mm:::number
+  measure:
+    penguin_count is count()
+    avg_body_mass is body_mass.avg()
+}
+
+run: penguins -> {
+  group_by: species, island
+  aggregate: penguin_count, avg_body_mass
+}
+
+>>>markdown
+> 🎯 **Try it:** Compare `flipper_length` by `sex` within each species. The numbers come in as text because missing values are written `NA`, so the source uses a safe cast (`:::`) to turn `NA` into null.
+
+>>>markdown
+### 2. Pokémon
+
+⚡ **Battle stats for 1,215 Pokémon and their alternate forms, Generations 1–9.** 1,215 rows · CSV · 74 KB · [GitHub: lgreski/pokemonData](https://github.com/lgreski/pokemonData)
+
+>>>malloy
+source: pokemon is duckdb.table('https://raw.githubusercontent.com/lgreski/pokemonData/master/Pokemon.csv') extend {
+  rename: special_attack is `Sp. Atk`
+  measure:
+    pokemon_count is count()
+    avg_total is `Total`.avg()
+}
+
+run: pokemon -> {
+  group_by: Type1
+  aggregate: pokemon_count, avg_total
+  order_by: avg_total desc
+}
+
+>>>markdown
+> 🎯 **Try it:** Which `Generation` has the strongest Pokémon on average? Column names with spaces or dots, like `` `Sp. Atk` ``, need backticks.
+
+>>>markdown
+### 3. Gapminder
+
+🌍 **Life expectancy, population and GDP per person for 142 countries, 1952–2007.** 1,704 rows · TSV · 82 KB · [GitHub: jennybc/gapminder](https://github.com/jennybc/gapminder)
+
+>>>malloy
+source: gapminder is duckdb.table('https://raw.githubusercontent.com/jennybc/gapminder/main/inst/extdata/gapminder.tsv') extend {
+  measure:
+    avg_life_expectancy is lifeExp.avg()
+    total_population is pop.sum()
+}
+
+#(docs) size=large limit=5000
+# line_chart
+run: gapminder -> {
+  group_by: `year`, continent
+  aggregate: avg_life_expectancy
+  order_by: `year`
+}
+
+>>>markdown
+> 🎯 **Try it:** Change the chart to `avg_life_expectancy` by `country` for one continent. Which country improved the most?
+
+>>>markdown
+### 4. Coffee Quality Ratings
+
+☕ **Expert cupping scores for 1,339 coffees from the Coffee Quality Institute.** 1,339 rows · CSV · 0.6 MB · [TidyTuesday 2020-07-07](https://github.com/rfordatascience/tidytuesday/tree/main/data/2020/2020-07-07)
+
+>>>malloy
+source: coffee is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-07-07/coffee_ratings.csv') extend {
+  measure:
+    coffee_count is count()
+    avg_score is total_cup_points.avg()
+}
+
+run: coffee -> {
+  group_by: country_of_origin
+  aggregate: coffee_count, avg_score
+  having: coffee_count >= 10
+  order_by: avg_score desc
+  limit: 10
+}
+
+>>>markdown
+> 🎯 **Try it:** Group by `processing_method` or `variety` instead. Does washed coffee score higher than natural?
+
+>>>markdown
+### 5. Central Park Squirrel Census
+
+🐿️ **Every squirrel spotted in New York's Central Park during the 2018 census.** 3,023 rows · CSV · 0.8 MB · [TidyTuesday 2019-10-29 (NYC Open Data)](https://github.com/rfordatascience/tidytuesday/tree/main/data/2019/2019-10-29)
+
+>>>malloy
+source: squirrels is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2019/2019-10-29/nyc_squirrels.csv') extend {
+  measure:
+    squirrel_count is count()
+    pct_running_away is count() { where: runs_from } / count()
+}
+
+run: squirrels -> {
+  group_by: primary_fur_color
+  aggregate: squirrel_count, pct_running_away
+}
+
+>>>markdown
+> 🎯 **Try it:** Do squirrels behave differently in the morning and afternoon? Group by `shift` and add measures for `eating` and `chasing`.
+
+>>>markdown
+### 6. Eurovision Song Contest
+
+🎤 **Every Eurovision entry and result, 1956–2022.** 2,005 rows · CSV · 0.5 MB · [TidyTuesday 2022-05-17](https://github.com/rfordatascience/tidytuesday/tree/main/data/2022/2022-05-17)
+
+>>>malloy
+source: eurovision is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2022/2022-05-17/eurovision.csv') extend {
+  measure: wins is count() { where: winner and section = 'final' | 'grand-final' }
+}
+
+run: eurovision -> {
+  group_by: artist_country
+  aggregate: wins
+  order_by: wins desc
+  limit: 10
+}
+
+>>>markdown
+> 🎯 **Try it:** Which countries host most often? Group by `host_country` and count the distinct `year` values.
+
+>>>markdown
+### 7. LEGO Sets
+
+🧱 **Every LEGO set released from 1949 to 2022, with its piece count.** 19,798 rows · CSV.GZ · 0.4 MB · [TidyTuesday 2022-09-06 (Rebrickable)](https://github.com/rfordatascience/tidytuesday/tree/main/data/2022/2022-09-06)
+
+>>>malloy
+source: lego_sets is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2022/2022-09-06/sets.csv.gz') extend {
+  rename: release_year is `year`
+  measure:
+    set_count is count()
+    avg_parts is num_parts.avg()
+}
+
+#(docs) limit=100
+run: lego_sets -> {
+  group_by: release_year
+  aggregate: set_count, avg_parts
+  order_by: release_year
+}
+
+>>>markdown
+> 🎯 **Try it:** Add `# line_chart` above the `run:` to see sets getting bigger over time. DuckDB reads the gzipped CSV directly.
+
+>>>markdown
+### 8. Netflix Titles
+
+🎬 **About 7,800 movies and TV shows on Netflix as of 2021.** 7,787 rows · CSV · 3 MB · [TidyTuesday 2021-04-20](https://github.com/rfordatascience/tidytuesday/tree/main/data/2021/2021-04-20)
+
+>>>malloy
+source: netflix is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-04-20/netflix_titles.csv') extend {
+  measure: title_count is count()
+}
+
+#(docs) limit=100
+run: netflix -> {
+  where: release_year >= 2000
+  group_by: release_year
+  aggregate:
+    movies is title_count { where: `type` = 'Movie' }
+    tv_shows is title_count { where: `type` = 'TV Show' }
+  order_by: release_year
+}
+
+>>>markdown
+> 🎯 **Try it:** Group by `rating`, or by `country`. `date_added` is text like “April 15, 2018”, a good data-cleaning exercise.
+
+>>>markdown
+### 9. Adult Census Income
+
+💼 **32,561 records from the 1994 U.S. Census, used to predict who earns over $50K.** 32,561 rows · CSV · 4 MB · [Hugging Face: scikit-learn/adult-census-income](https://huggingface.co/datasets/scikit-learn/adult-census-income)
+
+>>>malloy
+source: census_income is duckdb.table('https://huggingface.co/datasets/scikit-learn/adult-census-income/resolve/main/adult.csv') extend {
+  rename: years_of_school is `education.num`
+  measure:
+    people is count()
+    pct_over_50k is count() { where: income = '>50K' } / count()
+}
+
+run: census_income -> {
+  group_by: education, years_of_school
+  aggregate: people, pct_over_50k
+  order_by: years_of_school
+}
+
+>>>markdown
+> 🎯 **Try it:** Swap `education` for `occupation`, or add `sex` to the `group_by:`. Hugging Face links use `/resolve/main/`.
+
+>>>markdown
+### 10. USGS Earthquakes (live)
+
+🌋 **Every earthquake recorded worldwide in the past 30 days, updated every minute.** ~10,000 rows · CSV · ~4 MB · live · [U.S. Geological Survey](https://earthquake.usgs.gov/earthquakes/feed/v1.0/csv.php)
+
+>>>malloy
+source: earthquakes is duckdb.table('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv') extend {
+  rename: quake_time is `time`
+  measure:
+    quake_count is count()
+    biggest is mag.max()
+}
+
+#(docs) limit=100
+run: earthquakes -> {
+  group_by: quake_day is quake_time.day
+  aggregate: quake_count, biggest
+  order_by: quake_day
+}
+
+>>>markdown
+> 🎯 **Try it:** This feed changes every time you run it! Find the 10 biggest quakes with `select: quake_time, mag, place` and `order_by: mag desc`.
+
+>>>markdown
+### 11. U.S. Tornadoes
+
+🌪️ **Every U.S. tornado since 1950, with strength, path length, injuries and deaths.** 68,693 rows · CSV · 9.5 MB · [TidyTuesday 2023-05-16 (NOAA Storm Prediction Center)](https://github.com/rfordatascience/tidytuesday/tree/main/data/2023/2023-05-16)
+
+>>>malloy
+source: tornadoes is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-05-16/tornados.csv') extend {
+  rename:
+    state is st
+    deaths is fat
+    injuries is inj
+  dimension: decade is floor(yr / 10) * 10
+  measure:
+    tornado_count is count()
+    total_deaths is deaths.sum()
+}
+
+#(docs) limit=100
+run: tornadoes -> {
+  group_by: decade
+  aggregate: tornado_count, total_deaths
+  order_by: decade
+}
+
+>>>markdown
+> 🎯 **Try it:** Which `state` has the most tornadoes? Which `mo` (month) is the peak? `mag` is the (E)F scale, and −9 means unknown.
+
+>>>markdown
+### 12. Global Power Plants
+
+🔌 **About 35,000 power plants worldwide, with fuel type and capacity.** 34,936 rows · CSV · 12 MB · [GitHub: wri/global-power-plant-database](https://github.com/wri/global-power-plant-database)
+
+>>>malloy
+source: power_plants is duckdb.table('https://raw.githubusercontent.com/wri/global-power-plant-database/master/output_database/global_power_plant_database.csv') extend {
+  measure:
+    plant_count is count()
+    capacity_gw is capacity_mw.sum() / 1000
+}
+
+run: power_plants -> {
+  group_by: primary_fuel
+  aggregate: plant_count, capacity_gw
+}
+
+>>>markdown
+> 🎯 **Try it:** Add `country_long` to the `group_by:` and `where: primary_fuel = 'Solar'`. Who has the most solar capacity?
+
+>>>markdown
+### 13. CO₂ Emissions
+
+🏭 **CO₂ emissions, energy use and population for every country since 1750.** 50,411 rows · CSV · 14 MB · [GitHub: owid/co2-data (Our World in Data)](https://github.com/owid/co2-data)
+
+>>>malloy
+source: emissions is duckdb.table('https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv') extend {
+  where: iso_code is not null   // drop "World", "Asia", and other groups
+  measure:
+    total_co2 is co2.sum()
+    total_population is population.sum()
+}
+
+run: emissions -> {
+  where: `year` = 2023
+  group_by: country
+  aggregate:
+    total_co2
+    co2_per_person is total_co2 * 1000000 / total_population
+  order_by: total_co2 desc
+  limit: 10
+}
+
+>>>markdown
+> 🎯 **Try it:** Change the year to 1990 and compare. Then try `co2_per_capita` over time for a few countries.
+
+>>>markdown
+### 14. UFO Sightings
+
+🛸 **80,000 UFO sightings reported to NUFORC, with shape and duration.** 80,332 rows · CSV · 14 MB · [TidyTuesday 2019-06-25](https://github.com/rfordatascience/tidytuesday/tree/main/data/2019/2019-06-25)
+
+>>>malloy
+source: ufo is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2019/2019-06-25/ufo_sightings.csv') extend {
+  measure: sighting_count is count()
+}
+
+run: ufo -> {
+  where: country = 'us'
+  group_by: ufo_shape
+  aggregate: sighting_count
+  limit: 10
+}
+
+>>>markdown
+> 🎯 **Try it:** Which `state` reports the most sightings? Does the favorite `ufo_shape` differ by state? (Try `nest:`.)
+
+>>>markdown
+### 15. Spotify Tracks
+
+🎧 **114,000 Spotify tracks across 114 genres, with danceability, energy and tempo.** 114,000 rows · CSV · 20 MB · [Hugging Face: maharshipandya/spotify-tracks-dataset](https://huggingface.co/datasets/maharshipandya/spotify-tracks-dataset)
+
+>>>malloy
+source: spotify is duckdb.table('https://huggingface.co/datasets/maharshipandya/spotify-tracks-dataset/resolve/main/dataset.csv') extend {
+  measure:
+    track_count is count()
+    avg_danceability is danceability.avg()
+    avg_energy is energy.avg()
+}
+
+run: spotify -> {
+  group_by: track_genre
+  aggregate: track_count, avg_danceability, avg_energy
+  order_by: avg_danceability desc
+  limit: 10
+}
+
+>>>markdown
+> 🎯 **Try it:** Order by `avg_energy` instead. Or find the most `popularity` artist in each genre with a `nest:`.
+
+>>>markdown
+### 16. Billboard Hot 100
+
+📈 **Every Billboard Hot 100 chart since August 1958, updated weekly.** ~356,000 rows · CSV · 21 MB · [GitHub: utdata/rwd-billboard-data](https://github.com/utdata/rwd-billboard-data)
+
+>>>malloy
+source: hot100 is duckdb.table('https://raw.githubusercontent.com/utdata/rwd-billboard-data/main/data-out/hot-100-current.csv') extend {
+  measure:
+    weeks_on_chart is count()
+    weeks_at_no1 is count() { where: current_week = 1 }
+}
+
+run: hot100 -> {
+  group_by: title, performer
+  aggregate: weeks_at_no1, weeks_on_chart
+  order_by: weeks_at_no1 desc
+  limit: 10
+}
+
+>>>markdown
+> 🎯 **Try it:** Which `performer` has the most different songs on the chart? Use `count(title)`.
+
+>>>markdown
+### 17. Olympic Athletes
+
+🏅 **Every Olympic athlete and event result from Athens 1896 to Rio 2016.** 271,116 rows · CSV · 36 MB · [TidyTuesday 2021-07-27](https://github.com/rfordatascience/tidytuesday/tree/main/data/2021/2021-07-27)
+
+>>>malloy
+source: olympians is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-07-27/olympics.csv') extend {
+  measure:
+    athlete_count is count(id)
+    medals is count() { where: medal != 'NA' }
+    gold_medals is count() { where: medal = 'Gold' }
+}
+
+run: olympians -> {
+  where: season = 'Summer'
+  group_by: team
+  aggregate: medals, gold_medals, athlete_count
+  limit: 10
+}
+
+>>>markdown
+> 🎯 **Try it:** Change `season` to `'Winter'`. Careful: in team events every team member gets a medal, so these counts are athlete-medals, not podium places.
+
+>>>markdown
+### 18. Wine Reviews
+
+🍷 **130,000 Wine Enthusiast reviews, with points, price and tasting notes.** 129,971 rows · CSV · 53 MB · [TidyTuesday 2019-05-28](https://github.com/rfordatascience/tidytuesday/tree/main/data/2019/2019-05-28)
+
+>>>malloy
+source: wine_reviews is duckdb.table('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2019/2019-05-28/winemag-data-130k-v2.csv') extend {
+  measure:
+    review_count is count()
+    avg_points is points.avg()
+    avg_price is price.avg()
+}
+
+run: wine_reviews -> {
+  group_by: variety
+  aggregate: review_count, avg_points, avg_price
+  having: review_count > 1000
+  order_by: avg_points desc
+  limit: 10
+}
+
+>>>markdown
+> 🎯 **Try it:** Is expensive wine better? Group by a price band using `pick` and compare `avg_points`.
+
+>>>markdown
+### 19. Airline Flights
+
+✈️ **345,000 U.S. airline flights, with airport and carrier tables to join.** 344,827 rows · Parquet · 12 MB · [GitHub: malloydata/malloy-samples](https://github.com/malloydata/malloy-samples/tree/main/data)
+
+>>>malloy
+source: carriers is duckdb.table('https://github.com/malloydata/malloy-samples/raw/main/data/carriers.parquet') extend {
+  primary_key: code
+}
+source: airports is duckdb.table('https://github.com/malloydata/malloy-samples/raw/main/data/airports.parquet') extend {
+  primary_key: code
+}
+
+source: flights is duckdb.table('https://github.com/malloydata/malloy-samples/raw/main/data/flights.parquet') extend {
+  join_one: carriers with carrier
+  join_one: origin_airport is airports with origin
+  measure:
+    flight_count is count()
+    avg_delay is dep_delay.avg()
+}
+
+run: flights -> {
+  group_by: carriers.nickname
+  aggregate: flight_count, avg_delay
+  nest: top_airports is {
+    group_by: origin_airport.city
+    aggregate: flight_count
+    limit: 3
+  }
+}
+
+>>>markdown
+> 🎯 **Try it:** Join a destination airport too (`join_one: destination_airport is airports with destination`) and find the longest routes.
+
+>>>markdown
+### 20. NYC Yellow Taxi Trips
+
+🚕 **Every yellow-cab ride in New York City in January 2024.** ~3 million rows · Parquet · 50 MB · [NYC Taxi & Limousine Commission](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
+
+>>>malloy
+source: taxi_zones is duckdb.table('https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv') extend {
+  primary_key: LocationID
+}
+
+source: taxi_trips is duckdb.table('https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-01.parquet') extend {
+  join_one: pickup_zone is taxi_zones on PULocationID = pickup_zone.LocationID
+  measure:
+    trip_count is count()
+    avg_fare is fare_amount.avg()
+    tip_rate is tip_amount.sum() / fare_amount.sum()
+}
+
+run: taxi_trips -> {
+  group_by: pickup_zone.Borough
+  aggregate: trip_count, avg_fare, tip_rate
+}
+
+>>>markdown
+> 🎯 **Try it:** Change `2024-01` in the URL to another month (any month since 2009 works). Group by `tpep_pickup_datetime.hour` to see the daily rhythm.
+
+>>>markdown
+> 📘 **Malloy docs.** [DuckDB in Malloy](https://docs.malloydata.dev/documentation/language/dialect/duckdb) (reading CSV, Parquet and JSON files) · [Joins](https://docs.malloydata.dev/documentation/language/join) · [Render tags](https://docs.malloydata.dev/documentation/visualizations/overview)
+
+## Where to find more data
+
+Any CSV, TSV, Parquet or JSON file with a public **direct download link** works the same way: put the link inside `duckdb.table('...')`.
+
+| Where | What you'll find | Tip |
+|---|---|---|
+| [TidyTuesday](https://github.com/rfordatascience/tidytuesday) | A new, cleaned, interesting dataset every week since 2018 (several above come from it) | Browse `data/<year>/<date>/`; each folder's README describes the columns |
+| [FiveThirtyEight data](https://github.com/fivethirtyeight/data) | The data behind FiveThirtyEight's news stories: sports, politics, culture | Each folder links to the article that used it |
+| [Our World in Data](https://ourworldindata.org) | Global data on health, energy, poverty, climate and more | Every chart has a **Download** tab with a CSV link |
+| [Hugging Face datasets](https://huggingface.co/datasets) | Hundreds of thousands of datasets, many tabular | Filter by **Modalities: Tabular** and **Format: parquet**; see below |
+| [data.gov](https://data.gov) and city portals ([NYC](https://opendata.cityofnewyork.us), [Chicago](https://data.cityofchicago.org), [Seattle](https://data.seattle.gov)) | Government data: crime, permits, 311 calls, transit, inspections | On Socrata portals, use **Export → CSV** and copy the link |
+| [Awesome Public Datasets](https://github.com/awesomedata/awesome-public-datasets) | A huge, categorized list of public datasets | Good for browsing by topic |
+| [Data Is Plural](https://www.data-is-plural.com) | A weekly newsletter of unusual datasets, with a searchable archive | Great for project ideas |
+| [Google Dataset Search](https://datasetsearch.research.google.com) | A search engine just for datasets | Look for results with a downloadable file |
+| [AWS Open Data](https://registry.opendata.aws) and [Source Cooperative](https://source.coop) | Very large datasets stored as Parquet in the cloud | Start with a single file, not the whole collection |
+| [Kaggle](https://www.kaggle.com/datasets) | Thousands of datasets from competitions and users | Needs a login, so download the file into your `data/` folder and use a local path |
+
+### Getting the right link
+
+The link must point to the **file itself**, not to a web page *about* the file:
+
+* **GitHub:** open the file and click **Raw**. Use the `raw.githubusercontent.com/...` link, or a `github.com/.../raw/...` link. A `github.com/.../blob/...` link is a web page and won't work.
+* **Hugging Face:** open the **Files and versions** tab, right-click the download arrow next to a file, and copy the link. It contains `/resolve/main/`. DuckDB also understands `hf://` paths, such as `duckdb.table('hf://datasets/scikit-learn/adult-census-income/adult.csv')`. Datasets that aren't Parquet often have an automatic Parquet copy too: look for **Auto-converted to Parquet**.
+* **Zip files don't work.** DuckDB can read `.gz` files but not `.zip`. Download and unzip it, then point to the local file.
+* **If a file is big and you'll use it a lot,** save a copy in your `data/` folder and use the local path instead. It's much faster. [Chapter 7](07_csv_and_parquet.malloynb) shows how to convert a CSV to Parquet.
+
+> ⚠️ **Check the license and the documentation.** Most of the datasets here are free to use for learning, but read the source's license before you publish anything. Always read the data's documentation (the README or "data dictionary"). It tells you what each column means and how the data was collected, which is often where the surprises are.
+
+## Asking an AI assistant for data sources
+
+An AI assistant such as Claude or ChatGPT is a great way to brainstorm datasets, but it can **invent links that don't exist** or remember files that have moved. Use it to get *ideas and leads*, then check every link yourself by running it in Malloy.
+
+**Ask for the things you need to start immediately:**
+
+1. **A direct download link** to a CSV, TSV, Parquet or JSON file (not a web page, not a zip file, no login).
+2. **What one row means** ("one row per flight", "one row per song per week"). This is the most important fact about any dataset.
+3. **The columns**, with their types: dates, places, categories, numbers.
+4. **The size** (rows and megabytes), the **time period**, and **who published it**.
+5. **The license**, and whether it's still being updated.
+
+**A prompt that works well:**
+
+```
+I'm a student learning Malloy, which reads data with DuckDB.
+Suggest 5 public datasets about [your topic, e.g. "college sports" or "air quality"].
+
+For each one, give me:
+- a direct download URL to a CSV or Parquet file that needs no login and is not zipped
+  (for GitHub, the raw.githubusercontent.com link; for Hugging Face, a /resolve/main/ link)
+- what one row represents
+- the main columns and their types
+- approximate row count and file size
+- the time period covered and who publishes it
+- the license
+
+Only include links you are confident exist. If you're not sure of the exact file URL,
+give me the page where I can find it instead and say so.
+```
+
+**Ask for data that fits the kind of analysis you want to do.** The most interesting datasets have columns that work *together*. [Making Data Sing](https://making-data-sing.pages.dev) is a framework for spotting them. For example:
+
+```
+Find a public dataset (direct CSV or Parquet link) that has:
+- an entity (like a person, product, or song),
+- a date or timestamp,
+- a place (state, country, or city),
+- and a number I can add up.
+It should have at least 10,000 rows and be about [your interest].
+```
+
+```
+Find a public dataset that works as an event log: one row per event, with a case ID,
+an activity name, and a timestamp, so I can study the paths cases take.
+```
+
+**Then test it.** Paste the link into this template and run it. If it fails, ask the assistant for another source, or check the page yourself:
+
+```malloy
+source: my_data is duckdb.table('PASTE-THE-URL-HERE')
+
+run: my_data -> { select: *  limit: 10 }
+```
+
+> ⚠️ **Never trust a number the AI tells you about a dataset.** Row counts, date ranges and "interesting facts" from an assistant are often wrong. Run the query and look at the data yourself.
+
+> 🎯 **Challenge 16.1: Your own dataset.** Find a dataset you care about, using the sites above or an AI prompt. Write a Malloy source for it with at least two dimensions, two measures and one view. Then write three questions about it, and answer them with queries.
+
+> 🎯 **Challenge 16.2: Join two sources.** Pick a dataset from this chapter and find a second one that shares a column with it, such as a country, state or year. For example, join **CO₂ Emissions** to **Gapminder** on country and year, or **Power Plants** to **CO₂ Emissions** on country. Use `join_one:` and explain what the combined data lets you ask that neither could alone.
+
+## Summary
+
+* `duckdb.table('https://...')` reads a CSV, TSV, Parquet or JSON file straight from the internet. Gzipped files work; zip files don't.
+* Use **direct file links**: GitHub's **Raw** link, or Hugging Face's `/resolve/main/` or `hf://` path.
+* Good places to look include TidyTuesday, FiveThirtyEight, Our World in Data, Hugging Face, government open-data portals and Data Is Plural.
+* An AI assistant is a good way to find ideas, but **test every link and check every fact** by running a query.

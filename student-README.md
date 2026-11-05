@@ -21,6 +21,7 @@ install the Malloy extension there, and open any notebook.
 | `index.malloynb` | Welcome and table of contents |
 | `01_basics.malloynb` … `14_model_review.malloynb` | One notebook per chapter |
 | `15_worked_example_ice.malloynb` | Worked example: ICE arrests data taken through every chapter |
+| `16_data_sources.malloynb` | 20 public datasets to explore (read from the internet), and how to find more |
 | `ice.malloy` | The finished model for the worked example |
 | `names.malloy` | The baby names model (used from Chapter 2 on) |
 | `names_full.malloy` | The complete names model reviewed in Chapter 14 |
