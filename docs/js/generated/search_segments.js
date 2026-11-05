@@ -6604,6 +6604,31 @@ window.SEARCH_SEGMENTS = [
   {
     "titles": [
       "Learning Malloy",
+      "Helpful links"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Keep a few of these open in other tabs while you work."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Malloy documentation</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Code and examples</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Community, data and related tools</strong>"
+      }
+    ],
+    "path": "/textbook/index.malloynb"
+  },
+  {
+    "titles": [
+      "Learning Malloy",
       "The datasets"
     ],
     "paragraphs": [

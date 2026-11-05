@@ -16,6 +16,42 @@ Read the web page to learn. Open the notebook to practice. The **Open in VS Code
 
 > 💡 **Fast start.** Want to run queries right now? Go to [Chapter 5](05_files_and_notebooks.malloynb#setting-up-your-environment) for the full setup. The short version: install VS Code, install the **Malloy** extension, then download the [notebooks repository](https://github.com/mrtimo/malloy-textbook-notebooks) and open its folder *as the workspace root*. That's it. DuckDB is built into the extension.
 
+## Helpful links
+
+Keep a few of these open in other tabs while you work.
+
+**Malloy documentation**
+
+| Link | Use it for |
+|---|---|
+| [Malloy documentation](https://docs.malloydata.dev/documentation/) | The official docs: every language feature, with examples |
+| [Quick reference](https://docs.malloydata.dev/documentation/language/quick_reference) | One-page cheat sheet of Malloy syntax |
+| [Malloy by Example](https://docs.malloydata.dev/documentation/user_guides/malloy_by_example) | A fast tour of the language through worked queries |
+| [Malloy for SQL experts](https://docs.malloydata.dev/documentation/user_guides/sql_experts1) | How SQL ideas map onto Malloy, if you already know SQL |
+| [Functions](https://docs.malloydata.dev/documentation/language/functions) | Every built-in function: strings, numbers, dates, aggregates, windows |
+| [Visualizations](https://docs.malloydata.dev/documentation/visualizations/overview) | All the render tags: charts, dashboards, number formats |
+| [Patterns](https://docs.malloydata.dev/documentation/patterns/yoy) | Recipes for common analyses: year over year, cohorts, moving averages, percent of total |
+| [Error dictionary](https://docs.malloydata.dev/documentation/error_dictionary) and [troubleshooting](https://docs.malloydata.dev/documentation/user_guides/troubleshooting) | What an error message means and how to fix it |
+
+**Code and examples**
+
+| Link | Use it for |
+|---|---|
+| [malloy-samples](https://github.com/malloydata/malloy-samples) | Official example models and notebooks: flights, e-commerce, IMDb, Google Analytics and more ([guide to the samples](https://docs.malloydata.dev/documentation/samples)) |
+| [This book's notebooks](https://github.com/mrtimo/malloy-textbook-notebooks) | Every chapter as a `.malloynb` file, with the data |
+| [Malloy on GitHub](https://github.com/malloydata/malloy) | The Malloy source code; report bugs under **Issues** |
+| [Malloy VS Code extension](https://marketplace.visualstudio.com/items?itemName=malloydata.malloy-vscode) | Install it to run Malloy in VS Code ([setup guide](https://docs.malloydata.dev/documentation/setup/extension)) |
+
+**Community, data and related tools**
+
+| Link | Use it for |
+|---|---|
+| [Malloy community Slack](https://docs.malloydata.dev/slack) | Ask questions and see what others are building |
+| [Malloy blog](https://docs.malloydata.dev/blog/) | New features and longer articles |
+| [DuckDB documentation](https://duckdb.org/docs/) and [DuckDB functions](https://duckdb.org/docs/stable/sql/functions/overview) | The database behind this book's queries; useful when you need a SQL function |
+| [Chapter 16: Data Sources](16_data_sources.malloynb) | 20 public datasets to explore, and how to find more |
+| [Making Data Sing](https://making-data-sing.pages.dev) | A framework for asking better questions of any dataset |
+
 ## The datasets
 
 We use two datasets throughout the book. Both ship with the notebooks in the `data/` folder.
