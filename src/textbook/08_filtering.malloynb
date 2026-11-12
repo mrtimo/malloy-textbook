@@ -7,6 +7,7 @@ Filtering decides *which data* answers your question, so it matters as much as t
 * ordinary boolean filters: comparisons, `and`/`or`, alternation with `|`, the apply operator `?`, and pattern matching
 * **filter expressions**: Malloy's compact mini-languages for filtering strings, numbers, dates, and booleans (the biggest section)
 * **time comparisons**: this year vs. last year, quarter over quarter, and how to handle partial periods
+* **type casting**: `::` vs. the safe cast `:::`, and why a column needs the right type before you filter on it
 >>>malloy
 import "names.malloy"
 import "ecommerce.malloy"
@@ -482,6 +483,145 @@ run: names -> {
 >>>markdown
 > 📘 **Malloy docs.** [Pattern: comparing timeframes (year over year)](https://docs.malloydata.dev/documentation/patterns/yoy) · [Time ranges](https://docs.malloydata.dev/documentation/language/time-ranges). In [Chapter 12](12_pipelines_and_windows.malloynb) you'll see a third method, using `lag()`.
 
+## Part 5: Type casting
+
+A filter only works if a column has the **right type**. A year stored as text sorts like text. A date stored as text can't use `.year` or `f'2021-Q4'`. A price stored as text can't be summed. **Type casting** changes a value from one type to another.
+
+Malloy has two cast operators:
+
+| Operator | Name | When a value can't be converted… |
+|---|---|---|
+| `::` | type cast | the **whole query fails** with an error |
+| `:::` | **safe** type cast | that value becomes **null**, and the query keeps going |
+
+You write the target type after the operator: `::string`, `::number`, `::date`, `::timestamp` or `::boolean`.
+
+### `::` turns a number into text
+
+The simplest use is building a label. `concat()` joins text, so the number has to become a string first:
+>>>malloy
+run: names -> {
+  where: state = 'WA' and year_born = 2021 and gender = 'F'
+  group_by: label is concat(name, ' (', year_born::string, ')')
+  aggregate: total_births
+  order_by: total_births desc
+  limit: 3
+}
+>>>markdown
+### Some messy text columns
+
+Data loaded from a CSV often arrives as text. Here is a tiny table, written in SQL so you can see every value. All three columns are **strings**, even the ones that look like numbers or dates:
+>>>malloy
+source: messy is duckdb.sql("""
+  SELECT * FROM (VALUES
+    (1, '42',     '2024-03-14', '2021'),
+    (2, '3.50',   '2024-03-15', '1999'),
+    (3, ' 7 ',    '03/16/2024', '985'),
+    (4, 'N/A',    'March 17',   '2005'),
+    (5, '$12.00', '2024-02-30', '1010'),
+    (6, NULL,     NULL,         NULL)
+  ) AS t(row_id, raw_amount, raw_date, raw_year)
+""")
+
+run: messy -> { select: * }
+>>>markdown
+### `::` vs. `:::` on bad values
+
+Try a normal cast on `raw_amount`:
+
+```malloy
+run: messy -> {
+  select: raw_amount, amount is raw_amount::number
+}
+```
+
+It fails, and you get **no rows at all**:
+
+```
+Conversion Error: Could not convert string 'N/A' to DOUBLE
+```
+
+One bad value (`N/A`) out of six stops the whole query. Now the **safe** cast:
+>>>malloy
+run: messy -> {
+  select:
+    row_id
+    raw_amount
+    safe_number is raw_amount:::number
+    with_default is raw_amount:::number ?? 0
+  order_by: row_id
+}
+>>>markdown
+Look at each row:
+
+* `'42'` and `'3.50'` convert normally. `' 7 '` works too, because DuckDB ignores the spaces.
+* `'N/A'` and `'$12.00'` become **null**. The `$` sign is enough to make a value fail.
+* `?? 0` replaces null with a default. Use it carefully: a missing price is not a price of zero. `avg()` skips nulls but counts zeros, so `?? 0` pulls the average down.
+
+Dates behave the same way. Only `YYYY-MM-DD` text converts directly, and an impossible date like February 30 fails:
+>>>malloy
+run: messy -> {
+  select: row_id, raw_date, safe_date is raw_date:::date
+  order_by: row_id
+}
+>>>markdown
+With `::date`, the query would stop with `invalid date field format: "03/16/2024"`. Converting the other formats takes more work. See [Chapter 9, Step 6](09_data_cleaning.malloynb).
+
+### Counting what failed
+
+A safe cast hides problems as quietly as it fixes them. So **count the failures**: rows that had a value before the cast and are null after it. This is a filtered measure from Part 1:
+>>>malloy
+run: messy -> {
+  aggregate:
+    total_rows is count()
+    not_a_number is count() { where: raw_amount is not null and raw_amount:::number is null }
+    not_a_date is count() { where: raw_date is not null and raw_date:::date is null }
+    total_amount is sum(raw_amount:::number)
+}
+>>>markdown
+Two amounts and three dates failed. The `$12.00` row is missing from `total_amount`, so the true total is higher. If a check like this finds many failures, clean the column first (Chapter 9) instead of casting it away.
+
+### Why types matter for filtering
+
+Text is compared **character by character**, not by value. To text, `'985'` is greater than `'1990'` because `'9'` comes after `'1'`:
+>>>malloy
+run: messy -> {
+  where: raw_year > '1990'
+  select: raw_year
+  order_by: raw_year
+}
+>>>markdown
+`985` slipped in, and the sort order is wrong too. Cast first, then filter and sort on the number:
+>>>malloy
+run: messy -> {
+  where: raw_year:::number > 1990
+  select: raw_year, year_number is raw_year:::number
+  order_by: year_number
+}
+>>>markdown
+The same goes for dates. Once a text column is cast to a date, everything in Part 3 and Part 4 works on it: `f'2024-Q1'`, `.month`, `last 3 months` and filtered measures for this year vs. last year.
+
+### Casting to a database type
+
+Malloy's own types are `string`, `number`, `date`, `timestamp` and `boolean`. Sometimes a database function needs a *specific* type, such as an integer. Put that type in double quotes: `year_born::"BIGINT"`. You saw this in [Chapter 9](09_data_cleaning.malloynb), where `make_date` needed `::"BIGINT"`.
+
+### Where should a cast live?
+
+If you cast a column in every query, put the cast in the **source** once, as a dimension:
+
+```malloy
+source: clean_messy is messy extend {
+  dimension:
+    amount is raw_amount:::number
+    sale_date is raw_date:::date
+    sale_year is raw_year:::number
+}
+```
+
+Then every query uses `amount`, `sale_date` and `sale_year`, and nobody has to remember the cast.
+
+> 📘 **Malloy docs.** [Type cast](https://docs.malloydata.dev/documentation/language/expressions#type-cast) · [Safe type cast](https://docs.malloydata.dev/documentation/language/expressions#safe-type-cast) · [Data types](https://docs.malloydata.dev/documentation/language/datatypes)
+
 ## Key takeaways
 
 * Filters can go on a **source** (`extend { where: }`), a **query** (`where:`), a **nest**, a single **measure** (`measure { where: }`), or **after aggregation** (`having:`).
@@ -492,9 +632,12 @@ run: names -> {
   * times: `2021-Q4`, `2021-01 to 2021-04`, `before 2020`, `last 3 months`, ...
 * Relative time filters (`last 30 days`) depend on *when you run the query*.
 * Period-over-period analysis is a set of **filtered measures** compared side by side. Compare like with like when a period is partial.
+* `::` casts a value to another type and **fails the query** on a bad value. `:::` is the **safe** cast: bad values become null. Count the nulls a safe cast creates, and cast text to numbers or dates **before** you filter or sort on it.
 
 > 🎯 **Challenge 8.1: Filter expression practice.** Using a single filter expression for each, write three queries against `names` for the year 2000: (a) names that **contain** `bell`; (b) names that start with `K` **or** `C` but **don't** end in `n`; (c) names with 1,000 to 2,000 births, both ends included. (For (c), think about whether it belongs in `where:` or `having:`.)
 
 > 🎯 **Challenge 8.2: Holiday season.** Compare `total_sales` and `order_count` for the **holiday season** (November 15 through December 31) of 2020 and of 2021, as columns side by side. Then add a growth percentage. Format the columns with `# currency` and `# percent`.
 
 > 🎯 **Challenge 8.3: Generation shift.** For **boys'** names, compare births in the 1980s with births in the 2010s, like the last example. Which names had the biggest **decline**? (Hint: sort by the growth factor ascending, and use `having:` so you only see names that were common in the 1980s.)
+
+> 🎯 **Challenge 8.4: Cast and check.** Using the `messy` source, write one query that shows, for each row, `raw_amount` cast safely to a number and `raw_date` cast safely to a date, plus a column `problem` that says `'bad amount'`, `'bad date'`, `'both'` or `'ok'`. (Hint: use `pick` with `is null` tests.)
