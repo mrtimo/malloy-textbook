@@ -2743,18 +2743,27 @@ window.SEARCH_SEGMENTS = [
       "Chapter 8: Filtering and Time Comparisons",
       "Part 5: Type casting"
     ],
+    "paragraphs": [],
+    "path": "/textbook/08_filtering.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 8: Filtering and Time Comparisons",
+      "Part 5: Type casting",
+      "What is a \"type\"?"
+    ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "A filter only works if a column has the <strong>right type</strong>. A year stored as text sorts like text. A date stored as text can't use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;2021-Q4&#39;</span></span></code>. A price stored as text can't be summed. <strong>Type casting</strong> changes a value from one type to another."
+        "text": "Every column has a <strong>type</strong>: the kind of value it holds. Malloy uses four main types:"
       },
       {
         "type": "p",
-        "text": "Malloy has two cast operators:"
+        "text": "The type decides what you can do with a column. You can <strong>add up</strong> numbers, but not text. You can ask for the <strong>month</strong> of a date, but not of text that <em>looks like</em> a date."
       },
       {
         "type": "p",
-        "text": "You write the target type after the operator: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">string</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">number</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">date</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">timestamp</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">boolean</span></span></code>."
+        "text": "If you have used Excel, you may have seen numbers <strong>stored as text</strong>: a little green triangle in the corner, and a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">SUM</span></span></code> that ignores those cells. Data files have the same problem. A price can arrive as the text <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&quot;4.50&quot;</span></span></code> instead of the number <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">4.50</span></span></code>. <strong>Type casting</strong> fixes this: it converts a value from one type to another."
       }
     ],
     "path": "/textbook/08_filtering.malloynb"
@@ -2763,12 +2772,76 @@ window.SEARCH_SEGMENTS = [
     "titles": [
       "Chapter 8: Filtering and Time Comparisons",
       "Part 5: Type casting",
-      "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span></span></code> turns a number into text"
+      "A first example: prices stored as text"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "The simplest use is building a label. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">concat</span><span style=\"color: #000000\">()</span></span></code> joins text, so the number has to become a string first:"
+        "text": "Here is a tiny table of café sales. It is written in SQL so you can see every value. Notice the quotes: all three columns are <strong>text</strong>, even the price and the date."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">cafe_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000FF\">.</span><span style=\"color: #AF00DB\">sql</span><span style=\"color: #000000FF\">(</span><span style=\"color: #000000FF\">&quot;&quot;&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">  </span><span style=\"color: #0000FF\">SELECT</span><span style=\"color: #000000FF\"> </span><span style=\"color: #000000\">*</span><span style=\"color: #000000FF\"> </span><span style=\"color: #0000FF\">FROM</span><span style=\"color: #000000FF\"> (</span><span style=\"color: #0000FF\">VALUES</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #A31515\">&#39;Coffee&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;4.50&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;2024-01-15&#39;</span><span style=\"color: #000000FF\">),</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #A31515\">&#39;Bagel&#39;</span><span style=\"color: #000000FF\">,  </span><span style=\"color: #A31515\">&#39;2.25&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;2024-01-15&#39;</span><span style=\"color: #000000FF\">),</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #A31515\">&#39;Coffee&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;4.50&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;2024-02-03&#39;</span><span style=\"color: #000000FF\">),</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #A31515\">&#39;Muffin&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;3.00&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;2024-02-20&#39;</span><span style=\"color: #000000FF\">),</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #A31515\">&#39;Bagel&#39;</span><span style=\"color: #000000FF\">,  </span><span style=\"color: #A31515\">&#39;2.25&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;2024-03-09&#39;</span><span style=\"color: #000000FF\">),</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #A31515\">&#39;Coffee&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;5.00&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;2024-03-30&#39;</span><span style=\"color: #000000FF\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">  ) </span><span style=\"color: #0000FF\">AS</span><span style=\"color: #000000FF\"> t(product, price_text, sale_date_text)</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">&quot;&quot;&quot;</span><span style=\"color: #000000FF\">)</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">cafe_sales</span><span style=\"color: #000000\"> -&gt; { </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: * }</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Let's add up sales:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">cafe_sales</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">price_text</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Malloy refuses:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">&#39;sum&#39; Can&#39;t use type string</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "You can't add up text. To fix it, <strong>cast</strong> the price to a number by adding <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">number</span></span></code> after the column name:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">cafe_sales</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">product</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">price_text</span><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Read <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">price_text</span><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">number</span></span></code> as \"<em>price_text, treated as a number</em>.\" The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span></span></code> is the <strong>cast operator</strong>, and the type you want comes after it."
+      }
+    ],
+    "path": "/textbook/08_filtering.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 8: Filtering and Time Comparisons",
+      "Part 5: Type casting",
+      "Text to a date"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The sale date is text too, so <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span></code> won't work on it. Cast it with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">date</span></span></code> first, and then everything from <a href=\"02_time_truncation\">Chapter 2</a> works:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">cafe_sales</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">sale_month</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">sale_date_text</span><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">date</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">price_text</span><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">sale_month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/08_filtering.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 8: Filtering and Time Comparisons",
+      "Part 5: Type casting",
+      "A number to text"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Casting works the other way too. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">concat</span><span style=\"color: #000000\">()</span></span></code> joins pieces of text, so to put a number inside a label, cast it with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">string</span></span></code>:"
       },
       {
         "type": "code",
@@ -2781,30 +2854,20 @@ window.SEARCH_SEGMENTS = [
     "titles": [
       "Chapter 8: Filtering and Time Comparisons",
       "Part 5: Type casting",
-      "Some messy text columns"
+      "When a value can't be converted: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span></span></code> vs. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">:::</span></span></code>"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "Data loaded from a CSV often arrives as text. Here is a tiny table, written in SQL so you can see every value. All three columns are <strong>strings</strong>, even the ones that look like numbers or dates:"
+        "text": "The café data was clean: every price really was a number. Real data is messier. Someone types <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">N</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">A</span></span></code>, a price includes a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">$</span></span></code> sign, or a date is impossible. Here is a messier table:"
       },
       {
         "type": "code",
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">messy</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000FF\">.</span><span style=\"color: #AF00DB\">sql</span><span style=\"color: #000000FF\">(</span><span style=\"color: #000000FF\">&quot;&quot;&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">  </span><span style=\"color: #0000FF\">SELECT</span><span style=\"color: #000000FF\"> </span><span style=\"color: #000000\">*</span><span style=\"color: #000000FF\"> </span><span style=\"color: #0000FF\">FROM</span><span style=\"color: #000000FF\"> (</span><span style=\"color: #0000FF\">VALUES</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #098658\">1</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;42&#39;</span><span style=\"color: #000000FF\">,     </span><span style=\"color: #A31515\">&#39;2024-03-14&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;2021&#39;</span><span style=\"color: #000000FF\">),</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #098658\">2</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;3.50&#39;</span><span style=\"color: #000000FF\">,   </span><span style=\"color: #A31515\">&#39;2024-03-15&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;1999&#39;</span><span style=\"color: #000000FF\">),</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #098658\">3</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39; 7 &#39;</span><span style=\"color: #000000FF\">,    </span><span style=\"color: #A31515\">&#39;03/16/2024&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;985&#39;</span><span style=\"color: #000000FF\">),</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #098658\">4</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;N/A&#39;</span><span style=\"color: #000000FF\">,    </span><span style=\"color: #A31515\">&#39;March 17&#39;</span><span style=\"color: #000000FF\">,   </span><span style=\"color: #A31515\">&#39;2005&#39;</span><span style=\"color: #000000FF\">),</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #098658\">5</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;$12.00&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;2024-02-30&#39;</span><span style=\"color: #000000FF\">, </span><span style=\"color: #A31515\">&#39;1010&#39;</span><span style=\"color: #000000FF\">),</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">    (</span><span style=\"color: #098658\">6</span><span style=\"color: #000000FF\">, </span><span style=\"color: #0000FF\">NULL</span><span style=\"color: #000000FF\">,     </span><span style=\"color: #0000FF\">NULL</span><span style=\"color: #000000FF\">,         </span><span style=\"color: #0000FF\">NULL</span><span style=\"color: #000000FF\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">  ) </span><span style=\"color: #0000FF\">AS</span><span style=\"color: #000000FF\"> t(row_id, raw_amount, raw_date, raw_year)</span></span>\n<span class=\"line\"><span style=\"color: #000000FF\">&quot;&quot;&quot;</span><span style=\"color: #000000FF\">)</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">messy</span><span style=\"color: #000000\"> -&gt; { </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: * }</span></span></pre>"
-      }
-    ],
-    "path": "/textbook/08_filtering.malloynb"
-  },
-  {
-    "titles": [
-      "Chapter 8: Filtering and Time Comparisons",
-      "Part 5: Type casting",
-      "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span></span></code> vs. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">:::</span></span></code> on bad values"
-    ],
-    "paragraphs": [
+      },
       {
         "type": "p",
-        "text": "Try a normal cast on <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">raw_amount</span></span></code>:"
+        "text": "Try the normal cast, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">number</span></span></code>, on <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">raw_amount</span></span></code>:"
       },
       {
         "type": "code",
@@ -2812,7 +2875,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "It fails, and you get <strong>no rows at all</strong>:"
+        "text": "The whole query fails, and you get <strong>no rows at all</strong>:"
       },
       {
         "type": "code",
@@ -2820,11 +2883,11 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "One bad value (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">N</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">A</span></span></code>) out of six stops the whole query. Now the <strong>safe</strong> cast:"
+        "text": "One bad value out of six stopped everything. For data like this, Malloy has a second operator with <strong>three</strong> colons, the <strong>safe cast</strong>:"
       },
       {
         "type": "code",
-        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">messy</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">row_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">raw_amount</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">safe_number</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">raw_amount</span><span style=\"color: #000000\">:::</span><span style=\"color: #0000FF\">number</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">with_default</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">raw_amount</span><span style=\"color: #000000\">:::</span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\"> ?? </span><span style=\"color: #098658\">0</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">row_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">messy</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">row_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">raw_amount</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">safe_number</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">raw_amount</span><span style=\"color: #000000\">:::</span><span style=\"color: #0000FF\">number</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">row_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
       },
       {
         "type": "p",
@@ -2832,19 +2895,15 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;42&#39;</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;3.50&#39;</span></span></code> convert normally. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39; 7 &#39;</span></span></code> works too, because DuckDB ignores the spaces."
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;42&#39;</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;3.50&#39;</span></span></code> convert normally. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39; 7 &#39;</span></span></code> works too, because the extra spaces are ignored."
       },
       {
         "type": "p",
-        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">?? </span><span style=\"color: #098658\">0</span></span></code> replaces null with a default. Use it carefully: a missing price is not a price of zero. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span></code> skips nulls but counts zeros, so <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">?? </span><span style=\"color: #098658\">0</span></span></code> pulls the average down."
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;N/A&#39;</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;$12.00&#39;</span></span></code> become <strong>null</strong>. Even the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">$</span></span></code> sign is enough to make a value fail."
       },
       {
         "type": "p",
-        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;N/A&#39;</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;$12.00&#39;</span></span></code> become <strong>null</strong>. The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">$</span></span></code> sign is enough to make a value fail."
-      },
-      {
-        "type": "p",
-        "text": "Dates behave the same way. Only <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">YYYY</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">MM</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">DD</span></span></code> text converts directly, and an impossible date like February 30 fails:"
+        "text": "Dates work the same way. Only text written as <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">YYYY</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">MM</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">DD</span></span></code> converts directly, and an impossible date like February 30 fails:"
       },
       {
         "type": "code",
@@ -2852,7 +2911,11 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "With <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">date</span></span></code>, the query would stop with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">invalid</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">date</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">field</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">format</span><span style=\"color: #000000\">: </span><span style=\"color: #A31515\">&quot;03/16/2024&quot;</span></span></code>. Converting the other formats takes more work. See <a href=\"09_data_cleaning\">Chapter 9, Step 6</a>."
+        "text": "With <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">date</span></span></code>, this query would stop with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">invalid</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">date</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">field</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">format</span><span style=\"color: #000000\">: </span><span style=\"color: #A31515\">&quot;03/16/2024&quot;</span></span></code>. Converting other date formats takes more work. See <a href=\"09_data_cleaning\">Chapter 9, Step 6</a>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Which one should you use?</strong> Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span></span></code> when you expect every value to convert: if one doesn't, you <em>want</em> to know. Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">:::</span></span></code> for messy data, and then <strong>check how many values it turned into null</strong> (next section)."
       }
     ],
     "path": "/textbook/08_filtering.malloynb"
@@ -2866,7 +2929,7 @@ window.SEARCH_SEGMENTS = [
     "paragraphs": [
       {
         "type": "p",
-        "text": "A safe cast hides problems as quietly as it fixes them. So <strong>count the failures</strong>: rows that had a value before the cast and are null after it. This is a filtered measure from Part 1:"
+        "text": "A safe cast hides problems as quietly as it fixes them. So <strong>count the failures</strong>: rows that had a value before the cast but are null after it. This uses filtered measures from Part 1:"
       },
       {
         "type": "code",
@@ -2874,7 +2937,11 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "Two amounts and three dates failed. The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">$</span><span style=\"color: #098658\">12.00</span></span></code> row is missing from <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_amount</span></span></code>, so the true total is higher. If a check like this finds many failures, clean the column first (Chapter 9) instead of casting it away."
+        "text": "Two amounts and three dates failed. The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">$</span><span style=\"color: #098658\">12.00</span></span></code> sale is missing from <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_amount</span></span></code>, so the real total is higher. If many values fail, clean the column first (<a href=\"09_data_cleaning\">Chapter 9</a>) instead of casting the problem away."
+      },
+      {
+        "type": "p",
+        "text": "You can replace null with a default using <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">??</span></span></code>, as in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">raw_amount</span><span style=\"color: #000000\">:::</span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\"> ?? </span><span style=\"color: #098658\">0</span></span></code>. Be careful, though: a missing price is not a price of zero. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span></code> skips nulls but counts zeros, so <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">?? </span><span style=\"color: #098658\">0</span></span></code> pulls the average down."
       }
     ],
     "path": "/textbook/08_filtering.malloynb"
@@ -2888,7 +2955,7 @@ window.SEARCH_SEGMENTS = [
     "paragraphs": [
       {
         "type": "p",
-        "text": "Text is compared <strong>character by character</strong>, not by value. To text, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;985&#39;</span></span></code> is greater than <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;1990&#39;</span></span></code> because <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;9&#39;</span></span></code> comes after <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;1&#39;</span></span></code>:"
+        "text": "Text is compared <strong>letter by letter</strong>, like words in a dictionary, not by value. So the text <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;985&#39;</span></span></code> comes <em>after</em> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;1990&#39;</span></span></code>, because <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">9</span></span></code> comes after <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">1</span></span></code>:"
       },
       {
         "type": "code",
@@ -2896,7 +2963,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">985</span></span></code> slipped in, and the sort order is wrong too. Cast first, then filter and sort on the number:"
+        "text": "The year 985 slipped into a \"after 1990\" filter, and the sort order is wrong too. Cast first, then filter and sort on the number:"
       },
       {
         "type": "code",
@@ -2904,7 +2971,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "The same goes for dates. Once a text column is cast to a date, everything in Part 3 and Part 4 works on it: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;2024-Q1&#39;</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">last</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">3</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">months</span></span></code> and filtered measures for this year vs. last year."
+        "text": "The same goes for dates. Once a text column is cast to a date, everything in Parts 3 and 4 works on it: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;2024-Q1&#39;</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">last</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">3</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">months</span></span></code>, and this year vs. last year."
       }
     ],
     "path": "/textbook/08_filtering.malloynb"
@@ -2913,34 +2980,30 @@ window.SEARCH_SEGMENTS = [
     "titles": [
       "Chapter 8: Filtering and Time Comparisons",
       "Part 5: Type casting",
-      "Casting to a database type"
+      "Put the cast in the source, once"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "Malloy's own types are <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">string</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">number</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">date</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">timestamp</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">boolean</span></span></code>. Sometimes a database function needs a <em>specific</em> type, such as an integer. Put that type in double quotes: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">::</span><span style=\"color: #A31515\">&quot;BIGINT&quot;</span></span></code>. You saw this in <a href=\"09_data_cleaning\">Chapter 9</a>, where <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">make_date</span></span></code> needed <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span><span style=\"color: #A31515\">&quot;BIGINT&quot;</span></span></code>."
-      }
-    ],
-    "path": "/textbook/08_filtering.malloynb"
-  },
-  {
-    "titles": [
-      "Chapter 8: Filtering and Time Comparisons",
-      "Part 5: Type casting",
-      "Where should a cast live?"
-    ],
-    "paragraphs": [
-      {
-        "type": "p",
-        "text": "If you cast a column in every query, put the cast in the <strong>source</strong> once, as a dimension:"
+        "text": "If you cast a column in every query, do it <strong>once</strong> in the source, as a dimension. Then every query just uses the clean name:"
       },
       {
         "type": "code",
-        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">clean_messy</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">messy</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">amount</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">raw_amount</span><span style=\"color: #000000\">:::</span><span style=\"color: #0000FF\">number</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">sale_date</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">raw_date</span><span style=\"color: #000000\">:::</span><span style=\"color: #0000FF\">date</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">sale_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">raw_year</span><span style=\"color: #000000\">:::</span><span style=\"color: #0000FF\">number</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
-      },
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">cafe</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">cafe_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">price</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">price_text</span><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">number</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">sale_date</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">sale_date_text</span><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">date</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">price</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">cafe</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">sale_date</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/08_filtering.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 8: Filtering and Time Comparisons",
+      "Part 5: Type casting",
+      "Going further: database types (optional)"
+    ],
+    "paragraphs": [
       {
         "type": "p",
-        "text": "Then every query uses <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">amount</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">sale_date</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">sale_year</span></span></code>, and nobody has to remember the cast."
+        "text": "Malloy's types are <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">string</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">number</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">date</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">timestamp</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">boolean</span></span></code>. Now and then, a DuckDB function needs a more specific type, such as a whole number (integer). Put the database's type name in double quotes: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">::</span><span style=\"color: #A31515\">&quot;BIGINT&quot;</span></span></code>. You'll see this in <a href=\"09_data_cleaning\">Chapter 9</a>."
       },
       {
         "type": "p",
@@ -2973,6 +3036,10 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
+        "text": "Every column has a <strong>type</strong>. Numbers or dates stored as text must be <strong>cast</strong> before you can add them up, use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span></code>, or filter and sort them correctly."
+      },
+      {
+        "type": "p",
         "text": "strings: lists, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">%</span></span></code> wildcards, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">-</span></span></code> to exclude"
       },
       {
@@ -2981,7 +3048,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span></span></code> casts a value to another type and <strong>fails the query</strong> on a bad value. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">:::</span></span></code> is the <strong>safe</strong> cast: bad values become null. Count the nulls a safe cast creates, and cast text to numbers or dates <strong>before</strong> you filter or sort on it."
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">::</span></span></code> casts a value (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">price_text</span><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">number</span></span></code>) and <strong>fails the query</strong> if any value can't convert. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">:::</span></span></code> is the <strong>safe</strong> cast: bad values become null. Count the nulls a safe cast creates."
       },
       {
         "type": "p",
@@ -3005,7 +3072,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 8.4: Cast and check.</strong> Using the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">messy</span></span></code> source, write one query that shows, for each row, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">raw_amount</span></span></code> cast safely to a number and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">raw_date</span></span></code> cast safely to a date, plus a column <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">problem</span></span></code> that says <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;bad amount&#39;</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;bad date&#39;</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;both&#39;</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;ok&#39;</span></span></code>. (Hint: use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">pick</span></span></code> with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">null</span></span></code> tests.)"
+        "text": "🎯 <strong>Challenge 8.4: Cast and check.</strong> Using the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">messy</span></span></code> source from Part 5, write one query that shows, for each row, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">raw_amount</span></span></code> cast safely to a number and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">raw_date</span></span></code> cast safely to a date, plus a column <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">problem</span></span></code> that says <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;bad amount&#39;</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;bad date&#39;</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;both&#39;</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;ok&#39;</span></span></code>. (Hint: use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">pick</span></span></code> with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">null</span></span></code> tests.)"
       }
     ],
     "path": "/textbook/08_filtering.malloynb"
@@ -6622,6 +6689,67 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">2024</span><span style=\"color: #000000\">-</span><span style=\"color: #098658\">0</span><span style=\"color: #000000\">1</span></span></code> in the URL to another month (any month since 2009 works). Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">tpep_pickup_datetime</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">hour</span></span></code> to see the daily rhythm."
+      }
+    ],
+    "path": "/textbook/16_data_sources.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 16: Data Sources",
+      "Example: hosting your own data on Hugging Face"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The 20 datasets above are hosted by someone else. What if the data you want is a huge CSV on a government website? Download it once, shrink it to Parquet, and host the Parquet file yourself. You can use the same steps for any large public dataset."
+      },
+      {
+        "type": "p",
+        "text": "🔌 <strong>Electric Vehicle Title and Registration Activity.</strong> Every title and registration transaction for an electric or plug-in hybrid vehicle in Washington State. 1,926,507 rows · 33 columns · <a href=\"https://data.wa.gov/Transportation/Electric-Vehicle-Title-and-Registration-Activity/rpr4-cgyd/about_data\">Washington State Department of Licensing, data.wa.gov</a>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 1: Download.</strong> On data.wa.gov, <strong>Export → CSV</strong> gives a <strong>934 MB</strong> file. That is too slow to read over the internet every time you run a query."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 2: Convert to Parquet.</strong> A few lines of Python and DuckDB (see <a href=\"07_csv_and_parquet\">Chapter 7</a>) write Parquet v2 files with two compression codecs:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">import duckdb</span></span>\n<span class=\"line\"><span style=\"color: #000000\">con = duckdb.connect()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">con.sql(&quot;CREATE TABLE t AS SELECT * FROM read_csv(&#39;wa_ev.csv&#39;, normalize_names=true)&quot;)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">for codec in [&quot;snappy&quot;, &quot;zstd&quot;]:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    con.sql(f&quot;COPY t TO &#39;wa_ev_{codec}.parquet&#39; (FORMAT parquet, COMPRESSION {codec}, PARQUET_VERSION v2)&quot;)</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">normalize_names</span><span style=\"color: #000000\">=</span><span style=\"color: #0000FF\">true</span></span></code> turns column names like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">Sale</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">Price</span></span></code> into <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">sale_price</span></span></code>, so you don't need backticks in Malloy."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 3: Upload.</strong> The zstd file went into a public Hugging Face <strong>dataset</strong> repository (<strong>Files and versions → + Contribute → Upload files</strong>). Because this is <strong>public government data</strong>, sharing it publicly is fine. At a company, the same file would go to a private bucket in Google Cloud Storage or Amazon S3 instead."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 4: Point Malloy at the URL.</strong> The link uses <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">/</span><span style=\"color: #001080\">resolve</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">main</span><span style=\"color: #000000\">/</span></span></code>, so it points to the file itself, not a web page. DuckDB reads only the columns each query needs, so even 1.9 million rows answer in a second or two."
+      },
+      {
+        "type": "p",
+        "text": "The dates in this file are text like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">December</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">20</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">2024</span></span></code>, which <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">:::</span><span style=\"color: #0000FF\">date</span></span></code> can't convert (see <a href=\"08_filtering\">Chapter 8, Part 5</a>). DuckDB's <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">try_strptime</span></span></code> reads them using a pattern instead: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">%</span><span style=\"color: #001080\">B</span></span></code> is the month name, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">%</span><span style=\"color: #001080\">d</span></span></code> the day and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">%</span><span style=\"color: #001080\">Y</span></span></code> the year. Like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">:::</span></span></code>, it returns null instead of failing."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">wa_ev</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://huggingface.co/datasets/24601p/public-data/resolve/main/wa_ev_registrations.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #008000\">// The dates are text like &quot;December 20 2024&quot;, so turn them into real dates</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">transaction_dt</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">try_strptime</span><span style=\"color: #000000\">!</span><span style=\"color: #0000FF\">timestamp</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">transaction_date</span><span style=\"color: #000000\">, </span><span style=\"color: #A31515\">&#39;%B %d %Y&#39;</span><span style=\"color: #000000\">)::</span><span style=\"color: #0000FF\">date</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">ev_type</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">clean_alternative_fuel_vehicle_type</span><span style=\"color: #000000\"> ?</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;Battery electric&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">&#39;Battery%&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;Plug-in hybrid&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">&#39;Plug-in%&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">else</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;Other&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">is_new_sale</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">transaction_type</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Original Title&#39;</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">new_or_used_vehicle</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;New&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">transactions</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">new_ev_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">is_new_sale</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_sale_price</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">sale_price</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">sale_price</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">0</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">wa_ev</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">transaction_dt</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">@2026</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">ev_type</span><span style=\"color: #000000\"> != </span><span style=\"color: #A31515\">&#39;Other&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">sale_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">transaction_dt</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">ev_type</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">new_ev_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">sale_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Battery-electric sales grew more than tenfold from 2015 to 2024 and dipped slightly in 2025. The data runs through September 2026, so 2026 is left out as a partial year. Which brands were people buying new in 2025?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">wa_ev</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">is_new_sale</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">transaction_dt</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;2025&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">make</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">new_ev_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">currency</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_sale_price</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">new_ev_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">8</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Try it:</strong> Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">county</span></span></code> to see where EVs are bought, or compare <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_sale_price</span></span></code> for new and used vehicles. Most renewals have a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">sale_price</span></span></code> of 0, which is why the measure only averages prices above zero."
       },
       {
         "type": "p",
@@ -6767,6 +6895,10 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://...&#39;</span><span style=\"color: #000000\">)</span></span></code> reads a CSV, TSV, Parquet or JSON file straight from the internet. Gzipped files work; zip files don't."
+      },
+      {
+        "type": "p",
+        "text": "You can host your own data: convert a big CSV to Parquet, upload it to a public Hugging Face dataset, and use its <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">/</span><span style=\"color: #001080\">resolve</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">main</span><span style=\"color: #000000\">/</span></span></code> link."
       },
       {
         "type": "p",

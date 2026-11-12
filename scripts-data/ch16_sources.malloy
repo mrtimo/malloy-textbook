@@ -282,3 +282,40 @@ run: gapminder -> {
   aggregate: avg_life_expectancy
   order_by: `year`
 }
+
+// ===== wa_ev
+source: wa_ev is duckdb.table('https://huggingface.co/datasets/24601p/public-data/resolve/main/wa_ev_registrations.parquet') extend {
+  dimension:
+    // The dates are text like "December 20 2024", so turn them into real dates
+    transaction_dt is try_strptime!timestamp(transaction_date, '%B %d %Y')::date
+    ev_type is clean_alternative_fuel_vehicle_type ?
+      pick 'Battery electric' when ~ 'Battery%'
+      pick 'Plug-in hybrid' when ~ 'Plug-in%'
+      else 'Other'
+    is_new_sale is transaction_type = 'Original Title' and new_or_used_vehicle = 'New'
+  measure:
+    transactions is count()
+    new_ev_sales is count() { where: is_new_sale }
+    avg_sale_price is sale_price.avg() { where: sale_price > 0 }
+}
+
+#(docs) size=large limit=5000
+# line_chart
+run: wa_ev -> {
+  where: transaction_dt.year < @2026 and ev_type != 'Other'
+  group_by: sale_year is transaction_dt.year, ev_type
+  aggregate: new_ev_sales
+  order_by: sale_year
+}
+
+// ===== wa_ev_makes
+run: wa_ev -> {
+  where: is_new_sale and transaction_dt ~ f'2025'
+  group_by: make
+  aggregate:
+    new_ev_sales
+    # currency
+    avg_sale_price
+  order_by: new_ev_sales desc
+  limit: 8
+}

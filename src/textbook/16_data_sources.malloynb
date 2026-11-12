@@ -514,6 +514,82 @@ run: taxi_trips -> {
 > 🎯 **Try it:** Change `2024-01` in the URL to another month (any month since 2009 works). Group by `tpep_pickup_datetime.hour` to see the daily rhythm.
 
 >>>markdown
+## Example: hosting your own data on Hugging Face
+
+The 20 datasets above are hosted by someone else. What if the data you want is a huge CSV on a government website? Download it once, shrink it to Parquet, and host the Parquet file yourself. You can use the same steps for any large public dataset.
+
+🔌 **Electric Vehicle Title and Registration Activity.** Every title and registration transaction for an electric or plug-in hybrid vehicle in Washington State. 1,926,507 rows · 33 columns · [Washington State Department of Licensing, data.wa.gov](https://data.wa.gov/Transportation/Electric-Vehicle-Title-and-Registration-Activity/rpr4-cgyd/about_data)
+
+**Step 1: Download.** On data.wa.gov, **Export → CSV** gives a **934 MB** file. That is too slow to read over the internet every time you run a query.
+
+**Step 2: Convert to Parquet.** A few lines of Python and DuckDB (see [Chapter 7](07_csv_and_parquet.malloynb)) write Parquet v2 files with two compression codecs:
+
+```python
+import duckdb
+con = duckdb.connect()
+con.sql("CREATE TABLE t AS SELECT * FROM read_csv('wa_ev.csv', normalize_names=true)")
+for codec in ["snappy", "zstd"]:
+    con.sql(f"COPY t TO 'wa_ev_{codec}.parquet' (FORMAT parquet, COMPRESSION {codec}, PARQUET_VERSION v2)")
+```
+
+| File | Size | vs. CSV |
+|---|---|---|
+| CSV | 933.8 MB | — |
+| Parquet v2 + snappy | 38.2 MB | 96% smaller |
+| Parquet v2 + zstd | **30.2 MB** | **97% smaller** |
+
+`normalize_names=true` turns column names like `Sale Price` into `sale_price`, so you don't need backticks in Malloy.
+
+**Step 3: Upload.** The zstd file went into a public Hugging Face **dataset** repository (**Files and versions → + Contribute → Upload files**). Because this is **public government data**, sharing it publicly is fine. At a company, the same file would go to a private bucket in Google Cloud Storage or Amazon S3 instead.
+
+**Step 4: Point Malloy at the URL.** The link uses `/resolve/main/`, so it points to the file itself, not a web page. DuckDB reads only the columns each query needs, so even 1.9 million rows answer in a second or two.
+
+The dates in this file are text like `December 20 2024`, which `:::date` can't convert (see [Chapter 8, Part 5](08_filtering.malloynb)). DuckDB's `try_strptime` reads them using a pattern instead: `%B` is the month name, `%d` the day and `%Y` the year. Like `:::`, it returns null instead of failing.
+
+>>>malloy
+source: wa_ev is duckdb.table('https://huggingface.co/datasets/24601p/public-data/resolve/main/wa_ev_registrations.parquet') extend {
+  dimension:
+    // The dates are text like "December 20 2024", so turn them into real dates
+    transaction_dt is try_strptime!timestamp(transaction_date, '%B %d %Y')::date
+    ev_type is clean_alternative_fuel_vehicle_type ?
+      pick 'Battery electric' when ~ 'Battery%'
+      pick 'Plug-in hybrid' when ~ 'Plug-in%'
+      else 'Other'
+    is_new_sale is transaction_type = 'Original Title' and new_or_used_vehicle = 'New'
+  measure:
+    transactions is count()
+    new_ev_sales is count() { where: is_new_sale }
+    avg_sale_price is sale_price.avg() { where: sale_price > 0 }
+}
+
+#(docs) size=large limit=5000
+# line_chart
+run: wa_ev -> {
+  where: transaction_dt.year < @2026 and ev_type != 'Other'
+  group_by: sale_year is transaction_dt.year, ev_type
+  aggregate: new_ev_sales
+  order_by: sale_year
+}
+
+>>>markdown
+Battery-electric sales grew more than tenfold from 2015 to 2024 and dipped slightly in 2025. The data runs through September 2026, so 2026 is left out as a partial year. Which brands were people buying new in 2025?
+
+>>>malloy
+run: wa_ev -> {
+  where: is_new_sale and transaction_dt ~ f'2025'
+  group_by: make
+  aggregate:
+    new_ev_sales
+    # currency
+    avg_sale_price
+  order_by: new_ev_sales desc
+  limit: 8
+}
+
+>>>markdown
+> 🎯 **Try it:** Group by `county` to see where EVs are bought, or compare `avg_sale_price` for new and used vehicles. Most renewals have a `sale_price` of 0, which is why the measure only averages prices above zero.
+
+>>>markdown
 > 📘 **Malloy docs.** [DuckDB in Malloy](https://docs.malloydata.dev/documentation/language/dialect/duckdb) (reading CSV, Parquet and JSON files) · [Joins](https://docs.malloydata.dev/documentation/language/join) · [Render tags](https://docs.malloydata.dev/documentation/visualizations/overview)
 
 ## Where to find more data
@@ -607,6 +683,7 @@ run: my_data -> { select: *  limit: 10 }
 
 ## Summary
 
+* You can host your own data: convert a big CSV to Parquet, upload it to a public Hugging Face dataset, and use its `/resolve/main/` link.
 * `duckdb.table('https://...')` reads a CSV, TSV, Parquet or JSON file straight from the internet. Gzipped files work; zip files don't.
 * Use **direct file links**: GitHub's **Raw** link, or Hugging Face's `/resolve/main/` or `hf://` path.
 * Good places to look include TidyTuesday, FiveThirtyEight, Our World in Data, Hugging Face, government open-data portals and Data Is Plural.
