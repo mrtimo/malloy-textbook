@@ -8299,6 +8299,455 @@ window.SEARCH_SEGMENTS = [
   },
   {
     "titles": [
+      "Chapter 20: Homework: Make Your Data Sing"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "In <a href=\"18_making_data_sing\">Chapter 18</a> and <a href=\"19_making_data_sing_ecommerce\">Chapter 19</a> you watched the <strong>Making Data Sing</strong> framework work on baby names and an online store. Now it's your turn, with <strong>your own data</strong>:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>TYPE</strong> the columns → <strong>PAIR</strong> the types → apply a <strong>MOVE</strong> → look for a <strong>SHAPE</strong> → <strong>SHARPEN</strong> the question"
+      },
+      {
+        "type": "p",
+        "text": "You'll build one Malloy notebook that follows the same steps as Chapter 18, on a <strong>Parquet file hosted on the internet</strong>. By the end you'll have a short, honest data story: the findings that sing, and the ones that turned out flat."
+      },
+      {
+        "type": "p",
+        "text": "<strong>What you turn in:</strong> one <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloynb</span></span></code> file, with <strong>every cell run</strong> so the results are saved in the notebook."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "Step 0 · Choose your data and put it online"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "Step 0 · Choose your data and put it online",
+      "Pick a dataset that can sing"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Re-read <a href=\"18_making_data_sing#before-you-start-picking-a-dataset-that-can-sing\"><strong>Before you start: picking a dataset that can sing</strong></a> in Chapter 18. Your dataset must have:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>one row per event</strong> (a sale, a game, a trip, a call), not a table someone already summarized"
+      },
+      {
+        "type": "p",
+        "text": "at least <strong>10,000 rows</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>at least one door</strong> that opens: Order, Pair or Nest"
+      },
+      {
+        "type": "p",
+        "text": "at least <strong>four of the five column types</strong> (Who, Kind, When, Where, How much)"
+      },
+      {
+        "type": "p",
+        "text": "a <strong>When</strong> column that covers several years, or many months"
+      },
+      {
+        "type": "p",
+        "text": "Places to look:"
+      },
+      {
+        "type": "p",
+        "text": "<a href=\"16_data_sources\">Chapter 16 · Data Sources</a>: 20 ready-to-use datasets, and more places to search"
+      },
+      {
+        "type": "p",
+        "text": "<strong><a href=\"https://github.com/toddrjones/datasets\">Free Datasets for Social Science</a></strong> by Todd Jones: 150+ free datasets organized by topic, from crime and sports to real estate and shopping. A great place to start."
+      },
+      {
+        "type": "p",
+        "text": "your city's or state's open-data portal, <a href=\"https://data.gov\">data.gov</a>, Kaggle, or <a href=\"https://huggingface.co/datasets\">Hugging Face datasets</a>"
+      },
+      {
+        "type": "p",
+        "text": "Please <strong>don't use</strong> the baby-names, e-commerce or ICE data from this book. You've already seen what they can do."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "Step 0 · Choose your data and put it online",
+      "Put it online as Parquet"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Your notebook must read a <strong>Parquet file from a URL</strong>, not a file on your laptop. You have two options:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Host it yourself (recommended).</strong> Download a CSV, convert it to Parquet with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">zstd</span></span></code> compression, and upload it to a public Hugging Face dataset or a GitHub release. <a href=\"16_data_sources#example-hosting-your-own-data-on-hugging-face\">Chapter 16's worked example</a> shows every step, with the Washington electric-vehicle data."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Use a Parquet file someone else already hosts.</strong> Many Hugging Face datasets have a Parquet version (look for <strong>Auto-converted to Parquet</strong>), and some agencies publish Parquet directly. Check that the link ends in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">parquet</span></span></code> and opens without a login."
+      },
+      {
+        "type": "p",
+        "text": "🔓 <strong>Only public data.</strong> Upload only data that is already public and whose license allows sharing. Never upload private data, such as data from an employer or with personal information. At a company, the same file would go to a private bucket in Google Cloud Storage or Amazon S3."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "What your notebook must contain"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Use these section headings, in this order. Every Malloy cell must run. After each result, write <strong>one or two sentences in plain English</strong> saying what the result shows. A query without a sentence after it doesn't count."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "What your notebook must contain",
+      "Part 0 · About the data"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A markdown cell with:"
+      },
+      {
+        "type": "p",
+        "text": "the dataset's name, who published it, and a link to the original source"
+      },
+      {
+        "type": "p",
+        "text": "the number of rows and the dates it covers"
+      },
+      {
+        "type": "p",
+        "text": "if you converted it yourself: the CSV size, the Parquet size, and the compression you used"
+      },
+      {
+        "type": "p",
+        "text": "<strong>what one row means</strong> (\"one row per 311 call\")"
+      },
+      {
+        "type": "p",
+        "text": "your <strong>public Parquet URL</strong>, and where you host it (Hugging Face, GitHub, or someone else's site)"
+      },
+      {
+        "type": "p",
+        "text": "Then a Malloy cell that defines your source <strong>on the URL</strong>, with the dimensions and measures you need. Add to it as you go."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "What your notebook must contain",
+      "Part 1 · TYPE"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "a Malloy cell showing 5–10 raw rows"
+      },
+      {
+        "type": "p",
+        "text": "a markdown table naming the job of every column you use: Who, Kind, When, Where or How much"
+      },
+      {
+        "type": "p",
+        "text": "one sentence on a column with <strong>two jobs</strong>, if you have one (for example, a state that also nests in a region)"
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "What your notebook must contain",
+      "Part 2 · PAIR"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>The flat answer:</strong> the first, obvious query (group by one column, sum, sort). Say why it's flat."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Four pairs:</strong> four queries, each pairing <strong>two different types</strong>, such as Who × When, Who × Where, Kind × When, or How much × anything. Label each one with its pair, as in Chapter 18."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "What your notebook must contain",
+      "Part 3 · MOVE"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "At least <strong>one query from each family</strong>, labeled with the move:"
+      },
+      {
+        "type": "p",
+        "text": "A query can count for Part 2 and Part 3 at the same time, if you label both."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "What your notebook must contain",
+      "Part 4 · SHAPE"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "For <strong>each</strong> of the three doors (Order, Pair, Nest), write one sentence: does it open for your data, and why or why not?"
+      },
+      {
+        "type": "p",
+        "text": "Write a query for <strong>at least one</strong> door that opens. For example: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">row_number</span><span style=\"color: #000000\">()</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">()</span></span></code> within an entity (Order), a self-join or a pipeline on a shared key (Pair), or a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">:</span></span></code> down a hierarchy (Nest)."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "What your notebook must contain",
+      "Part 5 · SHARPEN"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Take <strong>three seeds</strong> and grow each one into a full question. For each one:"
+      },
+      {
+        "type": "p",
+        "text": "the full question as one sentence"
+      },
+      {
+        "type": "p",
+        "text": "the query and its result"
+      },
+      {
+        "type": "p",
+        "text": "two or three sentences: were you right? What surprised you?"
+      },
+      {
+        "type": "p",
+        "text": "a five-part table: <strong>subject</strong>, <strong>measure</strong>, <strong>move / shape</strong>, <strong>comparison</strong>, and your <strong>expected answer</strong>, written <em>before</em> you run the query"
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "What your notebook must contain",
+      "Part 6 · Compared to what?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Chapter 19 showed two answers that fell apart under a fair comparison: growth in a <strong>partial year</strong>, and a \"season\" that was really the store growing. Do <strong>one</strong> fairness check on your own data, and show the query before and after:"
+      },
+      {
+        "type": "p",
+        "text": "a partial period (compare like with like)"
+      },
+      {
+        "type": "p",
+        "text": "a raw count that changes when you rescale it to a share of the total"
+      },
+      {
+        "type": "p",
+        "text": "a top-N result that changes when you filter out small groups (as with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">utah_births</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">500</span></span></code> in Chapter 18)"
+      },
+      {
+        "type": "p",
+        "text": "If your answer survived the check, say so. That's a result too."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "What your notebook must contain",
+      "Part 7 · The data story"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A short markdown section with:"
+      },
+      {
+        "type": "p",
+        "text": "one question you'd ask next"
+      },
+      {
+        "type": "p",
+        "text": "<strong>one result that came back flat</strong>, and what that tells you"
+      },
+      {
+        "type": "p",
+        "text": "<strong>one limit</strong> of your data: something it cannot tell you"
+      },
+      {
+        "type": "p",
+        "text": "your <strong>three best findings</strong>, each written as one \"singing\" sentence: specific, with a number and a comparison. <em>Not</em> \"Tesla is popular,\" but \"Tesla's share of new EVs in Washington fell from 64% in 2020 to 36% in 2025, even as total EV sales more than quadrupled.\""
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "An example to follow"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Here's what the start of a good notebook looks like, using the Washington electric-vehicle data from <a href=\"16_data_sources#example-hosting-your-own-data-on-hugging-face\">Chapter 16</a>. (You can't use this dataset for your homework.)"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Part 0.</strong> <em>Electric Vehicle Title and Registration Activity, Washington State Department of Licensing (<a href=\"https://data.wa.gov/Transportation/Electric-Vehicle-Title-and-Registration-Activity/rpr4-cgyd/about_data\">data.wa.gov</a>). One row = one title or registration transaction for an electric vehicle. 1,926,507 rows, 2010 to September 2026. Converted from a 934 MB CSV to a 30 MB Parquet file (zstd) and hosted on Hugging Face.</em>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">wa_ev</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;https://huggingface.co/datasets/24601p/public-data/resolve/main/wa_ev_registrations.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #008000\">// The dates are text like &quot;December 20 2024&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">transaction_dt</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">try_strptime</span><span style=\"color: #000000\">!</span><span style=\"color: #0000FF\">timestamp</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">transaction_date</span><span style=\"color: #000000\">, </span><span style=\"color: #A31515\">&#39;%B %d %Y&#39;</span><span style=\"color: #000000\">)::</span><span style=\"color: #0000FF\">date</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">is_new_sale</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">transaction_type</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Original Title&#39;</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">new_or_used_vehicle</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;New&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">transactions</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">new_ev_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">is_new_sale</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Part 1 · TYPE.</strong> First, a few raw rows:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">wa_ev</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">make</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">model</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">model_year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">electric_range</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">sale_price</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">transaction_type</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">transaction_date</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">county</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">model</span></span></code> has two jobs: it's a <em>Who</em>, and it nests inside <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">make</span></span></code> (a Nest door: Tesla → Model Y, Model 3, …)."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Part 2 · PAIR: Who × When,</strong> with a <strong>share</strong> move (Rescale):"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">wa_ev</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">is_new_sale</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">transaction_dt</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">@2015</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">transaction_dt</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">@2026</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">sale_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">transaction_dt</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">new_ev_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">tesla_share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">new_ev_sales</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">make</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;TESLA&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">new_ev_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">sale_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<em>Tesla's share of new EV sales in Washington peaked at <strong>64% in 2020</strong> and fell to <strong>36% in 2025</strong>, even though total new EV sales grew from about 12,000 to 53,000 a year. Tesla didn't shrink; everyone else caught up. (2026 is left out because the data ends in September.)</em>"
+      },
+      {
+        "type": "p",
+        "text": "Notice the parts of a good entry: the <strong>pair</strong> and <strong>move</strong> are labeled, the query answers one clear question, and the sentence after it gives <strong>specific numbers and a comparison</strong>, plus a note about a partial year."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "Tips"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Write your guesses first</strong> in Part 5. If you write them after, you'll always have been right, and you'll learn nothing."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Filter out tiny groups</strong> before you rank by a ratio or a share. A category with 3 rows can have a 100% rate."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Check partial periods.</strong> If your data ends partway through a year, compare like with like."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Flat is fine.</strong> If a question comes back flat, say so. Don't invent a story from small differences."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Stuck on syntax?</strong> Each step has a matching query in Chapter 18 or 19. Copy it and change the names."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Start small.</strong> Get your source working on the URL and run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: * </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span></code> before anything else."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Errors?</strong> See <a href=\"17_troubleshooting\">Chapter 17 · Troubleshooting</a>."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "Turning it in"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Upload <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">lastname_make_it_sing</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloynb</span></span></code></strong>. Before you save:"
+      },
+      {
+        "type": "p",
+        "text": "Open your Parquet URL in a private or incognito window to check that it's public. Leave it up until grades are posted."
+      },
+      {
+        "type": "p",
+        "text": "Run <strong>every cell</strong>, top to bottom, so all results are saved in the file."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 20: Homework: Make Your Data Sing",
+      "Grading (100 points)"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Bonus (up to 5 points):</strong> open a <strong>second</strong> door with a working query, or join a second public dataset to your source (for example, a lookup table of regions or categories)."
+      }
+    ],
+    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+  },
+  {
+    "titles": [
       "Learning Malloy"
     ],
     "paragraphs": [
@@ -8526,6 +8975,10 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "<a href=\"19_making_data_sing_ecommerce\">Making Data Sing: An Online Store</a>: the same five steps on the e-commerce data, including what to do when the answer is flat"
+      },
+      {
+        "type": "p",
+        "text": "<a href=\"20_homework_make_your_data_sing\">Homework: Make Your Data Sing</a>: take your own dataset, hosted as Parquet on the internet, through all five steps"
       },
       {
         "type": "p",
