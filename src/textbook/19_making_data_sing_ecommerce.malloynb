@@ -1,0 +1,397 @@
+>>>markdown
+# Chapter 19: Making Data Sing: An Online Store
+
+[Chapter 18](18_making_data_sing.malloynb) introduced the five steps of **Making Data Sing** with the baby-names data:
+
+> **TYPE** the columns → **PAIR** the types → apply a **MOVE** → look for a **SHAPE** → **SHARPEN** the question
+
+This chapter runs the **same five steps** on very different data: the online clothing store from [Chapter 2](02_time_truncation.malloynb) and [Chapter 10](10_joins.malloynb). Names are about culture. This is about **business**: sales, customers, products and orders. Watch how the same moves and doors turn up again.
+
+There's a second lesson too. This store's data is **simulated**: it was generated for demos, not recorded from a real store. Some questions will come back **flat**, with no pattern at all. Learning to spot a flat answer, and not invent a story for it, is part of making data sing.
+>>>malloy
+import "ecommerce.malloy"
+>>>markdown
+## Step 1 · TYPE the store's data
+
+The store is a **star schema** ([Chapter 10](10_joins.malloynb)): `order_items` has one row per item sold, and joins to `users` (the customer) and `inventory_items` (the product). Here are a few rows with columns from all three tables:
+>>>malloy
+run: order_items -> {
+  select:
+    order_id, created_at, status, sale_price
+    users.country, users.traffic_source
+    inventory_items.product_department, inventory_items.product_category, inventory_items.product_brand
+  limit: 5
+}
+>>>markdown
+| Type | Columns |
+|---|---|
+| 👤 **Who / What** | customer (`user_id`), order (`order_id`), product, brand |
+| 🏷️ **Kind** | department (Men / Women), category, order `status`, customer `gender`, `traffic_source` |
+| 🕒 **When** | order date (`created_at`), `shipped_at`, `delivered_at`, `returned_at` |
+| 📍 **Where** | customer `country`, `state`, `city` |
+| 🔢 **How much** | `sale_price`, `cost`, number of items |
+
+All five types again, and **several Whos**: customers, orders, products and brands. There are also **four dates** for each item. That's a hint that the Order door will open.
+
+## Step 2 · PAIR and Step 3 · MOVE
+
+In Chapter 18 we took these steps one at a time. Here we'll do them together: each question pairs two types and applies a move.
+
+### The flat answer
+
+>>>malloy
+run: order_items -> {
+  group_by: inventory_items.product_category
+  aggregate: total_sales
+  limit: 5
+}
+>>>markdown
+Jeans sell the most. True, but flat.
+
+### Rescale: share and rank
+
+>>>malloy
+run: order_items -> {
+  group_by: inventory_items.product_category
+  aggregate:
+    total_sales
+    # percent
+    share_of_sales is total_sales / all(total_sales)
+  calculate: sales_rank is rank() { order_by: total_sales desc }
+  limit: 5
+}
+>>>markdown
+Jeans bring in **15.5%** of all sales, more than the next category (Accessories, 9.5%) by a wide margin. A share is easier to compare and remember than $1,954,097.
+
+### How much × When: growth, compared fairly
+
+How fast is the store growing? A first try, with `lag()` for the change from the year before (a Contrast move):
+>>>malloy
+run: order_items -> {
+  where: created_at < @2022-11-01
+  group_by: order_year is created_at.year
+  aggregate:
+    total_sales
+    order_count
+    months_of_data is count(created_at.month)
+  calculate:
+    # percent
+    growth_vs_last_year is total_sales / lag(total_sales) - 1
+  order_by: order_year
+}
+>>>markdown
+Growth looks like it collapsed: from 97% to 50% to **16%** in 2022. But look at `months_of_data`: the data ends in November 2022, so 2022 has only **10 months**. Compare like with like ([Chapter 8](08_filtering.malloynb)): January–October of each year.
+>>>malloy
+run: order_items -> {
+  where: month(created_at) <= 10
+  group_by: order_year is created_at.year
+  aggregate: total_sales
+  calculate:
+    # percent
+    growth_vs_last_year is total_sales / lag(total_sales) - 1
+  order_by: order_year
+}
+>>>markdown
+Compared fairly, 2022 grew **45%**, not 16%. Growth is slowing, but nowhere near as much as the first query suggested.
+
+### Kind × When: is there a season?
+
+Swimwear should sell in summer and sweaters in winter. Here is each category's sales by month of the year, as a share of **that category's** total:
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: order_items -> {
+  where: inventory_items.product_category = 'Swim' | 'Sweaters'
+  group_by:
+    month_of_year is month(created_at)
+    inventory_items.product_category
+  aggregate:
+    # percent
+    share_of_category_sales is total_sales / all(total_sales, product_category)
+  order_by: month_of_year
+}
+>>>markdown
+Both lines peak in **October**: swimwear and sweaters together. That's suspicious. The store grew all through each year (and November–December 2022 are missing), so *every* category sells more in later months. The lines show the store's growth, not a season.
+
+The fix is a better **Rescale**: each category's share of **that month's** store sales. Stage 1 computes the share across all categories; stage 2 keeps the two we want.
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: order_items -> {
+  group_by:
+    month_of_year is month(created_at)
+    inventory_items.product_category
+  aggregate: share is total_sales / all(total_sales, month_of_year)
+} -> {
+  where: product_category = 'Swim' | 'Sweaters'
+  group_by: month_of_year, product_category
+  aggregate:
+    # percent
+    share_of_month_sales is share.sum()
+  order_by: month_of_year
+}
+>>>markdown
+**Flat.** Swimwear is about 3% of sales every month, and sweaters about 4%. There is no season in this data, because it's simulated. A real clothing store would show strong seasons.
+
+> 💡 **A flat answer is still an answer.** Before you tell a story, ask: *compared to what?* Here, comparing with the store's monthly total made the "October peak" disappear.
+
+### Kind × Kind: who buys from the other department?
+
+Pair the **customer's** gender with the **product's** department:
+>>>malloy
+run: order_items -> {
+  group_by: users.gender
+  aggregate:
+    total_sales
+    # percent
+    mens_dept_share is total_sales { where: inventory_items.product_department = 'Men' } / total_sales
+    # percent
+    womens_dept_share is total_sales { where: inventory_items.product_department = 'Women' } / total_sales
+  nest: top_other_dept_categories is {
+    where: (users.gender = 'Female' and inventory_items.product_department = 'Men')
+        or (users.gender = 'Male' and inventory_items.product_department = 'Women')
+    group_by: inventory_items.product_category
+    aggregate: total_sales
+    limit: 3
+  }
+}
+>>>markdown
+Women spend **30%** of their money in the **men's** department, mostly on jeans, hoodies and coats. Men spend only **10%** in the women's department. Whether this is "real" or a quirk of the simulation, it's the kind of pattern a store would want to check: should the men's jeans be shown to women shoppers?
+
+### Kind × anything: a flat result on purpose
+
+Where do customers come from, and do they behave differently?
+>>>malloy
+run: order_items -> {
+  group_by: users.traffic_source
+  aggregate:
+    total_sales
+    # percent
+    share_of_sales is total_sales / all(total_sales)
+    avg_sale_price
+    # percent
+    return_rate is order_item_count { where: status = 'Returned' } / order_item_count
+  order_by: total_sales desc
+}
+>>>markdown
+Search brings in **74%** of sales. But the average price ($46) and return rate (about 1%) are almost **the same for every source**. With real data, you'd expect email customers or Facebook customers to behave differently. Here they don't, and that's worth saying out loud rather than ranking differences of a few cents.
+
+### Spotlight: concentration
+
+**How much × anything:** is the store's revenue spread out, or concentrated in a few brands and customers?
+>>>malloy
+run: order_items -> {
+  group_by: inventory_items.product_brand
+  aggregate: total_sales
+  calculate: brand_rank is rank() { order_by: total_sales desc }
+} -> {
+  aggregate:
+    brands is count()
+    # percent
+    top_10_brands_share is total_sales.sum() { where: brand_rank <= 10 } / total_sales.sum()
+    # percent
+    top_100_brands_share is total_sales.sum() { where: brand_rank <= 100 } / total_sales.sum()
+}
+>>>markdown
+The store sells **2,145 brands**, but the top 10 bring in **45%** of sales and the top 100 bring in **76%**. The same question for customers:
+>>>malloy
+run: order_items -> {
+  group_by: user_id
+  aggregate: total_sales
+  calculate: customer_rank is rank() { order_by: total_sales desc }
+} -> {
+  aggregate:
+    customers is count()
+    # percent
+    top_10pct_customers_share is total_sales.sum() { where: customer_rank <= 13335 } / total_sales.sum()
+}
+>>>markdown
+The top 10% of customers (13,335 of 133,345) bring in **33%** of sales. Brands are far more concentrated than customers.
+
+### Contrast: top-N within each group
+
+Which brands lead **each** department?
+>>>malloy
+run: order_items -> {
+  group_by: inventory_items.product_department
+  aggregate: total_sales
+  nest: top_brands is {
+    group_by: inventory_items.product_brand
+    aggregate:
+      total_sales
+      # percent
+      share_of_department is total_sales / all(total_sales)
+    limit: 3
+  }
+}
+>>>markdown
+**Levi's** alone is 21% of men's sales. The women's department is much more spread out: its top brand, Ray-Ban, has 8%.
+
+## Step 4 · SHAPE: knock on three doors
+
+### ➡️ Order: customers and their orders over time
+
+A customer appears in many rows, each with a date. Put each customer's orders **in order** with `row_number()`, then count how many customers reach order 1, 2, 3…
+>>>malloy
+run: order_items -> {
+  group_by: user_id, order_id, order_time is created_at
+  calculate: order_number is row_number() { partition_by: user_id  order_by: order_time }
+} -> {
+  where: order_number <= 5
+  group_by: order_number
+  aggregate: customers is count()
+  calculate:
+    # percent
+    still_buying is customers / first_value(customers) { order_by: order_number }
+  order_by: order_number
+}
+>>>markdown
+A **repeat-purchase funnel**: **49%** of customers place a second order, 25% a third, 12% a fourth. Each step loses about half. How long do customers wait before coming back? Add `lag()` to get the time since the previous order:
+>>>malloy
+run: order_items -> {
+  group_by: user_id, order_id, order_time is created_at
+  calculate:
+    order_number is row_number() { partition_by: user_id  order_by: order_time }
+    previous_order_time is lag(order_time) { partition_by: user_id  order_by: order_time }
+} -> {
+  where: order_number = 2
+  aggregate:
+    second_orders is count()
+    avg_days_between is avg(days(previous_order_time to order_time))
+    # percent
+    within_30_days is count() { where: days(previous_order_time to order_time) <= 30 } / count()
+}
+>>>markdown
+On average, **107 days** pass between the first and second order, and only 9% come back within a month. A marketing team would use this to time its "come back" emails.
+
+**The four dates are an event log.** Every item moves through the same steps: ordered → shipped → delivered → (sometimes) returned. Measuring the time between steps is the start of **process mining**:
+>>>malloy
+run: order_items -> {
+  where: delivered_at is not null
+  aggregate:
+    delivered_items is count()
+    avg_days_to_ship is avg(days(created_at::date to shipped_at))
+    avg_days_in_transit is avg(days(shipped_at to delivered_at))
+    # percent
+    returned is count() { where: returned_at is not null } / count()
+}
+>>>markdown
+Items take about **3.5 days** to ship and **4.8 days** in transit. About 1% of delivered items come back.
+
+### 🔗 Pair: what's bought together?
+
+Items in the **same order** share a key (`order_id`). Pairing them is **market-basket analysis**. First, how many orders have more than one item?
+>>>malloy
+run: order_items -> {
+  group_by: order_id
+  aggregate: items is count()
+} -> {
+  group_by: items
+  aggregate: orders is count()
+  calculate:
+    # percent
+    share_of_orders is orders / sum_window(orders)
+  order_by: items
+}
+>>>markdown
+**97%** of orders have just one item. The door opens, but there's not much behind it. Still, here's how you'd pair the rest. Make a source with one row per order and category, then **join it to itself** on `order_id`:
+>>>malloy
+source: order_categories is order_items -> {
+  group_by: order_id, category is inventory_items.product_category
+}
+
+source: basket is order_categories extend {
+  join_many: other is order_categories on order_id = other.order_id
+}
+
+run: basket -> {
+  where: category < other.category
+  group_by: category, other_category is other.category
+  aggregate: orders_with_both is count()
+  order_by: orders_with_both desc
+  limit: 5
+}
+>>>markdown
+`category < other.category` keeps each pair once (Accessories + Jeans, but not also Jeans + Accessories) and drops pairs of a category with itself. Accessories and jeans are the most common pair, in just 69 orders. In a real grocery or online store, with bigger baskets, this is one of the most valuable questions you can ask.
+
+### 🪆 Nest: department → category → brand
+
+Products sit in a **hierarchy**: a brand inside a category inside a department. Nesting shows each level inside the one above:
+>>>malloy
+run: order_items -> {
+  where: inventory_items.product_department = 'Women'
+  group_by: inventory_items.product_category
+  aggregate:
+    total_sales
+    # percent
+    share_of_department is total_sales / all(total_sales)
+  limit: 4
+  nest: top_brands is {
+    group_by: inventory_items.product_brand
+    aggregate:
+      total_sales
+      # percent
+      share_of_category is total_sales / all(total_sales)
+    limit: 3
+  }
+}
+>>>markdown
+The drill-down tells a very different story in each category. **Ray-Ban** is 77% of women's accessories, nearly a monopoly. In blazers and jackets, no brand has more than 7%. A store manager would treat those two categories very differently.
+
+## Step 5 · SHARPEN: from seed to full question
+
+Seed: **"returns."** Grow it:
+
+| Part | Our answer |
+|---|---|
+| **Subject** | product categories, for items ordered in 2022 |
+| **Measure** | return rate: share of items with status *Returned* |
+| **Move** | **contrast** with the store's overall return rate |
+| **Comparison** | each category vs. the whole store |
+| **Surprise** | *My guess:* some categories, like dresses or jeans, are returned two or three times as often as the average, because of fit. |
+
+**Full question:** *For items ordered in 2022, which product categories had the highest return rate, and how does each compare with the store's overall rate?*
+>>>malloy
+run: order_items -> {
+  where: created_at ? @2022
+  group_by: inventory_items.product_category
+  aggregate:
+    order_item_count
+    # percent
+    return_rate is order_item_count { where: status = 'Returned' } / order_item_count
+    # percent
+    store_return_rate is all(order_item_count { where: status = 'Returned' }) / all(order_item_count)
+  order_by: return_rate desc
+}
+>>>markdown
+**The guess was wrong.** The store's rate is about 1%, and every category falls between about 0.5% and 1.5%. The categories at the top have only about 700–1,700 items each in 2022, so a handful of returns moves their rate. There's no category with a fit problem here. In real clothing retail, return rates of 20–30% are common, which is another sign that this data is simulated.
+
+Writing down the guess first is what makes this useful: you learned something (no category stands out) instead of reading meaning into small differences.
+
+## Names vs. the store: the same steps, different stories
+
+| Step | Baby names (Chapter 18) | Online store (this chapter) |
+|---|---|---|
+| **Type** | all five types; one Who (name) | all five types; several Whos (customer, order, brand) |
+| **Pair** | Who × When: fads and classics | How much × When: growth, compared fairly |
+| **Move** | over-index: Utah's distinctive names | concentration: top 10 brands = 45% of sales |
+| **Order** | rank trajectories over a century | repeat-purchase funnel, days between orders |
+| **Pair door** | states that share a #1 name | market basket (mostly one-item orders) |
+| **Nest** | states inside regions | brands inside categories inside departments |
+| **Sharpen** | unisex names started as boys' names | no category stands out on returns |
+
+## Key takeaways
+
+* The same five steps work on any dataset. Business data usually has **several Whos** (customers, products, orders), which opens more doors.
+* **Compare like with like.** A partial year made growth look like it collapsed. Comparing January–October fixed it.
+* **Compared to what?** The "October peak" was the store's growth, not a season. Rescaling by the month's total made it disappear.
+* **A flat answer is still an answer.** Simulated data is often flat. Say so, rather than inventing a story from tiny differences.
+* Event dates on the same row (ordered, shipped, delivered, returned) form an **event log**. Customer IDs with dates give **repeat-purchase** analysis.
+
+> 🎯 **Challenge 19.1: Over-index by country.** Which brands over-index in the UK compared with the store as a whole? Use the Utah query from Chapter 18 as a template. Is the effect large or small?
+
+> 🎯 **Challenge 19.2: First order, then what?** Does the category of a customer's **first** order predict whether they place a second order? (Hint: use `row_number()` to find first orders, then compare the share of customers who reach order 2.)
+
+> 🎯 **Challenge 19.3: Margin.** Use `total_gross_margin` to find the categories with the highest margin **per item**, not in total. Does the ranking change?
+
+> 🎯 **Challenge 19.4: Your own seed.** Pick a seed, such as "loyal customers," "big orders" or "slow shipping." Sharpen it into a full question with all five parts, write your guess, and answer it.

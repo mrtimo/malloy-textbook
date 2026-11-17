@@ -7266,6 +7266,1039 @@ window.SEARCH_SEGMENTS = [
   },
   {
     "titles": [
+      "Chapter 18: Making Data Sing"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "You know how to write Malloy. This chapter is about <strong>what to ask</strong>."
+      },
+      {
+        "type": "p",
+        "text": "Handed a new dataset, most people group by a column, sum a number, sort, and stop. <em>\"The most common boys' name is James.\"</em> That's true, but nobody leans forward. Better questions come from noticing <strong>what kinds of columns</strong> a dataset has and <strong>which ones appear together</strong>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Making Data Sing</strong> is a five-step framework for doing that:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>TYPE</strong> the columns → <strong>PAIR</strong> the types → apply a <strong>MOVE</strong> → look for a <strong>SHAPE</strong> → <strong>SHARPEN</strong> the question"
+      },
+      {
+        "type": "p",
+        "text": "This chapter explains each step and works through it on the baby-names data. <a href=\"19_making_data_sing_ecommerce\">Chapter 19</a> applies the same steps to an online store, so you can see the framework work on a very different kind of data."
+      },
+      {
+        "type": "p",
+        "text": "📄 <strong>Handout and slides.</strong> A one-page version of the framework, with pictures, is at <a href=\"https://making-data-sing.pages.dev\">making-data-sing.pages.dev</a>. You can also download the <a href=\"https://making-data-sing.pages.dev/downloads/making-data-sing-handout.docx\">one-page handout (.docx)</a>."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Before you start: picking a dataset that can sing"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The framework works on any data, but some datasets give you far more to work with. Use these tips when you choose data for a project."
+      },
+      {
+        "type": "p",
+        "text": "<strong>1. Count the column types.</strong> Look for at least <strong>four of the five types</strong> (Step 1 below explains them): a <em>Who/What</em>, a <em>Kind</em>, a <em>When</em>, a <em>Where</em> and a <em>How much</em>. Each type you have adds new pairs, and each pair asks its own questions."
+      },
+      {
+        "type": "p",
+        "text": "<strong>2. Look for a \"Who\" with many values.</strong> A column with hundreds or thousands of distinct things (names, products, songs, players, companies) gives you the richest questions: which ones rise, fall, peak, cross over or stand out."
+      },
+      {
+        "type": "p",
+        "text": "<strong>3. Look for a long \"When\".</strong> Many years, or many months, let you ask about change, peaks, fads and trends. A dataset with one year, or no dates at all, can't answer any <em>When</em> question."
+      },
+      {
+        "type": "p",
+        "text": "<strong>4. Prefer one row per event.</strong> Raw data, with one row per sale, game, trip, arrest or visit, can be summarized any way you like. Data that someone has already summarized (one row per country with a total) has lost most of its questions."
+      },
+      {
+        "type": "p",
+        "text": "<strong>5. Knock on the three doors</strong> (Step 4 below) before you commit:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>6. Choose real data over simulated data.</strong> Simulated \"demo\" data is often generated at random, so its patterns are flat. You'll see this in Chapter 19."
+      },
+      {
+        "type": "p",
+        "text": "<strong>7. Size and documentation.</strong> A few thousand to a few million rows is ideal. Most important, make sure you can say what <strong>one row</strong> means."
+      },
+      {
+        "type": "p",
+        "text": "<strong>A quick scorecard:</strong>"
+      },
+      {
+        "type": "p",
+        "text": "The last row is a typical \"summary\" table: one number per country per year. You can ask about growth, but there's no <em>Who</em> beyond the country, no <em>Kind</em> and only one door."
+      },
+      {
+        "type": "p",
+        "text": "<strong>The two-minute test.</strong> Load the data and look at ten rows. If you can write <strong>three questions from three different pairs</strong> in five minutes, it's a keeper."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "The framework at a glance"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "The framework at a glance",
+      "1. TYPE: name each column's job"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "The framework at a glance",
+      "2. PAIR: every pair of types asks its own question"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "The framework at a glance",
+      "3. MOVE: turn a flat answer into a story"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "The framework at a glance",
+      "4. SHAPE (advanced): three doors"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "The framework at a glance",
+      "5. SHARPEN: turn a seed into a full question"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A <strong>seed</strong> is a few words (\"names over time\"). A <strong>full question</strong> has five parts: the <strong>subject</strong>, the <strong>measure</strong>, the <strong>move or shape</strong>, the <strong>comparison</strong>, and the <strong>surprise</strong>: what result would surprise you? Write your guess down <em>before</em> you run the query."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Test:</strong> could two classmates compute the <em>same</em> answer from your question? If not, it's still a seed."
+      },
+      {
+        "type": "p",
+        "text": "Now let's do each step on real data."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;names.malloy&quot;</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 1 · TYPE the names data"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Start by looking at a few rows:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; { </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: * </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span><span style=\"color: #000000\"> }</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "The raw data has five columns. Each one has a job:"
+      },
+      {
+        "type": "p",
+        "text": "All five types: this dataset can sing. The model in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> also adds <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">decade</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">name_length</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">first_letter</span></span></code>. Notice that <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">first_letter</span></span></code> turns the <em>Who</em> itself into data. That's one of the Spotlight moves."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 2 · PAIR the types"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 2 · PAIR the types",
+      "The flat answer"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Here is the question almost everyone asks first:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;M&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "James is the most common boys' name since 1910. That's true, but it's one type (<em>Who</em>) and one number. Nothing about <strong>when</strong>, <strong>where</strong> or <strong>compared to what</strong>. Every pair below adds a second type."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 2 · PAIR the types",
+      "Who × When: is it a fad or a classic?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Jennifer and Elizabeth are both familiar girls' names. Plot each one's <strong>share</strong> of all girls born each year:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Jennifer&#39;</span><span style=\"color: #000000\"> | </span><span style=\"color: #A31515\">&#39;Elizabeth&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">share_of_girls</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">share</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Jennifer is a fad.</strong> It rose from almost nothing to a peak in 1974, when nearly 5% of girls got the name, and then fell back to 0.05% by 2021. <strong>Elizabeth is a classic</strong>: it has stayed between about 0.5% and 1.7% for over a century."
+      },
+      {
+        "type": "p",
+        "text": "The <em>move</em> here is <strong>share</strong> (a Rescale move). Raw counts would mislead: far more babies were born in the 1950s baby boom than in the 1930s, so every name looks bigger then. Share takes that out."
+      },
+      {
+        "type": "p",
+        "text": "The pipeline matters too. Stage 1 computes each name's share out of <strong>all</strong> girls. Stage 2 keeps the two names. If you filtered to Jennifer and Elizabeth first, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">()</span></span></code> would only see those two names."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 2 · PAIR the types",
+      "Who × Kind: which names crossed over?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "What percent of babies with a name were girls, decade by decade?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Ashley&#39;</span><span style=\"color: #000000\"> | </span><span style=\"color: #A31515\">&#39;Leslie&#39;</span><span style=\"color: #000000\"> | </span><span style=\"color: #A31515\">&#39;Taylor&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_girls</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "All three names <strong>switched sides</strong>. Ashley was 7% girls in the 1950s and 100% girls by the 1990s. Leslie went from 67% to 99%. Taylor was 0% girls in the 1950s and 85% by the 2000s. This is a <strong>reversal</strong>, a Spotlight move: the pattern breaks."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 2 · PAIR the types",
+      "Who × Where: where is a name unusually popular?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The most <em>common</em> names in Utah look like everywhere else. The most <em>distinctive</em> ones don't. To find them, compare each name's share <strong>in Utah</strong> to its share <strong>in the whole country</strong>. That ratio is an <strong>over-index</strong> (a Contrast move): 3.0 means \"three times as popular in Utah as nationally.\""
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2010</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">utah_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;UT&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">utah_share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;UT&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;UT&#39;</span><span style=\"color: #000000\"> })</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">us_share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">utah_births</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">500</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">utah_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0.0&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">over_index</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">utah_share</span><span style=\"color: #000000\"> / </span><span style=\"color: #001080\">us_share</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">over_index</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Oakley</strong> was 14 times more popular in Utah than in the U.S. as a whole in the 2010s. Jane, Aspen, Kate and Eliza follow. The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">utah_births</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">500</span></span></code> filter keeps out rare names, where one or two births would make the ratio jump around."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 2 · PAIR the types",
+      "Kind × When: is the gap growing or shrinking?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A <strong>concentration</strong> question: what share of babies got one of that decade's <strong>top 10</strong> names? Compare boys and girls."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_decade</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_decade</span><span style=\"color: #000000\"> &lt;= </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">gender</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">top10_share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">share</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "In the 1940s, <strong>36% of boys</strong> got a top-10 name, compared with 26% of girls. By the 2020s, it's about <strong>9% for both</strong>. Parents spread out, boys' names caught up with girls' names in variety, and the gap closed."
+      },
+      {
+        "type": "p",
+        "text": "This answer uses three moves: <strong>rank</strong> (to find the top 10), <strong>share</strong> and <strong>concentration</strong>."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 3 · MOVE: one question, three families"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Moves are what turn a flat answer into a story. Here are the three families on the boys' names."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 3 · MOVE: one question, three families",
+      "Rescale: from count to share and rank"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The flat answer said James is the most common boys' name <em>overall</em>. But which name was <strong>#1 each year</strong>, and how big was it?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;M&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">1</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">share_of_boys</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">share</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Now the flat fact sings: <em>\"Michael was #1 for 44 years. But today's #1 name covers a far smaller share of boys: Liam got 1.4% of boys in 2021, while John got 7% in 1910. Parents are spreading out.\"</em>"
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 3 · MOVE: one question, three families",
+      "Contrast: change and top-N within each group"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Change</strong> compares one time with another. Which girls' names climbed the most into the 2021 top 50?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2011</span><span style=\"color: #000000\"> | </span><span style=\"color: #098658\">2021</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name_rank</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">rank_2011</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">max</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">name_rank</span><span style=\"color: #000000\">) { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2011</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">rank_2021</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">max</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">name_rank</span><span style=\"color: #000000\">) { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_2021</span><span style=\"color: #000000\"> &lt;= </span><span style=\"color: #098658\">50</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">rank_2011</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">rank_2021</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">places_climbed</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">rank_2011</span><span style=\"color: #000000\"> - </span><span style=\"color: #001080\">rank_2021</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">places_climbed</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">8</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Everly</strong> jumped from #1,175 to #50 in ten years, and <strong>Nova</strong> from #904 to #32."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Top-N within each group</strong> shows the leaders inside every group, instead of one overall list. Here, the top 3 girls' names in each decade:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">1950</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_3</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">share_of_decade</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Mary led the 1950s with 3.5% of girls. By the 2020s, the leader, Olivia, has 1.3%. The same story as before, seen another way."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 3 · MOVE: one question, three families",
+      "Spotlight: the identifier is data"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The <em>name itself</em> is a column you can measure: its length, its first letter, its last letter. What share of boys got a name ending in <strong>n</strong> (Mason, Aiden, Jackson…)?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;M&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">ends_in_n</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">&#39;%n&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "From about <strong>13% in the 1940s to 35% in the 2010s</strong>. No single name did this. It's a pattern you can only see when you treat the name as data."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 4 · SHAPE: knock on three doors"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "So far, each row stood alone. The three doors ask whether rows <strong>relate to each other</strong>."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 4 · SHAPE: knock on three doors",
+      "➡️ Order: rows in order within one name"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Each name appears every year, so we can follow it through time: when did it enter the top 10, and how long did it stay? This is a <strong>rank trajectory</strong>: rank each year (window function), then summarize each name's run."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_year</span><span style=\"color: #000000\"> &lt;= </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">gender</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">years_in_top_10</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">first_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">min</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">last_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">max</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">years_at_no_1</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">1</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">years_in_top_10</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>James</strong> spent 91 of 112 years in the boys' top 10. <strong>Mary</strong> was #1 for 46 years, and <strong>Michael</strong> for 44. Notice the \"first year\" column: Michael didn't enter the top 10 until 1943, so his whole run fits inside one lifetime."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 4 · SHAPE: knock on three doors",
+      "🔗 Pair: states that share a name"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Pair rows that share a key. Here, the key is the <strong>#1 girls' name</strong>: which states share the same favorite?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_state</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_state</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">1</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">state_list</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">string_agg</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">state</span><span style=\"color: #000000\">, </span><span style=\"color: #A31515\">&#39;, &#39;</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "In 2021, <strong>Olivia</strong> was #1 in 34 states. <strong>Charlotte</strong> was #1 in 10, and look at which ones: DC, Indiana, Wisconsin, Michigan, Virginia, Minnesota, Iowa, Delaware, Maine and Vermont, mostly the Midwest and the Northeast. Pairing rows by a shared value turns a list into <strong>groups that go together</strong>."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 4 · SHAPE: knock on three doors",
+      "🪆 Nest: states inside regions"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A state is a <em>Where</em>, but it's also a <em>Kind</em> that sits inside a <strong>region</strong>. Join the region table from <a href=\"14_model_review\">Chapter 14</a>:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/state_regions.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state_code</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names_by_region</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">on</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state_code</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">region</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">region</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Liam</strong> was the #1 boys' name in 2021 and <strong>Noah</strong> was #2. Does Liam win everywhere? Start at the region level, then <strong>drill down</strong> with a nest:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names_by_region</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;M&#39;</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Liam&#39;</span><span style=\"color: #000000\"> | </span><span style=\"color: #A31515\">&#39;Noah&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">region</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">liam</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Liam&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">noah</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Noah&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_state</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">liam</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Liam&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">noah</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Noah&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">liam</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">4</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Liam beats Noah in <strong>every region</strong>. But drill down and the picture changes: Noah beats Liam in <strong>California</strong>, Pennsylvania, Massachusetts, Illinois and Michigan. A total for a group can hide very different stories inside it. That's why the Nest door is worth knocking on."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Step 5 · SHARPEN: from seed to full question"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Start with a seed: <strong>\"unisex names.\"</strong> You can't compute that. Grow it into a full question:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Full question:</strong> <em>Which names given to at least 2,000 babies in the 2010s came closest to 50% girls, and what percent girls were they in the 1980s?</em>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">1980</span><span style=\"color: #000000\"> | </span><span style=\"color: #098658\">2010</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">births_2010s</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2010</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_girls_2010s</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2010</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2010</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_girls_1980s</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">1980</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">decade</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">1980</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">births_2010s</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">2000</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">births_2010s</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_girls_2010s</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_girls_1980s</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">distance_from_even</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">abs</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">pct_girls_2010s</span><span style=\"color: #000000\"> - </span><span style=\"color: #098658\">0.5</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">distance_from_even</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>The guess was wrong, and that's the interesting part.</strong> Most of today's most even names were <strong>boys' names</strong> in the 1980s (Jael is the exception): Charlie was 5% girls, Skyler 3%, Landry 0%. Several (Oakley, Briar, Azariah) barely existed then (the empty cells). Unisex names mostly start as boys' names and move toward girls, like Ashley and Taylor did. Writing down the guess first is what made the result a surprise."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Checklist for your own data"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "☐ <strong>Type</strong> every column: Who, Kind, When, Where, How much."
+      },
+      {
+        "type": "p",
+        "text": "☐ <strong>Pair</strong> types: pick two pairs and write their signature questions."
+      },
+      {
+        "type": "p",
+        "text": "☐ <strong>Move</strong>: apply moves from at least two different families."
+      },
+      {
+        "type": "p",
+        "text": "☐ <strong>Shape</strong>: knock on all three doors. Order? Pair? Nest?"
+      },
+      {
+        "type": "p",
+        "text": "☐ <strong>Sharpen</strong> three seeds into full questions, and write your expected answer first."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18: Making Data Sing",
+      "Key takeaways"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Pairs</strong> of types give you ready-made questions: Who × When asks about peaks and fads, Who × Where about over-indexing, Kind × When about gaps."
+      },
+      {
+        "type": "p",
+        "text": "The three <strong>doors</strong> (Order, Pair, Nest) open when rows relate to each other. In Malloy they usually mean a window function, a pipeline or join, or a nest."
+      },
+      {
+        "type": "p",
+        "text": "A <strong>full question</strong> names the subject, measure, move, comparison and expected answer. The gap between what you expected and what you found is where insight lives."
+      },
+      {
+        "type": "p",
+        "text": "The questions a dataset can answer depend on <strong>which types of columns it has</strong> and <strong>which appear together</strong>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Moves</strong> turn flat answers into stories: <strong>rescale</strong> (share, rank), <strong>contrast</strong> (change, over-index, top-N within groups), <strong>spotlight</strong> (peaks, reversals, concentration, the identifier as data)."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 18.1: Fad or classic?</strong> Pick three boys' names you think are classics and three you think are fads. Write your guess down. Then plot their share of boys by year. Were you right?"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 18.2: Your state's signature names.</strong> Copy the Utah over-index query and change it to your state. Which name over-indexes most? Try boys too."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 18.3: First letters.</strong> Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">first_letter</span></span></code> (an identifier-as-data move). What share of girls got a name starting with each letter in the 1950s, and in the 2010s? Which letter gained the most?"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 18.4: Sharpen a seed.</strong> Start from the seed \"short names.\" Write a full question with all five parts, including your guess, then answer it with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">name_length</span></span></code>."
+      }
+    ],
+    "path": "/textbook/18_making_data_sing.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<a href=\"18_making_data_sing\">Chapter 18</a> introduced the five steps of <strong>Making Data Sing</strong> with the baby-names data:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>TYPE</strong> the columns → <strong>PAIR</strong> the types → apply a <strong>MOVE</strong> → look for a <strong>SHAPE</strong> → <strong>SHARPEN</strong> the question"
+      },
+      {
+        "type": "p",
+        "text": "This chapter runs the <strong>same five steps</strong> on very different data: the online clothing store from <a href=\"02_time_truncation\">Chapter 2</a> and <a href=\"10_joins\">Chapter 10</a>. Names are about culture. This is about <strong>business</strong>: sales, customers, products and orders. Watch how the same moves and doors turn up again."
+      },
+      {
+        "type": "p",
+        "text": "There's a second lesson too. This store's data is <strong>simulated</strong>: it was generated for demos, not recorded from a real store. Some questions will come back <strong>flat</strong>, with no pattern at all. Learning to spot a flat answer, and not invent a story for it, is part of making data sing."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;ecommerce.malloy&quot;</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 1 · TYPE the store's data"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The store is a <strong>star schema</strong> (<a href=\"10_joins\">Chapter 10</a>): <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_items</span></span></code> has one row per item sold, and joins to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code> (the customer) and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory_items</span></span></code> (the product). Here are a few rows with columns from all three tables:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">order_id</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">status</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">sale_price</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">country</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">traffic_source</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_department</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_brand</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "All five types again, and <strong>several Whos</strong>: customers, orders, products and brands. There are also <strong>four dates</strong> for each item. That's a hint that the Order door will open."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 2 · PAIR and Step 3 · MOVE"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "In Chapter 18 we took these steps one at a time. Here we'll do them together: each question pairs two types and applies a move."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 2 · PAIR and Step 3 · MOVE",
+      "The flat answer"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Jeans sell the most. True, but flat."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 2 · PAIR and Step 3 · MOVE",
+      "Rescale: share and rank"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">share_of_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">sales_rank</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Jeans bring in <strong>15.5%</strong> of all sales, more than the next category (Accessories, 9.5%) by a wide margin. A share is easier to compare and remember than $1,954,097."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 2 · PAIR and Step 3 · MOVE",
+      "How much × When: growth, compared fairly"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "How fast is the store growing? A first try, with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">()</span></span></code> for the change from the year before (a Contrast move):"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">@2022-11-01</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">order_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">months_of_data</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">growth_vs_last_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">) - </span><span style=\"color: #098658\">1</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Growth looks like it collapsed: from 97% to 50% to <strong>16%</strong> in 2022. But look at <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">months_of_data</span></span></code>: the data ends in November 2022, so 2022 has only <strong>10 months</strong>. Compare like with like (<a href=\"08_filtering\">Chapter 8</a>): January–October of each year."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #795E26\">month</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\">) &lt;= </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">growth_vs_last_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">) - </span><span style=\"color: #098658\">1</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Compared fairly, 2022 grew <strong>45%</strong>, not 16%. Growth is slowing, but nowhere near as much as the first query suggested."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 2 · PAIR and Step 3 · MOVE",
+      "Kind × When: is there a season?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Swimwear should sell in summer and sweaters in winter. Here is each category's sales by month of the year, as a share of <strong>that category's</strong> total:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Swim&#39;</span><span style=\"color: #000000\"> | </span><span style=\"color: #A31515\">&#39;Sweaters&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">month_of_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">month</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">share_of_category_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">product_category</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">month_of_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Both lines peak in <strong>October</strong>: swimwear and sweaters together. That's suspicious. The store grew all through each year (and November–December 2022 are missing), so <em>every</em> category sells more in later months. The lines show the store's growth, not a season."
+      },
+      {
+        "type": "p",
+        "text": "The fix is a better <strong>Rescale</strong>: each category's share of <strong>that month's</strong> store sales. Stage 1 computes the share across all categories; stage 2 keeps the two we want."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">month_of_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">month</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">month_of_year</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">product_category</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Swim&#39;</span><span style=\"color: #000000\"> | </span><span style=\"color: #A31515\">&#39;Sweaters&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">month_of_year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">product_category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">share_of_month_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">share</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">month_of_year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Flat.</strong> Swimwear is about 3% of sales every month, and sweaters about 4%. There is no season in this data, because it's simulated. A real clothing store would show strong seasons."
+      },
+      {
+        "type": "p",
+        "text": "💡 <strong>A flat answer is still an answer.</strong> Before you tell a story, ask: <em>compared to what?</em> Here, comparing with the store's monthly total made the \"October peak\" disappear."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 2 · PAIR and Step 3 · MOVE",
+      "Kind × Kind: who buys from the other department?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Pair the <strong>customer's</strong> gender with the <strong>product's</strong> department:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">gender</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">mens_dept_share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_department</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Men&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">womens_dept_share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_department</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Women&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_other_dept_categories</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: (</span><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Female&#39;</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_department</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Men&#39;</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">        or (</span><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Male&#39;</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_department</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Women&#39;</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Women spend <strong>30%</strong> of their money in the <strong>men's</strong> department, mostly on jeans, hoodies and coats. Men spend only <strong>10%</strong> in the women's department. Whether this is \"real\" or a quirk of the simulation, it's the kind of pattern a store would want to check: should the men's jeans be shown to women shoppers?"
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 2 · PAIR and Step 3 · MOVE",
+      "Kind × anything: a flat result on purpose"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Where do customers come from, and do they behave differently?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">traffic_source</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">share_of_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_sale_price</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">return_rate</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">order_item_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">status</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Returned&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">order_item_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Search brings in <strong>74%</strong> of sales. But the average price ($46) and return rate (about 1%) are almost <strong>the same for every source</strong>. With real data, you'd expect email customers or Facebook customers to behave differently. Here they don't, and that's worth saying out loud rather than ranking differences of a few cents."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 2 · PAIR and Step 3 · MOVE",
+      "Spotlight: concentration"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>How much × anything:</strong> is the store's revenue spread out, or concentrated in a few brands and customers?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_brand</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">brand_rank</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">brands</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">top_10_brands_share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">brand_rank</span><span style=\"color: #000000\"> &lt;= </span><span style=\"color: #098658\">10</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">top_100_brands_share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">brand_rank</span><span style=\"color: #000000\"> &lt;= </span><span style=\"color: #098658\">100</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "The store sells <strong>2,145 brands</strong>, but the top 10 bring in <strong>45%</strong> of sales and the top 100 bring in <strong>76%</strong>. The same question for customers:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">customer_rank</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">customers</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">top_10pct_customers_share</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">customer_rank</span><span style=\"color: #000000\"> &lt;= </span><span style=\"color: #098658\">13335</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "The top 10% of customers (13,335 of 133,345) bring in <strong>33%</strong> of sales. Brands are far more concentrated than customers."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 2 · PAIR and Step 3 · MOVE",
+      "Contrast: top-N within each group"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Which brands lead <strong>each</strong> department?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_department</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_brands</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_brand</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">share_of_department</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Levi's</strong> alone is 21% of men's sales. The women's department is much more spread out: its top brand, Ray-Ban, has 8%."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 4 · SHAPE: knock on three doors"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 4 · SHAPE: knock on three doors",
+      "➡️ Order: customers and their orders over time"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A customer appears in many rows, each with a date. Put each customer's orders <strong>in order</strong> with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">row_number</span><span style=\"color: #000000\">()</span></span></code>, then count how many customers reach order 1, 2, 3…"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_id</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">order_id</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">order_time</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">created_at</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_number</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">row_number</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_id</span><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_time</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_number</span><span style=\"color: #000000\"> &lt;= </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_number</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">customers</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">still_buying</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">customers</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">first_value</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">customers</span><span style=\"color: #000000\">) { </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_number</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_number</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "A <strong>repeat-purchase funnel</strong>: <strong>49%</strong> of customers place a second order, 25% a third, 12% a fourth. Each step loses about half. How long do customers wait before coming back? Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">()</span></span></code> to get the time since the previous order:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_id</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">order_id</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">order_time</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">created_at</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">order_number</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">row_number</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_id</span><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_time</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">previous_order_time</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">order_time</span><span style=\"color: #000000\">) { </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_id</span><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_time</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_number</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">second_orders</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_days_between</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">(</span><span style=\"color: #795E26\">days</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">previous_order_time</span><span style=\"color: #000000\"> to </span><span style=\"color: #001080\">order_time</span><span style=\"color: #000000\">))</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">within_30_days</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #795E26\">days</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">previous_order_time</span><span style=\"color: #000000\"> to </span><span style=\"color: #001080\">order_time</span><span style=\"color: #000000\">) &lt;= </span><span style=\"color: #098658\">30</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "On average, <strong>107 days</strong> pass between the first and second order, and only 9% come back within a month. A marketing team would use this to time its \"come back\" emails."
+      },
+      {
+        "type": "p",
+        "text": "<strong>The four dates are an event log.</strong> Every item moves through the same steps: ordered → shipped → delivered → (sometimes) returned. Measuring the time between steps is the start of <strong>process mining</strong>:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">delivered_at</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> not </span><span style=\"color: #0000FF\">null</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">delivered_items</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_days_to_ship</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">(</span><span style=\"color: #795E26\">days</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">date</span><span style=\"color: #000000\"> to </span><span style=\"color: #001080\">shipped_at</span><span style=\"color: #000000\">))</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_days_in_transit</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">(</span><span style=\"color: #795E26\">days</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">shipped_at</span><span style=\"color: #000000\"> to </span><span style=\"color: #001080\">delivered_at</span><span style=\"color: #000000\">))</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">returned</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">returned_at</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> not </span><span style=\"color: #0000FF\">null</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Items take about <strong>3.5 days</strong> to ship and <strong>4.8 days</strong> in transit. About 1% of delivered items come back."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 4 · SHAPE: knock on three doors",
+      "🔗 Pair: what's bought together?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Items in the <strong>same order</strong> share a key (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_id</span></span></code>). Pairing them is <strong>market-basket analysis</strong>. First, how many orders have more than one item?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">orders</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">share_of_orders</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">orders</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">sum_window</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">orders</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>97%</strong> of orders have just one item. The door opens, but there's not much behind it. Still, here's how you'd pair the rest. Make a source with one row per order and category, then <strong>join it to itself</strong> on <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_id</span></span></code>:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_categories</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_id</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">category</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">basket</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">order_categories</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_many</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">other</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">order_categories</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">on</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">order_id</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">other</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">order_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">basket</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">category</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #001080\">other</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">category</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">other_category</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">other</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">orders_with_both</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">orders_with_both</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">category</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #001080\">other</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">category</span></span></code> keeps each pair once (Accessories + Jeans, but not also Jeans + Accessories) and drops pairs of a category with itself. Accessories and jeans are the most common pair, in just 69 orders. In a real grocery or online store, with bigger baskets, this is one of the most valuable questions you can ask."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 4 · SHAPE: knock on three doors",
+      "🪆 Nest: department → category → brand"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Products sit in a <strong>hierarchy</strong>: a brand inside a category inside a department. Nesting shows each level inside the one above:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_department</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Women&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">share_of_department</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">4</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_brands</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_brand</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #001080\">share_of_category</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "The drill-down tells a very different story in each category. <strong>Ray-Ban</strong> is 77% of women's accessories, nearly a monopoly. In blazers and jackets, no brand has more than 7%. A store manager would treat those two categories very differently."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Step 5 · SHARPEN: from seed to full question"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Seed: <strong>\"returns.\"</strong> Grow it:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Full question:</strong> <em>For items ordered in 2022, which product categories had the highest return rate, and how does each compare with the store's overall rate?</em>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\"> ? </span><span style=\"color: #098658\">@2022</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">order_item_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">return_rate</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">order_item_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">status</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Returned&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #001080\">order_item_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">store_return_rate</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">order_item_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">status</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Returned&#39;</span><span style=\"color: #000000\"> }) / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">order_item_count</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">return_rate</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>The guess was wrong.</strong> The store's rate is about 1%, and every category falls between about 0.5% and 1.5%. The categories at the top have only about 700–1,700 items each in 2022, so a handful of returns moves their rate. There's no category with a fit problem here. In real clothing retail, return rates of 20–30% are common, which is another sign that this data is simulated."
+      },
+      {
+        "type": "p",
+        "text": "Writing down the guess first is what makes this useful: you learned something (no category stands out) instead of reading meaning into small differences."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Names vs. the store: the same steps, different stories"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 19: Making Data Sing: An Online Store",
+      "Key takeaways"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Compare like with like.</strong> A partial year made growth look like it collapsed. Comparing January–October fixed it."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Compared to what?</strong> The \"October peak\" was the store's growth, not a season. Rescaling by the month's total made it disappear."
+      },
+      {
+        "type": "p",
+        "text": "<strong>A flat answer is still an answer.</strong> Simulated data is often flat. Say so, rather than inventing a story from tiny differences."
+      },
+      {
+        "type": "p",
+        "text": "The same five steps work on any dataset. Business data usually has <strong>several Whos</strong> (customers, products, orders), which opens more doors."
+      },
+      {
+        "type": "p",
+        "text": "Event dates on the same row (ordered, shipped, delivered, returned) form an <strong>event log</strong>. Customer IDs with dates give <strong>repeat-purchase</strong> analysis."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 19.1: Over-index by country.</strong> Which brands over-index in the UK compared with the store as a whole? Use the Utah query from Chapter 18 as a template. Is the effect large or small?"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 19.2: First order, then what?</strong> Does the category of a customer's <strong>first</strong> order predict whether they place a second order? (Hint: use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">row_number</span><span style=\"color: #000000\">()</span></span></code> to find first orders, then compare the share of customers who reach order 2.)"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 19.3: Margin.</strong> Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_gross_margin</span></span></code> to find the categories with the highest margin <strong>per item</strong>, not in total. Does the ranking change?"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 19.4: Your own seed.</strong> Pick a seed, such as \"loyal customers,\" \"big orders\" or \"slow shipping.\" Sharpen it into a full question with all five parts, write your guess, and answer it."
+      }
+    ],
+    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+  },
+  {
+    "titles": [
       "Learning Malloy"
     ],
     "paragraphs": [
@@ -7481,6 +8514,18 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "<a href=\"17_troubleshooting\">Troubleshooting</a>: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>, setup checks, and common error messages"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Part VII · Making Data Sing</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<a href=\"18_making_data_sing\">Making Data Sing</a>: a five-step framework for asking better questions, worked on the baby-names data, plus tips for picking a dataset"
+      },
+      {
+        "type": "p",
+        "text": "<a href=\"19_making_data_sing_ecommerce\">Making Data Sing: An Online Store</a>: the same five steps on the e-commerce data, including what to do when the answer is flat"
       },
       {
         "type": "p",

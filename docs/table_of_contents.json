@@ -106,6 +106,19 @@
           "link": "/17_troubleshooting.malloynb"
         }
       ]
+    },
+    {
+      "title": "Part VII \u00b7 Making Data Sing",
+      "items": [
+        {
+          "title": "18. Making Data Sing",
+          "link": "/18_making_data_sing.malloynb"
+        },
+        {
+          "title": "19. Making Data Sing: An Online Store",
+          "link": "/19_making_data_sing_ecommerce.malloynb"
+        }
+      ]
     }
   ]
 }

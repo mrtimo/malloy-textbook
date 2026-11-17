@@ -51,6 +51,7 @@ Keep a few of these open in other tabs while you work.
 | [DuckDB documentation](https://duckdb.org/docs/) and [DuckDB functions](https://duckdb.org/docs/stable/sql/functions/overview) | The database behind this book's queries; useful when you need a SQL function |
 | [Chapter 17: Troubleshooting](17_troubleshooting.malloynb) | Errors? Start here, especially if you're missing `malloy-config.json` |
 | [Chapter 16: Data Sources](16_data_sources.malloynb) | 20 public datasets to explore, and how to find more |
+| [Chapter 18: Making Data Sing](18_making_data_sing.malloynb) | How to ask better questions of any dataset, and how to pick one |
 | [Making Data Sing](https://making-data-sing.pages.dev) | A framework for asking better questions of any dataset |
 
 ## The datasets
@@ -114,5 +115,10 @@ You will see a few kinds of colored boxes:
 
 16. [Data Sources](16_data_sources.malloynb): 20 public datasets you can query straight from the internet, and how to find more
 17. [Troubleshooting](17_troubleshooting.malloynb): `malloy-config.json`, setup checks, and common error messages
+
+**Part VII · Making Data Sing**
+
+18. [Making Data Sing](18_making_data_sing.malloynb): a five-step framework for asking better questions, worked on the baby-names data, plus tips for picking a dataset
+19. [Making Data Sing: An Online Store](19_making_data_sing_ecommerce.malloynb): the same five steps on the e-commerce data, including what to do when the answer is flat
 
 > 📘 **Malloy docs.** The official documentation is at [docs.malloydata.dev](https://docs.malloydata.dev/documentation/). Keep it open in another tab. Every chapter links to the pages that go deeper.

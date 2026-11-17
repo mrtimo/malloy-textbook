@@ -1,0 +1,441 @@
+>>>markdown
+# Chapter 18: Making Data Sing
+
+You know how to write Malloy. This chapter is about **what to ask**.
+
+Handed a new dataset, most people group by a column, sum a number, sort, and stop. *"The most common boys' name is James."* That's true, but nobody leans forward. Better questions come from noticing **what kinds of columns** a dataset has and **which ones appear together**.
+
+**Making Data Sing** is a five-step framework for doing that:
+
+> **TYPE** the columns → **PAIR** the types → apply a **MOVE** → look for a **SHAPE** → **SHARPEN** the question
+
+This chapter explains each step and works through it on the baby-names data. [Chapter 19](19_making_data_sing_ecommerce.malloynb) applies the same steps to an online store, so you can see the framework work on a very different kind of data.
+
+> 📄 **Handout and slides.** A one-page version of the framework, with pictures, is at [making-data-sing.pages.dev](https://making-data-sing.pages.dev). You can also download the [one-page handout (.docx)](https://making-data-sing.pages.dev/downloads/making-data-sing-handout.docx).
+
+## Before you start: picking a dataset that can sing
+
+The framework works on any data, but some datasets give you far more to work with. Use these tips when you choose data for a project.
+
+**1. Count the column types.** Look for at least **four of the five types** (Step 1 below explains them): a *Who/What*, a *Kind*, a *When*, a *Where* and a *How much*. Each type you have adds new pairs, and each pair asks its own questions.
+
+**2. Look for a "Who" with many values.** A column with hundreds or thousands of distinct things (names, products, songs, players, companies) gives you the richest questions: which ones rise, fall, peak, cross over or stand out.
+
+**3. Look for a long "When".** Many years, or many months, let you ask about change, peaks, fads and trends. A dataset with one year, or no dates at all, can't answer any *When* question.
+
+**4. Prefer one row per event.** Raw data, with one row per sale, game, trip, arrest or visit, can be summarized any way you like. Data that someone has already summarized (one row per country with a total) has lost most of its questions.
+
+**5. Knock on the three doors** (Step 4 below) before you commit:
+
+| Door | Look for | Example |
+|---|---|---|
+| ➡️ **Order** | an ID that appears in many rows, plus a date | a customer with many orders, a patient with many visits |
+| 🔗 **Pair** | rows that share a key | items in the same order, songs on the same playlist |
+| 🪆 **Nest** | a category inside another category | city → state → region, product → category → department |
+
+**6. Choose real data over simulated data.** Simulated "demo" data is often generated at random, so its patterns are flat. You'll see this in Chapter 19.
+
+**7. Size and documentation.** A few thousand to a few million rows is ideal. Most important, make sure you can say what **one row** means.
+
+**A quick scorecard:**
+
+| Dataset | Who | Kind | When | Where | How much | Doors |
+|---|---|---|---|---|---|---|
+| Baby names (this chapter) | name | sex | year, 1910–2021 | state | births | Order, Pair, Nest |
+| Online store ([Chapter 19](19_making_data_sing_ecommerce.malloynb)) | customer, product, brand | category, status, traffic source | order date, ship date | country | price, cost | Order, Pair, Nest |
+| ICE arrests ([Chapter 15](15_worked_example_ice.malloynb)) | country of citizenship, person | arrest method, criminality | arrest date | state, ICE office | age, days to departure | Order, Pair, Nest |
+| GDP by country and year | country | — | year | country | GDP | Order only |
+
+The last row is a typical "summary" table: one number per country per year. You can ask about growth, but there's no *Who* beyond the country, no *Kind* and only one door.
+
+**The two-minute test.** Load the data and look at ten rows. If you can write **three questions from three different pairs** in five minutes, it's a keeper.
+
+## The framework at a glance
+
+### 1. TYPE: name each column's job
+
+| Type | Plain-English question | Examples |
+|---|---|---|
+| 👤 **Who / What** (entity) | *Which thing?* | name, product, student |
+| 🏷️ **Kind** (category) | *What group?* | sex, department, region |
+| 🕒 **When** (time) | *When?* | year, date, term |
+| 📍 **Where** (place) | *Where?* | state, country, zip code |
+| 🔢 **How much** (measure) | *How many?* | count, price, minutes |
+
+### 2. PAIR: every pair of types asks its own question
+
+| Pair | Signature question |
+|---|---|
+| Who × When | When did it peak? Is it a fad or a classic? |
+| Who × Kind | Which ones crossed over from one group to another? |
+| Who × Where | Where is it unusually popular? |
+| Kind × When | Is the gap between groups growing or shrinking? |
+| Where × When | Are places becoming more alike or more different? |
+| How much × anything | How concentrated is the total? |
+
+### 3. MOVE: turn a flat answer into a story
+
+| Family | Moves | Why |
+|---|---|---|
+| ⚖️ **Rescale** (make it fair) | count → **share**, count → **rank** | Totals differ; shares and ranks compare fairly |
+| ↔️ **Contrast** (compare it) | **change**, **over-index**, **top-N within each group** | Finds movers and what's *distinctive*, not just what's big |
+| 🔦 **Spotlight** (find the story) | **peak / first / last**, **concentration**, **reversals**, **the identifier is data** | Gives the number a timeline, a twist or a hidden pattern |
+
+### 4. SHAPE (advanced): three doors
+
+| Door | Ask | What it unlocks | Malloy tool |
+|---|---|---|---|
+| ➡️ **Order** | Can I put rows in order *within* one entity? | sequences, cohorts, repeat behavior, rank over time | `calculate:` with `rank()`, `lag()`, `row_number()` ([Chapter 12](12_pipelines_and_windows.malloynb)) |
+| 🔗 **Pair** | Can I pair rows that share a key? | baskets, networks, things that go together | a pipeline or a self-join ([Chapter 10](10_joins.malloynb)) |
+| 🪆 **Nest** | Does one category sit inside another? | drill-down, hierarchies | `join_one:` to a parent table, then `nest:` ([Chapter 3](03_views_and_nesting.malloynb)) |
+
+### 5. SHARPEN: turn a seed into a full question
+
+A **seed** is a few words ("names over time"). A **full question** has five parts: the **subject**, the **measure**, the **move or shape**, the **comparison**, and the **surprise**: what result would surprise you? Write your guess down *before* you run the query.
+
+**Test:** could two classmates compute the *same* answer from your question? If not, it's still a seed.
+
+Now let's do each step on real data.
+>>>malloy
+import "names.malloy"
+>>>markdown
+## Step 1 · TYPE the names data
+
+Start by looking at a few rows:
+>>>malloy
+run: names -> { select: * limit: 5 }
+>>>markdown
+The raw data has five columns. Each one has a job:
+
+| Column | Type | Notes |
+|---|---|---|
+| `name` | 👤 **Who** | about 30,000 different names: lots of "things" to compare |
+| `gender` | 🏷️ **Kind** | F or M |
+| `year_born` | 🕒 **When** | 1910–2021: more than a century |
+| `state` | 📍 **Where** | 50 states plus DC. Also a **Kind** that nests inside a region (Step 4) |
+| `births` | 🔢 **How much** | babies given that name, in that state and year |
+
+All five types: this dataset can sing. The model in `names.malloy` also adds `decade`, `name_length` and `first_letter`. Notice that `first_letter` turns the *Who* itself into data. That's one of the Spotlight moves.
+
+## Step 2 · PAIR the types
+
+### The flat answer
+
+Here is the question almost everyone asks first:
+>>>malloy
+run: names -> {
+  where: gender = 'M'
+  group_by: name
+  aggregate: total_births
+  limit: 5
+}
+>>>markdown
+James is the most common boys' name since 1910. That's true, but it's one type (*Who*) and one number. Nothing about **when**, **where** or **compared to what**. Every pair below adds a second type.
+
+### Who × When: is it a fad or a classic?
+
+Jennifer and Elizabeth are both familiar girls' names. Plot each one's **share** of all girls born each year:
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: names -> {
+  where: gender = 'F'
+  group_by: year_born, name
+  aggregate: share is total_births / all(total_births, year_born)
+} -> {
+  where: name = 'Jennifer' | 'Elizabeth'
+  group_by: year_born, name
+  aggregate:
+    # percent
+    share_of_girls is share.sum()
+  order_by: year_born
+}
+>>>markdown
+**Jennifer is a fad.** It rose from almost nothing to a peak in 1974, when nearly 5% of girls got the name, and then fell back to 0.05% by 2021. **Elizabeth is a classic**: it has stayed between about 0.5% and 1.7% for over a century.
+
+The *move* here is **share** (a Rescale move). Raw counts would mislead: far more babies were born in the 1950s baby boom than in the 1930s, so every name looks bigger then. Share takes that out.
+
+The pipeline matters too. Stage 1 computes each name's share out of **all** girls. Stage 2 keeps the two names. If you filtered to Jennifer and Elizabeth first, `all()` would only see those two names.
+
+### Who × Kind: which names crossed over?
+
+What percent of babies with a name were girls, decade by decade?
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: names -> {
+  where: name = 'Ashley' | 'Leslie' | 'Taylor'
+  group_by: decade, name
+  aggregate:
+    # percent
+    pct_girls is total_births { where: gender = 'F' } / total_births
+  order_by: decade
+}
+>>>markdown
+All three names **switched sides**. Ashley was 7% girls in the 1950s and 100% girls by the 1990s. Leslie went from 67% to 99%. Taylor was 0% girls in the 1950s and 85% by the 2000s. This is a **reversal**, a Spotlight move: the pattern breaks.
+
+### Who × Where: where is a name unusually popular?
+
+The most *common* names in Utah look like everywhere else. The most *distinctive* ones don't. To find them, compare each name's share **in Utah** to its share **in the whole country**. That ratio is an **over-index** (a Contrast move): 3.0 means "three times as popular in Utah as nationally."
+>>>malloy
+run: names -> {
+  where: gender = 'F' and decade = 2010
+  group_by: name
+  aggregate:
+    utah_births is total_births { where: state = 'UT' }
+    utah_share is total_births { where: state = 'UT' } / all(total_births { where: state = 'UT' })
+    us_share is total_births / all(total_births)
+} -> {
+  where: utah_births >= 500
+  select: name, utah_births
+    # number="0.0"
+    over_index is utah_share / us_share
+  order_by: over_index desc
+  limit: 10
+}
+>>>markdown
+**Oakley** was 14 times more popular in Utah than in the U.S. as a whole in the 2010s. Jane, Aspen, Kate and Eliza follow. The `utah_births >= 500` filter keeps out rare names, where one or two births would make the ratio jump around.
+
+### Kind × When: is the gap growing or shrinking?
+
+A **concentration** question: what share of babies got one of that decade's **top 10** names? Compare boys and girls.
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: names -> {
+  group_by: decade, gender, name
+  aggregate: share is total_births / all(total_births, decade, gender)
+  calculate: rank_in_decade is rank() { partition_by: decade, gender  order_by: total_births desc }
+} -> {
+  where: rank_in_decade <= 10
+  group_by: decade, gender
+  aggregate:
+    # percent
+    top10_share is share.sum()
+  order_by: decade
+}
+>>>markdown
+In the 1940s, **36% of boys** got a top-10 name, compared with 26% of girls. By the 2020s, it's about **9% for both**. Parents spread out, boys' names caught up with girls' names in variety, and the gap closed.
+
+This answer uses three moves: **rank** (to find the top 10), **share** and **concentration**.
+
+## Step 3 · MOVE: one question, three families
+
+Moves are what turn a flat answer into a story. Here are the three families on the boys' names.
+
+### Rescale: from count to share and rank
+
+The flat answer said James is the most common boys' name *overall*. But which name was **#1 each year**, and how big was it?
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: names -> {
+  where: gender = 'M'
+  group_by: year_born, name
+  aggregate: share is total_births / all(total_births, year_born)
+  calculate: rank_in_year is rank() { partition_by: year_born  order_by: total_births desc }
+} -> {
+  where: rank_in_year = 1
+  group_by: year_born, name
+  aggregate:
+    # percent
+    share_of_boys is share.sum()
+  order_by: year_born
+}
+>>>markdown
+Now the flat fact sings: *"Michael was #1 for 44 years. But today's #1 name covers a far smaller share of boys: Liam got 1.4% of boys in 2021, while John got 7% in 1910. Parents are spreading out."*
+
+### Contrast: change and top-N within each group
+
+**Change** compares one time with another. Which girls' names climbed the most into the 2021 top 50?
+>>>malloy
+run: names -> {
+  where: gender = 'F' and year_born = 2011 | 2021
+  group_by: year_born, name
+  aggregate: total_births
+  calculate: name_rank is rank() { partition_by: year_born  order_by: total_births desc }
+} -> {
+  group_by: name
+  aggregate:
+    rank_2011 is max(name_rank) { where: year_born = 2011 }
+    rank_2021 is max(name_rank) { where: year_born = 2021 }
+} -> {
+  where: rank_2021 <= 50
+  select: name, rank_2011, rank_2021, places_climbed is rank_2011 - rank_2021
+  order_by: places_climbed desc
+  limit: 8
+}
+>>>markdown
+**Everly** jumped from #1,175 to #50 in ten years, and **Nova** from #904 to #32.
+
+**Top-N within each group** shows the leaders inside every group, instead of one overall list. Here, the top 3 girls' names in each decade:
+>>>malloy
+run: names -> {
+  where: gender = 'F' and decade >= 1950
+  group_by: decade
+  aggregate: total_births
+  nest: top_3 is {
+    group_by: name
+    aggregate:
+      total_births
+      # percent
+      share_of_decade is total_births / all(total_births)
+    limit: 3
+  }
+  order_by: decade
+}
+>>>markdown
+Mary led the 1950s with 3.5% of girls. By the 2020s, the leader, Olivia, has 1.3%. The same story as before, seen another way.
+
+### Spotlight: the identifier is data
+
+The *name itself* is a column you can measure: its length, its first letter, its last letter. What share of boys got a name ending in **n** (Mason, Aiden, Jackson…)?
+>>>malloy
+#(docs) size=large limit=5000
+# line_chart
+run: names -> {
+  where: gender = 'M'
+  group_by: decade
+  aggregate:
+    # percent
+    ends_in_n is total_births { where: name ~ '%n' } / total_births
+  order_by: decade
+}
+>>>markdown
+From about **13% in the 1940s to 35% in the 2010s**. No single name did this. It's a pattern you can only see when you treat the name as data.
+
+## Step 4 · SHAPE: knock on three doors
+
+So far, each row stood alone. The three doors ask whether rows **relate to each other**.
+
+### ➡️ Order: rows in order within one name
+
+Each name appears every year, so we can follow it through time: when did it enter the top 10, and how long did it stay? This is a **rank trajectory**: rank each year (window function), then summarize each name's run.
+>>>malloy
+run: names -> {
+  group_by: year_born, gender, name
+  aggregate: total_births
+  calculate: rank_in_year is rank() { partition_by: year_born, gender  order_by: total_births desc }
+} -> {
+  where: rank_in_year <= 10
+  group_by: name, gender
+  aggregate:
+    years_in_top_10 is count()
+    first_year is min(year_born)
+    last_year is max(year_born)
+    years_at_no_1 is count() { where: rank_in_year = 1 }
+  order_by: years_in_top_10 desc
+  limit: 10
+}
+>>>markdown
+**James** spent 91 of 112 years in the boys' top 10. **Mary** was #1 for 46 years, and **Michael** for 44. Notice the "first year" column: Michael didn't enter the top 10 until 1943, so his whole run fits inside one lifetime.
+
+### 🔗 Pair: states that share a name
+
+Pair rows that share a key. Here, the key is the **#1 girls' name**: which states share the same favorite?
+>>>malloy
+run: names -> {
+  where: gender = 'F' and year_born = 2021
+  group_by: state, name
+  aggregate: total_births
+  calculate: rank_in_state is rank() { partition_by: state  order_by: total_births desc }
+} -> {
+  where: rank_in_state = 1
+  group_by: name
+  aggregate:
+    states is count()
+    state_list is string_agg(state, ', ')
+  order_by: states desc
+}
+>>>markdown
+In 2021, **Olivia** was #1 in 34 states. **Charlotte** was #1 in 10, and look at which ones: DC, Indiana, Wisconsin, Michigan, Virginia, Minnesota, Iowa, Delaware, Maine and Vermont, mostly the Midwest and the Northeast. Pairing rows by a shared value turns a list into **groups that go together**.
+
+### 🪆 Nest: states inside regions
+
+A state is a *Where*, but it's also a *Kind* that sits inside a **region**. Join the region table from [Chapter 14](14_model_review.malloynb):
+>>>malloy
+source: states is duckdb.table('data/state_regions.csv') extend {
+  primary_key: state_code
+}
+
+source: names_by_region is names extend {
+  join_one: states on state = states.state_code
+  dimension: region is states.region
+}
+>>>markdown
+**Liam** was the #1 boys' name in 2021 and **Noah** was #2. Does Liam win everywhere? Start at the region level, then **drill down** with a nest:
+>>>malloy
+run: names_by_region -> {
+  where: gender = 'M' and year_born = 2021 and name = 'Liam' | 'Noah'
+  group_by: region
+  aggregate:
+    liam is total_births { where: name = 'Liam' }
+    noah is total_births { where: name = 'Noah' }
+  nest: by_state is {
+    group_by: state
+    aggregate:
+      liam is total_births { where: name = 'Liam' }
+      noah is total_births { where: name = 'Noah' }
+    order_by: liam desc
+    limit: 4
+  }
+}
+>>>markdown
+Liam beats Noah in **every region**. But drill down and the picture changes: Noah beats Liam in **California**, Pennsylvania, Massachusetts, Illinois and Michigan. A total for a group can hide very different stories inside it. That's why the Nest door is worth knocking on.
+
+## Step 5 · SHARPEN: from seed to full question
+
+Start with a seed: **"unisex names."** You can't compute that. Grow it into a full question:
+
+| Part | Our answer |
+|---|---|
+| **Subject** | names given to at least 2,000 babies in the 2010s |
+| **Measure** | percent of babies with the name who were girls |
+| **Move** | *closest to 50%* (a ranking), then **change** from the 1980s |
+| **Comparison** | the same name in the 1980s |
+| **Surprise** | *My guess:* the most even names today were also fairly even in the 1980s. |
+
+**Full question:** *Which names given to at least 2,000 babies in the 2010s came closest to 50% girls, and what percent girls were they in the 1980s?*
+>>>malloy
+run: names -> {
+  where: decade = 1980 | 2010
+  group_by: name
+  aggregate:
+    births_2010s is total_births { where: decade = 2010 }
+    # percent
+    pct_girls_2010s is total_births { where: decade = 2010 and gender = 'F' } / total_births { where: decade = 2010 }
+    # percent
+    pct_girls_1980s is total_births { where: decade = 1980 and gender = 'F' } / total_births { where: decade = 1980 }
+} -> {
+  where: births_2010s >= 2000
+  select: name, births_2010s, pct_girls_2010s, pct_girls_1980s
+    distance_from_even is abs(pct_girls_2010s - 0.5)
+  order_by: distance_from_even
+  limit: 10
+}
+>>>markdown
+**The guess was wrong, and that's the interesting part.** Most of today's most even names were **boys' names** in the 1980s (Jael is the exception): Charlie was 5% girls, Skyler 3%, Landry 0%. Several (Oakley, Briar, Azariah) barely existed then (the empty cells). Unisex names mostly start as boys' names and move toward girls, like Ashley and Taylor did. Writing down the guess first is what made the result a surprise.
+
+## Checklist for your own data
+
+1. ☐ **Type** every column: Who, Kind, When, Where, How much.
+2. ☐ **Pair** types: pick two pairs and write their signature questions.
+3. ☐ **Move**: apply moves from at least two different families.
+4. ☐ **Shape**: knock on all three doors. Order? Pair? Nest?
+5. ☐ **Sharpen** three seeds into full questions, and write your expected answer first.
+
+## Key takeaways
+
+* The questions a dataset can answer depend on **which types of columns it has** and **which appear together**.
+* **Pairs** of types give you ready-made questions: Who × When asks about peaks and fads, Who × Where about over-indexing, Kind × When about gaps.
+* **Moves** turn flat answers into stories: **rescale** (share, rank), **contrast** (change, over-index, top-N within groups), **spotlight** (peaks, reversals, concentration, the identifier as data).
+* The three **doors** (Order, Pair, Nest) open when rows relate to each other. In Malloy they usually mean a window function, a pipeline or join, or a nest.
+* A **full question** names the subject, measure, move, comparison and expected answer. The gap between what you expected and what you found is where insight lives.
+
+> 🎯 **Challenge 18.1: Fad or classic?** Pick three boys' names you think are classics and three you think are fads. Write your guess down. Then plot their share of boys by year. Were you right?
+
+> 🎯 **Challenge 18.2: Your state's signature names.** Copy the Utah over-index query and change it to your state. Which name over-indexes most? Try boys too.
+
+> 🎯 **Challenge 18.3: First letters.** Use `first_letter` (an identifier-as-data move). What share of girls got a name starting with each letter in the 1950s, and in the 2010s? Which letter gained the most?
+
+> 🎯 **Challenge 18.4: Sharpen a seed.** Start from the seed "short names." Write a full question with all five parts, including your guess, then answer it with `name_length`.
