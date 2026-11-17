@@ -692,6 +692,36 @@ div.document .result-middle[data-result-kind="json"] pre {
   color: #4285f4;
 }
 
+.result-controls a.result-link {
+  padding: 3px 8px 3px 5px;
+  margin-right: 6px;
+  border-bottom: 1px solid white;
+  border-right: 1px solid #efefef;
+  color: #b1b1b1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.result-controls a.result-link:hover {
+  border-bottom: 1px solid #4285f4;
+  color: #4285f4;
+}
+
+.result-controls a.result-link.copied {
+  color: #1baf7a;
+}
+
+div.code-wrapper[id] {
+  scroll-margin-top: 80px;
+}
+
+div.code-wrapper.linked-query {
+  outline: 2px solid #4285f4;
+  outline-offset: 4px;
+  border-radius: 6px;
+  transition: outline-color 2s ease;
+}
+
 .search-highlight {
   background-color: #ffff005c;
   color: unset;

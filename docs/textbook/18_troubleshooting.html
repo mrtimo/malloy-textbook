@@ -415,20 +415,20 @@
         </a>
       </h2>
     <p>Copy this into a new cell in any notebook in the notebooks folder and run it. If you get a number back (6,311,504), your setup is working: the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span></span></code> connection exists and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">data</span><span style="color: #000000">/</span></span></code> paths are found.</p>
-<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/18_troubleshooting.malloynb#C2" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000">) -&gt; {</span></span>
+<div class="code-wrapper" id="test-your-setup-query-1"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/18_troubleshooting.malloynb#C2" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;data/usa_names.parquet&#39;</span><span style="color: #000000">) -&gt; {</span></span>
 <span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">: </span><span style="color: #001080">row_count</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #795E26">count</span><span style="color: #000000">()</span></span>
 <span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
     <div class="result-controls-bar">
       <span class="result-label">QUERY RESULTS</span>
-      <div class="result-controls">
+      <div class="result-controls"><a class="result-link" href="#test-your-setup-query-1" title="Link to this query (copies the link)">🔗 Link</a>
         <button class="result-control" selected data-result-kind="html">HTML</button>
         <button class="result-control"  data-result-kind="json">JSON</button>
         <button class="result-control"  data-result-kind="sql">SQL</button>
       </div>
     </div>
     <div class="result-middle" data-result-kind="html" selected>
-      <div class="result-inner" id="615039b9-f36a-4b6a-af82-8f9515c0dd0f">
-        <script>(()=>{var e=document.getElementById("615039b9-f36a-4b6a-af82-8f9515c0dd0f"),a=(new window.index.MalloyRenderer).createViz();a.setResult({schema:{fields:[{kind:"dimension",name:"row_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "e99dfc4f-4ce4-482e-b5ae-adb135389c5e" calculation\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"number_cell",number_value:6311504,subtype:"integer"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable ordered_by = [{ row_count = desc }]\n"},{value:"#(malloy) \n"},{value:"#(malloy) query_name = __stage0\n"}],sql:"SELECT \n   COUNT(1) as \"row_count\"\nFROM 'data/usa_names.parquet' as base\n"}),a.render(e)})();</script>
+      <div class="result-inner" id="cfc662d2-7b02-4c7c-81f5-f5a57616fad1">
+        <script>(()=>{var e=document.getElementById("cfc662d2-7b02-4c7c-81f5-f5a57616fad1"),a=(new window.index.MalloyRenderer).createViz();a.setResult({schema:{fields:[{kind:"dimension",name:"row_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "864e094e-b484-42ad-9940-15eb4cabf40d" calculation\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"number_cell",number_value:6311504,subtype:"integer"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable ordered_by = [{ row_count = desc }]\n"},{value:"#(malloy) \n"},{value:"#(malloy) query_name = __stage0\n"}],sql:"SELECT \n   COUNT(1) as \"row_count\"\nFROM 'data/usa_names.parquet' as base\n"}),a.render(e)})();</script>
       </div>
     </div>
     <div class="result-middle" data-result-kind="json" >
@@ -449,18 +449,18 @@
       </div>
     </div>
   </div></div><p>And this one tells you which version of DuckDB the Malloy extension is using (handy when you ask for help):</p>
-<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/18_troubleshooting.malloynb#C4" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">duckdb</span><span style="color: #000000FF">.</span><span style="color: #AF00DB">sql</span><span style="color: #000000FF">(</span><span style="color: #000000FF">&quot;</span><span style="color: #0000FF">SELECT</span><span style="color: #000000FF"> </span><span style="color: #0000FF">version</span><span style="color: #000000FF">() </span><span style="color: #0000FF">AS</span><span style="color: #000000FF"> duckdb_version</span><span style="color: #000000FF">&quot;</span><span style="color: #000000FF">)</span></span></pre><div class="result-outer small">
+<div class="code-wrapper" id="test-your-setup-query-2"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/18_troubleshooting.malloynb#C4" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">duckdb</span><span style="color: #000000FF">.</span><span style="color: #AF00DB">sql</span><span style="color: #000000FF">(</span><span style="color: #000000FF">&quot;</span><span style="color: #0000FF">SELECT</span><span style="color: #000000FF"> </span><span style="color: #0000FF">version</span><span style="color: #000000FF">() </span><span style="color: #0000FF">AS</span><span style="color: #000000FF"> duckdb_version</span><span style="color: #000000FF">&quot;</span><span style="color: #000000FF">)</span></span></pre><div class="result-outer small">
     <div class="result-controls-bar">
       <span class="result-label">QUERY RESULTS</span>
-      <div class="result-controls">
+      <div class="result-controls"><a class="result-link" href="#test-your-setup-query-2" title="Link to this query (copies the link)">🔗 Link</a>
         <button class="result-control" selected data-result-kind="html">HTML</button>
         <button class="result-control"  data-result-kind="json">JSON</button>
         <button class="result-control"  data-result-kind="sql">SQL</button>
       </div>
     </div>
     <div class="result-middle" data-result-kind="html" selected>
-      <div class="result-inner" id="bf241b83-3f78-47d9-a366-dd8e14a719a2">
-        <script>(()=>{var e=document.getElementById("bf241b83-3f78-47d9-a366-dd8e14a719a2"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"duckdb_version",type:{kind:"string_type"}}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"v1.5.5"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) \n"},{value:'#(malloy) query_name = "sql://duckdb/81236b4f-1003-5bfd-8e71-a101ce7607ac"\n'}],sql:"SELECT version() AS duckdb_version"}),n.render(e)})();</script>
+      <div class="result-inner" id="b413503c-32a4-4d56-803b-857476b4e594">
+        <script>(()=>{var e=document.getElementById("b413503c-32a4-4d56-803b-857476b4e594"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"duckdb_version",type:{kind:"string_type"}}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"v1.5.5"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) \n"},{value:'#(malloy) query_name = "sql://duckdb/81236b4f-1003-5bfd-8e71-a101ce7607ac"\n'}],sql:"SELECT version() AS duckdb_version"}),n.render(e)})();</script>
       </div>
     </div>
     <div class="result-middle" data-result-kind="json" >

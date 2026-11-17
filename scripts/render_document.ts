@@ -77,6 +77,22 @@ class Renderer {
     )[];
   }[] = [];
   private cellNumber = 0;
+  // Stable anchors for query results: "<heading-hash>-query-<n>", counting
+  // queries under the most recent heading, so links survive edits elsewhere.
+  private lastHeadingHash = "";
+  private queriesUnderHeading = 0;
+  private usedQueryIds = new Set<string>();
+
+  private nextQueryId(): string {
+    this.queriesUnderHeading += 1;
+    const base = this.lastHeadingHash
+      ? `${this.lastHeadingHash.replace(/-+$/, "")}-query-${this.queriesUnderHeading}`
+      : `query-${this.queriesUnderHeading}`;
+    let id = base;
+    for (let k = 2; this.usedQueryIds.has(id); k++) id = `${base}-${k}`;
+    this.usedQueryIds.add(id);
+    return id;
+  }
   private mode: "markdown" | "malloy" | undefined = undefined;
   // Undefined until the first Malloy cell compiles: cell 1 has no base model
   // to extend, so it is compiled on its own and every later cell extends what
@@ -150,7 +166,16 @@ class Renderer {
       });
     }
 
-    return `<div class="code-wrapper">${
+    let wrapperId = "";
+    if (result && result.includes('class="result-outer')) {
+      const queryId = this.nextQueryId();
+      wrapperId = ` id="${queryId}"`;
+      result = result.replace(
+        '<div class="result-controls">',
+        `<div class="result-controls"><a class="result-link" href="#${queryId}" title="Link to this query (copies the link)">🔗 Link</a>`
+      );
+    }
+    return `<div class="code-wrapper"${wrapperId}>${
       hidden ? "" : prefix + highlightedCode
     }${result ?? ""}</div>`;
   }
@@ -231,6 +256,8 @@ class Renderer {
     this.registerTitle(text, level);
     const escapedText = hashForHeading(plainTextFromMarkdown(content));
     this.hashes.push(escapedText);
+    this.lastHeadingHash = escapedText;
+    this.queriesUnderHeading = 0;
     // TODO handle ambiguous hashes?
 
     const heading = `
