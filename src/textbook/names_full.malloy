@@ -3,7 +3,7 @@
 // =============================================================================
 // names_full.malloy
 //
-// The complete U.S. baby names model, used in Chapter 14. It brings together
+// The complete U.S. baby names model, used in Chapter 15. It brings together
 // every kind of model element from the book:
 //
 //   1. compiler flags          (##! at the top)

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>21. Homework: Make Your Data Sing | Learning Malloy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/malloy-textbook/css/document.css" />
+    <link rel="stylesheet" href="/malloy-textbook/css/textbook.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/malloy-textbook/favicon.ico" />
+    <script src="/malloy-textbook/js/generated/malloy-render-0.0.437.js"></script>
+    <style>
+      .result-inner .malloy-render { width: 100%; }
+      .result-inner .table-container { width: 100%; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="header">
+        <div class="header-banner">
+          <a class="book-mark" href="/malloy-textbook/textbook">
+            <span class="book-title">Learning Malloy</span>
+            <span class="subtitle">A Hands-On Textbook</span>
+          </a>
+        </div>
+        <div class="header-right">
+          <div class="header-links">
+            <a class="pill" href="https://docs.malloydata.dev/documentation/" target="_blank">Malloy Docs ↗</a>
+            <a href="https://github.com/mrtimo/malloy-textbook" target="_blank" title="Textbook source on GitHub"
+              ><img src="/malloy-textbook/img/github.svg" style="transform: scale(0.5)"
+            /></a>
+          </div>
+          <form action="/malloy-textbook/search">
+            <div class="search-input-outer">
+              <img src="/malloy-textbook/img/search.svg" alt="search" />
+              <input placeholder="Search the textbook" id="search-input" name="query" />
+            </div>
+            <input type="submit" style="display: none" />
+          </form>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+              <div id=start_here
+                class="sidebar-section-title {% unless /textbook/index.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Start Here
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                Welcome
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_i · foundations
+                class="sidebar-section-title {% unless /textbook/01_basics.html,/textbook/02_time_truncation.html,/textbook/03_views_and_nesting.html,/textbook/04_render_tags.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part I · Foundations
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/01_basics">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                1. The Basics
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/02_time_truncation">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                2. Time Truncation
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/03_views_and_nesting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                3. Views and Nesting
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/04_render_tags">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                4. Render Tags
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_ii · tools and data
+                class="sidebar-section-title {% unless /textbook/05_files_and_notebooks.html,/textbook/06_explorer.html,/textbook/07_csv_and_parquet.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part II · Tools and Data
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/05_files_and_notebooks">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                5. Files vs. Notebooks
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/06_explorer">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                6. The Malloy Explorer
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/07_csv_and_parquet">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                7. CSV and Parquet
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iii · analysis
+                class="sidebar-section-title {% unless /textbook/08_filtering.html,/textbook/09_data_cleaning.html,/textbook/10_joins.html,/textbook/11_percent_of_total.html,/textbook/12_pipelines_and_windows.html,/textbook/13_pipelines_step_by_step.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part III · Analysis
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/08_filtering">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                8. Filtering and Time Comparisons
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/09_data_cleaning">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                9. Data Cleaning
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/10_joins">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                10. Joins and Symmetric Aggregates
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/11_percent_of_total">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                11. Percent of Total
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/12_pipelines_and_windows">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                12. Pipelines and Window Calculations
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/13_pipelines_step_by_step">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                13. Pipelines, Step by Step
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iv · modeling
+                class="sidebar-section-title {% unless /textbook/14_givens.html,/textbook/15_model_review.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part IV · Modeling
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/14_givens">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                14. Givens
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/15_model_review">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                15. Anatomy of a Malloy Model
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_v · worked example
+                class="sidebar-section-title {% unless /textbook/16_worked_example_ice.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part V · Worked Example
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/16_worked_example_ice">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                16. ICE Arrests, Start to Finish
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_vi · going further
+                class="sidebar-section-title {% unless /textbook/17_data_sources.html,/textbook/18_troubleshooting.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part VI · Going Further
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/17_data_sources">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                17. Data Sources
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/18_troubleshooting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                18. Troubleshooting
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_vii · making data sing
+                class="sidebar-section-title {% unless /textbook/19_making_data_sing.html,/textbook/20_making_data_sing_ecommerce.html,/textbook/21_homework_make_your_data_sing.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part VII · Making Data Sing
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/19_making_data_sing">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                19. Making Data Sing
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/20_making_data_sing_ecommerce">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                20. Making Data Sing: An Online Store
+              </a>
+            </div>
+        <div class='sidebar-item active'>
+              <a href="/malloy-textbook/textbook/21_homework_make_your_data_sing">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                21. Homework: Make Your Data Sing
+              </a>
+            </div>
+              </div>
+            </div>
+          </div>        <script src="/malloy-textbook/js/sidebar_state.js"></script>
+        <div class="content">
+          <div class="footer">
+            
+<div class="linear-navigation">
+  <div class="item">
+      <a href="20_making_data_sing_ecommerce.html"><img src="/malloy-textbook/img/previous.svg" alt="previous"/>20. Making Data Sing: An Online Store</a>
+  </div>
+  <div class="item">
+  </div>
+</div> 
+          </div>
+          <div class="document-outer"><div class="document"><div class="title-row">
+        
+      <h1>
+        <a id="chapter-21-homework-make-your-data-sing" class="header-link anchor" href="#chapter-21-homework-make-your-data-sing">
+          Chapter 21: Homework: Make Your Data Sing
+        </a>
+      </h1>
+    
+        <a class="edit-link" target="_blank" href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/21_homework_make_your_data_sing.malloynb">Open in VS Code <img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a>
+        </div>
+      <p>In <a href="19_making_data_sing">Chapter 19</a> and <a href="20_making_data_sing_ecommerce">Chapter 20</a> you watched the <strong>Making Data Sing</strong> framework work on baby names and an online store. Now it's your turn, with <strong>your own data</strong>:</p>
+<blockquote>
+<p><strong>TYPE</strong> the columns → <strong>PAIR</strong> the types → apply a <strong>MOVE</strong> → look for a <strong>SHAPE</strong> → <strong>SHARPEN</strong> the question</p>
+</blockquote>
+<p>You'll build one Malloy notebook that follows the same steps as Chapter 19, on a <strong>Parquet file hosted on the internet</strong>. By the end you'll have a short, honest data story: the findings that sing, and the ones that turned out flat.</p>
+<p><strong>What you turn in:</strong> one <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code> file, with <strong>every cell run</strong> so the results are saved in the notebook.</p>
+
+      <h2>
+        <a id="step-0-choose-your-data-and-put-it-online" class="header-link anchor" href="#step-0-choose-your-data-and-put-it-online">
+          Step 0 · Choose your data and put it online
+        </a>
+      </h2>
+    
+      <h3>
+        <a id="pick-a-dataset-that-can-sing" class="header-link anchor" href="#pick-a-dataset-that-can-sing">
+          Pick a dataset that can sing
+        </a>
+      </h3>
+    <p>Re-read <a href="19_making_data_sing#before-you-start-picking-a-dataset-that-can-sing"><strong>Before you start: picking a dataset that can sing</strong></a> in Chapter 19. Your dataset must have:</p>
+<ul>
+<li><p>at least <strong>four of the five column types</strong> (Who, Kind, When, Where, How much)</p>
+</li>
+<li><p>a <strong>When</strong> column that covers several years, or many months</p>
+</li>
+<li><p><strong>one row per event</strong> (a sale, a game, a trip, a call), not a table someone already summarized</p>
+</li>
+<li><p>at least <strong>10,000 rows</strong></p>
+</li>
+<li><p><strong>at least one door</strong> that opens: Order, Pair or Nest</p>
+</li></ul>
+<p>Places to look:</p>
+<ul>
+<li><p><strong><a href="https://github.com/toddrjones/datasets">Free Datasets for Social Science</a></strong> by Todd Jones: 150+ free datasets organized by topic, from crime and sports to real estate and shopping. A great place to start.</p>
+</li>
+<li><p><a href="17_data_sources">Chapter 17 · Data Sources</a>: 20 ready-to-use datasets, and more places to search</p>
+</li>
+<li><p>your city's or state's open-data portal, <a href="https://data.gov">data.gov</a>, Kaggle, or <a href="https://huggingface.co/datasets">Hugging Face datasets</a></p>
+</li></ul>
+<p>Please <strong>don't use</strong> the baby-names, e-commerce or ICE data from this book. You've already seen what they can do.</p>
+
+      <h3>
+        <a id="put-it-online-as-parquet" class="header-link anchor" href="#put-it-online-as-parquet">
+          Put it online as Parquet
+        </a>
+      </h3>
+    <p>Your notebook must read a <strong>Parquet file from a URL</strong>, not a file on your laptop. You have two options:</p>
+<ul>
+<li><p><strong>Host it yourself (recommended).</strong> Download a CSV, convert it to Parquet with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">zstd</span></span></code> compression, and upload it to a public Hugging Face dataset or a GitHub release. <a href="17_data_sources#example-hosting-your-own-data-on-hugging-face">Chapter 17's worked example</a> shows every step, with the Washington electric-vehicle data.</p>
+</li>
+<li><p><strong>Use a Parquet file someone else already hosts.</strong> Many Hugging Face datasets have a Parquet version (look for <strong>Auto-converted to Parquet</strong>), and some agencies publish Parquet directly. Check that the link ends in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">parquet</span></span></code> and opens without a login.</p>
+</li></ul>
+<blockquote>
+<p>🔓 <strong>Only public data.</strong> Upload only data that is already public and whose license allows sharing. Never upload private data, such as data from an employer or with personal information. At a company, the same file would go to a private bucket in Google Cloud Storage or Amazon S3.</p>
+</blockquote>
+
+      <h2>
+        <a id="what-your-notebook-must-contain" class="header-link anchor" href="#what-your-notebook-must-contain">
+          What your notebook must contain
+        </a>
+      </h2>
+    <p>Use these section headings, in this order. Every Malloy cell must run. After each result, write <strong>one or two sentences in plain English</strong> saying what the result shows. A query without a sentence after it doesn't count.</p>
+
+      <h3>
+        <a id="part-0-about-the-data" class="header-link anchor" href="#part-0-about-the-data">
+          Part 0 · About the data
+        </a>
+      </h3>
+    <p>A markdown cell with:</p>
+<ul>
+<li><p>the dataset's name, who published it, and a link to the original source</p>
+</li>
+<li><p>your <strong>public Parquet URL</strong>, and where you host it (Hugging Face, GitHub, or someone else's site)</p>
+</li>
+<li><p><strong>what one row means</strong> ("one row per 311 call")</p>
+</li>
+<li><p>the number of rows and the dates it covers</p>
+</li>
+<li><p>if you converted it yourself: the CSV size, the Parquet size, and the compression you used</p>
+</li></ul>
+<p>Then a Malloy cell that defines your source <strong>on the URL</strong>, with the dimensions and measures you need. Add to it as you go.</p>
+
+      <h3>
+        <a id="part-1-type" class="header-link anchor" href="#part-1-type">
+          Part 1 · TYPE
+        </a>
+      </h3>
+    <ul>
+<li><p>a Malloy cell showing 5–10 raw rows</p>
+</li>
+<li><p>a markdown table naming the job of every column you use: Who, Kind, When, Where or How much</p>
+</li>
+<li><p>one sentence on a column with <strong>two jobs</strong>, if you have one (for example, a state that also nests in a region)</p>
+</li></ul>
+
+      <h3>
+        <a id="part-2-pair" class="header-link anchor" href="#part-2-pair">
+          Part 2 · PAIR
+        </a>
+      </h3>
+    <ul>
+<li><p><strong>The flat answer:</strong> the first, obvious query (group by one column, sum, sort). Say why it's flat.</p>
+</li>
+<li><p><strong>Four pairs:</strong> four queries, each pairing <strong>two different types</strong>, such as Who × When, Who × Where, Kind × When, or How much × anything. Label each one with its pair, as in Chapter 19.</p>
+</li></ul>
+
+      <h3>
+        <a id="part-3-move" class="header-link anchor" href="#part-3-move">
+          Part 3 · MOVE
+        </a>
+      </h3>
+    <p>At least <strong>one query from each family</strong>, labeled with the move:</p>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+
+<th>Choose at least one</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>⚖️ <strong>Rescale</strong></td>
+
+<td>share (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">all</span><span style="color: #000000">()</span></span></code>), rank (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">rank</span><span style="color: #000000">()</span></span></code>)</td>
+</tr>
+
+<tr>
+<td>↔️ <strong>Contrast</strong></td>
+
+<td>change over time (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">lag</span><span style="color: #000000">()</span></span></code> or filtered measures), over-index, top-N within each group (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">nest</span><span style="color: #000000">:</span></span></code>)</td>
+</tr>
+
+<tr>
+<td>🔦 <strong>Spotlight</strong></td>
+
+<td>peak / first / last, concentration (top 10 = what % of the total?), a reversal, or the identifier as data</td>
+</tr>
+</tbody></table>
+<p>A query can count for Part 2 and Part 3 at the same time, if you label both.</p>
+
+      <h3>
+        <a id="part-4-shape" class="header-link anchor" href="#part-4-shape">
+          Part 4 · SHAPE
+        </a>
+      </h3>
+    <ul>
+<li><p>For <strong>each</strong> of the three doors (Order, Pair, Nest), write one sentence: does it open for your data, and why or why not?</p>
+</li>
+<li><p>Write a query for <strong>at least one</strong> door that opens. For example: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">row_number</span><span style="color: #000000">()</span></span></code> or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #795E26">lag</span><span style="color: #000000">()</span></span></code> within an entity (Order), a self-join or a pipeline on a shared key (Pair), or a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">nest</span><span style="color: #000000">:</span></span></code> down a hierarchy (Nest).</p>
+</li></ul>
+
+      <h3>
+        <a id="part-5-sharpen" class="header-link anchor" href="#part-5-sharpen">
+          Part 5 · SHARPEN
+        </a>
+      </h3>
+    <p>Take <strong>three seeds</strong> and grow each one into a full question. For each one:</p>
+<ol>
+<li><p>a five-part table: <strong>subject</strong>, <strong>measure</strong>, <strong>move / shape</strong>, <strong>comparison</strong>, and your <strong>expected answer</strong>, written <em>before</em> you run the query</p>
+</li>
+<li><p>the full question as one sentence</p>
+</li>
+<li><p>the query and its result</p>
+</li>
+<li><p>two or three sentences: were you right? What surprised you?</p>
+</li></ol>
+
+      <h3>
+        <a id="part-6-compared-to-what-" class="header-link anchor" href="#part-6-compared-to-what-">
+          Part 6 · Compared to what?
+        </a>
+      </h3>
+    <p>Chapter 20 showed two answers that fell apart under a fair comparison: growth in a <strong>partial year</strong>, and a "season" that was really the store growing. Do <strong>one</strong> fairness check on your own data, and show the query before and after:</p>
+<ul>
+<li><p>a partial period (compare like with like)</p>
+</li>
+<li><p>a raw count that changes when you rescale it to a share of the total</p>
+</li>
+<li><p>a top-N result that changes when you filter out small groups (as with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">utah_births</span><span style="color: #000000"> &gt;= </span><span style="color: #098658">500</span></span></code> in Chapter 19)</p>
+</li></ul>
+<p>If your answer survived the check, say so. That's a result too.</p>
+
+      <h3>
+        <a id="part-7-the-data-story" class="header-link anchor" href="#part-7-the-data-story">
+          Part 7 · The data story
+        </a>
+      </h3>
+    <p>A short markdown section with:</p>
+<ul>
+<li><p>your <strong>three best findings</strong>, each written as one "singing" sentence: specific, with a number and a comparison. <em>Not</em> "Tesla is popular," but "Tesla's share of new EVs in Washington fell from 64% in 2020 to 36% in 2025, even as total EV sales more than quadrupled."</p>
+</li>
+<li><p><strong>one result that came back flat</strong>, and what that tells you</p>
+</li>
+<li><p><strong>one limit</strong> of your data: something it cannot tell you</p>
+</li>
+<li><p>one question you'd ask next</p>
+</li></ul>
+
+      <h2>
+        <a id="an-example-to-follow" class="header-link anchor" href="#an-example-to-follow">
+          An example to follow
+        </a>
+      </h2>
+    <p>Here's what the start of a good notebook looks like, using the Washington electric-vehicle data from <a href="17_data_sources#example-hosting-your-own-data-on-hugging-face">Chapter 17</a>. (You can't use this dataset for your homework.)</p>
+<p><strong>Part 0.</strong> <em>Electric Vehicle Title and Registration Activity, Washington State Department of Licensing (<a href="https://data.wa.gov/Transportation/Electric-Vehicle-Title-and-Registration-Activity/rpr4-cgyd/about_data">data.wa.gov</a>). One row = one title or registration transaction for an electric vehicle. 1,926,507 rows, 2010 to September 2026. Converted from a 934 MB CSV to a 30 MB Parquet file (zstd) and hosted on Hugging Face.</em></p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/21_homework_make_your_data_sing.malloynb#C2" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000">: </span><span style="color: #001080">wa_ev</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span><span style="color: #000000">.</span><span style="color: #795E26">table</span><span style="color: #000000">(</span><span style="color: #A31515">&#39;https://huggingface.co/datasets/24601p/public-data/resolve/main/wa_ev_registrations.parquet&#39;</span><span style="color: #000000">) </span><span style="color: #AF00DB">extend</span><span style="color: #000000"> {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">dimension</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #008000">// The dates are text like &quot;December 20 2024&quot;</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">transaction_dt</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #795E26">try_strptime</span><span style="color: #000000">!</span><span style="color: #0000FF">timestamp</span><span style="color: #000000">(</span><span style="color: #001080">transaction_date</span><span style="color: #000000">, </span><span style="color: #A31515">&#39;%B %d %Y&#39;</span><span style="color: #000000">)::</span><span style="color: #0000FF">date</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">is_new_sale</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">transaction_type</span><span style="color: #000000"> = </span><span style="color: #A31515">&#39;Original Title&#39;</span><span style="color: #000000"> and </span><span style="color: #001080">new_or_used_vehicle</span><span style="color: #000000"> = </span><span style="color: #A31515">&#39;New&#39;</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">measure</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">transactions</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #795E26">count</span><span style="color: #000000">()</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">new_ev_sales</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #795E26">count</span><span style="color: #000000">() { </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">is_new_sale</span><span style="color: #000000"> }</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre></div><p><strong>Part 1 · TYPE.</strong> First, a few raw rows:</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/21_homework_make_your_data_sing.malloynb#C4" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">wa_ev</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">select</span><span style="color: #000000">: </span><span style="color: #001080">make</span><span style="color: #000000">, </span><span style="color: #001080">model</span><span style="color: #000000">, </span><span style="color: #001080">model_year</span><span style="color: #000000">, </span><span style="color: #001080">electric_range</span><span style="color: #000000">, </span><span style="color: #001080">sale_price</span><span style="color: #000000">, </span><span style="color: #001080">transaction_type</span><span style="color: #000000">, </span><span style="color: #001080">transaction_date</span><span style="color: #000000">, </span><span style="color: #001080">county</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">limit</span><span style="color: #000000">: </span><span style="color: #098658">5</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="5e602698-c65e-4198-9d00-3869ac1be5d9">
+        <script>(()=>{var e=document.getElementById("5e602698-c65e-4198-9d00-3869ac1be5d9"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"make",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "3aec4b70-8fe8-46ba-9859-4d6197059a8d" drill_expression { kind = field_reference name = make code = make }\n'}]},{kind:"dimension",name:"model",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "6192a771-68af-4add-a56d-32236ef86c1b" drill_expression { kind = field_reference name = model code = model }\n'}]},{kind:"dimension",name:"model_year",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#(malloy) reference_id = "4eea9b4f-05f4-42d5-a372-dccfb90c9518" drill_expression { kind = field_reference name = model_year code = model_year }\n'}]},{kind:"dimension",name:"electric_range",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#(malloy) reference_id = "31171ee1-d208-4eb2-b73e-e74cb7b24fc3" drill_expression { kind = field_reference name = electric_range code = electric_range }\n'}]},{kind:"dimension",name:"sale_price",type:{kind:"number_type",subtype:"bigint"},annotations:[{value:'#(malloy) reference_id = "a2b0cec3-b323-4ecb-a02b-093d8d457dab" drill_expression { kind = field_reference name = sale_price code = sale_price }\n'}]},{kind:"dimension",name:"transaction_type",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "26147381-c738-4647-87e1-347e747672fb" drill_expression { kind = field_reference name = transaction_type code = transaction_type }\n'}]},{kind:"dimension",name:"transaction_date",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "772c1843-95d2-4def-91c8-ce3f0be369b4" drill_expression { kind = field_reference name = transaction_date code = transaction_date }\n'}]},{kind:"dimension",name:"county",type:{kind:"string_type"},annotations:[{value:'#(malloy) reference_id = "0740f7f9-cb58-49c2-843a-2a573fe262ed" drill_expression { kind = field_reference name = county code = county }\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"BMW"},{kind:"string_cell",string_value:"i3"},{kind:"number_cell",number_value:2017,subtype:"bigint",string_value:"2017"},{kind:"number_cell",number_value:97,subtype:"bigint",string_value:"97"},{kind:"number_cell",number_value:0,subtype:"bigint",string_value:"0"},{kind:"string_cell",string_value:"Registration at time of Transfer"},{kind:"string_cell",string_value:"December 20 2024"},{kind:"string_cell",string_value:"King"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"BMW"},{kind:"string_cell",string_value:"i3"},{kind:"number_cell",number_value:2017,subtype:"bigint",string_value:"2017"},{kind:"number_cell",number_value:97,subtype:"bigint",string_value:"97"},{kind:"number_cell",number_value:14900,subtype:"bigint",string_value:"14900"},{kind:"string_cell",string_value:"Transfer Title"},{kind:"string_cell",string_value:"December 20 2024"},{kind:"string_cell",string_value:"King"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"FIAT"},{kind:"string_cell",string_value:"500"},{kind:"number_cell",number_value:2014,subtype:"bigint",string_value:"2014"},{kind:"number_cell",number_value:87,subtype:"bigint",string_value:"87"},{kind:"number_cell",number_value:0,subtype:"bigint",string_value:"0"},{kind:"string_cell",string_value:"Registration Renewal"},{kind:"string_cell",string_value:"November 23 2020"},{kind:"string_cell",string_value:"King"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"NISSAN"},{kind:"string_cell",string_value:"Leaf"},{kind:"number_cell",number_value:2017,subtype:"bigint",string_value:"2017"},{kind:"number_cell",number_value:107,subtype:"bigint",string_value:"107"},{kind:"number_cell",number_value:0,subtype:"bigint",string_value:"0"},{kind:"string_cell",string_value:"Registration Renewal"},{kind:"string_cell",string_value:"June 01 2021"},{kind:"string_cell",string_value:"King"}]},{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"NISSAN"},{kind:"string_cell",string_value:"Leaf"},{kind:"number_cell",number_value:2017,subtype:"bigint",string_value:"2017"},{kind:"number_cell",number_value:107,subtype:"bigint",string_value:"107"},{kind:"number_cell",number_value:0,subtype:"bigint",string_value:"0"},{kind:"string_cell",string_value:"Registration Renewal"},{kind:"string_cell",string_value:"June 16 2022"},{kind:"string_cell",string_value:"King"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) limit = 5 drillable\n"},{value:"#(malloy) source.name = wa_ev\n"},{value:"#(malloy) query_name = __stage0\n"}],sql:'SELECT \n   base."make" as "make",\n   base."model" as "model",\n   base."model_year" as "model_year",\n   base."electric_range" as "electric_range",\n   base."sale_price" as "sale_price",\n   base."transaction_type" as "transaction_type",\n   base."transaction_date" as "transaction_date",\n   base."county" as "county"\nFROM \'https://huggingface.co/datasets/24601p/public-data/resolve/main/wa_ev_registrations.parquet\' as base\nLIMIT 5\n'}),n.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;make&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;BMW&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;model&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;i3&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;model_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2017&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;electric_range&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;97&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_price&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;transaction_type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Registration at time of Transfer&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;transaction_date&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;December 20 2024&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;county&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;King&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;make&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;BMW&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;model&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;i3&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;model_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2017&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;electric_range&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;97&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_price&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;14900&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;transaction_type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Transfer Title&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;transaction_date&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;December 20 2024&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;county&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;King&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;make&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;FIAT&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;model&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;500&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;model_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2014&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;electric_range&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;87&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_price&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;transaction_type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Registration Renewal&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;transaction_date&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;November 23 2020&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;county&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;King&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;make&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;NISSAN&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;model&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Leaf&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;model_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2017&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;electric_range&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;107&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_price&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;transaction_type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Registration Renewal&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;transaction_date&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;June 01 2021&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;county&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;King&quot;</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;make&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;NISSAN&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;model&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Leaf&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;model_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2017&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;electric_range&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;107&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_price&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;transaction_type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Registration Renewal&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;transaction_date&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;June 16 2022&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;county&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;King&quot;</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;make&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;make&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;model&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;model&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;model_year&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;model_year&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;electric_range&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;electric_range&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;sale_price&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;sale_price&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;transaction_type&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;transaction_type&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;transaction_date&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;transaction_date&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   base.</span><span style="color: #A31515">&quot;county&quot;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;county&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;https://huggingface.co/datasets/24601p/public-data/resolve/main/wa_ev_registrations.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #0000FF">LIMIT</span><span style="color: #000000"> </span><span style="color: #098658">5</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><table>
+<thead>
+<tr>
+<th>Column</th>
+
+<th>Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">make</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">model</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">dol_vehicle_id</span></span></code></td>
+
+<td>👤 Who / What</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">transaction_type</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">new_or_used_vehicle</span></span></code>, EV type</td>
+
+<td>🏷️ Kind</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">transaction_date</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">model_year</span></span></code></td>
+
+<td>🕒 When</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">county</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">city</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">postal_code</span></span></code></td>
+
+<td>📍 Where</td>
+</tr>
+
+<tr>
+<td><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">sale_price</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">electric_range</span></span></code></td>
+
+<td>🔢 How much</td>
+</tr>
+</tbody></table>
+<p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">model</span></span></code> has two jobs: it's a <em>Who</em>, and it nests inside <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">make</span></span></code> (a Nest door: Tesla → Model Y, Model 3, …).</p>
+<p><strong>Part 2 · PAIR: Who × When,</strong> with a <strong>share</strong> move (Rescale):</p>
+<div class="code-wrapper"><a href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/21_homework_make_your_data_sing.malloynb#C6" target="_blank" class="open_notebook"><img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a><pre class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">run</span><span style="color: #000000">: </span><span style="color: #001080">wa_ev</span><span style="color: #000000"> -&gt; {</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">is_new_sale</span><span style="color: #000000"> and </span><span style="color: #001080">transaction_dt</span><span style="color: #000000">.</span><span style="color: #0000FF">year</span><span style="color: #000000"> &gt;= </span><span style="color: #098658">@2015</span><span style="color: #000000"> and </span><span style="color: #001080">transaction_dt</span><span style="color: #000000">.</span><span style="color: #0000FF">year</span><span style="color: #000000"> &lt; </span><span style="color: #098658">@2026</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">group_by</span><span style="color: #000000">: </span><span style="color: #001080">sale_year</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">transaction_dt</span><span style="color: #000000">.</span><span style="color: #0000FF">year</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">aggregate</span><span style="color: #000000">:</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">new_ev_sales</span></span>
+<span class="line"><span style="color: #000000">    # </span><span style="color: #001080">percent</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #001080">tesla_share</span><span style="color: #000000"> </span><span style="color: #AF00DB">is</span><span style="color: #000000"> </span><span style="color: #001080">new_ev_sales</span><span style="color: #000000"> { </span><span style="color: #AF00DB">where</span><span style="color: #000000">: </span><span style="color: #001080">make</span><span style="color: #000000"> = </span><span style="color: #A31515">&#39;TESLA&#39;</span><span style="color: #000000"> } / </span><span style="color: #001080">new_ev_sales</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #AF00DB">order_by</span><span style="color: #000000">: </span><span style="color: #001080">sale_year</span></span>
+<span class="line"><span style="color: #000000">}</span></span></pre><div class="result-outer small">
+    <div class="result-controls-bar">
+      <span class="result-label">QUERY RESULTS</span>
+      <div class="result-controls">
+        <button class="result-control" selected data-result-kind="html">HTML</button>
+        <button class="result-control"  data-result-kind="json">JSON</button>
+        <button class="result-control"  data-result-kind="sql">SQL</button>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="html" selected>
+      <div class="result-inner" id="712c4d21-06bc-4711-b556-e38d13ec5656">
+        <script>(()=>{var e=document.getElementById("712c4d21-06bc-4711-b556-e38d13ec5656"),a=(new window.index.MalloyRenderer).createViz();a.setResult({schema:{fields:[{kind:"dimension",name:"sale_year",type:{kind:"date_type",timeframe:"year"},annotations:[{value:'#(malloy) reference_id = "062187e6-2bc1-493e-9d7e-b6e5e5ba96bd" drill_expression { kind = time_truncation field_reference.name = transaction_dt truncation = year code = "transaction_dt.year" }\n'}]},{kind:"dimension",name:"new_ev_sales",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "638d137a-fbe2-4217-8ec3-6ef4162ca004" calculation drill_expression { kind = field_reference name = new_ev_sales }\n'}]},{kind:"dimension",name:"tesla_share",type:{kind:"number_type",subtype:"decimal"},annotations:[{value:"# percent\n"},{value:'#(malloy) reference_id = "79875eba-b6ac-41cd-adcb-fd014cb5b47c" calculation\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"date_cell",date_value:"2015-01-01T00:00:00.000Z"},{kind:"number_cell",number_value:4185,subtype:"integer"},{kind:"number_cell",number_value:.27813620071684586,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"date_cell",date_value:"2016-01-01T00:00:00.000Z"},{kind:"number_cell",number_value:5323,subtype:"integer"},{kind:"number_cell",number_value:.229569791470975,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"date_cell",date_value:"2017-01-01T00:00:00.000Z"},{kind:"number_cell",number_value:7105,subtype:"integer"},{kind:"number_cell",number_value:.21646727656579873,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"date_cell",date_value:"2018-01-01T00:00:00.000Z"},{kind:"number_cell",number_value:12694,subtype:"integer"},{kind:"number_cell",number_value:.5144950370253664,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"date_cell",date_value:"2019-01-01T00:00:00.000Z"},{kind:"number_cell",number_value:11915,subtype:"integer"},{kind:"number_cell",number_value:.5909357952161142,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"date_cell",date_value:"2020-01-01T00:00:00.000Z"},{kind:"number_cell",number_value:11961,subtype:"integer"},{kind:"number_cell",number_value:.6385753699523451,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"date_cell",date_value:"2021-01-01T00:00:00.000Z"},{kind:"number_cell",number_value:20917,subtype:"integer"},{kind:"number_cell",number_value:.5674331883157241,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"date_cell",date_value:"2022-01-01T00:00:00.000Z"},{kind:"number_cell",number_value:30461,subtype:"integer"},{kind:"number_cell",number_value:.5220117527330028,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"date_cell",date_value:"2023-01-01T00:00:00.000Z"},{kind:"number_cell",number_value:51931,subtype:"integer"},{kind:"number_cell",number_value:.4473435905335926,subtype:"decimal"}]},{kind:"record_cell",record_value:[{kind:"date_cell",date_value:"2024-01-01T00:00:00.000Z"},{kind:"number_cell",number_value:57716,subtype:"integer"},{kind:"number_cell",number_value:.4011019474669069,subtype:"decimal"}]}]},connection_name:"duckdb",annotations:[{value:'#(malloy) drill_filters = [{ code = "is_new_sale and transaction_dt.year >= @2015 and transaction_dt.year < @2026" }] drillable ordered_by = [{ sale_year }]\n'},{value:"#(malloy) source.name = wa_ev\n"},{value:"#(malloy) query_name = __stage0\n"}],sql:"SELECT \n   DATE_TRUNC('year', (CAST((try_strptime(base.\"transaction_date\",'%B %d %Y')) AS DATE))) as \"sale_year\",\n   COUNT(CASE WHEN ((base.\"transaction_type\"='Original Title') and (base.\"new_or_used_vehicle\"='New')) THEN 1 END) as \"new_ev_sales\",\n   ((COUNT(CASE WHEN (base.\"make\"='TESLA')\n  AND (((base.\"transaction_type\"='Original Title') and (base.\"new_or_used_vehicle\"='New'))) THEN 1 END)))*1.0/(COUNT(CASE WHEN ((base.\"transaction_type\"='Original Title') and (base.\"new_or_used_vehicle\"='New')) THEN 1 END)) as \"tesla_share\"\nFROM 'https://huggingface.co/datasets/24601p/public-data/resolve/main/wa_ev_registrations.parquet' as base\nWHERE (((base.\"transaction_type\"='Original Title') and (base.\"new_or_used_vehicle\"='New')) and (DATE_TRUNC('year', (CAST((try_strptime(base.\"transaction_date\",'%B %d %Y')) AS DATE)))>=DATE '2015-01-01')) and (DATE_TRUNC('year', (CAST((try_strptime(base.\"transaction_date\",'%B %d %Y')) AS DATE)))<DATE '2026-01-01')\nGROUP BY 1\nORDER BY 1 ASC NULLS LAST\n"}),a.render(e)})();</script>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="json" >
+      <div class="result-inner">
+        <pre><pre class="language-json" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">[</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2015-01-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;new_ev_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4185</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;tesla_share&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.27813620071684586</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2016-01-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;new_ev_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">5323</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;tesla_share&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.229569791470975</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2017-01-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;new_ev_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">7105</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;tesla_share&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.21646727656579873</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2018-01-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;new_ev_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">12694</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;tesla_share&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.5144950370253664</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2019-01-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;new_ev_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">11915</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;tesla_share&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.5909357952161142</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2020-01-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;new_ev_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">11961</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;tesla_share&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.6385753699523451</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2021-01-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;new_ev_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">20917</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;tesla_share&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.5674331883157241</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2022-01-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;new_ev_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">30461</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;tesla_share&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.5220117527330028</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2023-01-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;new_ev_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">51931</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;tesla_share&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.4473435905335926</span></span>
+<span class="line"><span style="color: #000000">  },</span></span>
+<span class="line"><span style="color: #000000">  {</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;sale_year&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;2024-01-01T00:00:00.000Z&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;new_ev_sales&quot;</span><span style="color: #000000">: </span><span style="color: #098658">57716</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">    </span><span style="color: #0451A5">&quot;tesla_share&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0.4011019474669069</span></span>
+<span class="line"><span style="color: #000000">  }</span></span>
+<span class="line"><span style="color: #000000">]</span></span></pre></pre>
+      </div>
+    </div>
+    <div class="result-middle" data-result-kind="sql" >
+      <div class="result-inner">
+        <pre><pre class="language-sql" style="background-color: #FBFBFB"><span class="line"><span style="color: #0000FF">SELECT</span><span style="color: #000000"> </span></span>
+<span class="line"><span style="color: #000000">   DATE_TRUNC(</span><span style="color: #A31515">&#39;year&#39;</span><span style="color: #000000">, (</span><span style="color: #795E26">CAST</span><span style="color: #000000">((try_strptime(base.</span><span style="color: #A31515">&quot;transaction_date&quot;</span><span style="color: #000000">,</span><span style="color: #A31515">&#39;%B %d %Y&#39;</span><span style="color: #000000">)) </span><span style="color: #0000FF">AS</span><span style="color: #000000"> </span><span style="color: #0000FF">DATE</span><span style="color: #000000">))) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;sale_year&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   </span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #0000FF">CASE</span><span style="color: #000000"> </span><span style="color: #0000FF">WHEN</span><span style="color: #000000"> ((base.</span><span style="color: #A31515">&quot;transaction_type&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;Original Title&#39;</span><span style="color: #000000">) </span><span style="color: #0000FF">and</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;new_or_used_vehicle&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;New&#39;</span><span style="color: #000000">)) </span><span style="color: #0000FF">THEN</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000"> </span><span style="color: #0000FF">END</span><span style="color: #000000">) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;new_ev_sales&quot;</span><span style="color: #000000">,</span></span>
+<span class="line"><span style="color: #000000">   ((</span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #0000FF">CASE</span><span style="color: #000000"> </span><span style="color: #0000FF">WHEN</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;make&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;TESLA&#39;</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #000000">  </span><span style="color: #0000FF">AND</span><span style="color: #000000"> (((base.</span><span style="color: #A31515">&quot;transaction_type&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;Original Title&#39;</span><span style="color: #000000">) </span><span style="color: #0000FF">and</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;new_or_used_vehicle&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;New&#39;</span><span style="color: #000000">))) </span><span style="color: #0000FF">THEN</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000"> </span><span style="color: #0000FF">END</span><span style="color: #000000">)))*</span><span style="color: #098658">1</span><span style="color: #000000">.</span><span style="color: #098658">0</span><span style="color: #000000">/(</span><span style="color: #795E26">COUNT</span><span style="color: #000000">(</span><span style="color: #0000FF">CASE</span><span style="color: #000000"> </span><span style="color: #0000FF">WHEN</span><span style="color: #000000"> ((base.</span><span style="color: #A31515">&quot;transaction_type&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;Original Title&#39;</span><span style="color: #000000">) </span><span style="color: #0000FF">and</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;new_or_used_vehicle&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;New&#39;</span><span style="color: #000000">)) </span><span style="color: #0000FF">THEN</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000"> </span><span style="color: #0000FF">END</span><span style="color: #000000">)) </span><span style="color: #0000FF">as</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;tesla_share&quot;</span></span>
+<span class="line"><span style="color: #0000FF">FROM</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;https://huggingface.co/datasets/24601p/public-data/resolve/main/wa_ev_registrations.parquet&#39;</span><span style="color: #000000"> </span><span style="color: #0000FF">as</span><span style="color: #000000"> base</span></span>
+<span class="line"><span style="color: #0000FF">WHERE</span><span style="color: #000000"> (((base.</span><span style="color: #A31515">&quot;transaction_type&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;Original Title&#39;</span><span style="color: #000000">) </span><span style="color: #0000FF">and</span><span style="color: #000000"> (base.</span><span style="color: #A31515">&quot;new_or_used_vehicle&quot;</span><span style="color: #000000">=</span><span style="color: #A31515">&#39;New&#39;</span><span style="color: #000000">)) </span><span style="color: #0000FF">and</span><span style="color: #000000"> (DATE_TRUNC(</span><span style="color: #A31515">&#39;year&#39;</span><span style="color: #000000">, (</span><span style="color: #795E26">CAST</span><span style="color: #000000">((try_strptime(base.</span><span style="color: #A31515">&quot;transaction_date&quot;</span><span style="color: #000000">,</span><span style="color: #A31515">&#39;%B %d %Y&#39;</span><span style="color: #000000">)) </span><span style="color: #0000FF">AS</span><span style="color: #000000"> </span><span style="color: #0000FF">DATE</span><span style="color: #000000">)))&gt;=</span><span style="color: #0000FF">DATE</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;2015-01-01&#39;</span><span style="color: #000000">)) </span><span style="color: #0000FF">and</span><span style="color: #000000"> (DATE_TRUNC(</span><span style="color: #A31515">&#39;year&#39;</span><span style="color: #000000">, (</span><span style="color: #795E26">CAST</span><span style="color: #000000">((try_strptime(base.</span><span style="color: #A31515">&quot;transaction_date&quot;</span><span style="color: #000000">,</span><span style="color: #A31515">&#39;%B %d %Y&#39;</span><span style="color: #000000">)) </span><span style="color: #0000FF">AS</span><span style="color: #000000"> </span><span style="color: #0000FF">DATE</span><span style="color: #000000">)))&lt;</span><span style="color: #0000FF">DATE</span><span style="color: #000000"> </span><span style="color: #A31515">&#39;2026-01-01&#39;</span><span style="color: #000000">)</span></span>
+<span class="line"><span style="color: #0000FF">GROUP BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span></span>
+<span class="line"><span style="color: #0000FF">ORDER BY</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000"> </span><span style="color: #0000FF">ASC</span><span style="color: #000000"> NULLS </span><span style="color: #0000FF">LAST</span></span>
+<span class="line"></span></pre></pre>
+      </div>
+    </div>
+  </div></div><p><em>Tesla's share of new EV sales in Washington peaked at <strong>64% in 2020</strong> and fell to <strong>36% in 2025</strong>, even though total new EV sales grew from about 12,000 to 53,000 a year. Tesla didn't shrink; everyone else caught up. (2026 is left out because the data ends in September.)</em></p>
+<p>Notice the parts of a good entry: the <strong>pair</strong> and <strong>move</strong> are labeled, the query answers one clear question, and the sentence after it gives <strong>specific numbers and a comparison</strong>, plus a note about a partial year.</p>
+
+      <h2>
+        <a id="tips" class="header-link anchor" href="#tips">
+          Tips
+        </a>
+      </h2>
+    <ul>
+<li><p><strong>Start small.</strong> Get your source working on the URL and run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">select</span><span style="color: #000000">: * </span><span style="color: #AF00DB">limit</span><span style="color: #000000">: </span><span style="color: #098658">10</span></span></code> before anything else.</p>
+</li>
+<li><p><strong>Write your guesses first</strong> in Part 5. If you write them after, you'll always have been right, and you'll learn nothing.</p>
+</li>
+<li><p><strong>Filter out tiny groups</strong> before you rank by a ratio or a share. A category with 3 rows can have a 100% rate.</p>
+</li>
+<li><p><strong>Check partial periods.</strong> If your data ends partway through a year, compare like with like.</p>
+</li>
+<li><p><strong>Flat is fine.</strong> If a question comes back flat, say so. Don't invent a story from small differences.</p>
+</li>
+<li><p><strong>Stuck on syntax?</strong> Each step has a matching query in Chapter 19 or 19. Copy it and change the names.</p>
+</li>
+<li><p><strong>Errors?</strong> See <a href="18_troubleshooting">Chapter 18 · Troubleshooting</a>.</p>
+</li></ul>
+
+      <h2>
+        <a id="turning-it-in" class="header-link anchor" href="#turning-it-in">
+          Turning it in
+        </a>
+      </h2>
+    <p>Upload <strong><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">lastname_make_it_sing</span><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code></strong>. Before you save:</p>
+<ol>
+<li><p>Run <strong>every cell</strong>, top to bottom, so all results are saved in the file.</p>
+</li>
+<li><p>Open your Parquet URL in a private or incognito window to check that it's public. Leave it up until grades are posted.</p>
+</li></ol>
+
+      <h2>
+        <a id="grading-100-points-" class="header-link anchor" href="#grading-100-points-">
+          Grading (100 points)
+        </a>
+      </h2>
+    <table>
+<thead>
+<tr>
+<th>Part</th>
+
+<th>What earns full credit</th>
+
+<th>Points</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0 · About the data</td>
+
+<td>Source, public Parquet URL, what one row means, size and dates; source defined on the URL</td>
+
+<td>10</td>
+</tr>
+
+<tr>
+<td>1 · TYPE</td>
+
+<td>Raw rows; every column used is typed; two-job column noted</td>
+
+<td>10</td>
+</tr>
+
+<tr>
+<td>2 · PAIR</td>
+
+<td>Flat answer explained; four labeled pairs, each with a sentence</td>
+
+<td>15</td>
+</tr>
+
+<tr>
+<td>3 · MOVE</td>
+
+<td>At least one labeled move from each of the three families</td>
+
+<td>15</td>
+</tr>
+
+<tr>
+<td>4 · SHAPE</td>
+
+<td>A sentence on all three doors; at least one working door query</td>
+
+<td>15</td>
+</tr>
+
+<tr>
+<td>5 · SHARPEN</td>
+
+<td>Three seeds → full questions, guesses written first, answered and reflected on</td>
+
+<td>15</td>
+</tr>
+
+<tr>
+<td>6 · Compared to what?</td>
+
+<td>One fairness check, before and after</td>
+
+<td>10</td>
+</tr>
+
+<tr>
+<td>7 · The data story</td>
+
+<td>Three singing sentences with numbers, a flat result, a limit, a next question</td>
+
+<td>10</td>
+</tr>
+</tbody></table>
+<p><strong>Bonus (up to 5 points):</strong> open a <strong>second</strong> door with a working query, or join a second public dataset to your source (for example, a lookup table of regions or categories).</p>
+</div></div>
+        </div>
+        <script src="/malloy-textbook/js/view_toggles.js"></script>
+        <script src="/malloy-textbook/js/jump_to_hash.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

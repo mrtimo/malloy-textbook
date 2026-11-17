@@ -1,5 +1,5 @@
 >>>markdown
-# Chapter 13: Givens
+# Chapter 14: Givens
 
 So far every value in our queries has been written into the code: `state = 'CA'`, `year_born = 2021`. But often the *same* analysis should run with *different* values: a report for each state, a dashboard where the user picks a date range, an app where each customer sees only their own data.
 
@@ -171,8 +171,8 @@ Malloy also has (experimental) **source parameters**: `source: by_state(st :: st
 * Defaults are used unless a value is supplied by a values file, the app's runtime, or per-query options. A given with no default *must* be supplied.
 * Main uses: reusable reports, user-chosen filters, and row-level security.
 
-> 🎯 **Challenge 13.1: Your state, your name.** Change the defaults of `FOCUS_STATE` and `FOCUS_NAME` in this notebook to your home state and your own name (or any name), then re-run the `name_vs_state` chart. What decade was your name most popular in your state?
+> 🎯 **Challenge 14.1: Your state, your name.** Change the defaults of `FOCUS_STATE` and `FOCUS_NAME` in this notebook to your home state and your own name (or any name), then re-run the `name_vs_state` chart. What decade was your name most popular in your state?
 
-> 🎯 **Challenge 13.2: A minimum-size given.** Declare a new given, `MIN_BIRTHS :: number is 10000`, in a new cell. Then write a query that lists girls' names born since `$START_YEAR` in the `$STATES` states, but only names with more than `$MIN_BIRTHS` births in total. (Hint: `having:`.)
+> 🎯 **Challenge 14.2: A minimum-size given.** Declare a new given, `MIN_BIRTHS :: number is 10000`, in a new cell. Then write a query that lists girls' names born since `$START_YEAR` in the `$STATES` states, but only names with more than `$MIN_BIRTHS` births in total. (Hint: `having:`.)
 
-> 🎯 **Challenge 13.3: A filter the user can type.** Declare `STATUS_FILTER :: filter<string> is f'Complete, Shipped'`. Write a query on `order_items` that uses `where: status ~ $STATUS_FILTER` and shows `order_item_count` by `status`. Then change the default to `f'-Cancelled'` and run it again. What changed?
+> 🎯 **Challenge 14.3: A filter the user can type.** Declare `STATUS_FILTER :: filter<string> is f'Complete, Shipped'`. Write a query on `order_items` that uses `where: status ~ $STATUS_FILTER` and shows `order_item_count` by `status`. Then change the default to `f'-Cancelled'` and run it again. What changed?

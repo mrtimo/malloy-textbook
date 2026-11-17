@@ -1,11 +1,11 @@
 >>>markdown
-# Chapter 20: Homework: Make Your Data Sing
+# Chapter 21: Homework: Make Your Data Sing
 
-In [Chapter 18](18_making_data_sing.malloynb) and [Chapter 19](19_making_data_sing_ecommerce.malloynb) you watched the **Making Data Sing** framework work on baby names and an online store. Now it's your turn, with **your own data**:
+In [Chapter 19](19_making_data_sing.malloynb) and [Chapter 20](20_making_data_sing_ecommerce.malloynb) you watched the **Making Data Sing** framework work on baby names and an online store. Now it's your turn, with **your own data**:
 
 > **TYPE** the columns → **PAIR** the types → apply a **MOVE** → look for a **SHAPE** → **SHARPEN** the question
 
-You'll build one Malloy notebook that follows the same steps as Chapter 18, on a **Parquet file hosted on the internet**. By the end you'll have a short, honest data story: the findings that sing, and the ones that turned out flat.
+You'll build one Malloy notebook that follows the same steps as Chapter 19, on a **Parquet file hosted on the internet**. By the end you'll have a short, honest data story: the findings that sing, and the ones that turned out flat.
 
 **What you turn in:** one `.malloynb` file, with **every cell run** so the results are saved in the notebook.
 
@@ -13,7 +13,7 @@ You'll build one Malloy notebook that follows the same steps as Chapter 18, on a
 
 ### Pick a dataset that can sing
 
-Re-read [**Before you start: picking a dataset that can sing**](18_making_data_sing.malloynb#before-you-start-picking-a-dataset-that-can-sing) in Chapter 18. Your dataset must have:
+Re-read [**Before you start: picking a dataset that can sing**](19_making_data_sing.malloynb#before-you-start-picking-a-dataset-that-can-sing) in Chapter 19. Your dataset must have:
 
 * at least **four of the five column types** (Who, Kind, When, Where, How much)
 * a **When** column that covers several years, or many months
@@ -24,7 +24,7 @@ Re-read [**Before you start: picking a dataset that can sing**](18_making_data_s
 Places to look:
 
 * **[Free Datasets for Social Science](https://github.com/toddrjones/datasets)** by Todd Jones: 150+ free datasets organized by topic, from crime and sports to real estate and shopping. A great place to start.
-* [Chapter 16 · Data Sources](16_data_sources.malloynb): 20 ready-to-use datasets, and more places to search
+* [Chapter 17 · Data Sources](17_data_sources.malloynb): 20 ready-to-use datasets, and more places to search
 * your city's or state's open-data portal, [data.gov](https://data.gov), Kaggle, or [Hugging Face datasets](https://huggingface.co/datasets)
 
 Please **don't use** the baby-names, e-commerce or ICE data from this book. You've already seen what they can do.
@@ -33,7 +33,7 @@ Please **don't use** the baby-names, e-commerce or ICE data from this book. You'
 
 Your notebook must read a **Parquet file from a URL**, not a file on your laptop. You have two options:
 
-* **Host it yourself (recommended).** Download a CSV, convert it to Parquet with `zstd` compression, and upload it to a public Hugging Face dataset or a GitHub release. [Chapter 16's worked example](16_data_sources.malloynb#example-hosting-your-own-data-on-hugging-face) shows every step, with the Washington electric-vehicle data.
+* **Host it yourself (recommended).** Download a CSV, convert it to Parquet with `zstd` compression, and upload it to a public Hugging Face dataset or a GitHub release. [Chapter 17's worked example](17_data_sources.malloynb#example-hosting-your-own-data-on-hugging-face) shows every step, with the Washington electric-vehicle data.
 * **Use a Parquet file someone else already hosts.** Many Hugging Face datasets have a Parquet version (look for **Auto-converted to Parquet**), and some agencies publish Parquet directly. Check that the link ends in `.parquet` and opens without a login.
 
 > 🔓 **Only public data.** Upload only data that is already public and whose license allows sharing. Never upload private data, such as data from an employer or with personal information. At a company, the same file would go to a private bucket in Google Cloud Storage or Amazon S3.
@@ -63,7 +63,7 @@ Then a Malloy cell that defines your source **on the URL**, with the dimensions 
 ### Part 2 · PAIR
 
 * **The flat answer:** the first, obvious query (group by one column, sum, sort). Say why it's flat.
-* **Four pairs:** four queries, each pairing **two different types**, such as Who × When, Who × Where, Kind × When, or How much × anything. Label each one with its pair, as in Chapter 18.
+* **Four pairs:** four queries, each pairing **two different types**, such as Who × When, Who × Where, Kind × When, or How much × anything. Label each one with its pair, as in Chapter 19.
 
 ### Part 3 · MOVE
 
@@ -93,11 +93,11 @@ Take **three seeds** and grow each one into a full question. For each one:
 
 ### Part 6 · Compared to what?
 
-Chapter 19 showed two answers that fell apart under a fair comparison: growth in a **partial year**, and a "season" that was really the store growing. Do **one** fairness check on your own data, and show the query before and after:
+Chapter 20 showed two answers that fell apart under a fair comparison: growth in a **partial year**, and a "season" that was really the store growing. Do **one** fairness check on your own data, and show the query before and after:
 
 * a partial period (compare like with like)
 * a raw count that changes when you rescale it to a share of the total
-* a top-N result that changes when you filter out small groups (as with `utah_births >= 500` in Chapter 18)
+* a top-N result that changes when you filter out small groups (as with `utah_births >= 500` in Chapter 19)
 
 If your answer survived the check, say so. That's a result too.
 
@@ -112,7 +112,7 @@ A short markdown section with:
 
 ## An example to follow
 
-Here's what the start of a good notebook looks like, using the Washington electric-vehicle data from [Chapter 16](16_data_sources.malloynb#example-hosting-your-own-data-on-hugging-face). (You can't use this dataset for your homework.)
+Here's what the start of a good notebook looks like, using the Washington electric-vehicle data from [Chapter 17](17_data_sources.malloynb#example-hosting-your-own-data-on-hugging-face). (You can't use this dataset for your homework.)
 
 **Part 0.** *Electric Vehicle Title and Registration Activity, Washington State Department of Licensing ([data.wa.gov](https://data.wa.gov/Transportation/Electric-Vehicle-Title-and-Registration-Activity/rpr4-cgyd/about_data)). One row = one title or registration transaction for an electric vehicle. 1,926,507 rows, 2010 to September 2026. Converted from a 934 MB CSV to a 30 MB Parquet file (zstd) and hosted on Hugging Face.*
 >>>malloy
@@ -166,8 +166,8 @@ Notice the parts of a good entry: the **pair** and **move** are labeled, the que
 * **Filter out tiny groups** before you rank by a ratio or a share. A category with 3 rows can have a 100% rate.
 * **Check partial periods.** If your data ends partway through a year, compare like with like.
 * **Flat is fine.** If a question comes back flat, say so. Don't invent a story from small differences.
-* **Stuck on syntax?** Each step has a matching query in Chapter 18 or 19. Copy it and change the names.
-* **Errors?** See [Chapter 17 · Troubleshooting](17_troubleshooting.malloynb).
+* **Stuck on syntax?** Each step has a matching query in Chapter 19 or 19. Copy it and change the names.
+* **Errors?** See [Chapter 18 · Troubleshooting](18_troubleshooting.malloynb).
 
 ## Turning it in
 

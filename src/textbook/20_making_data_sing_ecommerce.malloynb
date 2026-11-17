@@ -1,7 +1,7 @@
 >>>markdown
-# Chapter 19: Making Data Sing: An Online Store
+# Chapter 20: Making Data Sing: An Online Store
 
-[Chapter 18](18_making_data_sing.malloynb) introduced the five steps of **Making Data Sing** with the baby-names data:
+[Chapter 19](19_making_data_sing.malloynb) introduced the five steps of **Making Data Sing** with the baby-names data:
 
 > **TYPE** the columns → **PAIR** the types → apply a **MOVE** → look for a **SHAPE** → **SHARPEN** the question
 
@@ -35,7 +35,7 @@ All five types again, and **several Whos**: customers, orders, products and bran
 
 ## Step 2 · PAIR and Step 3 · MOVE
 
-In Chapter 18 we took these steps one at a time. Here we'll do them together: each question pairs two types and applies a move.
+In Chapter 19 we took these steps one at a time. Here we'll do them together: each question pairs two types and applies a move.
 
 ### The flat answer
 
@@ -370,7 +370,7 @@ Writing down the guess first is what makes this useful: you learned something (n
 
 ## Names vs. the store: the same steps, different stories
 
-| Step | Baby names (Chapter 18) | Online store (this chapter) |
+| Step | Baby names (Chapter 19) | Online store (this chapter) |
 |---|---|---|
 | **Type** | all five types; one Who (name) | all five types; several Whos (customer, order, brand) |
 | **Pair** | Who × When: fads and classics | How much × When: growth, compared fairly |
@@ -388,10 +388,10 @@ Writing down the guess first is what makes this useful: you learned something (n
 * **A flat answer is still an answer.** Simulated data is often flat. Say so, rather than inventing a story from tiny differences.
 * Event dates on the same row (ordered, shipped, delivered, returned) form an **event log**. Customer IDs with dates give **repeat-purchase** analysis.
 
-> 🎯 **Challenge 19.1: Over-index by country.** Which brands over-index in the UK compared with the store as a whole? Use the Utah query from Chapter 18 as a template. Is the effect large or small?
+> 🎯 **Challenge 20.1: Over-index by country.** Which brands over-index in the UK compared with the store as a whole? Use the Utah query from Chapter 19 as a template. Is the effect large or small?
 
-> 🎯 **Challenge 19.2: First order, then what?** Does the category of a customer's **first** order predict whether they place a second order? (Hint: use `row_number()` to find first orders, then compare the share of customers who reach order 2.)
+> 🎯 **Challenge 20.2: First order, then what?** Does the category of a customer's **first** order predict whether they place a second order? (Hint: use `row_number()` to find first orders, then compare the share of customers who reach order 2.)
 
-> 🎯 **Challenge 19.3: Margin.** Use `total_gross_margin` to find the categories with the highest margin **per item**, not in total. Does the ranking change?
+> 🎯 **Challenge 20.3: Margin.** Use `total_gross_margin` to find the categories with the highest margin **per item**, not in total. Does the ranking change?
 
-> 🎯 **Challenge 19.4: Your own seed.** Pick a seed, such as "loyal customers," "big orders" or "slow shipping." Sharpen it into a full question with all five parts, write your guess, and answer it.
+> 🎯 **Challenge 20.4: Your own seed.** Pick a seed, such as "loyal customers," "big orders" or "slow shipping." Sharpen it into a full question with all five parts, write your guess, and answer it.

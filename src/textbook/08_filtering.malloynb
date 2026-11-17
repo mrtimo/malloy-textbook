@@ -154,7 +154,7 @@ year_born ~ f'[1990 to 2000)'  // 1990 through 1999
 created_at ~ f'2021-Q4'      // any time in the 4th quarter of 2021
 ```
 
-Why have a separate language? Because filters are **data**. A dashboard's filter box, a URL parameter, a [given](13_givens.malloynb), or an LLM can produce a short string like `CA, NY, -TX` or `last 3 months`, and Malloy turns it into correct SQL for whatever database you use. There's a mini-language for each type: **strings**, **numbers**, **temporal** (dates and timestamps), and **booleans**.
+Why have a separate language? Because filters are **data**. A dashboard's filter box, a URL parameter, a [given](14_givens.malloynb), or an LLM can produce a short string like `CA, NY, -TX` or `last 3 months`, and Malloy turns it into correct SQL for whatever database you use. There's a mini-language for each type: **strings**, **numbers**, **temporal** (dates and timestamps), and **booleans**.
 
 > 📘 **Malloy docs.** [Filter expressions](https://docs.malloydata.dev/documentation/language/filter-expressions). Keep this page handy. It has the full grammar.
 

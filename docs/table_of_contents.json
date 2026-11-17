@@ -69,6 +69,10 @@
         {
           "title": "12. Pipelines and Window Calculations",
           "link": "/12_pipelines_and_windows.malloynb"
+        },
+        {
+          "title": "13. Pipelines, Step by Step",
+          "link": "/13_pipelines_step_by_step.malloynb"
         }
       ]
     },
@@ -76,12 +80,12 @@
       "title": "Part IV \u00b7 Modeling",
       "items": [
         {
-          "title": "13. Givens",
-          "link": "/13_givens.malloynb"
+          "title": "14. Givens",
+          "link": "/14_givens.malloynb"
         },
         {
-          "title": "14. Anatomy of a Malloy Model",
-          "link": "/14_model_review.malloynb"
+          "title": "15. Anatomy of a Malloy Model",
+          "link": "/15_model_review.malloynb"
         }
       ]
     },
@@ -89,8 +93,8 @@
       "title": "Part V \u00b7 Worked Example",
       "items": [
         {
-          "title": "15. ICE Arrests, Start to Finish",
-          "link": "/15_worked_example_ice.malloynb"
+          "title": "16. ICE Arrests, Start to Finish",
+          "link": "/16_worked_example_ice.malloynb"
         }
       ]
     },
@@ -98,12 +102,12 @@
       "title": "Part VI \u00b7 Going Further",
       "items": [
         {
-          "title": "16. Data Sources",
-          "link": "/16_data_sources.malloynb"
+          "title": "17. Data Sources",
+          "link": "/17_data_sources.malloynb"
         },
         {
-          "title": "17. Troubleshooting",
-          "link": "/17_troubleshooting.malloynb"
+          "title": "18. Troubleshooting",
+          "link": "/18_troubleshooting.malloynb"
         }
       ]
     },
@@ -111,16 +115,16 @@
       "title": "Part VII \u00b7 Making Data Sing",
       "items": [
         {
-          "title": "18. Making Data Sing",
-          "link": "/18_making_data_sing.malloynb"
+          "title": "19. Making Data Sing",
+          "link": "/19_making_data_sing.malloynb"
         },
         {
-          "title": "19. Making Data Sing: An Online Store",
-          "link": "/19_making_data_sing_ecommerce.malloynb"
+          "title": "20. Making Data Sing: An Online Store",
+          "link": "/20_making_data_sing_ecommerce.malloynb"
         },
         {
-          "title": "20. Homework: Make Your Data Sing",
-          "link": "/20_homework_make_your_data_sing.malloynb"
+          "title": "21. Homework: Make Your Data Sing",
+          "link": "/21_homework_make_your_data_sing.malloynb"
         }
       ]
     }

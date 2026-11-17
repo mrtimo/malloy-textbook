@@ -11,6 +11,8 @@ Malloy has two tools for this:
 
 * **Pipelines** (`-> { } -> { }`): the output of one query stage becomes the input to the next.
 * **Calculations** (`calculate:`): window functions like `lag()`, `rank()`, and running totals, computed on a query's *results*.
+
+> 🐢 **New to pipelines?** [Chapter 13: Pipelines, Step by Step](13_pipelines_step_by_step.malloynb) walks through simple examples, showing each query's result before and after a pipeline is added. Read it first if this chapter feels fast, or come back to it afterward.
 >>>malloy
 import "names.malloy"
 import "ecommerce.malloy"

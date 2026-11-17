@@ -1,5 +1,5 @@
 >>>markdown
-# Chapter 14: Anatomy of a Malloy Model
+# Chapter 15: Anatomy of a Malloy Model
 
 You've now met every major part of a Malloy model. This last chapter puts them all together in one file, `names_full.malloy` (it's in the `malloy-textbook-notebooks` folder), and walks through it section by section. Use this chapter as a **review** and as a **checklist** when you build your own models.
 
@@ -194,8 +194,8 @@ When you build a model, run through this list:
 * Logic lives in **one place** (the model), so every notebook, the Explorer, and every app agree on what the numbers mean.
 * Document with `//` for people reading code and `#"` for tools and users.
 
-> 🎯 **Challenge 14.1: Extend the full model.** Open `names_full.malloy` and add to the `names` source: (a) a dimension `starts_with_vowel` that is true when the name starts with A, E, I, O, or U, and (b) a measure `avg_name_length` (the average of `name_length`). Give each one a `#"` description. Save the file, re-run this notebook's import cell, and write a query that shows `avg_name_length` and `share_of_births` by `starts_with_vowel` for each `decade`.
+> 🎯 **Challenge 15.1: Extend the full model.** Open `names_full.malloy` and add to the `names` source: (a) a dimension `starts_with_vowel` that is true when the name starts with A, E, I, O, or U, and (b) a measure `avg_name_length` (the average of `name_length`). Give each one a `#"` description. Save the file, re-run this notebook's import cell, and write a query that shows `avg_name_length` and `share_of_births` by `starts_with_vowel` for each `decade`.
 
-> 🎯 **Challenge 14.2: A view for the Explorer.** Add a view called `region_report` to `names` in `names_full.malloy`. It should be a `# dashboard` with `total_births` and `share_of_births` at the top, a `# bar_chart` of births by `states.division`, and the top 5 names. Open the Explorer on `names_full.malloy` and run your view from the **Views** list.
+> 🎯 **Challenge 15.2: A view for the Explorer.** Add a view called `region_report` to `names` in `names_full.malloy`. It should be a `# dashboard` with `total_births` and `share_of_births` at the top, a `# bar_chart` of births by `states.division`, and the top 5 names. Open the Explorer on `names_full.malloy` and run your view from the **Views** list.
 
-> 🎯 **Challenge 14.3: Capstone — model the store.** Create a new file, `my_ecommerce.malloy`, that imports nothing and models the e-commerce data from scratch: sources for `order_items`, `users`, `inventory_items`, and `products` with primary keys, joins, at least 3 documented dimensions, at least 4 documented measures (including one filtered measure, one `all()` ratio, and one `# currency`), at least 2 views (one nested), and one given. Then write a short notebook, `my_ecommerce_report.malloynb`, that imports your model and tells a story about the business in 3–5 Markdown + Malloy cells.
+> 🎯 **Challenge 15.3: Capstone — model the store.** Create a new file, `my_ecommerce.malloy`, that imports nothing and models the e-commerce data from scratch: sources for `order_items`, `users`, `inventory_items`, and `products` with primary keys, joins, at least 3 documented dimensions, at least 4 documented measures (including one filtered measure, one `all()` ratio, and one `# currency`), at least 2 views (one nested), and one given. Then write a short notebook, `my_ecommerce_report.malloynb`, that imports your model and tells a story about the business in 3–5 Markdown + Malloy cells.

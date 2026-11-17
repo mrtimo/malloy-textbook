@@ -1421,7 +1421,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "⚠️ <strong>\"File not found: data/usa_names.parquet\"?</strong> VS Code is resolving the path from the wrong folder. Open the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">textbook</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">notebooks</span></span></code> folder itself, or make sure <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> is still in it. <a href=\"17_troubleshooting\">Chapter 17</a> shows how to create the file if it's missing."
+        "text": "⚠️ <strong>\"File not found: data/usa_names.parquet\"?</strong> VS Code is resolving the path from the wrong folder. Open the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">textbook</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">notebooks</span></span></code> folder itself, or make sure <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> is still in it. <a href=\"18_troubleshooting\">Chapter 18</a> shows how to create the file if it's missing."
       },
       {
         "type": "p",
@@ -1592,7 +1592,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "💡 <strong>Descriptions show up here.</strong> Hover over a field in the source panel. Text written with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> above a field in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> (for example <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot; The decade a baby was born in</span></span></code>) appears as its description. This is one reason to document your model. See <a href=\"14_model_review\">Chapter 14</a>."
+        "text": "💡 <strong>Descriptions show up here.</strong> Hover over a field in the source panel. Text written with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> above a field in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> (for example <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot; The decade a baby was born in</span></span></code>) appears as its description. This is one reason to document your model. See <a href=\"15_model_review\">Chapter 15</a>."
       }
     ],
     "path": "/textbook/06_explorer.malloynb"
@@ -2408,7 +2408,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "Why have a separate language? Because filters are <strong>data</strong>. A dashboard's filter box, a URL parameter, a <a href=\"13_givens\">given</a>, or an LLM can produce a short string like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">CA</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">NY</span><span style=\"color: #000000\">, -</span><span style=\"color: #001080\">TX</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">last</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">3</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">months</span></span></code>, and Malloy turns it into correct SQL for whatever database you use. There's a mini-language for each type: <strong>strings</strong>, <strong>numbers</strong>, <strong>temporal</strong> (dates and timestamps), and <strong>booleans</strong>."
+        "text": "Why have a separate language? Because filters are <strong>data</strong>. A dashboard's filter box, a URL parameter, a <a href=\"14_givens\">given</a>, or an LLM can produce a short string like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">CA</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">NY</span><span style=\"color: #000000\">, -</span><span style=\"color: #001080\">TX</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">last</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">3</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">months</span></span></code>, and Malloy turns it into correct SQL for whatever database you use. There's a mini-language for each type: <strong>strings</strong>, <strong>numbers</strong>, <strong>temporal</strong> (dates and timestamps), and <strong>booleans</strong>."
       },
       {
         "type": "p",
@@ -4155,6 +4155,10 @@ window.SEARCH_SEGMENTS = [
         "text": "<strong>Calculations</strong> (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">:</span></span></code>): window functions like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">()</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">()</span></span></code>, and running totals, computed on a query's <em>results</em>."
       },
       {
+        "type": "p",
+        "text": "🐢 <strong>New to pipelines?</strong> <a href=\"13_pipelines_step_by_step\">Chapter 13: Pipelines, Step by Step</a> walks through simple examples, showing each query's result before and after a pipeline is added. Read it first if this chapter feels fast, or come back to it afterward."
+      },
+      {
         "type": "code",
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;names.malloy&quot;</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;ecommerce.malloy&quot;</span></span></pre>"
       }
@@ -4448,7 +4452,401 @@ window.SEARCH_SEGMENTS = [
   },
   {
     "titles": [
-      "Chapter 13: Givens"
+      "Chapter 13: Pipelines, Step by Step"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<a href=\"12_pipelines_and_windows\">Chapter 12</a> introduced pipelines quickly, alongside window functions. This chapter slows down. Every example is shown in <strong>two steps</strong>: first a normal query and its result, then the same query with a <strong>pipeline</strong> added, and the new result. Watch how the second result is built from the first."
+      }
+    ],
+    "path": "/textbook/13_pipelines_step_by_step.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 13: Pipelines, Step by Step",
+      "The big idea"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Every query you've written so far produces a <strong>table</strong>: the result. A <strong>pipeline</strong> runs a second query <strong>on that result table</strong>."
+      },
+      {
+        "type": "p",
+        "text": "You've done this in a spreadsheet. You make a pivot table (births by name), and then you <strong>work with the pivot table itself</strong>: count its rows, filter it, sort it, or make a second pivot table from it."
+      },
+      {
+        "type": "p",
+        "text": "In Malloy, the arrow <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">-&gt;</span></span></code> means \"<strong>and then</strong>\":"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; { </span><span style=\"color: #001080\">first</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">query</span><span style=\"color: #000000\"> } -&gt; { </span><span style=\"color: #0000FF\">second</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">query</span><span style=\"color: #000000\"> }</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">  names data          stage 1                 stage 2</span></span>\n<span class=\"line\"><span style=\"color: #000000\"> (millions of   -&gt;   result table    -&gt;      final result</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    rows)           (one row per name)      (one row)</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Two rules make pipelines easy:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Stage 2 only sees stage 1's result.</strong> It can use the columns stage 1 produced, and nothing else."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Build one stage at a time.</strong> Run stage 1, look at the result, <em>then</em> add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">-&gt;</span></span></code> and stage 2."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;names.malloy&quot;</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;ecommerce.malloy&quot;</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/13_pipelines_step_by_step.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 13: Pipelines, Step by Step",
+      "Example 1: counting the rows of a result"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Question:</strong> <em>In 2021, how many girls' names were given to more than 1,000 babies?</em>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 1.</strong> First, make the table of names and their births:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "This table has <strong>one row per name</strong>: 5,322 rows in all. (Only the first rows are shown.) We want to <strong>count the rows of this table</strong> where <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_births</span></span></code> is over 1,000."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 2.</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">-&gt;</span></span></code> and a second stage that works on that table:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">1000</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">popular_names</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>314 names.</strong> Read it in plain English:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Stage 1:</strong> make a table with one row per girls' name in 2021, and its births."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Stage 2:</strong> keep the rows of <em>that table</em> with more than 1,000 births, and count them."
+      },
+      {
+        "type": "p",
+        "text": "In stage 2, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_births</span></span></code> is just a column of the table, like a column in a spreadsheet. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span></code> counts <strong>names</strong> now, because each row of stage 1's table is one name."
+      },
+      {
+        "type": "p",
+        "text": "💡 <strong>Why not use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">:</span></span></code>?</strong> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">1000</span></span></code> in stage 1 would <em>filter</em> the names. But it would still give you a list of 314 names, not the number 314. To count the rows of a result, you need a second stage."
+      }
+    ],
+    "path": "/textbook/13_pipelines_step_by_step.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 13: Pipelines, Step by Step",
+      "Example 2: an average of totals"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Question:</strong> <em>In 2021, how many babies were born in the average state?</em>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 1.</strong> Births per state:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "51 rows: 50 states plus DC. Now we want the <strong>average of the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_births</span></span></code> column</strong>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 2.</strong> Summarize the table:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_births_per_state</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">smallest_state</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">min</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">biggest_state</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">max</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "The average state had about <strong>55,000</strong> babies in this data, but the range is huge: <strong>2,142</strong> in the smallest and <strong>359,997</strong> in the biggest (California)."
+      },
+      {
+        "type": "p",
+        "text": "Why do you need a pipeline? <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">births</span><span style=\"color: #000000\">)</span></span></code> in one query would average the <strong>raw rows</strong> (one row per name, state and year), which answers a different question: \"how many babies does a typical name get in a typical state?\" You want the average of the <strong>state totals</strong>, so you first make the totals (stage 1), then average them (stage 2)."
+      }
+    ],
+    "path": "/textbook/13_pipelines_step_by_step.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 13: Pipelines, Step by Step",
+      "Example 3: a distribution (how many customers ordered once, twice…?)"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "This one uses the online store from <a href=\"10_joins\">Chapter 10</a>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Question:</strong> <em>How many customers placed 1 order, 2 orders, 3 orders, and so on?</em>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 1.</strong> Orders per customer:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "One row per customer, with their number of orders. Now <strong>group this table by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_count</span></span></code></strong> and count the customers in each group."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 2.</strong>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">customers</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">share_of_customers</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() / </span><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">())</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>51%</strong> of customers ordered only once, 24% twice, and 12% three times. Just 4 customers ordered 15 times."
+      },
+      {
+        "type": "p",
+        "text": "Notice that <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_count</span></span></code> was a <strong>measure</strong> in stage 1, but in stage 2 it's a column you can <strong>group by</strong>. That's the most common reason to use a pipeline: you want to group by something you calculated."
+      }
+    ],
+    "path": "/textbook/13_pipelines_step_by_step.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 13: Pipelines, Step by Step",
+      "Example 4: grouping a calculated number into buckets"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Question:</strong> <em>How many girls' names in 2021 were very popular, popular, uncommon or rare?</em>"
+      },
+      {
+        "type": "p",
+        "text": "Stage 1 is the same as Example 1. Stage 2 uses <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">pick</span></span></code> (from <a href=\"09_data_cleaning\">Chapter 9</a>) to sort each name into a size group, then counts:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">size_group</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> ?</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;1. Over 10,000&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">10000</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;2. 1,000 to 9,999&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">1000</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;3. 100 to 999&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">100</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">else</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;4. Under 100&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">babies</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">size_group</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Only <strong>8 names</strong> were given to more than 10,000 girls, but together they covered about 107,000 babies. Meanwhile <strong>3,889 names</strong> (73% of all names) were rare, with fewer than 100 babies each."
+      },
+      {
+        "type": "p",
+        "text": "In stage 2, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span></code> counts names (rows of stage 1), and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span></code> adds up the babies."
+      }
+    ],
+    "path": "/textbook/13_pipelines_step_by_step.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 13: Pipelines, Step by Step",
+      "Example 5: filtering on a rank"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Question:</strong> <em>Which name was the #1 boys' name each year?</em>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 1.</strong> Rank the names within each year with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">:</span></span></code> (<a href=\"12_pipelines_and_windows\">Chapter 12</a>):"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;M&#39;</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">2019</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">6</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "We want only the rows where <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">rank_in_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">1</span></span></code>. You might try adding <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">1</span></span></code> to the same query, but you get an error:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">&#39;rank_in_year&#39; is not defined</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">:</span></span></code> runs <strong>before</strong> grouping, and the rank only exists <strong>after</strong> grouping and ranking. So filter it in a second stage, when the rank is just a column:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Step 2.</strong>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;M&#39;</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">2012</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">1</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Liam</strong> has been #1 since 2017. Before that it was <strong>Noah</strong> (2013–2016) and <strong>Jacob</strong> (2012). Stage 2 uses <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">:</span></span></code>, not <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code>, because we just want to keep some rows, not summarize them."
+      }
+    ],
+    "path": "/textbook/13_pipelines_step_by_step.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 13: Pipelines, Step by Step",
+      "Putting it together: a question in two stages"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Question:</strong> <em>In 2021, which girls' names were #1 in the most states?</em>"
+      },
+      {
+        "type": "p",
+        "text": "Say the two stages out loud first:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Stage 1:</strong> for each state, rank the girls' names."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Stage 2:</strong> keep each state's #1 name, then count states per name."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;F&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">calculate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_state</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">rank</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rank_in_state</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">1</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states_where_number_1</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states_where_number_1</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Olivia</strong> was #1 in 34 states, and <strong>Charlotte</strong> in 10. You'll see this query again in <a href=\"19_making_data_sing\">Chapter 19</a>, where it's an example of a \"Pair\" question."
+      }
+    ],
+    "path": "/textbook/13_pipelines_step_by_step.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 13: Pipelines, Step by Step",
+      "A common mistake: using a column stage 1 didn't make"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Stage 2 can only use the columns in stage 1's result. This fails:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">n</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">&#39;gender&#39; is not defined</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Stage 1's table has only two columns, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_births</span></span></code>. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">gender</span></span></code> was in the raw data, but it didn't make it into the result. To use it in stage 2, add it to stage 1's <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "💡 <strong>When you get stuck,</strong> delete everything after the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">-&gt;</span></span></code> and run stage 1 alone. Look at its columns. Those are the only names stage 2 can use."
+      }
+    ],
+    "path": "/textbook/13_pipelines_step_by_step.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 13: Pipelines, Step by Step",
+      "When do you need a pipeline?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Use a pipeline when your question has the words <strong>\"of the\"</strong> or <strong>\"each … then\"</strong> in it:"
+      },
+      {
+        "type": "p",
+        "text": "If you can answer in one query, do. A pipeline is for when the first answer is a table you need to work on again."
+      }
+    ],
+    "path": "/textbook/13_pipelines_step_by_step.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 13: Pipelines, Step by Step",
+      "Key takeaways"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Common reasons for a second stage: counting the rows of a result, averaging totals, grouping by a calculated number, and filtering on a rank."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Build one stage at a time.</strong> Run stage 1, look at the result, then add the next stage."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Stage 2 sees only stage 1's columns.</strong> A measure in stage 1 (like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_births</span></span></code>) becomes a plain column in stage 2 that you can filter, group by, average or count."
+      },
+      {
+        "type": "p",
+        "text": "In stage 2, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span></code> counts <strong>rows of stage 1's result</strong>, such as names, states or customers."
+      },
+      {
+        "type": "p",
+        "text": "A <strong>pipeline</strong> runs a query on the <strong>result</strong> of another query. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">-&gt;</span></span></code> means \"and then.\""
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 13.1: Popular boys' names.</strong> How many boys' names were given to more than 1,000 babies in 2021? Is it more or fewer than the 314 girls' names?"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 13.2: The typical year.</strong> Using <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">by_year</span></span></code> style grouping, find the total births for each year. Then, in a second stage, find the average, the smallest and the largest yearly totals. Which year was the biggest? (Hint: add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">1</span></span></code> in another query.)"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 13.3: Items per order.</strong> In the store, find how many orders had 1 item, 2 items, 3 items and so on. (Stage 1: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_id</span></span></code> and count items with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_item_count</span></span></code>. Stage 2: group by that count.)"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 13.4: #1 in each state.</strong> Change the \"putting it together\" query to boys' names. Which boys' name was #1 in the most states in 2021?"
+      }
+    ],
+    "path": "/textbook/13_pipelines_step_by_step.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14: Givens"
     ],
     "paragraphs": [
       {
@@ -4468,11 +4866,11 @@ window.SEARCH_SEGMENTS = [
         "text": "📘 <strong>Malloy docs.</strong> <a href=\"https://docs.malloydata.dev/documentation/experiments/givens\">Givens: model-level parameters</a> · <a href=\"https://docs.malloydata.dev/documentation/experiments/experiments\">Experimental features</a>"
       }
     ],
-    "path": "/textbook/13_givens.malloynb"
+    "path": "/textbook/14_givens.malloynb"
   },
   {
     "titles": [
-      "Chapter 13: Givens",
+      "Chapter 14: Givens",
       "Turning givens on"
     ],
     "paragraphs": [
@@ -4485,11 +4883,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">##! </span><span style=\"color: #001080\">experimental</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">givens</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;names.malloy&quot;</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;ecommerce.malloy&quot;</span></span></pre>"
       }
     ],
-    "path": "/textbook/13_givens.malloynb"
+    "path": "/textbook/14_givens.malloynb"
   },
   {
     "titles": [
-      "Chapter 13: Givens",
+      "Chapter 14: Givens",
       "Declaring givens"
     ],
     "paragraphs": [
@@ -4502,11 +4900,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">given</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">FOCUS_STATE</span><span style=\"color: #000000\"> :: </span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;OR&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">FOCUS_NAME</span><span style=\"color: #000000\"> :: </span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;Olivia&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">START_YEAR</span><span style=\"color: #000000\"> :: </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">2000</span></span></pre>"
       }
     ],
-    "path": "/textbook/13_givens.malloynb"
+    "path": "/textbook/14_givens.malloynb"
   },
   {
     "titles": [
-      "Chapter 13: Givens",
+      "Chapter 14: Givens",
       "Using givens with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">$</span></span></code>"
     ],
     "paragraphs": [
@@ -4539,11 +4937,11 @@ window.SEARCH_SEGMENTS = [
         "text": "That's <em>Olivia</em> per 100,000 babies in <em>Oregon</em>, by decade. Edit the two defaults above, re-run, and you have a different report without writing a new query."
       }
     ],
-    "path": "/textbook/13_givens.malloynb"
+    "path": "/textbook/14_givens.malloynb"
   },
   {
     "titles": [
-      "Chapter 13: Givens",
+      "Chapter 14: Givens",
       "Given types"
     ],
     "paragraphs": [
@@ -4568,11 +4966,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\">::</span><span style=\"color: #0000FF\">date</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #001080\">$CUTOFF</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_month</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">created_at</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">order_month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
       }
     ],
-    "path": "/textbook/13_givens.malloynb"
+    "path": "/textbook/14_givens.malloynb"
   },
   {
     "titles": [
-      "Chapter 13: Givens",
+      "Chapter 14: Givens",
       "Supplying values from outside the notebook"
     ],
     "paragraphs": [
@@ -4601,11 +4999,11 @@ window.SEARCH_SEGMENTS = [
         "text": "💡 <strong>A given with no default must be supplied.</strong> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">TENANT</span><span style=\"color: #000000\"> :: </span><span style=\"color: #0000FF\">string</span></span></code> (no <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> ...</span></span></code>) means \"the app <em>must</em> provide this.\" If a query uses <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">$TENANT</span></span></code> and nobody supplied it, the query fails with a \"missing given\" error. That's exactly what you want for security-sensitive values."
       }
     ],
-    "path": "/textbook/13_givens.malloynb"
+    "path": "/textbook/14_givens.malloynb"
   },
   {
     "titles": [
-      "Chapter 13: Givens",
+      "Chapter 14: Givens",
       "A real use: row-level security"
     ],
     "paragraphs": [
@@ -4622,11 +5020,11 @@ window.SEARCH_SEGMENTS = [
         "text": "The web application looks up the logged-in user's permissions and supplies <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ALLOWED_STATES</span></span></code> for every query. Since the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">:</span></span></code> is part of the <strong>source</strong>, no query, view, or Explorer session built on <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">secure_names</span></span></code> can see other states. Applications can even <em>finalize</em> a given (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&quot;finalizeGivens&quot;</span><span style=\"color: #000000\">: [</span><span style=\"color: #A31515\">&quot;ALLOWED_STATES&quot;</span><span style=\"color: #000000\">]</span></span></code> in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>) so a query can never override it."
       }
     ],
-    "path": "/textbook/13_givens.malloynb"
+    "path": "/textbook/14_givens.malloynb"
   },
   {
     "titles": [
-      "Chapter 13: Givens",
+      "Chapter 14: Givens",
       "Inline givens: values derived from other givens"
     ],
     "paragraphs": [
@@ -4639,11 +5037,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">given</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">CAPABILITIES</span><span style=\"color: #000000\"> :: </span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\">[]</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">inline</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">CAN_SEE_SALES</span><span style=\"color: #000000\"> :: </span><span style=\"color: #0000FF\">boolean</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;read_sales&#39;</span><span style=\"color: #000000\"> in </span><span style=\"color: #001080\">$CAPABILITIES</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">secure_orders</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">order_items</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">$CAN_SEE_SALES</span><span style=\"color: #000000\">        </span><span style=\"color: #008000\">// becomes WHERE ... AND TRUE (or FALSE)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
       }
     ],
-    "path": "/textbook/13_givens.malloynb"
+    "path": "/textbook/14_givens.malloynb"
   },
   {
     "titles": [
-      "Chapter 13: Givens",
+      "Chapter 14: Givens",
       "Givens vs. source parameters"
     ],
     "paragraphs": [
@@ -4656,11 +5054,11 @@ window.SEARCH_SEGMENTS = [
         "text": "📘 <strong>Malloy docs.</strong> <a href=\"https://docs.malloydata.dev/documentation/experiments/parameters\">Source parameters</a>"
       }
     ],
-    "path": "/textbook/13_givens.malloynb"
+    "path": "/textbook/14_givens.malloynb"
   },
   {
     "titles": [
-      "Chapter 13: Givens",
+      "Chapter 14: Givens",
       "Key takeaways"
     ],
     "paragraphs": [
@@ -4686,22 +5084,22 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 13.1: Your state, your name.</strong> Change the defaults of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">FOCUS_STATE</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">FOCUS_NAME</span></span></code> in this notebook to your home state and your own name (or any name), then re-run the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">name_vs_state</span></span></code> chart. What decade was your name most popular in your state?"
+        "text": "🎯 <strong>Challenge 14.1: Your state, your name.</strong> Change the defaults of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">FOCUS_STATE</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">FOCUS_NAME</span></span></code> in this notebook to your home state and your own name (or any name), then re-run the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">name_vs_state</span></span></code> chart. What decade was your name most popular in your state?"
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 13.2: A minimum-size given.</strong> Declare a new given, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">MIN_BIRTHS</span><span style=\"color: #000000\"> :: </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">10000</span></span></code>, in a new cell. Then write a query that lists girls' names born since <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">$START_YEAR</span></span></code> in the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">$STATES</span></span></code> states, but only names with more than <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">$MIN_BIRTHS</span></span></code> births in total. (Hint: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">:</span></span></code>.)"
+        "text": "🎯 <strong>Challenge 14.2: A minimum-size given.</strong> Declare a new given, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">MIN_BIRTHS</span><span style=\"color: #000000\"> :: </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">10000</span></span></code>, in a new cell. Then write a query that lists girls' names born since <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">$START_YEAR</span></span></code> in the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">$STATES</span></span></code> states, but only names with more than <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">$MIN_BIRTHS</span></span></code> births in total. (Hint: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">:</span></span></code>.)"
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 13.3: A filter the user can type.</strong> Declare <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">STATUS_FILTER</span><span style=\"color: #000000\"> :: </span><span style=\"color: #AF00DB\">filter</span><span style=\"color: #000000\">&lt;</span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\">&gt; </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">f&#39;Complete, Shipped&#39;</span></span></code>. Write a query on <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_items</span></span></code> that uses <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">status</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #001080\">$STATUS_FILTER</span></span></code> and shows <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_item_count</span></span></code> by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">status</span></span></code>. Then change the default to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;-Cancelled&#39;</span></span></code> and run it again. What changed?"
+        "text": "🎯 <strong>Challenge 14.3: A filter the user can type.</strong> Declare <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">STATUS_FILTER</span><span style=\"color: #000000\"> :: </span><span style=\"color: #AF00DB\">filter</span><span style=\"color: #000000\">&lt;</span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\">&gt; </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">f&#39;Complete, Shipped&#39;</span></span></code>. Write a query on <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_items</span></span></code> that uses <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">status</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #001080\">$STATUS_FILTER</span></span></code> and shows <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_item_count</span></span></code> by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">status</span></span></code>. Then change the default to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;-Cancelled&#39;</span></span></code> and run it again. What changed?"
       }
     ],
-    "path": "/textbook/13_givens.malloynb"
+    "path": "/textbook/14_givens.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model"
+      "Chapter 15: Anatomy of a Malloy Model"
     ],
     "paragraphs": [
       {
@@ -4717,11 +5115,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;names_full.malloy&quot;</span></span></pre>"
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model",
+      "Chapter 15: Anatomy of a Malloy Model",
       "1. Compiler flags"
     ],
     "paragraphs": [
@@ -4734,11 +5132,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">##!</span></span></code> lines at the top of a file turn on compiler features for that file. Only experimental features need them. Right now that's givens (and, in older versions, things like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">:</span></span></code>)."
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model",
+      "Chapter 15: Anatomy of a Malloy Model",
       "2. Documentation"
     ],
     "paragraphs": [
@@ -4767,11 +5165,11 @@ window.SEARCH_SEGMENTS = [
         "text": "📘 <strong>Malloy docs.</strong> <a href=\"https://docs.malloydata.dev/documentation/language/tags\">Annotations</a> · <a href=\"https://docs.malloydata.dev/documentation/language/statement#comments\">Comments</a>"
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model",
+      "Chapter 15: Anatomy of a Malloy Model",
       "3. Givens"
     ],
     "paragraphs": [
@@ -4788,11 +5186,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">home_state_names</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">by_name</span><span style=\"color: #000000\"> + { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span><span style=\"color: #000000\">, </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span><span style=\"color: #000000\"> }</span></span></pre>"
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model",
+      "Chapter 15: Anatomy of a Malloy Model",
       "4. Sources"
     ],
     "paragraphs": [
@@ -4821,11 +5219,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name_summary</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">lifetime_births</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">100000</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">gender</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">summary_name_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0.0&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_years_in_use</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">years_in_use</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model",
+      "Chapter 15: Anatomy of a Malloy Model",
       "5. Primary keys and joins"
     ],
     "paragraphs": [
@@ -4842,11 +5240,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">year_born</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2021</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">region</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">division</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_births</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">region</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model",
+      "Chapter 15: Anatomy of a Malloy Model",
       "6. Renames, dimensions, and measures"
     ],
     "paragraphs": [
@@ -4891,11 +5289,11 @@ window.SEARCH_SEGMENTS = [
         "text": "💡 <strong>Limiting what users see.</strong> In a bigger model, you may want to hide helper fields. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">accept</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">a</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">b</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">c</span></span></code> keeps only the listed fields, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">except</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">x</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">y</span></span></code> removes fields. See <a href=\"https://docs.malloydata.dev/documentation/language/source#limiting-access-to-fields\">Limiting access to fields</a>."
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model",
+      "Chapter 15: Anatomy of a Malloy Model",
       "7. Render tags in the model"
     ],
     "paragraphs": [
@@ -4912,11 +5310,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">names</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">by_year</span><span style=\"color: #000000\"> + { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">name</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Ava&#39;</span><span style=\"color: #000000\"> }</span></span></pre>"
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model",
+      "Chapter 15: Anatomy of a Malloy Model",
       "8. Views"
     ],
     "paragraphs": [
@@ -4953,11 +5351,11 @@ window.SEARCH_SEGMENTS = [
         "text": "It took about 60 names to cover half of all births in each decade from the 1910s to the 1950s. Since then the number has climbed, and it has quadrupled since the 1980s."
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model",
+      "Chapter 15: Anatomy of a Malloy Model",
       "9. Named queries"
     ],
     "paragraphs": [
@@ -4974,11 +5372,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_names_2021</span></span></pre>"
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model",
+      "Chapter 15: Anatomy of a Malloy Model",
       "A checklist for your own models"
     ],
     "paragraphs": [
@@ -5019,11 +5417,11 @@ window.SEARCH_SEGMENTS = [
         "text": "☐ Awkward raw columns are <strong>renamed</strong>, and messy columns are <strong>cleaned</strong> in dimensions (<a href=\"09_data_cleaning\">Chapter 9</a>)."
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
-      "Chapter 14: Anatomy of a Malloy Model",
+      "Chapter 15: Anatomy of a Malloy Model",
       "Key takeaways"
     ],
     "paragraphs": [
@@ -5041,18 +5439,18 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 14.1: Extend the full model.</strong> Open <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names_full</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> and add to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names</span></span></code> source: (a) a dimension <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">starts_with_vowel</span></span></code> that is true when the name starts with A, E, I, O, or U, and (b) a measure <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_name_length</span></span></code> (the average of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">name_length</span></span></code>). Give each one a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> description. Save the file, re-run this notebook's import cell, and write a query that shows <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_name_length</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">share_of_births</span></span></code> by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">starts_with_vowel</span></span></code> for each <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">decade</span></span></code>."
+        "text": "🎯 <strong>Challenge 15.1: Extend the full model.</strong> Open <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names_full</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> and add to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names</span></span></code> source: (a) a dimension <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">starts_with_vowel</span></span></code> that is true when the name starts with A, E, I, O, or U, and (b) a measure <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_name_length</span></span></code> (the average of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">name_length</span></span></code>). Give each one a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> description. Save the file, re-run this notebook's import cell, and write a query that shows <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_name_length</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">share_of_births</span></span></code> by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">starts_with_vowel</span></span></code> for each <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">decade</span></span></code>."
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 14.2: A view for the Explorer.</strong> Add a view called <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">region_report</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names</span></span></code> in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names_full</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>. It should be a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">dashboard</span></span></code> with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_births</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">share_of_births</span></span></code> at the top, a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">bar_chart</span></span></code> of births by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">division</span></span></code>, and the top 5 names. Open the Explorer on <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names_full</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> and run your view from the <strong>Views</strong> list."
+        "text": "🎯 <strong>Challenge 15.2: A view for the Explorer.</strong> Add a view called <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">region_report</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names</span></span></code> in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names_full</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>. It should be a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">dashboard</span></span></code> with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_births</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">share_of_births</span></span></code> at the top, a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">bar_chart</span></span></code> of births by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">division</span></span></code>, and the top 5 names. Open the Explorer on <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names_full</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> and run your view from the <strong>Views</strong> list."
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 14.3: Capstone — model the store.</strong> Create a new file, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">my_ecommerce</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>, that imports nothing and models the e-commerce data from scratch: sources for <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_items</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory_items</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">products</span></span></code> with primary keys, joins, at least 3 documented dimensions, at least 4 documented measures (including one filtered measure, one <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">()</span></span></code> ratio, and one <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">currency</span></span></code>), at least 2 views (one nested), and one given. Then write a short notebook, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">my_ecommerce_report</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloynb</span></span></code>, that imports your model and tells a story about the business in 3–5 Markdown + Malloy cells."
+        "text": "🎯 <strong>Challenge 15.3: Capstone — model the store.</strong> Create a new file, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">my_ecommerce</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>, that imports nothing and models the e-commerce data from scratch: sources for <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_items</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory_items</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">products</span></span></code> with primary keys, joins, at least 3 documented dimensions, at least 4 documented measures (including one filtered measure, one <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">()</span></span></code> ratio, and one <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">currency</span></span></code>), at least 2 views (one nested), and one given. Then write a short notebook, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">my_ecommerce_report</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloynb</span></span></code>, that imports your model and tells a story about the business in 3–5 Markdown + Malloy cells."
       }
     ],
-    "path": "/textbook/14_model_review.malloynb"
+    "path": "/textbook/15_model_review.malloynb"
   },
   {
     "titles": [
@@ -5068,7 +5466,7 @@ window.SEARCH_SEGMENTS = [
         "text": "After every code cell there's a small <strong>🎯 Try it</strong> challenge. It usually asks you to change one value, one time grain, or one field and run the cell again. Do them as you go. Each one takes a minute, and together they're the best practice in the book."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5098,10 +5496,10 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "📘 <strong>Book chapters.</strong> Each part below matches a chapter: <a href=\"01_basics\">1</a> · <a href=\"02_time_truncation\">2</a> · <a href=\"03_views_and_nesting\">3</a> · <a href=\"04_render_tags\">4</a> · <a href=\"05_files_and_notebooks\">5</a> · <a href=\"06_explorer\">6</a> · <a href=\"07_csv_and_parquet\">7</a> · <a href=\"08_filtering\">8</a> · <a href=\"09_data_cleaning\">9</a> · <a href=\"10_joins\">10</a> · <a href=\"11_percent_of_total\">11</a> · <a href=\"12_pipelines_and_windows\">12</a> · <a href=\"13_givens\">13</a> · <a href=\"14_model_review\">14</a>"
+        "text": "📘 <strong>Book chapters.</strong> Each part below matches a chapter: <a href=\"01_basics\">1</a> · <a href=\"02_time_truncation\">2</a> · <a href=\"03_views_and_nesting\">3</a> · <a href=\"04_render_tags\">4</a> · <a href=\"05_files_and_notebooks\">5</a> · <a href=\"06_explorer\">6</a> · <a href=\"07_csv_and_parquet\">7</a> · <a href=\"08_filtering\">8</a> · <a href=\"09_data_cleaning\">9</a> · <a href=\"10_joins\">10</a> · <a href=\"11_percent_of_total\">11</a> · <a href=\"12_pipelines_and_windows\">12</a> · <a href=\"13_pipelines_step_by_step\">13</a> · <a href=\"14_givens\">14</a> · <a href=\"15_model_review\">15</a>"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5109,7 +5507,7 @@ window.SEARCH_SEGMENTS = [
       "Part 1 · The Basics"
     ],
     "paragraphs": [],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5139,7 +5537,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> In your notebook, add a cell with the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice_live</span></span></code> source above and run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">ice_live</span><span style=\"color: #000000\"> -&gt; { </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">rows</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() }</span></span></code>. Does the live file have more rows than our snapshot?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5157,7 +5555,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Add a second aggregate, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">people</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">unique_identifier</span><span style=\"color: #000000\">)</span></span></code>. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">column</span><span style=\"color: #000000\">)</span></span></code> counts <strong>distinct</strong> values, so it counts people instead of rows. Why are there fewer people than arrest records?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5175,7 +5573,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">gender</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">age_at_apprehension_approximate</span></span></code> to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">:</span></span></code> list. Then change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5197,7 +5595,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">apprehension_method_simple</span></span></code> (how the arrest was made). Which method is most common?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5219,7 +5617,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;TEXAS&#39;</span></span></code> to another state (the data uses full names in capitals, like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;ILLINOIS&#39;</span></span></code>). Then change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">desc</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">asc</span></span></code>. What do the least common countries look like?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5245,7 +5643,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Add a measure <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">female_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">is_female</span><span style=\"color: #000000\"> }</span></span></code> to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">arrests</span></span></code> source cell, re-run that cell, and add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">female_count</span></span></code> to this query."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5266,7 +5664,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">quarter</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span></code>, then to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">week</span></span></code>. What changes about the story when the grain gets finer?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5296,7 +5694,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">fiscal_year</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">calendar_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span></span></code>. Why do the totals differ from the fiscal-year totals?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5318,7 +5716,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">day_of_week</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">)</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">month</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_date</span><span style=\"color: #000000\">)</span></span></code>. Are some months of the year consistently busier?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5344,7 +5742,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">days</span><span style=\"color: #000000\">(...)</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">months</span><span style=\"color: #000000\">(...)</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">max</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5369,7 +5767,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Refine the view: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrests_v</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">by_country</span><span style=\"color: #000000\"> + { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2024</span><span style=\"color: #000000\">, </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span><span style=\"color: #000000\"> }</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5391,7 +5789,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Replace <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">top_countries</span></span></code> with a nest of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">by_criminality</span></span></code>. Which offices have the highest share of convicted criminals?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5409,7 +5807,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span></span></code> in the innermost nest to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">1</span></span></code>. You now have \"the top state for each method in each fiscal year.\""
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5438,7 +5836,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Remove <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">stack</span></span></code> to put the bars side by side. Which version makes it easier to compare methods?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5456,7 +5854,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change the fiscal year to 2024. Then change the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0.0&quot;</span></span></code> tag to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #0000FF\">number</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;0&quot;</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5474,7 +5872,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Chicago&#39;</span></span></code> to another office, such as <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Miami&#39;</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Dallas&#39;</span></span></code>, or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Los Angeles&#39;</span></span></code>. Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_cities</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">apprehension_city_original</span><span style=\"color: #000000\">, </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span><span style=\"color: #000000\"> }</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5500,14 +5898,14 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "One line, and the whole fiscal-year report runs from the model's definitions. We'll keep building the pieces here in the notebook, so you can see each step. In <a href=\"#part-14-model-review\">Part 14</a> we'll come back to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> and review it."
+        "text": "One line, and the whole fiscal-year report runs from the model's definitions. We'll keep building the pieces here in the notebook, so you can see each step. In <a href=\"#part-15-model-review\">Part 15</a> we'll come back to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> and review it."
       },
       {
         "type": "p",
         "text": "🎯 <strong>Try it:</strong> Open <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> in VS Code and find the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">by_fiscal_year</span></span></code> view. Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_age</span></span></code> to its <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span></code> list, save, re-run the import cell and this cell. The notebook picks up the change."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5548,7 +5946,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> In the Explorer, add a filter on <strong>criminality</strong> equal to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">Convicted</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">Criminal</span></span></code>, switch the chart type to <strong>Bar Chart</strong>, and paste the generated Malloy into a new cell here."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5593,7 +5991,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">compressed_bytes</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">uncompressed_bytes</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span></code>. Which column shrinks the most? Then run the Python above and compare the CSV's size with the Parquet file's."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5601,7 +5999,7 @@ window.SEARCH_SEGMENTS = [
       "Part 8 · Filtering and Time Comparisons"
     ],
     "paragraphs": [],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5619,7 +6017,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change the filter to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;C%&#39;</span></span></code> (every country starting with C). Then exclude one: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;C%, -CUBA&#39;</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5641,7 +6039,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change the range to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;&lt; 18&#39;</span></span></code> (minors), then to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;&gt;= 65&#39;</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5663,7 +6061,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;2025-06&#39;</span></span></code> to a range like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;2025-06 to 2025-09&#39;</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;2025-Q1&#39;</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;2024-Q1&#39;</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5685,7 +6083,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">country</span></span></code>, and the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">having</span><span style=\"color: #000000\">:</span></span></code> threshold to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">500</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5707,7 +6105,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">method</span></span></code>. Which arrest method changed the most?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5715,7 +6113,7 @@ window.SEARCH_SEGMENTS = [
       "Part 9 · Data Cleaning"
     ],
     "paragraphs": [],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5769,7 +6167,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">asc</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">desc</span></span></code>. Then add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">f&#39;ARMED%&#39;</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5807,7 +6205,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;CALIFORNIA&#39;</span></span></code> to see the top California cities."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5815,7 +6213,7 @@ window.SEARCH_SEGMENTS = [
       "Part 10 · Joins and Symmetric Aggregates"
     ],
     "paragraphs": [],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5826,7 +6224,7 @@ window.SEARCH_SEGMENTS = [
     "paragraphs": [
       {
         "type": "p",
-        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">csv</span></span></code> (from Chapter 14) has one row per U.S. state with its 2-letter code and Census region. The arrest data uses capitalized full names, so we join on an <strong>expression</strong>:"
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state_regions</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">csv</span></span></code> (from Chapter 15) has one row per U.S. state with its 2-letter code and Census region. The arrest data uses capitalized full names, so we join on an <strong>expression</strong>:"
       },
       {
         "type": "code",
@@ -5857,7 +6255,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">arrest_count</span></span></code> to a share: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pct_convicted</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Convicted Criminal&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5887,7 +6285,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">fiscal_year</span></span></code> instead of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">people</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">repeat_person</span></span></code>. What share of each year's people were arrested more than once?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5908,7 +6306,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">fiscal_year</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">2023</span></span></code>, then <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">2026</span></span></code>. How did the mix change?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5930,7 +6328,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Swap it around: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">method</span><span style=\"color: #000000\">)</span></span></code> gives the criminality mix <em>within</em> each method."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5952,7 +6350,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state</span></span></code> instead of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">aor</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -5971,18 +6369,23 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Miami&#39;</span></span></code> (all four places!) to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;New York City&#39;</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Seattle&#39;</span></span></code>. Better yet, think about how you'd avoid typing it four times (Part 13 has an answer)."
+        "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Miami&#39;</span></span></code> (all four places!) to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;New York City&#39;</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Seattle&#39;</span></span></code>. Better yet, think about how you'd avoid typing it four times (Part 14 has an answer)."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
       "Worked Example: ICE Arrests, Start to Finish",
       "Part 12 · Pipelines and Window Calculations"
     ],
-    "paragraphs": [],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<em>(This part covers <a href=\"12_pipelines_and_windows\">Chapter 12</a> and <a href=\"13_pipelines_step_by_step\">Chapter 13</a>.)</em>"
+      }
+    ],
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -6004,7 +6407,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">criminality</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Convicted Criminal&#39;</span></span></code> to stage 1. Does the pattern change?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -6022,7 +6425,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">month</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">quarter</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">)</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">arrest_count</span><span style=\"color: #000000\">, </span><span style=\"color: #098658\">4</span><span style=\"color: #000000\">)</span></span></code> for change from the same quarter a year earlier."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -6044,7 +6447,7 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">aor</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">&lt;= </span><span style=\"color: #098658\">5</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">&lt;= </span><span style=\"color: #098658\">3</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
@@ -6074,12 +6477,12 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Remove the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">partition_by</span><span style=\"color: #000000\">:</span></span></code> line. What does the running total mean now?"
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
       "Worked Example: ICE Arrests, Start to Finish",
-      "Part 13 · Givens"
+      "Part 14 · Givens"
     ],
     "paragraphs": [
       {
@@ -6111,12 +6514,12 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">COUNTRIES</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;C%&#39;</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">SINCE</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">@2023-01-01</span></span></code>."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
       "Worked Example: ICE Arrests, Start to Finish",
-      "Part 14 · Model Review"
+      "Part 15 · Model Review"
     ],
     "paragraphs": [
       {
@@ -6160,12 +6563,12 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change the default of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">FOCUS_STATE</span></span></code> in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> to another state, save, and re-run the import cell and this one."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
       "Worked Example: ICE Arrests, Start to Finish",
-      "Part 14 · Model Review",
+      "Part 15 · Model Review",
       "Your turn: a final project"
     ],
     "paragraphs": [
@@ -6194,11 +6597,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Final challenge.</strong> Add one new documented dimension <em>and</em> one new documented measure to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ice</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> that your question needs. Use them in your notebook, and in the Explorer."
       }
     ],
-    "path": "/textbook/15_worked_example_ice.malloynb"
+    "path": "/textbook/16_worked_example_ice.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources"
+      "Chapter 17: Data Sources"
     ],
     "paragraphs": [
       {
@@ -6230,11 +6633,11 @@ window.SEARCH_SEGMENTS = [
         "text": "💡 <strong>To use one:</strong> copy the code into a new <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> file or notebook cell in VS Code and click <strong>Run</strong>. Then change the query, add dimensions and measures, and explore. Every query on this page ran when the site was built."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "The datasets at a glance"
     ],
     "paragraphs": [
@@ -6243,19 +6646,19 @@ window.SEARCH_SEGMENTS = [
         "text": "They're roughly in order of size, from tiny to large."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore"
     ],
     "paragraphs": [],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "1. Palmer Penguins"
     ],
@@ -6273,11 +6676,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Compare <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flipper_length</span></span></code> by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">sex</span></span></code> within each species. The numbers come in as text because missing values are written <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">NA</span></span></code>, so the source uses a safe cast (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">:::</span></span></code>) to turn <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">NA</span></span></code> into null."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "2. Pokémon"
     ],
@@ -6295,11 +6698,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Which <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">Generation</span></span></code> has the strongest Pokémon on average? Column names with spaces or dots, like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">`Sp. Atk`</span></span></code>, need backticks."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "3. Gapminder"
     ],
@@ -6317,11 +6720,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change the chart to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_life_expectancy</span></span></code> by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">country</span></span></code> for one continent. Which country improved the most?"
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "4. Coffee Quality Ratings"
     ],
@@ -6339,11 +6742,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">processing_method</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">variety</span></span></code> instead. Does washed coffee score higher than natural?"
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "5. Central Park Squirrel Census"
     ],
@@ -6361,11 +6764,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Do squirrels behave differently in the morning and afternoon? Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">shift</span></span></code> and add measures for <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">eating</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">chasing</span></span></code>."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "6. Eurovision Song Contest"
     ],
@@ -6383,11 +6786,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Which countries host most often? Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">host_country</span></span></code> and count the distinct <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">year</span></span></code> values."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "7. LEGO Sets"
     ],
@@ -6405,11 +6808,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span></code> above the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">:</span></span></code> to see sets getting bigger over time. DuckDB reads the gzipped CSV directly."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "8. Netflix Titles"
     ],
@@ -6427,11 +6830,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">rating</span></span></code>, or by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">country</span></span></code>. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">date_added</span></span></code> is text like “April 15, 2018”, a good data-cleaning exercise."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "9. Adult Census Income"
     ],
@@ -6449,11 +6852,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Swap <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">education</span></span></code> for <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">occupation</span></span></code>, or add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">sex</span></span></code> to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code>. Hugging Face links use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">/</span><span style=\"color: #001080\">resolve</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">main</span><span style=\"color: #000000\">/</span></span></code>."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "10. USGS Earthquakes (live)"
     ],
@@ -6471,11 +6874,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> This feed changes every time you run it! Find the 10 biggest quakes with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">quake_time</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">mag</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">place</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">mag</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span></code>."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "11. U.S. Tornadoes"
     ],
@@ -6493,11 +6896,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Which <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state</span></span></code> has the most tornadoes? Which <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">mo</span></span></code> (month) is the peak? <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">mag</span></span></code> is the (E)F scale, and −9 means unknown."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "12. Global Power Plants"
     ],
@@ -6515,11 +6918,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">country_long</span></span></code> to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">primary_fuel</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Solar&#39;</span></span></code>. Who has the most solar capacity?"
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "13. CO₂ Emissions"
     ],
@@ -6537,11 +6940,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change the year to 1990 and compare. Then try <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">co2_per_capita</span></span></code> over time for a few countries."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "14. UFO Sightings"
     ],
@@ -6559,11 +6962,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Which <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state</span></span></code> reports the most sightings? Does the favorite <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ufo_shape</span></span></code> differ by state? (Try <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">:</span></span></code>.)"
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "15. Spotify Tracks"
     ],
@@ -6581,11 +6984,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Order by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_energy</span></span></code> instead. Or find the most <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">popularity</span></span></code> artist in each genre with a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">:</span></span></code>."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "16. Billboard Hot 100"
     ],
@@ -6603,11 +7006,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Which <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">performer</span></span></code> has the most different songs on the chart? Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">title</span><span style=\"color: #000000\">)</span></span></code>."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "17. Olympic Athletes"
     ],
@@ -6625,11 +7028,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">season</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Winter&#39;</span></span></code>. Careful: in team events every team member gets a medal, so these counts are athlete-medals, not podium places."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "18. Wine Reviews"
     ],
@@ -6647,11 +7050,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Is expensive wine better? Group by a price band using <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">pick</span></span></code> and compare <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_points</span></span></code>."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "19. Airline Flights"
     ],
@@ -6669,11 +7072,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Join a destination airport too (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">destination_airport</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">airports</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">destination</span></span></code>) and find the longest routes."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "20 datasets to explore",
       "20. NYC Yellow Taxi Trips"
     ],
@@ -6691,11 +7094,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🎯 <strong>Try it:</strong> Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">2024</span><span style=\"color: #000000\">-</span><span style=\"color: #098658\">0</span><span style=\"color: #000000\">1</span></span></code> in the URL to another month (any month since 2009 works). Group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">tpep_pickup_datetime</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">hour</span></span></code> to see the daily rhythm."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "Example: hosting your own data on Hugging Face"
     ],
     "paragraphs": [
@@ -6756,11 +7159,11 @@ window.SEARCH_SEGMENTS = [
         "text": "📘 <strong>Malloy docs.</strong> <a href=\"https://docs.malloydata.dev/documentation/language/dialect/duckdb\">DuckDB in Malloy</a> (reading CSV, Parquet and JSON files) · <a href=\"https://docs.malloydata.dev/documentation/language/join\">Joins</a> · <a href=\"https://docs.malloydata.dev/documentation/visualizations/overview\">Render tags</a>"
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "Where to find more data"
     ],
     "paragraphs": [
@@ -6769,11 +7172,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Any CSV, TSV, Parquet or JSON file with a public <strong>direct download link</strong> works the same way: put the link inside <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;...&#39;</span><span style=\"color: #000000\">)</span></span></code>."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "Where to find more data",
       "Getting the right link"
     ],
@@ -6803,11 +7206,11 @@ window.SEARCH_SEGMENTS = [
         "text": "⚠️ <strong>Check the license and the documentation.</strong> Most of the datasets here are free to use for learning, but read the source's license before you publish anything. Always read the data's documentation (the README or \"data dictionary\"). It tells you what each column means and how the data was collected, which is often where the surprises are."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "Asking an AI assistant for data sources"
     ],
     "paragraphs": [
@@ -6873,18 +7276,18 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 16.1: Your own dataset.</strong> Find a dataset you care about, using the sites above or an AI prompt. Write a Malloy source for it with at least two dimensions, two measures and one view. Then write three questions about it, and answer them with queries."
+        "text": "🎯 <strong>Challenge 17.1: Your own dataset.</strong> Find a dataset you care about, using the sites above or an AI prompt. Write a Malloy source for it with at least two dimensions, two measures and one view. Then write three questions about it, and answer them with queries."
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 16.2: Join two sources.</strong> Pick a dataset from this chapter and find a second one that shares a column with it, such as a country, state or year. For example, join <strong>CO₂ Emissions</strong> to <strong>Gapminder</strong> on country and year, or <strong>Power Plants</strong> to <strong>CO₂ Emissions</strong> on country. Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">:</span></span></code> and explain what the combined data lets you ask that neither could alone."
+        "text": "🎯 <strong>Challenge 17.2: Join two sources.</strong> Pick a dataset from this chapter and find a second one that shares a column with it, such as a country, state or year. For example, join <strong>CO₂ Emissions</strong> to <strong>Gapminder</strong> on country and year, or <strong>Power Plants</strong> to <strong>CO₂ Emissions</strong> on country. Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">:</span></span></code> and explain what the combined data lets you ask that neither could alone."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 16: Data Sources",
+      "Chapter 17: Data Sources",
       "Summary"
     ],
     "paragraphs": [
@@ -6909,11 +7312,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Use <strong>direct file links</strong>: GitHub's <strong>Raw</strong> link, or Hugging Face's <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">/</span><span style=\"color: #001080\">resolve</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">main</span><span style=\"color: #000000\">/</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">hf</span><span style=\"color: #000000\">:</span><span style=\"color: #008000\">//</span></span></code> path."
       }
     ],
-    "path": "/textbook/16_data_sources.malloynb"
+    "path": "/textbook/17_data_sources.malloynb"
   },
   {
     "titles": [
-      "Chapter 17: Troubleshooting"
+      "Chapter 18: Troubleshooting"
     ],
     "paragraphs": [
       {
@@ -6933,11 +7336,11 @@ window.SEARCH_SEGMENTS = [
         "text": "what <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> is, what goes in it, and how to create it if yours is missing"
       }
     ],
-    "path": "/textbook/17_troubleshooting.malloynb"
+    "path": "/textbook/18_troubleshooting.malloynb"
   },
   {
     "titles": [
-      "Chapter 17: Troubleshooting",
+      "Chapter 18: Troubleshooting",
       "Start here: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>"
     ],
     "paragraphs": [
@@ -6970,11 +7373,11 @@ window.SEARCH_SEGMENTS = [
         "text": "⚠️ <strong>No <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>? That's probably your error.</strong> If you see <em>\"No files found that match the pattern\"</em> or errors about the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span></span></code> connection, check this file first."
       }
     ],
-    "path": "/textbook/17_troubleshooting.malloynb"
+    "path": "/textbook/18_troubleshooting.malloynb"
   },
   {
     "titles": [
-      "Chapter 17: Troubleshooting",
+      "Chapter 18: Troubleshooting",
       "Start here: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>",
       "Where it goes"
     ],
@@ -6992,11 +7395,11 @@ window.SEARCH_SEGMENTS = [
         "text": "When you run a query, Malloy looks for <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> in the same folder as your file, then in each folder above it, up to the folder you opened in VS Code. It uses the first one it finds."
       }
     ],
-    "path": "/textbook/17_troubleshooting.malloynb"
+    "path": "/textbook/18_troubleshooting.malloynb"
   },
   {
     "titles": [
-      "Chapter 17: Troubleshooting",
+      "Chapter 18: Troubleshooting",
       "Start here: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>",
       "If yours is missing: create it"
     ],
@@ -7046,11 +7449,11 @@ window.SEARCH_SEGMENTS = [
         "text": "💡 <strong>Check which settings Malloy is using.</strong> Open the <strong>Malloy</strong> panel in VS Code's left-hand activity bar and look at <strong>Connections</strong>. When a config file is in use, it shows a <strong>Config</strong> group with the path to the file, and you can click the file icon to open it. If you see <strong>Settings</strong> and <strong>Defaults</strong> groups instead, Malloy didn't find a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> for the file you're editing."
       }
     ],
-    "path": "/textbook/17_troubleshooting.malloynb"
+    "path": "/textbook/18_troubleshooting.malloynb"
   },
   {
     "titles": [
-      "Chapter 17: Troubleshooting",
+      "Chapter 18: Troubleshooting",
       "Start here: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>",
       "Changing settings"
     ],
@@ -7100,11 +7503,11 @@ window.SEARCH_SEGMENTS = [
         "text": "📘 <strong>Malloy docs.</strong> <a href=\"https://docs.malloydata.dev/documentation/setup/config\">Configuration: malloy-config.json</a> (every setting for every database) · <a href=\"https://docs.malloydata.dev/documentation/setup/extension\">VS Code extension: configuring connections</a>"
       }
     ],
-    "path": "/textbook/17_troubleshooting.malloynb"
+    "path": "/textbook/18_troubleshooting.malloynb"
   },
   {
     "titles": [
-      "Chapter 17: Troubleshooting",
+      "Chapter 18: Troubleshooting",
       "Test your setup"
     ],
     "paragraphs": [
@@ -7125,11 +7528,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000FF\">.</span><span style=\"color: #AF00DB\">sql</span><span style=\"color: #000000FF\">(</span><span style=\"color: #000000FF\">&quot;</span><span style=\"color: #0000FF\">SELECT</span><span style=\"color: #000000FF\"> </span><span style=\"color: #0000FF\">version</span><span style=\"color: #000000FF\">() </span><span style=\"color: #0000FF\">AS</span><span style=\"color: #000000FF\"> duckdb_version</span><span style=\"color: #000000FF\">&quot;</span><span style=\"color: #000000FF\">)</span></span></pre>"
       }
     ],
-    "path": "/textbook/17_troubleshooting.malloynb"
+    "path": "/textbook/18_troubleshooting.malloynb"
   },
   {
     "titles": [
-      "Chapter 17: Troubleshooting",
+      "Chapter 18: Troubleshooting",
       "Setup checklist"
     ],
     "paragraphs": [
@@ -7162,11 +7565,11 @@ window.SEARCH_SEGMENTS = [
         "text": "☐ <strong>The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/</span></span></code> folder is there</strong>, next to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>, with the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">parquet</span></span></code> files in it. If you downloaded single files rather than the whole repository, you're missing the data. Download the whole thing: on <a href=\"https://github.com/mrtimo/malloy-textbook-notebooks\">the repository page</a> click <strong>Code → Download ZIP</strong>, then unzip it."
       }
     ],
-    "path": "/textbook/17_troubleshooting.malloynb"
+    "path": "/textbook/18_troubleshooting.malloynb"
   },
   {
     "titles": [
-      "Chapter 17: Troubleshooting",
+      "Chapter 18: Troubleshooting",
       "Common error messages"
     ],
     "paragraphs": [
@@ -7175,11 +7578,11 @@ window.SEARCH_SEGMENTS = [
         "text": "💡 <strong>Read the whole error message.</strong> Malloy's errors usually say exactly what's wrong and often suggest the fix, as several of the messages above do. In VS Code, the problem is also underlined in red in your code; hover over the underline to see the message."
       }
     ],
-    "path": "/textbook/17_troubleshooting.malloynb"
+    "path": "/textbook/18_troubleshooting.malloynb"
   },
   {
     "titles": [
-      "Chapter 17: Troubleshooting",
+      "Chapter 18: Troubleshooting",
       "Results look wrong (but there's no error)"
     ],
     "paragraphs": [
@@ -7197,14 +7600,14 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<strong>The results here don't match the website.</strong> Some datasets update over time (the live feeds in <a href=\"16_data_sources\">Chapter 16</a>), and queries using relative dates like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">now</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">last</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">6</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">months</span></span></code> change with the date."
+        "text": "<strong>The results here don't match the website.</strong> Some datasets update over time (the live feeds in <a href=\"17_data_sources\">Chapter 17</a>), and queries using relative dates like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #0000FF\">now</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">last</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">6</span><span style=\"color: #000000\"> </span><span style=\"color: #0000FF\">months</span></span></code> change with the date."
       }
     ],
-    "path": "/textbook/17_troubleshooting.malloynb"
+    "path": "/textbook/18_troubleshooting.malloynb"
   },
   {
     "titles": [
-      "Chapter 17: Troubleshooting",
+      "Chapter 18: Troubleshooting",
       "Getting help"
     ],
     "paragraphs": [
@@ -7234,14 +7637,14 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 17.1: Break it on purpose.</strong> In a copy of the notebooks folder, rename <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">bak</span></span></code>, open a different parent folder in VS Code, and run the setup test. Read the error. Then rename the file back and run it again. Knowing what this error looks like will save you time later."
+        "text": "🎯 <strong>Challenge 18.1: Break it on purpose.</strong> In a copy of the notebooks folder, rename <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">bak</span></span></code>, open a different parent folder in VS Code, and run the setup test. Read the error. Then rename the file back and run it again. Knowing what this error looks like will save you time later."
       }
     ],
-    "path": "/textbook/17_troubleshooting.malloynb"
+    "path": "/textbook/18_troubleshooting.malloynb"
   },
   {
     "titles": [
-      "Chapter 17: Troubleshooting",
+      "Chapter 18: Troubleshooting",
       "Summary"
     ],
     "paragraphs": [
@@ -7262,11 +7665,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> holds Malloy's settings: it <strong>defines the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span></span></code> connection</strong> and <strong>marks the root folder</strong> that <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/...</span></span></code> paths are read from."
       }
     ],
-    "path": "/textbook/17_troubleshooting.malloynb"
+    "path": "/textbook/18_troubleshooting.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing"
+      "Chapter 19: Making Data Sing"
     ],
     "paragraphs": [
       {
@@ -7287,18 +7690,18 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "This chapter explains each step and works through it on the baby-names data. <a href=\"19_making_data_sing_ecommerce\">Chapter 19</a> applies the same steps to an online store, so you can see the framework work on a very different kind of data."
+        "text": "This chapter explains each step and works through it on the baby-names data. <a href=\"20_making_data_sing_ecommerce\">Chapter 20</a> applies the same steps to an online store, so you can see the framework work on a very different kind of data."
       },
       {
         "type": "p",
         "text": "📄 <strong>Handout and slides.</strong> A one-page version of the framework, with pictures, is at <a href=\"https://making-data-sing.pages.dev\">making-data-sing.pages.dev</a>. You can also download the <a href=\"https://making-data-sing.pages.dev/downloads/making-data-sing-handout.docx\">one-page handout (.docx)</a>."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Before you start: picking a dataset that can sing"
     ],
     "paragraphs": [
@@ -7328,7 +7731,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<strong>6. Choose real data over simulated data.</strong> Simulated \"demo\" data is often generated at random, so its patterns are flat. You'll see this in Chapter 19."
+        "text": "<strong>6. Choose real data over simulated data.</strong> Simulated \"demo\" data is often generated at random, so its patterns are flat. You'll see this in Chapter 20."
       },
       {
         "type": "p",
@@ -7347,55 +7750,55 @@ window.SEARCH_SEGMENTS = [
         "text": "<strong>The two-minute test.</strong> Load the data and look at ten rows. If you can write <strong>three questions from three different pairs</strong> in five minutes, it's a keeper."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "The framework at a glance"
     ],
     "paragraphs": [],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "The framework at a glance",
       "1. TYPE: name each column's job"
     ],
     "paragraphs": [],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "The framework at a glance",
       "2. PAIR: every pair of types asks its own question"
     ],
     "paragraphs": [],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "The framework at a glance",
       "3. MOVE: turn a flat answer into a story"
     ],
     "paragraphs": [],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "The framework at a glance",
       "4. SHAPE (advanced): three doors"
     ],
     "paragraphs": [],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "The framework at a glance",
       "5. SHARPEN: turn a seed into a full question"
     ],
@@ -7417,11 +7820,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;names.malloy&quot;</span></span></pre>"
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 1 · TYPE the names data"
     ],
     "paragraphs": [
@@ -7442,19 +7845,19 @@ window.SEARCH_SEGMENTS = [
         "text": "All five types: this dataset can sing. The model in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> also adds <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">decade</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">name_length</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">first_letter</span></span></code>. Notice that <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">first_letter</span></span></code> turns the <em>Who</em> itself into data. That's one of the Spotlight moves."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 2 · PAIR the types"
     ],
     "paragraphs": [],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 2 · PAIR the types",
       "The flat answer"
     ],
@@ -7472,11 +7875,11 @@ window.SEARCH_SEGMENTS = [
         "text": "James is the most common boys' name since 1910. That's true, but it's one type (<em>Who</em>) and one number. Nothing about <strong>when</strong>, <strong>where</strong> or <strong>compared to what</strong>. Every pair below adds a second type."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 2 · PAIR the types",
       "Who × When: is it a fad or a classic?"
     ],
@@ -7502,11 +7905,11 @@ window.SEARCH_SEGMENTS = [
         "text": "The pipeline matters too. Stage 1 computes each name's share out of <strong>all</strong> girls. Stage 2 keeps the two names. If you filtered to Jennifer and Elizabeth first, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">()</span></span></code> would only see those two names."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 2 · PAIR the types",
       "Who × Kind: which names crossed over?"
     ],
@@ -7524,11 +7927,11 @@ window.SEARCH_SEGMENTS = [
         "text": "All three names <strong>switched sides</strong>. Ashley was 7% girls in the 1950s and 100% girls by the 1990s. Leslie went from 67% to 99%. Taylor was 0% girls in the 1950s and 85% by the 2000s. This is a <strong>reversal</strong>, a Spotlight move: the pattern breaks."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 2 · PAIR the types",
       "Who × Where: where is a name unusually popular?"
     ],
@@ -7546,11 +7949,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<strong>Oakley</strong> was 14 times more popular in Utah than in the U.S. as a whole in the 2010s. Jane, Aspen, Kate and Eliza follow. The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">utah_births</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">500</span></span></code> filter keeps out rare names, where one or two births would make the ratio jump around."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 2 · PAIR the types",
       "Kind × When: is the gap growing or shrinking?"
     ],
@@ -7572,11 +7975,11 @@ window.SEARCH_SEGMENTS = [
         "text": "This answer uses three moves: <strong>rank</strong> (to find the top 10), <strong>share</strong> and <strong>concentration</strong>."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 3 · MOVE: one question, three families"
     ],
     "paragraphs": [
@@ -7585,11 +7988,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Moves are what turn a flat answer into a story. Here are the three families on the boys' names."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 3 · MOVE: one question, three families",
       "Rescale: from count to share and rank"
     ],
@@ -7607,11 +8010,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Now the flat fact sings: <em>\"Michael was #1 for 44 years. But today's #1 name covers a far smaller share of boys: Liam got 1.4% of boys in 2021, while John got 7% in 1910. Parents are spreading out.\"</em>"
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 3 · MOVE: one question, three families",
       "Contrast: change and top-N within each group"
     ],
@@ -7641,11 +8044,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Mary led the 1950s with 3.5% of girls. By the 2020s, the leader, Olivia, has 1.3%. The same story as before, seen another way."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 3 · MOVE: one question, three families",
       "Spotlight: the identifier is data"
     ],
@@ -7663,11 +8066,11 @@ window.SEARCH_SEGMENTS = [
         "text": "From about <strong>13% in the 1940s to 35% in the 2010s</strong>. No single name did this. It's a pattern you can only see when you treat the name as data."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 4 · SHAPE: knock on three doors"
     ],
     "paragraphs": [
@@ -7676,11 +8079,11 @@ window.SEARCH_SEGMENTS = [
         "text": "So far, each row stood alone. The three doors ask whether rows <strong>relate to each other</strong>."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 4 · SHAPE: knock on three doors",
       "➡️ Order: rows in order within one name"
     ],
@@ -7698,11 +8101,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<strong>James</strong> spent 91 of 112 years in the boys' top 10. <strong>Mary</strong> was #1 for 46 years, and <strong>Michael</strong> for 44. Notice the \"first year\" column: Michael didn't enter the top 10 until 1943, so his whole run fits inside one lifetime."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 4 · SHAPE: knock on three doors",
       "🔗 Pair: states that share a name"
     ],
@@ -7720,18 +8123,18 @@ window.SEARCH_SEGMENTS = [
         "text": "In 2021, <strong>Olivia</strong> was #1 in 34 states. <strong>Charlotte</strong> was #1 in 10, and look at which ones: DC, Indiana, Wisconsin, Michigan, Virginia, Minnesota, Iowa, Delaware, Maine and Vermont, mostly the Midwest and the Northeast. Pairing rows by a shared value turns a list into <strong>groups that go together</strong>."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 4 · SHAPE: knock on three doors",
       "🪆 Nest: states inside regions"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "A state is a <em>Where</em>, but it's also a <em>Kind</em> that sits inside a <strong>region</strong>. Join the region table from <a href=\"14_model_review\">Chapter 14</a>:"
+        "text": "A state is a <em>Where</em>, but it's also a <em>Kind</em> that sits inside a <strong>region</strong>. Join the region table from <a href=\"15_model_review\">Chapter 15</a>:"
       },
       {
         "type": "code",
@@ -7750,11 +8153,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Liam beats Noah in <strong>every region</strong>. But drill down and the picture changes: Noah beats Liam in <strong>California</strong>, Pennsylvania, Massachusetts, Illinois and Michigan. A total for a group can hide very different stories inside it. That's why the Nest door is worth knocking on."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Step 5 · SHARPEN: from seed to full question"
     ],
     "paragraphs": [
@@ -7775,11 +8178,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<strong>The guess was wrong, and that's the interesting part.</strong> Most of today's most even names were <strong>boys' names</strong> in the 1980s (Jael is the exception): Charlie was 5% girls, Skyler 3%, Landry 0%. Several (Oakley, Briar, Azariah) barely existed then (the empty cells). Unisex names mostly start as boys' names and move toward girls, like Ashley and Taylor did. Writing down the guess first is what made the result a surprise."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Checklist for your own data"
     ],
     "paragraphs": [
@@ -7804,11 +8207,11 @@ window.SEARCH_SEGMENTS = [
         "text": "☐ <strong>Sharpen</strong> three seeds into full questions, and write your expected answer first."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 18: Making Data Sing",
+      "Chapter 19: Making Data Sing",
       "Key takeaways"
     ],
     "paragraphs": [
@@ -7834,31 +8237,31 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 18.1: Fad or classic?</strong> Pick three boys' names you think are classics and three you think are fads. Write your guess down. Then plot their share of boys by year. Were you right?"
+        "text": "🎯 <strong>Challenge 19.1: Fad or classic?</strong> Pick three boys' names you think are classics and three you think are fads. Write your guess down. Then plot their share of boys by year. Were you right?"
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 18.2: Your state's signature names.</strong> Copy the Utah over-index query and change it to your state. Which name over-indexes most? Try boys too."
+        "text": "🎯 <strong>Challenge 19.2: Your state's signature names.</strong> Copy the Utah over-index query and change it to your state. Which name over-indexes most? Try boys too."
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 18.3: First letters.</strong> Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">first_letter</span></span></code> (an identifier-as-data move). What share of girls got a name starting with each letter in the 1950s, and in the 2010s? Which letter gained the most?"
+        "text": "🎯 <strong>Challenge 19.3: First letters.</strong> Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">first_letter</span></span></code> (an identifier-as-data move). What share of girls got a name starting with each letter in the 1950s, and in the 2010s? Which letter gained the most?"
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 18.4: Sharpen a seed.</strong> Start from the seed \"short names.\" Write a full question with all five parts, including your guess, then answer it with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">name_length</span></span></code>."
+        "text": "🎯 <strong>Challenge 19.4: Sharpen a seed.</strong> Start from the seed \"short names.\" Write a full question with all five parts, including your guess, then answer it with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">name_length</span></span></code>."
       }
     ],
-    "path": "/textbook/18_making_data_sing.malloynb"
+    "path": "/textbook/19_making_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store"
+      "Chapter 20: Making Data Sing: An Online Store"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "<a href=\"18_making_data_sing\">Chapter 18</a> introduced the five steps of <strong>Making Data Sing</strong> with the baby-names data:"
+        "text": "<a href=\"19_making_data_sing\">Chapter 19</a> introduced the five steps of <strong>Making Data Sing</strong> with the baby-names data:"
       },
       {
         "type": "p",
@@ -7877,11 +8280,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;ecommerce.malloy&quot;</span></span></pre>"
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 1 · TYPE the store's data"
     ],
     "paragraphs": [
@@ -7898,24 +8301,24 @@ window.SEARCH_SEGMENTS = [
         "text": "All five types again, and <strong>several Whos</strong>: customers, orders, products and brands. There are also <strong>four dates</strong> for each item. That's a hint that the Order door will open."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 2 · PAIR and Step 3 · MOVE"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "In Chapter 18 we took these steps one at a time. Here we'll do them together: each question pairs two types and applies a move."
+        "text": "In Chapter 19 we took these steps one at a time. Here we'll do them together: each question pairs two types and applies a move."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 2 · PAIR and Step 3 · MOVE",
       "The flat answer"
     ],
@@ -7929,11 +8332,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Jeans sell the most. True, but flat."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 2 · PAIR and Step 3 · MOVE",
       "Rescale: share and rank"
     ],
@@ -7947,11 +8350,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Jeans bring in <strong>15.5%</strong> of all sales, more than the next category (Accessories, 9.5%) by a wide margin. A share is easier to compare and remember than $1,954,097."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 2 · PAIR and Step 3 · MOVE",
       "How much × When: growth, compared fairly"
     ],
@@ -7977,11 +8380,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Compared fairly, 2022 grew <strong>45%</strong>, not 16%. Growth is slowing, but nowhere near as much as the first query suggested."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 2 · PAIR and Step 3 · MOVE",
       "Kind × When: is there a season?"
     ],
@@ -8015,11 +8418,11 @@ window.SEARCH_SEGMENTS = [
         "text": "💡 <strong>A flat answer is still an answer.</strong> Before you tell a story, ask: <em>compared to what?</em> Here, comparing with the store's monthly total made the \"October peak\" disappear."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 2 · PAIR and Step 3 · MOVE",
       "Kind × Kind: who buys from the other department?"
     ],
@@ -8037,11 +8440,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Women spend <strong>30%</strong> of their money in the <strong>men's</strong> department, mostly on jeans, hoodies and coats. Men spend only <strong>10%</strong> in the women's department. Whether this is \"real\" or a quirk of the simulation, it's the kind of pattern a store would want to check: should the men's jeans be shown to women shoppers?"
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 2 · PAIR and Step 3 · MOVE",
       "Kind × anything: a flat result on purpose"
     ],
@@ -8059,11 +8462,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Search brings in <strong>74%</strong> of sales. But the average price ($46) and return rate (about 1%) are almost <strong>the same for every source</strong>. With real data, you'd expect email customers or Facebook customers to behave differently. Here they don't, and that's worth saying out loud rather than ranking differences of a few cents."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 2 · PAIR and Step 3 · MOVE",
       "Spotlight: concentration"
     ],
@@ -8089,11 +8492,11 @@ window.SEARCH_SEGMENTS = [
         "text": "The top 10% of customers (13,335 of 133,345) bring in <strong>33%</strong> of sales. Brands are far more concentrated than customers."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 2 · PAIR and Step 3 · MOVE",
       "Contrast: top-N within each group"
     ],
@@ -8111,19 +8514,19 @@ window.SEARCH_SEGMENTS = [
         "text": "<strong>Levi's</strong> alone is 21% of men's sales. The women's department is much more spread out: its top brand, Ray-Ban, has 8%."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 4 · SHAPE: knock on three doors"
     ],
     "paragraphs": [],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 4 · SHAPE: knock on three doors",
       "➡️ Order: customers and their orders over time"
     ],
@@ -8161,11 +8564,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Items take about <strong>3.5 days</strong> to ship and <strong>4.8 days</strong> in transit. About 1% of delivered items come back."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 4 · SHAPE: knock on three doors",
       "🔗 Pair: what's bought together?"
     ],
@@ -8191,11 +8594,11 @@ window.SEARCH_SEGMENTS = [
         "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">category</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #001080\">other</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">category</span></span></code> keeps each pair once (Accessories + Jeans, but not also Jeans + Accessories) and drops pairs of a category with itself. Accessories and jeans are the most common pair, in just 69 orders. In a real grocery or online store, with bigger baskets, this is one of the most valuable questions you can ask."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 4 · SHAPE: knock on three doors",
       "🪆 Nest: department → category → brand"
     ],
@@ -8213,11 +8616,11 @@ window.SEARCH_SEGMENTS = [
         "text": "The drill-down tells a very different story in each category. <strong>Ray-Ban</strong> is 77% of women's accessories, nearly a monopoly. In blazers and jackets, no brand has more than 7%. A store manager would treat those two categories very differently."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Step 5 · SHARPEN: from seed to full question"
     ],
     "paragraphs": [
@@ -8242,19 +8645,19 @@ window.SEARCH_SEGMENTS = [
         "text": "Writing down the guess first is what makes this useful: you learned something (no category stands out) instead of reading meaning into small differences."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Names vs. the store: the same steps, different stories"
     ],
     "paragraphs": [],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 19: Making Data Sing: An Online Store",
+      "Chapter 20: Making Data Sing: An Online Store",
       "Key takeaways"
     ],
     "paragraphs": [
@@ -8280,31 +8683,31 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 19.1: Over-index by country.</strong> Which brands over-index in the UK compared with the store as a whole? Use the Utah query from Chapter 18 as a template. Is the effect large or small?"
+        "text": "🎯 <strong>Challenge 20.1: Over-index by country.</strong> Which brands over-index in the UK compared with the store as a whole? Use the Utah query from Chapter 19 as a template. Is the effect large or small?"
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 19.2: First order, then what?</strong> Does the category of a customer's <strong>first</strong> order predict whether they place a second order? (Hint: use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">row_number</span><span style=\"color: #000000\">()</span></span></code> to find first orders, then compare the share of customers who reach order 2.)"
+        "text": "🎯 <strong>Challenge 20.2: First order, then what?</strong> Does the category of a customer's <strong>first</strong> order predict whether they place a second order? (Hint: use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">row_number</span><span style=\"color: #000000\">()</span></span></code> to find first orders, then compare the share of customers who reach order 2.)"
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 19.3: Margin.</strong> Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_gross_margin</span></span></code> to find the categories with the highest margin <strong>per item</strong>, not in total. Does the ranking change?"
+        "text": "🎯 <strong>Challenge 20.3: Margin.</strong> Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_gross_margin</span></span></code> to find the categories with the highest margin <strong>per item</strong>, not in total. Does the ranking change?"
       },
       {
         "type": "p",
-        "text": "🎯 <strong>Challenge 19.4: Your own seed.</strong> Pick a seed, such as \"loyal customers,\" \"big orders\" or \"slow shipping.\" Sharpen it into a full question with all five parts, write your guess, and answer it."
+        "text": "🎯 <strong>Challenge 20.4: Your own seed.</strong> Pick a seed, such as \"loyal customers,\" \"big orders\" or \"slow shipping.\" Sharpen it into a full question with all five parts, write your guess, and answer it."
       }
     ],
-    "path": "/textbook/19_making_data_sing_ecommerce.malloynb"
+    "path": "/textbook/20_making_data_sing_ecommerce.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing"
+      "Chapter 21: Homework: Make Your Data Sing"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "In <a href=\"18_making_data_sing\">Chapter 18</a> and <a href=\"19_making_data_sing_ecommerce\">Chapter 19</a> you watched the <strong>Making Data Sing</strong> framework work on baby names and an online store. Now it's your turn, with <strong>your own data</strong>:"
+        "text": "In <a href=\"19_making_data_sing\">Chapter 19</a> and <a href=\"20_making_data_sing_ecommerce\">Chapter 20</a> you watched the <strong>Making Data Sing</strong> framework work on baby names and an online store. Now it's your turn, with <strong>your own data</strong>:"
       },
       {
         "type": "p",
@@ -8312,33 +8715,33 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "You'll build one Malloy notebook that follows the same steps as Chapter 18, on a <strong>Parquet file hosted on the internet</strong>. By the end you'll have a short, honest data story: the findings that sing, and the ones that turned out flat."
+        "text": "You'll build one Malloy notebook that follows the same steps as Chapter 19, on a <strong>Parquet file hosted on the internet</strong>. By the end you'll have a short, honest data story: the findings that sing, and the ones that turned out flat."
       },
       {
         "type": "p",
         "text": "<strong>What you turn in:</strong> one <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloynb</span></span></code> file, with <strong>every cell run</strong> so the results are saved in the notebook."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "Step 0 · Choose your data and put it online"
     ],
     "paragraphs": [],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "Step 0 · Choose your data and put it online",
       "Pick a dataset that can sing"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "Re-read <a href=\"18_making_data_sing#before-you-start-picking-a-dataset-that-can-sing\"><strong>Before you start: picking a dataset that can sing</strong></a> in Chapter 18. Your dataset must have:"
+        "text": "Re-read <a href=\"19_making_data_sing#before-you-start-picking-a-dataset-that-can-sing\"><strong>Before you start: picking a dataset that can sing</strong></a> in Chapter 19. Your dataset must have:"
       },
       {
         "type": "p",
@@ -8366,7 +8769,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<a href=\"16_data_sources\">Chapter 16 · Data Sources</a>: 20 ready-to-use datasets, and more places to search"
+        "text": "<a href=\"17_data_sources\">Chapter 17 · Data Sources</a>: 20 ready-to-use datasets, and more places to search"
       },
       {
         "type": "p",
@@ -8381,11 +8784,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Please <strong>don't use</strong> the baby-names, e-commerce or ICE data from this book. You've already seen what they can do."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "Step 0 · Choose your data and put it online",
       "Put it online as Parquet"
     ],
@@ -8396,7 +8799,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<strong>Host it yourself (recommended).</strong> Download a CSV, convert it to Parquet with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">zstd</span></span></code> compression, and upload it to a public Hugging Face dataset or a GitHub release. <a href=\"16_data_sources#example-hosting-your-own-data-on-hugging-face\">Chapter 16's worked example</a> shows every step, with the Washington electric-vehicle data."
+        "text": "<strong>Host it yourself (recommended).</strong> Download a CSV, convert it to Parquet with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">zstd</span></span></code> compression, and upload it to a public Hugging Face dataset or a GitHub release. <a href=\"17_data_sources#example-hosting-your-own-data-on-hugging-face\">Chapter 17's worked example</a> shows every step, with the Washington electric-vehicle data."
       },
       {
         "type": "p",
@@ -8407,11 +8810,11 @@ window.SEARCH_SEGMENTS = [
         "text": "🔓 <strong>Only public data.</strong> Upload only data that is already public and whose license allows sharing. Never upload private data, such as data from an employer or with personal information. At a company, the same file would go to a private bucket in Google Cloud Storage or Amazon S3."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "What your notebook must contain"
     ],
     "paragraphs": [
@@ -8420,11 +8823,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Use these section headings, in this order. Every Malloy cell must run. After each result, write <strong>one or two sentences in plain English</strong> saying what the result shows. A query without a sentence after it doesn't count."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "What your notebook must contain",
       "Part 0 · About the data"
     ],
@@ -8458,11 +8861,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Then a Malloy cell that defines your source <strong>on the URL</strong>, with the dimensions and measures you need. Add to it as you go."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "What your notebook must contain",
       "Part 1 · TYPE"
     ],
@@ -8480,11 +8883,11 @@ window.SEARCH_SEGMENTS = [
         "text": "one sentence on a column with <strong>two jobs</strong>, if you have one (for example, a state that also nests in a region)"
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "What your notebook must contain",
       "Part 2 · PAIR"
     ],
@@ -8495,14 +8898,14 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<strong>Four pairs:</strong> four queries, each pairing <strong>two different types</strong>, such as Who × When, Who × Where, Kind × When, or How much × anything. Label each one with its pair, as in Chapter 18."
+        "text": "<strong>Four pairs:</strong> four queries, each pairing <strong>two different types</strong>, such as Who × When, Who × Where, Kind × When, or How much × anything. Label each one with its pair, as in Chapter 19."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "What your notebook must contain",
       "Part 3 · MOVE"
     ],
@@ -8516,11 +8919,11 @@ window.SEARCH_SEGMENTS = [
         "text": "A query can count for Part 2 and Part 3 at the same time, if you label both."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "What your notebook must contain",
       "Part 4 · SHAPE"
     ],
@@ -8534,11 +8937,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Write a query for <strong>at least one</strong> door that opens. For example: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">row_number</span><span style=\"color: #000000\">()</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">lag</span><span style=\"color: #000000\">()</span></span></code> within an entity (Order), a self-join or a pipeline on a shared key (Pair), or a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">:</span></span></code> down a hierarchy (Nest)."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "What your notebook must contain",
       "Part 5 · SHARPEN"
     ],
@@ -8564,18 +8967,18 @@ window.SEARCH_SEGMENTS = [
         "text": "a five-part table: <strong>subject</strong>, <strong>measure</strong>, <strong>move / shape</strong>, <strong>comparison</strong>, and your <strong>expected answer</strong>, written <em>before</em> you run the query"
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "What your notebook must contain",
       "Part 6 · Compared to what?"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "Chapter 19 showed two answers that fell apart under a fair comparison: growth in a <strong>partial year</strong>, and a \"season\" that was really the store growing. Do <strong>one</strong> fairness check on your own data, and show the query before and after:"
+        "text": "Chapter 20 showed two answers that fell apart under a fair comparison: growth in a <strong>partial year</strong>, and a \"season\" that was really the store growing. Do <strong>one</strong> fairness check on your own data, and show the query before and after:"
       },
       {
         "type": "p",
@@ -8587,18 +8990,18 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "a top-N result that changes when you filter out small groups (as with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">utah_births</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">500</span></span></code> in Chapter 18)"
+        "text": "a top-N result that changes when you filter out small groups (as with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">utah_births</span><span style=\"color: #000000\"> &gt;= </span><span style=\"color: #098658\">500</span></span></code> in Chapter 19)"
       },
       {
         "type": "p",
         "text": "If your answer survived the check, say so. That's a result too."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "What your notebook must contain",
       "Part 7 · The data story"
     ],
@@ -8624,17 +9027,17 @@ window.SEARCH_SEGMENTS = [
         "text": "your <strong>three best findings</strong>, each written as one \"singing\" sentence: specific, with a number and a comparison. <em>Not</em> \"Tesla is popular,\" but \"Tesla's share of new EVs in Washington fell from 64% in 2020 to 36% in 2025, even as total EV sales more than quadrupled.\""
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "An example to follow"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "Here's what the start of a good notebook looks like, using the Washington electric-vehicle data from <a href=\"16_data_sources#example-hosting-your-own-data-on-hugging-face\">Chapter 16</a>. (You can't use this dataset for your homework.)"
+        "text": "Here's what the start of a good notebook looks like, using the Washington electric-vehicle data from <a href=\"17_data_sources#example-hosting-your-own-data-on-hugging-face\">Chapter 17</a>. (You can't use this dataset for your homework.)"
       },
       {
         "type": "p",
@@ -8673,11 +9076,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Notice the parts of a good entry: the <strong>pair</strong> and <strong>move</strong> are labeled, the query answers one clear question, and the sentence after it gives <strong>specific numbers and a comparison</strong>, plus a note about a partial year."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "Tips"
     ],
     "paragraphs": [
@@ -8699,7 +9102,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<strong>Stuck on syntax?</strong> Each step has a matching query in Chapter 18 or 19. Copy it and change the names."
+        "text": "<strong>Stuck on syntax?</strong> Each step has a matching query in Chapter 19 or 19. Copy it and change the names."
       },
       {
         "type": "p",
@@ -8707,14 +9110,14 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<strong>Errors?</strong> See <a href=\"17_troubleshooting\">Chapter 17 · Troubleshooting</a>."
+        "text": "<strong>Errors?</strong> See <a href=\"18_troubleshooting\">Chapter 18 · Troubleshooting</a>."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "Turning it in"
     ],
     "paragraphs": [
@@ -8731,11 +9134,11 @@ window.SEARCH_SEGMENTS = [
         "text": "Run <strong>every cell</strong>, top to bottom, so all results are saved in the file."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
-      "Chapter 20: Homework: Make Your Data Sing",
+      "Chapter 21: Homework: Make Your Data Sing",
       "Grading (100 points)"
     ],
     "paragraphs": [
@@ -8744,7 +9147,7 @@ window.SEARCH_SEGMENTS = [
         "text": "<strong>Bonus (up to 5 points):</strong> open a <strong>second</strong> door with a working query, or join a second public dataset to your source (for example, a lookup table of regions or categories)."
       }
     ],
-    "path": "/textbook/20_homework_make_your_data_sing.malloynb"
+    "path": "/textbook/21_homework_make_your_data_sing.malloynb"
   },
   {
     "titles": [
@@ -8786,7 +9189,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "💡 <strong>Fast start.</strong> Want to run queries right now? Go to <a href=\"05_files_and_notebooks#setting-up-your-environment\">Chapter 5</a> for the full setup. The short version: install VS Code, install the <strong>Malloy</strong> extension, then download the <a href=\"https://github.com/mrtimo/malloy-textbook-notebooks\">notebooks repository</a> and open its folder <em>as the workspace root</em>. That's it. DuckDB is built into the extension. Getting errors? See <a href=\"17_troubleshooting\">Chapter 17: Troubleshooting</a>."
+        "text": "💡 <strong>Fast start.</strong> Want to run queries right now? Go to <a href=\"05_files_and_notebooks#setting-up-your-environment\">Chapter 5</a> for the full setup. The short version: install VS Code, install the <strong>Malloy</strong> extension, then download the <a href=\"https://github.com/mrtimo/malloy-textbook-notebooks\">notebooks repository</a> and open its folder <em>as the workspace root</em>. That's it. DuckDB is built into the extension. Getting errors? See <a href=\"18_troubleshooting\">Chapter 18: Troubleshooting</a>."
       }
     ],
     "path": "/textbook/index.malloynb"
@@ -8828,7 +9231,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "We also use a few small CSV files filled with deliberately messy fake data for the <a href=\"09_data_cleaning\">data cleaning chapter</a>. The <a href=\"15_worked_example_ice\">worked example</a> uses a third, real dataset: about 896,000 ICE arrest records published by the Deportation Data Project."
+        "text": "We also use a few small CSV files filled with deliberately messy fake data for the <a href=\"09_data_cleaning\">data cleaning chapter</a>. The <a href=\"16_worked_example_ice\">worked example</a> uses a third, real dataset: about 896,000 ICE arrest records published by the Deportation Data Project."
       }
     ],
     "path": "/textbook/index.malloynb"
@@ -8926,6 +9329,10 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
+        "text": "<a href=\"13_pipelines_step_by_step\">Pipelines, Step by Step</a>: simple, before-and-after examples of multi-stage queries"
+      },
+      {
+        "type": "p",
         "text": "<a href=\"11_percent_of_total\">Percent of Total</a>: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">all</span><span style=\"color: #000000\">()</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">exclude</span><span style=\"color: #000000\">()</span></span></code>"
       },
       {
@@ -8938,11 +9345,11 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<a href=\"13_givens\">Givens</a>: values your model receives when a query runs"
+        "text": "<a href=\"14_givens\">Givens</a>: values your model receives when a query runs"
       },
       {
         "type": "p",
-        "text": "<a href=\"14_model_review\">Anatomy of a Malloy Model</a>: putting all the pieces together"
+        "text": "<a href=\"15_model_review\">Anatomy of a Malloy Model</a>: putting all the pieces together"
       },
       {
         "type": "p",
@@ -8950,7 +9357,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<a href=\"15_worked_example_ice\">ICE Arrests, Start to Finish</a>: one real dataset taken through every chapter, with a small challenge after every cell"
+        "text": "<a href=\"16_worked_example_ice\">ICE Arrests, Start to Finish</a>: one real dataset taken through every chapter, with a small challenge after every cell"
       },
       {
         "type": "p",
@@ -8958,11 +9365,11 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<a href=\"16_data_sources\">Data Sources</a>: 20 public datasets you can query straight from the internet, and how to find more"
+        "text": "<a href=\"17_data_sources\">Data Sources</a>: 20 public datasets you can query straight from the internet, and how to find more"
       },
       {
         "type": "p",
-        "text": "<a href=\"17_troubleshooting\">Troubleshooting</a>: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>, setup checks, and common error messages"
+        "text": "<a href=\"18_troubleshooting\">Troubleshooting</a>: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>, setup checks, and common error messages"
       },
       {
         "type": "p",
@@ -8970,15 +9377,15 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<a href=\"18_making_data_sing\">Making Data Sing</a>: a five-step framework for asking better questions, worked on the baby-names data, plus tips for picking a dataset"
+        "text": "<a href=\"19_making_data_sing\">Making Data Sing</a>: a five-step framework for asking better questions, worked on the baby-names data, plus tips for picking a dataset"
       },
       {
         "type": "p",
-        "text": "<a href=\"19_making_data_sing_ecommerce\">Making Data Sing: An Online Store</a>: the same five steps on the e-commerce data, including what to do when the answer is flat"
+        "text": "<a href=\"20_making_data_sing_ecommerce\">Making Data Sing: An Online Store</a>: the same five steps on the e-commerce data, including what to do when the answer is flat"
       },
       {
         "type": "p",
-        "text": "<a href=\"20_homework_make_your_data_sing\">Homework: Make Your Data Sing</a>: take your own dataset, hosted as Parquet on the internet, through all five steps"
+        "text": "<a href=\"21_homework_make_your_data_sing\">Homework: Make Your Data Sing</a>: take your own dataset, hosted as Parquet on the internet, through all five steps"
       },
       {
         "type": "p",

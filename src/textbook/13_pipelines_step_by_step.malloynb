@@ -1,0 +1,269 @@
+>>>markdown
+# Chapter 13: Pipelines, Step by Step
+
+[Chapter 12](12_pipelines_and_windows.malloynb) introduced pipelines quickly, alongside window functions. This chapter slows down. Every example is shown in **two steps**: first a normal query and its result, then the same query with a **pipeline** added, and the new result. Watch how the second result is built from the first.
+
+## The big idea
+
+Every query you've written so far produces a **table**: the result. A **pipeline** runs a second query **on that result table**.
+
+You've done this in a spreadsheet. You make a pivot table (births by name), and then you **work with the pivot table itself**: count its rows, filter it, sort it, or make a second pivot table from it.
+
+In Malloy, the arrow `->` means "**and then**":
+
+```malloy
+run: names -> { first query } -> { second query }
+```
+
+```
+  names data          stage 1                 stage 2
+ (millions of   ->   result table    ->      final result
+    rows)           (one row per name)      (one row)
+```
+
+Two rules make pipelines easy:
+
+1. **Stage 2 only sees stage 1's result.** It can use the columns stage 1 produced, and nothing else.
+2. **Build one stage at a time.** Run stage 1, look at the result, *then* add `->` and stage 2.
+>>>malloy
+import "names.malloy"
+import "ecommerce.malloy"
+>>>markdown
+## Example 1: counting the rows of a result
+
+**Question:** *In 2021, how many girls' names were given to more than 1,000 babies?*
+
+**Step 1.** First, make the table of names and their births:
+>>>malloy
+run: names -> {
+  where: year_born = 2021 and gender = 'F'
+  group_by: name
+  aggregate: total_births
+  order_by: total_births desc
+}
+>>>markdown
+This table has **one row per name**: 5,322 rows in all. (Only the first rows are shown.) We want to **count the rows of this table** where `total_births` is over 1,000.
+
+**Step 2.** Add `->` and a second stage that works on that table:
+>>>malloy
+run: names -> {
+  where: year_born = 2021 and gender = 'F'
+  group_by: name
+  aggregate: total_births
+} -> {
+  where: total_births > 1000
+  aggregate: popular_names is count()
+}
+>>>markdown
+**314 names.** Read it in plain English:
+
+* **Stage 1:** make a table with one row per girls' name in 2021, and its births.
+* **Stage 2:** keep the rows of *that table* with more than 1,000 births, and count them.
+
+In stage 2, `total_births` is just a column of the table, like a column in a spreadsheet. `count()` counts **names** now, because each row of stage 1's table is one name.
+
+> 💡 **Why not use `having:`?** `having: total_births > 1000` in stage 1 would *filter* the names. But it would still give you a list of 314 names, not the number 314. To count the rows of a result, you need a second stage.
+
+## Example 2: an average of totals
+
+**Question:** *In 2021, how many babies were born in the average state?*
+
+**Step 1.** Births per state:
+>>>malloy
+run: names -> {
+  where: year_born = 2021
+  group_by: state
+  aggregate: total_births
+}
+>>>markdown
+51 rows: 50 states plus DC. Now we want the **average of the `total_births` column**.
+
+**Step 2.** Summarize the table:
+>>>malloy
+run: names -> {
+  where: year_born = 2021
+  group_by: state
+  aggregate: total_births
+} -> {
+  aggregate:
+    states is count()
+    avg_births_per_state is total_births.avg()
+    smallest_state is total_births.min()
+    biggest_state is total_births.max()
+}
+>>>markdown
+The average state had about **55,000** babies in this data, but the range is huge: **2,142** in the smallest and **359,997** in the biggest (California).
+
+Why do you need a pipeline? `avg(births)` in one query would average the **raw rows** (one row per name, state and year), which answers a different question: "how many babies does a typical name get in a typical state?" You want the average of the **state totals**, so you first make the totals (stage 1), then average them (stage 2).
+
+## Example 3: a distribution (how many customers ordered once, twice…?)
+
+This one uses the online store from [Chapter 10](10_joins.malloynb).
+
+**Question:** *How many customers placed 1 order, 2 orders, 3 orders, and so on?*
+
+**Step 1.** Orders per customer:
+>>>malloy
+run: order_items -> {
+  group_by: user_id
+  aggregate: order_count
+}
+>>>markdown
+One row per customer, with their number of orders. Now **group this table by `order_count`** and count the customers in each group.
+
+**Step 2.**
+>>>malloy
+run: order_items -> {
+  group_by: user_id
+  aggregate: order_count
+} -> {
+  group_by: order_count
+  aggregate:
+    customers is count()
+    # percent
+    share_of_customers is count() / all(count())
+  order_by: order_count
+}
+>>>markdown
+**51%** of customers ordered only once, 24% twice, and 12% three times. Just 4 customers ordered 15 times.
+
+Notice that `order_count` was a **measure** in stage 1, but in stage 2 it's a column you can **group by**. That's the most common reason to use a pipeline: you want to group by something you calculated.
+
+## Example 4: grouping a calculated number into buckets
+
+**Question:** *How many girls' names in 2021 were very popular, popular, uncommon or rare?*
+
+Stage 1 is the same as Example 1. Stage 2 uses `pick` (from [Chapter 9](09_data_cleaning.malloynb)) to sort each name into a size group, then counts:
+>>>malloy
+run: names -> {
+  where: year_born = 2021 and gender = 'F'
+  group_by: name
+  aggregate: total_births
+} -> {
+  group_by: size_group is total_births ?
+    pick '1. Over 10,000' when >= 10000
+    pick '2. 1,000 to 9,999' when >= 1000
+    pick '3. 100 to 999' when >= 100
+    else '4. Under 100'
+  aggregate:
+    names is count()
+    babies is total_births.sum()
+  order_by: size_group
+}
+>>>markdown
+Only **8 names** were given to more than 10,000 girls, but together they covered about 107,000 babies. Meanwhile **3,889 names** (73% of all names) were rare, with fewer than 100 babies each.
+
+In stage 2, `names is count()` counts names (rows of stage 1), and `total_births.sum()` adds up the babies.
+
+## Example 5: filtering on a rank
+
+**Question:** *Which name was the #1 boys' name each year?*
+
+**Step 1.** Rank the names within each year with `calculate:` ([Chapter 12](12_pipelines_and_windows.malloynb)):
+>>>malloy
+run: names -> {
+  where: gender = 'M' and year_born >= 2019
+  group_by: year_born, name
+  aggregate: total_births
+  calculate: rank_in_year is rank() { partition_by: year_born  order_by: total_births desc }
+  order_by: year_born desc, total_births desc
+  limit: 6
+}
+>>>markdown
+We want only the rows where `rank_in_year = 1`. You might try adding `where: rank_in_year = 1` to the same query, but you get an error:
+
+```
+'rank_in_year' is not defined
+```
+
+`where:` runs **before** grouping, and the rank only exists **after** grouping and ranking. So filter it in a second stage, when the rank is just a column:
+
+**Step 2.**
+>>>malloy
+run: names -> {
+  where: gender = 'M' and year_born >= 2012
+  group_by: year_born, name
+  aggregate: total_births
+  calculate: rank_in_year is rank() { partition_by: year_born  order_by: total_births desc }
+} -> {
+  where: rank_in_year = 1
+  select: year_born, name, total_births
+  order_by: year_born desc
+}
+>>>markdown
+**Liam** has been #1 since 2017. Before that it was **Noah** (2013–2016) and **Jacob** (2012). Stage 2 uses `select:`, not `group_by:`, because we just want to keep some rows, not summarize them.
+
+## Putting it together: a question in two stages
+
+**Question:** *In 2021, which girls' names were #1 in the most states?*
+
+Say the two stages out loud first:
+
+* **Stage 1:** for each state, rank the girls' names.
+* **Stage 2:** keep each state's #1 name, then count states per name.
+>>>malloy
+run: names -> {
+  where: year_born = 2021 and gender = 'F'
+  group_by: state, name
+  aggregate: total_births
+  calculate: rank_in_state is rank() { partition_by: state  order_by: total_births desc }
+} -> {
+  where: rank_in_state = 1
+  group_by: name
+  aggregate: states_where_number_1 is count()
+  order_by: states_where_number_1 desc
+}
+>>>markdown
+**Olivia** was #1 in 34 states, and **Charlotte** in 10. You'll see this query again in [Chapter 19](19_making_data_sing.malloynb), where it's an example of a "Pair" question.
+
+## A common mistake: using a column stage 1 didn't make
+
+Stage 2 can only use the columns in stage 1's result. This fails:
+
+```malloy
+run: names -> {
+  where: year_born = 2021
+  group_by: state
+  aggregate: total_births
+} -> {
+  group_by: gender
+  aggregate: n is count()
+}
+```
+
+```
+'gender' is not defined
+```
+
+Stage 1's table has only two columns, `state` and `total_births`. `gender` was in the raw data, but it didn't make it into the result. To use it in stage 2, add it to stage 1's `group_by:`.
+
+> 💡 **When you get stuck,** delete everything after the `->` and run stage 1 alone. Look at its columns. Those are the only names stage 2 can use.
+
+## When do you need a pipeline?
+
+Use a pipeline when your question has the words **"of the"** or **"each … then"** in it:
+
+| Question | Stage 1 | Stage 2 |
+|---|---|---|
+| How many names had over 1,000 births? | births per name | count the rows that pass a filter |
+| What's the average **of the** state totals? | total per state | average the totals |
+| How many customers ordered once, twice…? | orders per customer | group by the order count |
+| Which was the #1 name **each** year? | rank names in each year | keep rank 1 |
+
+If you can answer in one query, do. A pipeline is for when the first answer is a table you need to work on again.
+
+## Key takeaways
+
+* A **pipeline** runs a query on the **result** of another query. `->` means "and then."
+* **Stage 2 sees only stage 1's columns.** A measure in stage 1 (like `total_births`) becomes a plain column in stage 2 that you can filter, group by, average or count.
+* In stage 2, `count()` counts **rows of stage 1's result**, such as names, states or customers.
+* Common reasons for a second stage: counting the rows of a result, averaging totals, grouping by a calculated number, and filtering on a rank.
+* **Build one stage at a time.** Run stage 1, look at the result, then add the next stage.
+
+> 🎯 **Challenge 13.1: Popular boys' names.** How many boys' names were given to more than 1,000 babies in 2021? Is it more or fewer than the 314 girls' names?
+
+> 🎯 **Challenge 13.2: The typical year.** Using `by_year` style grouping, find the total births for each year. Then, in a second stage, find the average, the smallest and the largest yearly totals. Which year was the biggest? (Hint: add `order_by: total_births desc` and `limit: 1` in another query.)
+
+> 🎯 **Challenge 13.3: Items per order.** In the store, find how many orders had 1 item, 2 items, 3 items and so on. (Stage 1: `group_by: order_id` and count items with `order_item_count`. Stage 2: group by that count.)
+
+> 🎯 **Challenge 13.4: #1 in each state.** Change the "putting it together" query to boys' names. Which boys' name was #1 in the most states in 2021?

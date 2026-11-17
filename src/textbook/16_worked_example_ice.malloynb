@@ -15,7 +15,7 @@ The data is a record of **arrests made by U.S. Immigration and Customs Enforceme
 
 > ⚠️ **Read administrative data carefully.** These are records kept by an agency for its own purposes, not a survey designed for research. Categories are ICE's own (for example, "Other Immigration Violator" means no criminal conviction or pending charge was recorded). Some records are duplicates, some fields are missing, and the definitions can change between releases. Every row is a real person's arrest. Describe what the data shows precisely, and say what it can't tell you. The Deportation Data Project's documentation explains the fields and known issues.
 
-> 📘 **Book chapters.** Each part below matches a chapter: [1](01_basics.malloynb) · [2](02_time_truncation.malloynb) · [3](03_views_and_nesting.malloynb) · [4](04_render_tags.malloynb) · [5](05_files_and_notebooks.malloynb) · [6](06_explorer.malloynb) · [7](07_csv_and_parquet.malloynb) · [8](08_filtering.malloynb) · [9](09_data_cleaning.malloynb) · [10](10_joins.malloynb) · [11](11_percent_of_total.malloynb) · [12](12_pipelines_and_windows.malloynb) · [13](13_givens.malloynb) · [14](14_model_review.malloynb)
+> 📘 **Book chapters.** Each part below matches a chapter: [1](01_basics.malloynb) · [2](02_time_truncation.malloynb) · [3](03_views_and_nesting.malloynb) · [4](04_render_tags.malloynb) · [5](05_files_and_notebooks.malloynb) · [6](06_explorer.malloynb) · [7](07_csv_and_parquet.malloynb) · [8](08_filtering.malloynb) · [9](09_data_cleaning.malloynb) · [10](10_joins.malloynb) · [11](11_percent_of_total.malloynb) · [12](12_pipelines_and_windows.malloynb) · [13](13_pipelines_step_by_step.malloynb) · [14](14_givens.malloynb) · [15](15_model_review.malloynb)
 
 ## Part 1 · The Basics
 
@@ -305,7 +305,7 @@ import { ice_arrests } from "ice.malloy"
 >>>malloy
 run: ice_arrests -> by_fiscal_year
 >>>markdown
-One line, and the whole fiscal-year report runs from the model's definitions. We'll keep building the pieces here in the notebook, so you can see each step. In [Part 14](#part-14-model-review) we'll come back to `ice.malloy` and review it.
+One line, and the whole fiscal-year report runs from the model's definitions. We'll keep building the pieces here in the notebook, so you can see each step. In [Part 15](#part-15-model-review) we'll come back to `ice.malloy` and review it.
 
 > 🎯 **Try it:** Open `ice.malloy` in VS Code and find the `by_fiscal_year` view. Add `avg_age` to its `aggregate:` list, save, re-run the import cell and this cell. The notebook picks up the change.
 
@@ -543,7 +543,7 @@ run: arrests_clean -> {
 
 ### Joining a lookup table
 
-`state_regions.csv` (from Chapter 14) has one row per U.S. state with its 2-letter code and Census region. The arrest data uses capitalized full names, so we join on an **expression**:
+`state_regions.csv` (from Chapter 15) has one row per U.S. state with its 2-letter code and Census region. The arrest data uses capitalized full names, so we join on an **expression**:
 >>>malloy
 source: state_regions is duckdb.table('data/state_regions.csv') extend {
   primary_key: state_code
@@ -680,9 +680,11 @@ run: arrests_clean -> {
   limit: 10
 }
 >>>markdown
-> 🎯 **Try it:** Change `'Miami'` (all four places!) to `'New York City'` or `'Seattle'`. Better yet, think about how you'd avoid typing it four times (Part 13 has an answer).
+> 🎯 **Try it:** Change `'Miami'` (all four places!) to `'New York City'` or `'Seattle'`. Better yet, think about how you'd avoid typing it four times (Part 14 has an answer).
 
 ## Part 12 · Pipelines and Window Calculations
+
+*(This part covers [Chapter 12](12_pipelines_and_windows.malloynb) and [Chapter 13](13_pipelines_step_by_step.malloynb).)*
 
 ### A two-stage pipeline: how often are people re-arrested?
 
@@ -764,7 +766,7 @@ The running total restarts every October, when a new fiscal year begins.
 
 > 🎯 **Try it:** Remove the `partition_by:` line. What does the running total mean now?
 
-## Part 13 · Givens
+## Part 14 · Givens
 
 The office comparison in Part 11 typed `'Miami'` four times. **Givens** fix that: declare the value once, use it everywhere with `$`.
 >>>malloy
@@ -801,13 +803,13 @@ A `filter<string>` given holds a whole filter expression, which a user (or an ap
 
 > 🎯 **Try it:** Change `COUNTRIES` to `f'C%'` and `SINCE` to `@2023-01-01`.
 
-## Part 14 · Model Review
+## Part 15 · Model Review
 
 Everything this notebook built is collected, documented, in `ice.malloy`. Here's how it maps to the parts above:
 
 | `ice.malloy` element | Built in |
 |---|---|
-| `given: FOCUS_STATE` and `source: ice_focus_state` | Part 13 |
+| `given: FOCUS_STATE` and `source: ice_focus_state` | Part 14 |
 | `source: ice_state_regions` (lookup, `primary_key: state_code`) | Part 10 |
 | `source: ice_people` (person-level source built from a query) | Parts 10 and 12 |
 | `source: ice_arrests` → `where: duplicate_drop_row = false` | Part 9 |

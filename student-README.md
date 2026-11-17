@@ -19,13 +19,13 @@ install the Malloy extension there, and open any notebook.
 | File | What it is |
 |---|---|
 | `index.malloynb` | Welcome and table of contents |
-| `01_basics.malloynb` … `14_model_review.malloynb` | One notebook per chapter |
-| `15_worked_example_ice.malloynb` | Worked example: ICE arrests data taken through every chapter |
-| `16_data_sources.malloynb` | 20 public datasets to explore (read from the internet), and how to find more |
-| `17_troubleshooting.malloynb` | `malloy-config.json`, setup checks, and common error messages |
+| `01_basics.malloynb` … `15_model_review.malloynb` | One notebook per chapter |
+| `16_worked_example_ice.malloynb` | Worked example: ICE arrests data taken through every chapter |
+| `17_data_sources.malloynb` | 20 public datasets to explore (read from the internet), and how to find more |
+| `18_troubleshooting.malloynb` | `malloy-config.json`, setup checks, and common error messages |
 | `ice.malloy` | The finished model for the worked example |
 | `names.malloy` | The baby names model (used from Chapter 2 on) |
-| `names_full.malloy` | The complete names model reviewed in Chapter 14 |
+| `names_full.malloy` | The complete names model reviewed in Chapter 15 |
 | `ecommerce.malloy` | The e-commerce star-schema model |
 | `data/` | Parquet and CSV data files |
 | `img/` | Screenshots used by the notebooks |

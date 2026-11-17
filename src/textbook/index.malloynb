@@ -14,7 +14,7 @@ Every chapter exists in two forms:
 
 Read the web page to learn. Open the notebook to practice. The **Open in VS Code** button at the top of each chapter opens that chapter's notebook in [github.dev](https://github.dev), a free copy of VS Code that runs in your browser.
 
-> 💡 **Fast start.** Want to run queries right now? Go to [Chapter 5](05_files_and_notebooks.malloynb#setting-up-your-environment) for the full setup. The short version: install VS Code, install the **Malloy** extension, then download the [notebooks repository](https://github.com/mrtimo/malloy-textbook-notebooks) and open its folder *as the workspace root*. That's it. DuckDB is built into the extension. Getting errors? See [Chapter 17: Troubleshooting](17_troubleshooting.malloynb).
+> 💡 **Fast start.** Want to run queries right now? Go to [Chapter 5](05_files_and_notebooks.malloynb#setting-up-your-environment) for the full setup. The short version: install VS Code, install the **Malloy** extension, then download the [notebooks repository](https://github.com/mrtimo/malloy-textbook-notebooks) and open its folder *as the workspace root*. That's it. DuckDB is built into the extension. Getting errors? See [Chapter 18: Troubleshooting](18_troubleshooting.malloynb).
 
 ## Helpful links
 
@@ -49,9 +49,9 @@ Keep a few of these open in other tabs while you work.
 | [Malloy community Slack](https://docs.malloydata.dev/slack) | Ask questions and see what others are building |
 | [Malloy blog](https://docs.malloydata.dev/blog/) | New features and longer articles |
 | [DuckDB documentation](https://duckdb.org/docs/) and [DuckDB functions](https://duckdb.org/docs/stable/sql/functions/overview) | The database behind this book's queries; useful when you need a SQL function |
-| [Chapter 17: Troubleshooting](17_troubleshooting.malloynb) | Errors? Start here, especially if you're missing `malloy-config.json` |
-| [Chapter 16: Data Sources](16_data_sources.malloynb) | 20 public datasets to explore, and how to find more |
-| [Chapter 18: Making Data Sing](18_making_data_sing.malloynb) | How to ask better questions of any dataset, and how to pick one |
+| [Chapter 18: Troubleshooting](18_troubleshooting.malloynb) | Errors? Start here, especially if you're missing `malloy-config.json` |
+| [Chapter 17: Data Sources](17_data_sources.malloynb) | 20 public datasets to explore, and how to find more |
+| [Chapter 19: Making Data Sing](19_making_data_sing.malloynb) | How to ask better questions of any dataset, and how to pick one |
 | [Making Data Sing](https://making-data-sing.pages.dev) | A framework for asking better questions of any dataset |
 
 ## The datasets
@@ -63,7 +63,7 @@ We use two datasets throughout the book. Both ship with the notebooks in the `da
 | **U.S. baby names** | `data/usa_names.parquet` | 6.3 million rows: the number of babies given each name, by state, gender, and year, from 1910 to 2021 (Social Security Administration) | Almost everything |
 | **E-commerce store** | `data/order_items.parquet`, `users.parquet`, `inventory_items.parquet`, `products.parquet` | 271,000 items sold by an online clothing store from Jan 2019 to Nov 2022 | Dates, time trends, and joins |
 
-We also use a few small CSV files filled with deliberately messy fake data for the [data cleaning chapter](09_data_cleaning.malloynb). The [worked example](15_worked_example_ice.malloynb) uses a third, real dataset: about 896,000 ICE arrest records published by the Deportation Data Project.
+We also use a few small CSV files filled with deliberately messy fake data for the [data cleaning chapter](09_data_cleaning.malloynb). The [worked example](16_worked_example_ice.malloynb) uses a third, real dataset: about 896,000 ICE arrest records published by the Deportation Data Project.
 
 ## Conventions
 
@@ -101,25 +101,26 @@ You will see a few kinds of colored boxes:
 10. [Joins and Symmetric Aggregates](10_joins.malloynb): star schemas without double counting
 11. [Percent of Total](11_percent_of_total.malloynb): `all()` and `exclude()`
 12. [Pipelines and Window Calculations](12_pipelines_and_windows.malloynb): multi-stage queries, `lag`, `rank`, and running totals
+13. [Pipelines, Step by Step](13_pipelines_step_by_step.malloynb): simple, before-and-after examples of multi-stage queries
 
 **Part IV · Modeling**
 
-13. [Givens](13_givens.malloynb): values your model receives when a query runs
-14. [Anatomy of a Malloy Model](14_model_review.malloynb): putting all the pieces together
+14. [Givens](14_givens.malloynb): values your model receives when a query runs
+15. [Anatomy of a Malloy Model](15_model_review.malloynb): putting all the pieces together
 
 **Part V · Worked Example**
 
-15. [ICE Arrests, Start to Finish](15_worked_example_ice.malloynb): one real dataset taken through every chapter, with a small challenge after every cell
+16. [ICE Arrests, Start to Finish](16_worked_example_ice.malloynb): one real dataset taken through every chapter, with a small challenge after every cell
 
 **Part VI · Going Further**
 
-16. [Data Sources](16_data_sources.malloynb): 20 public datasets you can query straight from the internet, and how to find more
-17. [Troubleshooting](17_troubleshooting.malloynb): `malloy-config.json`, setup checks, and common error messages
+17. [Data Sources](17_data_sources.malloynb): 20 public datasets you can query straight from the internet, and how to find more
+18. [Troubleshooting](18_troubleshooting.malloynb): `malloy-config.json`, setup checks, and common error messages
 
 **Part VII · Making Data Sing**
 
-18. [Making Data Sing](18_making_data_sing.malloynb): a five-step framework for asking better questions, worked on the baby-names data, plus tips for picking a dataset
-19. [Making Data Sing: An Online Store](19_making_data_sing_ecommerce.malloynb): the same five steps on the e-commerce data, including what to do when the answer is flat
-20. [Homework: Make Your Data Sing](20_homework_make_your_data_sing.malloynb): take your own dataset, hosted as Parquet on the internet, through all five steps
+19. [Making Data Sing](19_making_data_sing.malloynb): a five-step framework for asking better questions, worked on the baby-names data, plus tips for picking a dataset
+20. [Making Data Sing: An Online Store](20_making_data_sing_ecommerce.malloynb): the same five steps on the e-commerce data, including what to do when the answer is flat
+21. [Homework: Make Your Data Sing](21_homework_make_your_data_sing.malloynb): take your own dataset, hosted as Parquet on the internet, through all five steps
 
 > 📘 **Malloy docs.** The official documentation is at [docs.malloydata.dev](https://docs.malloydata.dev/documentation/). Keep it open in another tab. Every chapter links to the pages that go deeper.

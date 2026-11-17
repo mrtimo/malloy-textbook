@@ -34,7 +34,7 @@ The Explorer has three panels:
 
 <img src="img/source-panel.png" alt="The source panel" style="max-width: 260px;">
 
-> 💡 **Descriptions show up here.** Hover over a field in the source panel. Text written with `#"` above a field in `names.malloy` (for example `#" The decade a baby was born in`) appears as its description. This is one reason to document your model. See [Chapter 14](14_model_review.malloynb).
+> 💡 **Descriptions show up here.** Hover over a field in the source panel. Text written with `#"` above a field in `names.malloy` (for example `#" The decade a baby was born in`) appears as its description. This is one reason to document your model. See [Chapter 15](15_model_review.malloynb).
 
 ## Exercise 1: births by state
 

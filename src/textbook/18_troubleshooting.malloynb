@@ -1,5 +1,5 @@
 >>>markdown
-# Chapter 17: Troubleshooting
+# Chapter 18: Troubleshooting
 
 Something isn't working? Start here. Most problems students run into come from **setup**, not from Malloy itself: the wrong folder is open, or the `malloy-config.json` file is missing. This chapter covers:
 
@@ -165,7 +165,7 @@ If the test above fails, work down this list:
 | `unexpected` followed by a vertical bar | You used SQL's double vertical bar to join strings | Use `concat(a, b)` instead |
 | `Conversion Error: Could not convert string 'NA' to DOUBLE` | A number column contains text such as `NA` or `-`, so a normal cast fails | Use a **safe cast**, `column:::number`, which turns bad values into null ([Chapter 9](09_data_cleaning.malloynb)) |
 | `HTTP Error … 404 (Not Found)` | A URL in `duckdb.table('https://…')` is wrong, or the file has moved | Open the link in a browser. It should download the file, not show a web page |
-| A column named `column0` full of HTML (`<!DOCTYPE html>`) when reading from GitHub | You used a `github.com/…/blob/…` link, which is the *web page*, so DuckDB read the page's HTML | Use the **Raw** link (`raw.githubusercontent.com/…`). See [Chapter 16](16_data_sources.malloynb#getting-the-right-link) |
+| A column named `column0` full of HTML (`<!DOCTYPE html>`) when reading from GitHub | You used a `github.com/…/blob/…` link, which is the *web page*, so DuckDB read the page's HTML | Use the **Raw** link (`raw.githubusercontent.com/…`). See [Chapter 17](17_data_sources.malloynb#getting-the-right-link) |
 | `SSL` or `certificate` errors when reading a URL | That site's security certificate can't be checked from DuckDB | Download the file, put it in `data/`, and use the local path |
 | `Could not set lock on file` | Another program (or another VS Code window) already has that `.duckdb` database file open | Close the other program, or see the `readOnly` and `shareable` settings in the [config docs](https://docs.malloydata.dev/documentation/setup/config) |
 
@@ -175,7 +175,7 @@ If the test above fails, work down this list:
 
 * **Only some rows appear.** VS Code shows a limited number of rows by default. Add `limit:` to your query, or open the result as a table and scroll.
 * **Numbers are much too big after a join.** You probably joined on a column that isn't unique. See [Chapter 10](10_joins.malloynb) and the Malloy docs' [troubleshooting guide](https://docs.malloydata.dev/documentation/user_guides/troubleshooting#problem-1-non-unique-join-key).
-* **The results here don't match the website.** Some datasets update over time (the live feeds in [Chapter 16](16_data_sources.malloynb)), and queries using relative dates like `now` or `last 6 months` change with the date.
+* **The results here don't match the website.** Some datasets update over time (the live feeds in [Chapter 17](17_data_sources.malloynb)), and queries using relative dates like `now` or `last 6 months` change with the date.
 * **A `#(docs)` line seems to do nothing.** That's expected: `#(docs)` lines only control how this website displays results. VS Code ignores them.
 
 ## Getting help
@@ -189,7 +189,7 @@ When you ask a classmate, your instructor or the [Malloy community Slack](https:
 
 > 📘 **Malloy docs.** [Troubleshooting](https://docs.malloydata.dev/documentation/user_guides/troubleshooting) (joins, slow queries, common errors) · [Error dictionary](https://docs.malloydata.dev/documentation/error_dictionary) (every Malloy error message explained)
 
-> 🎯 **Challenge 17.1: Break it on purpose.** In a copy of the notebooks folder, rename `malloy-config.json` to `malloy-config.json.bak`, open a different parent folder in VS Code, and run the setup test. Read the error. Then rename the file back and run it again. Knowing what this error looks like will save you time later.
+> 🎯 **Challenge 18.1: Break it on purpose.** In a copy of the notebooks folder, rename `malloy-config.json` to `malloy-config.json.bak`, open a different parent folder in VS Code, and run the setup test. Read the error. Then rename the file back and run it again. Knowing what this error looks like will save you time later.
 
 ## Summary
 

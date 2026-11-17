@@ -1,5 +1,5 @@
 >>>markdown
-# Chapter 18: Making Data Sing
+# Chapter 19: Making Data Sing
 
 You know how to write Malloy. This chapter is about **what to ask**.
 
@@ -9,7 +9,7 @@ Handed a new dataset, most people group by a column, sum a number, sort, and sto
 
 > **TYPE** the columns → **PAIR** the types → apply a **MOVE** → look for a **SHAPE** → **SHARPEN** the question
 
-This chapter explains each step and works through it on the baby-names data. [Chapter 19](19_making_data_sing_ecommerce.malloynb) applies the same steps to an online store, so you can see the framework work on a very different kind of data.
+This chapter explains each step and works through it on the baby-names data. [Chapter 20](20_making_data_sing_ecommerce.malloynb) applies the same steps to an online store, so you can see the framework work on a very different kind of data.
 
 > 📄 **Handout and slides.** A one-page version of the framework, with pictures, is at [making-data-sing.pages.dev](https://making-data-sing.pages.dev). You can also download the [one-page handout (.docx)](https://making-data-sing.pages.dev/downloads/making-data-sing-handout.docx).
 
@@ -33,7 +33,7 @@ The framework works on any data, but some datasets give you far more to work wit
 | 🔗 **Pair** | rows that share a key | items in the same order, songs on the same playlist |
 | 🪆 **Nest** | a category inside another category | city → state → region, product → category → department |
 
-**6. Choose real data over simulated data.** Simulated "demo" data is often generated at random, so its patterns are flat. You'll see this in Chapter 19.
+**6. Choose real data over simulated data.** Simulated "demo" data is often generated at random, so its patterns are flat. You'll see this in Chapter 20.
 
 **7. Size and documentation.** A few thousand to a few million rows is ideal. Most important, make sure you can say what **one row** means.
 
@@ -42,8 +42,8 @@ The framework works on any data, but some datasets give you far more to work wit
 | Dataset | Who | Kind | When | Where | How much | Doors |
 |---|---|---|---|---|---|---|
 | Baby names (this chapter) | name | sex | year, 1910–2021 | state | births | Order, Pair, Nest |
-| Online store ([Chapter 19](19_making_data_sing_ecommerce.malloynb)) | customer, product, brand | category, status, traffic source | order date, ship date | country | price, cost | Order, Pair, Nest |
-| ICE arrests ([Chapter 15](15_worked_example_ice.malloynb)) | country of citizenship, person | arrest method, criminality | arrest date | state, ICE office | age, days to departure | Order, Pair, Nest |
+| Online store ([Chapter 20](20_making_data_sing_ecommerce.malloynb)) | customer, product, brand | category, status, traffic source | order date, ship date | country | price, cost | Order, Pair, Nest |
+| ICE arrests ([Chapter 16](16_worked_example_ice.malloynb)) | country of citizenship, person | arrest method, criminality | arrest date | state, ICE office | age, days to departure | Order, Pair, Nest |
 | GDP by country and year | country | — | year | country | GDP | Order only |
 
 The last row is a typical "summary" table: one number per country per year. You can ask about growth, but there's no *Who* beyond the country, no *Kind* and only one door.
@@ -352,7 +352,7 @@ In 2021, **Olivia** was #1 in 34 states. **Charlotte** was #1 in 10, and look at
 
 ### 🪆 Nest: states inside regions
 
-A state is a *Where*, but it's also a *Kind* that sits inside a **region**. Join the region table from [Chapter 14](14_model_review.malloynb):
+A state is a *Where*, but it's also a *Kind* that sits inside a **region**. Join the region table from [Chapter 15](15_model_review.malloynb):
 >>>malloy
 source: states is duckdb.table('data/state_regions.csv') extend {
   primary_key: state_code
@@ -432,10 +432,10 @@ run: names -> {
 * The three **doors** (Order, Pair, Nest) open when rows relate to each other. In Malloy they usually mean a window function, a pipeline or join, or a nest.
 * A **full question** names the subject, measure, move, comparison and expected answer. The gap between what you expected and what you found is where insight lives.
 
-> 🎯 **Challenge 18.1: Fad or classic?** Pick three boys' names you think are classics and three you think are fads. Write your guess down. Then plot their share of boys by year. Were you right?
+> 🎯 **Challenge 19.1: Fad or classic?** Pick three boys' names you think are classics and three you think are fads. Write your guess down. Then plot their share of boys by year. Were you right?
 
-> 🎯 **Challenge 18.2: Your state's signature names.** Copy the Utah over-index query and change it to your state. Which name over-indexes most? Try boys too.
+> 🎯 **Challenge 19.2: Your state's signature names.** Copy the Utah over-index query and change it to your state. Which name over-indexes most? Try boys too.
 
-> 🎯 **Challenge 18.3: First letters.** Use `first_letter` (an identifier-as-data move). What share of girls got a name starting with each letter in the 1950s, and in the 2010s? Which letter gained the most?
+> 🎯 **Challenge 19.3: First letters.** Use `first_letter` (an identifier-as-data move). What share of girls got a name starting with each letter in the 1950s, and in the 2010s? Which letter gained the most?
 
-> 🎯 **Challenge 18.4: Sharpen a seed.** Start from the seed "short names." Write a full question with all five parts, including your guess, then answer it with `name_length`.
+> 🎯 **Challenge 19.4: Sharpen a seed.** Start from the seed "short names." Write a full question with all five parts, including your guess, then answer it with `name_length`.

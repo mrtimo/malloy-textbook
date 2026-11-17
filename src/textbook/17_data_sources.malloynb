@@ -1,5 +1,5 @@
 >>>markdown
-# Chapter 16: Data Sources
+# Chapter 17: Data Sources
 
 The best way to get good at Malloy is to explore data *you* find interesting. This chapter gives you 20 public datasets to start with, each with ready-made Malloy code that reads it **straight from the internet**, plus advice on finding more.
 
@@ -678,9 +678,9 @@ run: my_data -> { select: *  limit: 10 }
 
 > ⚠️ **Never trust a number the AI tells you about a dataset.** Row counts, date ranges and "interesting facts" from an assistant are often wrong. Run the query and look at the data yourself.
 
-> 🎯 **Challenge 16.1: Your own dataset.** Find a dataset you care about, using the sites above or an AI prompt. Write a Malloy source for it with at least two dimensions, two measures and one view. Then write three questions about it, and answer them with queries.
+> 🎯 **Challenge 17.1: Your own dataset.** Find a dataset you care about, using the sites above or an AI prompt. Write a Malloy source for it with at least two dimensions, two measures and one view. Then write three questions about it, and answer them with queries.
 
-> 🎯 **Challenge 16.2: Join two sources.** Pick a dataset from this chapter and find a second one that shares a column with it, such as a country, state or year. For example, join **CO₂ Emissions** to **Gapminder** on country and year, or **Power Plants** to **CO₂ Emissions** on country. Use `join_one:` and explain what the combined data lets you ask that neither could alone.
+> 🎯 **Challenge 17.2: Join two sources.** Pick a dataset from this chapter and find a second one that shares a column with it, such as a country, state or year. For example, join **CO₂ Emissions** to **Gapminder** on country and year, or **Power Plants** to **CO₂ Emissions** on country. Use `join_one:` and explain what the combined data lets you ask that neither could alone.
 
 ## Summary
 
