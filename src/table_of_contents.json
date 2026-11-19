@@ -63,6 +63,10 @@
           "link": "/10_joins.malloynb"
         },
         {
+          "title": "10a. Joins by Example",
+          "link": "/10a_joins_by_example.malloynb"
+        },
+        {
           "title": "11. Percent of Total",
           "link": "/11_percent_of_total.malloynb"
         },
@@ -108,6 +112,10 @@
         {
           "title": "18. Troubleshooting",
           "link": "/18_troubleshooting.malloynb"
+        },
+        {
+          "title": "18a. Installing Helpful Things",
+          "link": "/18a_installing_helpful_things.malloynb"
         }
       ]
     },

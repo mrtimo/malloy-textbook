@@ -50,6 +50,7 @@ Keep a few of these open in other tabs while you work.
 | [Malloy blog](https://docs.malloydata.dev/blog/) | New features and longer articles |
 | [DuckDB documentation](https://duckdb.org/docs/) and [DuckDB functions](https://duckdb.org/docs/stable/sql/functions/overview) | The database behind this book's queries; useful when you need a SQL function |
 | [Chapter 18: Troubleshooting](18_troubleshooting.malloynb) | Errors? Start here, especially if you're missing `malloy-config.json` |
+| [Chapter 18a: Installing Helpful Things](18a_installing_helpful_things.malloynb) | Optional tools: Python, Hugging Face, Claude Code and the Malloy skills |
 | [Chapter 17: Data Sources](17_data_sources.malloynb) | 20 public datasets to explore, and how to find more |
 | [Chapter 19: Making Data Sing](19_making_data_sing.malloynb) | How to ask better questions of any dataset, and how to pick one |
 | [Making Data Sing](https://making-data-sing.pages.dev) | A framework for asking better questions of any dataset |
@@ -99,6 +100,7 @@ You will see a few kinds of colored boxes:
 8. [Filtering and Time Comparisons](08_filtering.malloynb): filter expressions and period-over-period analysis
 9. [Data Cleaning](09_data_cleaning.malloynb): fixing messy text, numbers, and dates
 10. [Joins and Symmetric Aggregates](10_joins.malloynb): star schemas without double counting
+    * **10a.** [Joins by Example](10a_joins_by_example.malloynb): a gentle, hands-on start. Type one join line and watch new columns appear
 11. [Percent of Total](11_percent_of_total.malloynb): `all()` and `exclude()`
 12. [Pipelines and Window Calculations](12_pipelines_and_windows.malloynb): multi-stage queries, `lag`, `rank`, and running totals
 13. [Pipelines, Step by Step](13_pipelines_step_by_step.malloynb): simple, before-and-after examples of multi-stage queries
@@ -116,6 +118,7 @@ You will see a few kinds of colored boxes:
 
 17. [Data Sources](17_data_sources.malloynb): 20 public datasets you can query straight from the internet, and how to find more
 18. [Troubleshooting](18_troubleshooting.malloynb): `malloy-config.json`, setup checks, and common error messages
+    * **18a.** [Installing Helpful Things](18a_installing_helpful_things.malloynb): Python, DuckDB, Hugging Face, Claude Code, and the Malloy and Credible skills for AI assistants
 
 **Part VII · Making Data Sing**
 

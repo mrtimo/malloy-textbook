@@ -9,6 +9,8 @@ Real data is spread over several tables. **Joins** connect them. In SQL, joins a
 * why Malloy's **symmetric aggregates** give correct answers where naive SQL doesn't
 * how to join a table to a **summary query** of itself
 
+> 🐢 **New to joins?** [Chapter 10a: Joins by Example](10a_joins_by_example.malloynb) is a gentle, hands-on version. In each exercise you type just one join line and watch the new columns appear. Try it first if this chapter feels fast.
+
 ## The e-commerce star schema
 
 A **star schema** has one central **fact** table (events: sales, clicks, births) surrounded by **dimension** tables (things: customers, products, places). In our store:

@@ -129,7 +129,7 @@
             </div>
         <div class="sidebar-section">
               <div id=part_iii · analysis
-                class="sidebar-section-title {% unless /textbook/08_filtering.html,/textbook/09_data_cleaning.html,/textbook/10_joins.html,/textbook/11_percent_of_total.html,/textbook/12_pipelines_and_windows.html,/textbook/13_pipelines_step_by_step.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+                class="sidebar-section-title {% unless /textbook/08_filtering.html,/textbook/09_data_cleaning.html,/textbook/10_joins.html,/textbook/10a_joins_by_example.html,/textbook/11_percent_of_total.html,/textbook/12_pipelines_and_windows.html,/textbook/13_pipelines_step_by_step.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
               >
                 Part III · Analysis
                 <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
@@ -152,6 +152,12 @@
               <a href="/malloy-textbook/textbook/10_joins">
                 <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
                 10. Joins and Symmetric Aggregates
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/10a_joins_by_example">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                10a. Joins by Example
               </a>
             </div>
         <div class='sidebar-item '>
@@ -216,7 +222,7 @@
             </div>
         <div class="sidebar-section">
               <div id=part_vi · going further
-                class="sidebar-section-title {% unless /textbook/17_data_sources.html,/textbook/18_troubleshooting.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+                class="sidebar-section-title {% unless /textbook/17_data_sources.html,/textbook/18_troubleshooting.html,/textbook/18a_installing_helpful_things.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
               >
                 Part VI · Going Further
                 <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
@@ -233,6 +239,12 @@
               <a href="/malloy-textbook/textbook/18_troubleshooting">
                 <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
                 18. Troubleshooting
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/18a_installing_helpful_things">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                18a. Installing Helpful Things
               </a>
             </div>
               </div>
@@ -275,7 +287,7 @@
       <a href="17_data_sources.html"><img src="/malloy-textbook/img/previous.svg" alt="previous"/>17. Data Sources</a>
   </div>
   <div class="item">
-      <a href="19_making_data_sing.html">19. Making Data Sing<img src="/malloy-textbook/img/next.svg" alt="next"/></a>
+      <a href="18a_installing_helpful_things.html">18a. Installing Helpful Things<img src="/malloy-textbook/img/next.svg" alt="next"/></a>
   </div>
 </div> 
           </div>
@@ -427,8 +439,8 @@
       </div>
     </div>
     <div class="result-middle" data-result-kind="html" selected>
-      <div class="result-inner" id="cfc662d2-7b02-4c7c-81f5-f5a57616fad1">
-        <script>(()=>{var e=document.getElementById("cfc662d2-7b02-4c7c-81f5-f5a57616fad1"),a=(new window.index.MalloyRenderer).createViz();a.setResult({schema:{fields:[{kind:"dimension",name:"row_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "864e094e-b484-42ad-9940-15eb4cabf40d" calculation\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"number_cell",number_value:6311504,subtype:"integer"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable ordered_by = [{ row_count = desc }]\n"},{value:"#(malloy) \n"},{value:"#(malloy) query_name = __stage0\n"}],sql:"SELECT \n   COUNT(1) as \"row_count\"\nFROM 'data/usa_names.parquet' as base\n"}),a.render(e)})();</script>
+      <div class="result-inner" id="66c99b18-bd17-4228-8ef4-f678ac71ef47">
+        <script>(()=>{var e=document.getElementById("66c99b18-bd17-4228-8ef4-f678ac71ef47"),a=(new window.index.MalloyRenderer).createViz();a.setResult({schema:{fields:[{kind:"dimension",name:"row_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "af474d18-a8c0-443f-be4c-464d26a0d9e4" calculation\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"number_cell",number_value:6311504,subtype:"integer"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable ordered_by = [{ row_count = desc }]\n"},{value:"#(malloy) \n"},{value:"#(malloy) query_name = __stage0\n"}],sql:"SELECT \n   COUNT(1) as \"row_count\"\nFROM 'data/usa_names.parquet' as base\n"}),a.render(e)})();</script>
       </div>
     </div>
     <div class="result-middle" data-result-kind="json" >
@@ -459,8 +471,8 @@
       </div>
     </div>
     <div class="result-middle" data-result-kind="html" selected>
-      <div class="result-inner" id="b413503c-32a4-4d56-803b-857476b4e594">
-        <script>(()=>{var e=document.getElementById("b413503c-32a4-4d56-803b-857476b4e594"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"duckdb_version",type:{kind:"string_type"}}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"v1.5.5"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) \n"},{value:'#(malloy) query_name = "sql://duckdb/81236b4f-1003-5bfd-8e71-a101ce7607ac"\n'}],sql:"SELECT version() AS duckdb_version"}),n.render(e)})();</script>
+      <div class="result-inner" id="bdd55a05-bc6a-46c3-b98c-39d4de451720">
+        <script>(()=>{var e=document.getElementById("bdd55a05-bc6a-46c3-b98c-39d4de451720"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"duckdb_version",type:{kind:"string_type"}}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"v1.5.5"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) \n"},{value:'#(malloy) query_name = "sql://duckdb/81236b4f-1003-5bfd-8e71-a101ce7607ac"\n'}],sql:"SELECT version() AS duckdb_version"}),n.render(e)})();</script>
       </div>
     </div>
     <div class="result-middle" data-result-kind="json" >

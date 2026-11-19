@@ -20,9 +20,11 @@ install the Malloy extension there, and open any notebook.
 |---|---|
 | `index.malloynb` | Welcome and table of contents |
 | `01_basics.malloynb` … `15_model_review.malloynb` | One notebook per chapter |
+| `10a_joins_by_example.malloynb` | Practice joins: type one join line in each ✏️ cell and watch new columns appear |
 | `16_worked_example_ice.malloynb` | Worked example: ICE arrests data taken through every chapter |
 | `17_data_sources.malloynb` | 20 public datasets to explore (read from the internet), and how to find more |
 | `18_troubleshooting.malloynb` | `malloy-config.json`, setup checks, and common error messages |
+| `18a_installing_helpful_things.malloynb` | Optional tools: Python, Hugging Face, Claude Code, and the Malloy skills for AI assistants |
 | `ice.malloy` | The finished model for the worked example |
 | `names.malloy` | The baby names model (used from Chapter 2 on) |
 | `names_full.malloy` | The complete names model reviewed in Chapter 15 |

@@ -3562,6 +3562,10 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">join_one</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">join_many</span></span></code>, and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">join_cross</span></span></code>, and when to use each"
+      },
+      {
+        "type": "p",
+        "text": "🐢 <strong>New to joins?</strong> <a href=\"10a_joins_by_example\">Chapter 10a: Joins by Example</a> is a gentle, hands-on version. In each exercise you type just one join line and watch the new columns appear. Try it first if this chapter feels fast."
       }
     ],
     "path": "/textbook/10_joins.malloynb"
@@ -3851,6 +3855,576 @@ window.SEARCH_SEGMENTS = [
       }
     ],
     "path": "/textbook/10_joins.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<a href=\"10_joins\">Chapter 10</a> covered joins in full. This chapter is the <strong>gentle, hands-on version</strong>. In every exercise the code is already written for you, except <strong>one line: the join</strong>. You type that line, run the cell, and watch new columns appear."
+      },
+      {
+        "type": "p",
+        "text": "🐢 <strong>No pressure.</strong> Every exercise follows the same three steps:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Before:</strong> run a query on one table. Notice what's missing."
+      },
+      {
+        "type": "p",
+        "text": "<strong>After:</strong> run it again. Same rows, same totals, <strong>new columns</strong>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>✏️ Your turn:</strong> type one <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">:</span></span></code> line where it says <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">// ✏️ your line</span></span></code>."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "How the ✏️ cells work"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>In your notebook</strong> (VS Code or github.dev), each ✏️ cell has a blank line that says <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">// ✏️ type your join line here</span></span></code>. Replace that comment with the join line, then run the cell."
+      },
+      {
+        "type": "p",
+        "text": "<strong>On this website</strong> you can see the finished line, marked <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">// ✏️ your line</span></span></code>, and the result it should give you. Use it to check your work."
+      },
+      {
+        "type": "p",
+        "text": "If you run a ✏️ cell <strong>before</strong> typing your line, you'll get an error like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;users&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> not </span><span style=\"color: #001080\">defined</span></span></code>. That's fine! It just means Malloy doesn't know about the other table yet. That's exactly what the join line fixes."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "What is a join?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The store keeps its data in <strong>separate tables</strong>, like separate sheets in a workbook:"
+      },
+      {
+        "type": "p",
+        "text": "The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">items</span></span></code> table doesn't contain the customer's name. It only has a <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">user_id</span></span></code></strong>: a number that points to one row in the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code> table. A <strong>join</strong> tells Malloy: <em>\"to find the customer for this item, look up <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">user_id</span></span></code> in the users table.\"</em> If you've used <strong>VLOOKUP</strong> or <strong>XLOOKUP</strong> in Excel, a join is the same idea."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Setup: four tables, no joins yet"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Run this cell first. It defines the four tables, with <strong>no joins</strong>. (The textbook's <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ecommerce</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> file already has the joins written in. Here we start from scratch so you can add them yourself.)"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/order_items.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">item_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">currency</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">sale_price</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/users.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/inventory_items.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/state_regions.csv&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state_name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Notice the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">:</span></span></code> line in each source. It names the column that is <strong>different for every row</strong>, such as a customer's <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">id</span></span></code>. A join looks rows up by that key."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 1: who bought it?"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 1: who bought it?",
+      "1 · Before"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Here are our five biggest customers. But who are they?"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">item_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "All we have is <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">user_id</span></span></code>, a number. Customer 17462 spent $1,537, but we don't know their name or where they live. That information is in the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code> table:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">select</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">id</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">first_name</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">last_name</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">gender</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">age</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">id</span><span style=\"color: #000000\"> = </span><span style=\"color: #098658\">17462</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code> table calls the same number <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">id</span></span></code></strong>. So <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">items</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">user_id</span></span></code> points to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">id</span></span></code>."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 1: who bought it?",
+      "1 · ✏️ Your turn"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The join line is:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">user_id</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Read it as: <em>\"each item has <strong>one</strong> user. Find it by matching my <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">user_id</span></span></code> to the user's primary key.\"</em> Type it where the ✏️ is, then run the cell."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_with_users</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">items</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">user_id</span><span style=\"color: #000000\">   </span><span style=\"color: #008000\">// ✏️ your line</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_with_users</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">user_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">first_name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">last_name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">item_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 1: who bought it?",
+      "1 · What changed?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Compare this result with the <strong>Before</strong> result:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Same five customers</strong>, in the same order."
+      },
+      {
+        "type": "p",
+        "text": "<strong>New columns:</strong> first name, last name and state. Customer 17462 is David Duncan from Kentucky."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Same <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_sales</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">item_count</span></span></code></strong> for each one."
+      },
+      {
+        "type": "p",
+        "text": "The join <strong>added columns</strong>. It didn't add or remove rows, and it didn't change any numbers. To use a column from the joined table, write the table name, a dot, and the column: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "💡 <strong>Think of it as a folder.</strong> After the join, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">items_with_users</span></span></code> has all of its own columns <strong>plus a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code> folder</strong> that holds every column of the users table: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">first_name</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">age</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">traffic_source</span></span></code> and so on. In the <a href=\"06_explorer\">Malloy Explorer</a>, joined tables show up as exactly that: a folder you can open in the field list."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 1: who bought it?",
+      "1 · Try it: use the joined columns"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Now that <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code> is joined, you can group by <strong>any</strong> of its columns. Here are sales by the customer's gender. (This cell has the join already written in, so it runs even if you skipped the ✏️ cell.)"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_with_users_2</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">items</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">user_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_with_users_2</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">gender</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">item_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Women bought 151,160 items for about $6.7 million, and men bought 119,859 items for about $5.9 million. Try changing <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">gender</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">traffic_source</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">country</span></span></code> and run it again."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 1: who bought it?",
+      "1 · Check: the join doesn't change the total"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">join_one</span></span></code> never changes your totals. Here's the grand total <strong>without</strong> the join, and then <strong>with</strong> it:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">item_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_with_users_3</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">items</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">user_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_with_users_3</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">item_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Exactly the same: $12,566,293 from 271,019 items. Joining just gives each row more columns to describe it."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 2: what did they buy?"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 2: what did they buy?",
+      "2 · Before"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">items</span></span></code> table knows <em>which</em> physical item was sold, but only by number:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory_item_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Item 284983 sold for $999. But what was it? The product details are in the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory</span></span></code> table, whose primary key is <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">id</span></span></code>."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 2: what did they buy?",
+      "2 · ✏️ Your turn"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "This time, fill in the blank yourself:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">______</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Hint:</strong> which column in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">items</span></span></code> points to a row in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory</span></span></code>? Look at the column names in the Before query."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_with_inventory</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">items</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">inventory_item_id</span><span style=\"color: #000000\">   </span><span style=\"color: #008000\">// ✏️ your line</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_with_inventory</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">item_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 2: what did they buy?",
+      "2 · What changed?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The blank was <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory_item_id</span></span></code></strong>. Now we can group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span></code>, a column that lives in the other table. <strong>Jeans</strong> are the top category, with almost $2 million in sales."
+      },
+      {
+        "type": "p",
+        "text": "Try changing <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_brand</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_department</span></span></code>."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 3: two joins in one source"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A source can have <strong>more than one join</strong>. Here, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code> is already joined. Add a second line that joins <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory</span></span></code>, so the query can use columns from <strong>both</strong> tables."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 3: two joins in one source",
+      "3 · ✏️ Your turn"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Use the same line you wrote in Exercise 2."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_full</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">items</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">user_id</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">inventory_item_id</span><span style=\"color: #000000\">   </span><span style=\"color: #008000\">// ✏️ your line</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_full</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_department</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">gender</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">item_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 3: two joins in one source",
+      "3 · What changed?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Each row of the result now combines <strong>three tables</strong>: the sale (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">items</span></span></code>), the customer (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code>) and the product (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory</span></span></code>)."
+      },
+      {
+        "type": "p",
+        "text": "Look at the third row: <strong>women spent about $2.0 million in the men's department</strong>. That's more than a quarter of all men's department sales. Neither table could tell you that on its own. You need the customer's gender <em>and</em> the product's department, and the join brings them together. (You'll see this finding again in <a href=\"20_making_data_sing_ecommerce\">Chapter 20</a>.)"
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 4: when the column names don't match"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "So far we've used <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">with</span></span></code>, which matches a column to the other table's <strong>primary key</strong>. Sometimes you want to match on some other column. Then you write <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">on</span></span></code> and spell out the match."
+      },
+      {
+        "type": "p",
+        "text": "The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code> table has a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state</span></span></code> column with full names like \"California\". The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">states</span></span></code> table has a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state_name</span></span></code> column with the same names, plus each state's Census <strong>region</strong>."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 4: when the column names don't match",
+      "4 · Before"
+    ],
+    "paragraphs": [
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">state</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "We'd like to see customers by <strong>region</strong> (South, West…), but <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code> has no region column."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 4: when the column names don't match",
+      "4 · ✏️ Your turn"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The join line is:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">on</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state_name</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Read it as: <em>\"each user has one state. Find it where my <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state</span></span></code> equals the states table's <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">state_name</span></span></code>.\"</em>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users_with_region</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">on</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state_name</span><span style=\"color: #000000\">   </span><span style=\"color: #008000\">// ✏️ your line</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users_with_region</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">region</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">user_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 4: when the column names don't match",
+      "4 · What changed?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Now customers are grouped by region. The <strong>South</strong> has the most customers (43,781)."
+      },
+      {
+        "type": "p",
+        "text": "Notice the row where <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">region</span></span></code> is <strong>∅ (null, meaning empty)</strong>: 29,014 customers. That's exactly the number of customers from the <strong>UK</strong>. Their \"states\" aren't U.S. states, so the join found no match, and the region is empty. The customers didn't disappear. They just have nothing to look up. That's how <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">join_one</span></span></code> works: <strong>when there's no match, you keep the row, with empty values.</strong>"
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 5: joining a source that has its own join"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Joins can <strong>chain</strong>. If <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users_with_region</span></span></code> already knows each user's region, then joining it to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">items</span></span></code> lets you see <strong>sales by region</strong>: sale → customer → state → region."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 5: joining a source that has its own join",
+      "5 · ✏️ Your turn"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Join <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users_with_region</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">items</span></span></code>. It's a users table, so the matching column is the same as in Exercise 1."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users_with_region_2</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">on</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state_name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_by_region</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">items</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users_with_region_2</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">user_id</span><span style=\"color: #000000\">   </span><span style=\"color: #008000\">// ✏️ your line</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">items_by_region</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users_with_region_2</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">region</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">item_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Exercise 5: joining a source that has its own join",
+      "5 · What changed?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Look at the field name: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users_with_region_2</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">region</span></span></code>. Read the dots like a path: <em>from the item, go to the user, then to their state, then get the region.</em> That's <strong>two hops</strong>, and you only wrote one line, because the second join was already inside <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users_with_region_2</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "The South leads with about $3.3 million in sales."
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "The join recipe"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Every join you write answers three questions:"
+      },
+      {
+        "type": "p",
+        "text": "Put the answers together:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">user_id</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "If the columns are named differently, or the other table's column isn't its primary key, use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">on</span></span></code> and write the match out:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">on</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state_name</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "When something goes wrong"
+    ],
+    "paragraphs": [],
+    "path": "/textbook/10a_joins_by_example.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 10a: Joins by Example",
+      "Key takeaways"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A <strong>join</strong> brings another table's columns into your source. It works like VLOOKUP."
+      },
+      {
+        "type": "p",
+        "text": "Use joined columns with a dot: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_category</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">on</span></span></code> when the matching columns have different names: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">on</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">state</span><span style=\"color: #000000\"> = </span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">state_name</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "A <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">join_one</span></span></code> <strong>adds columns, not rows</strong>, and doesn't change your totals."
+      },
+      {
+        "type": "p",
+        "text": "A source can have several joins, and joins can <strong>chain</strong>: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users_with_region_2</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">states</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">region</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "Ready for more? <a href=\"10_joins\">Chapter 10</a> covers <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">join_many</span></span></code>, symmetric aggregates and joining to a query."
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">users</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">user_id</span></span></code> means: <em>each row has one user, found by matching <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">user_id</span></span></code> to the user's primary key.</em>"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 10a.1: Brands by gender.</strong> Using a source like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">items_full</span></span></code> from Exercise 3, find the top 10 <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">product_brand</span></span></code> values by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_sales</span></span></code>. Then add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">gender</span></span></code> to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code>. Which brands do men and women buy most?"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 10a.2: Customer ages.</strong> Join <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">items</span></span></code>, then group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">age</span></span></code> and find the total sales for each age. Which age spends the most? (Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span></code>.)"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 10a.3: Categories by region.</strong> Write a source that joins <strong>both</strong> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">users_with_region</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">inventory</span></span></code> to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">items</span></span></code>. Which product category sells the most in each region? (Hint: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code> the region and the category, then sort by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_sales</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span></code>.)"
+      }
+    ],
+    "path": "/textbook/10a_joins_by_example.malloynb"
   },
   {
     "titles": [
@@ -7669,6 +8243,444 @@ window.SEARCH_SEGMENTS = [
   },
   {
     "titles": [
+      "Chapter 18a: Installing Helpful Things"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "You only need <strong>VS Code</strong> and the <strong>Malloy extension</strong> to do everything in this textbook. This chapter lists other tools that make the work easier: converting data, hosting it online, and getting help from an AI assistant that knows Malloy. Install them as you need them, not all at once."
+      },
+      {
+        "type": "p",
+        "text": "💻 <strong>Opening a terminal.</strong> Several steps say \"in a terminal.\" In VS Code, choose <strong>Terminal → New Terminal</strong>. A terminal opens at the bottom of the window, already in the folder you have open. On a Mac you can also use the <strong>Terminal</strong> app; on Windows, <strong>PowerShell</strong>."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "1. VS Code"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Open VS Code."
+      },
+      {
+        "type": "p",
+        "text": "Go to <a href=\"https://code.visualstudio.com/\">https://code.visualstudio.com/</a> and download VS Code for your computer."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Mac:</strong> open the downloaded file and drag <strong>Visual Studio Code</strong> into <strong>Applications</strong>. <strong>Windows:</strong> run the installer and accept the defaults. Check <strong>\"Add to PATH\"</strong> if you see it."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "2. The Malloy extension"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Search for <strong>Malloy</strong>."
+      },
+      {
+        "type": "p",
+        "text": "Choose <strong>File → Open Folder…</strong> and open your project folder, such as the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">textbook</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">notebooks</span></span></code> folder."
+      },
+      {
+        "type": "p",
+        "text": "Open <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">0</span><span style=\"color: #000000\">1_basics.</span><span style=\"color: #001080\">malloynb</span></span></code> and click <strong>Run All</strong>. If you see results, you're set."
+      },
+      {
+        "type": "p",
+        "text": "Click <strong>Install</strong> on the extension published by <strong>Malloy</strong> (malloydata)."
+      },
+      {
+        "type": "p",
+        "text": "In VS Code, click the <strong>Extensions</strong> icon in the left sidebar (four squares), or press <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">Ctrl</span><span style=\"color: #000000\">+</span><span style=\"color: #001080\">Shift</span><span style=\"color: #000000\">+</span><span style=\"color: #001080\">X</span></span></code> (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">Cmd</span><span style=\"color: #000000\">+</span><span style=\"color: #001080\">Shift</span><span style=\"color: #000000\">+</span><span style=\"color: #001080\">X</span></span></code> on a Mac)."
+      },
+      {
+        "type": "p",
+        "text": "DuckDB is built into the extension, so there's no database to install. If something doesn't work, see <a href=\"18_troubleshooting\">Chapter 18 · Troubleshooting</a>."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "3. Python and DuckDB"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "You need these to run the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">csv_to_parquet</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">py</span></span></code> script from <a href=\"07_csv_and_parquet\">Chapter 7</a>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Install Python.</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Check it.</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Install the DuckDB Python package.</strong> In a terminal:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">python -c &quot;import duckdb; print(duckdb.__version__)&quot;</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">pip install duckdb</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "If it prints a version number, it worked."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Mac:</strong> download it from <a href=\"https://www.python.org/downloads/\">https://www.python.org/downloads/</a>, or, if you use Homebrew, run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">brew</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">python</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Windows:</strong> download it from <a href=\"https://www.python.org/downloads/\">https://www.python.org/downloads/</a>. On the first screen of the installer, check <strong>\"Add python.exe to PATH\"</strong>."
+      },
+      {
+        "type": "p",
+        "text": "On a Mac, if <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pip</span></span></code> isn't found, use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pip3</span></span></code> instead. In the same way, use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">python3</span></span></code> wherever this book says <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">python</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "🦆 <strong>Optional: the DuckDB command line.</strong> DuckDB also has its own program for running SQL on files directly, which is handy for a quick look at a CSV. Mac: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">brew</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span></span></code>. Windows: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">winget</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">DuckDB</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">cli</span></span></code>. Then run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">duckdb</span></span></code> in a terminal. See <a href=\"https://duckdb.org/docs/installation/\">https://duckdb.org/docs/installation/</a>."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "4. Hugging Face tools"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<a href=\"17_data_sources#example-hosting-your-own-data-on-hugging-face\">Chapter 17</a> shows how to put your own Parquet file on Hugging Face, so Malloy can read it from a URL. You can upload files in the browser, but the command-line tools are easier for big files."
+      },
+      {
+        "type": "p",
+        "text": "In a terminal:"
+      },
+      {
+        "type": "p",
+        "text": "Log in, and paste the token when it asks:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">pip install -U huggingface_hub</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">hf auth login</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Create a free account at <a href=\"https://huggingface.co/join\">https://huggingface.co/join</a>."
+      },
+      {
+        "type": "p",
+        "text": "Create an <strong>access token</strong>: on Hugging Face, go to <strong>Settings → Access Tokens → Create new token</strong>, choose <strong>Write</strong>, and copy it."
+      },
+      {
+        "type": "p",
+        "text": "🔐 <strong>Treat your token like a password.</strong> Never paste it into a notebook, a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> file, or anything you upload or turn in."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "5. Node.js"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Node.js gives you the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">npx</span></span></code> command, which runs small programs straight from the internet without a separate install. You need it for the skills installer in Section 7."
+      },
+      {
+        "type": "p",
+        "text": "Close and reopen VS Code (or your terminal), then check it:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">node --version</span></span>\n<span class=\"line\"><span style=\"color: #000000\">npx --version</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Download the <strong>LTS</strong> version from <a href=\"https://nodejs.org/\">https://nodejs.org/</a> and run the installer."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "6. Claude Code"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Claude Code</strong> is an AI assistant that works inside your project folder. You describe what you want in plain English, such as <em>\"write a query that shows sales by month\"</em> or <em>\"why does this cell give an error?\"</em>, and it reads your files, writes Malloy, and can run it. It needs a Claude account (a paid plan or an API account)."
+      },
+      {
+        "type": "p",
+        "text": "<strong>In VS Code (easiest):</strong>"
+      },
+      {
+        "type": "p",
+        "text": "Click the Claude icon in the sidebar and sign in when asked."
+      },
+      {
+        "type": "p",
+        "text": "Install the extension published by <strong>Anthropic</strong>."
+      },
+      {
+        "type": "p",
+        "text": "Open the <strong>Extensions</strong> panel and search for <strong>Claude Code</strong>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>In a terminal:</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Mac or Linux:</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Windows (PowerShell):</strong>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">curl -fsSL https://claude.ai/install.sh | bash</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">irm https://claude.ai/install.ps1 | iex</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Then go to your project folder in a terminal and type <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">claude</span></span></code>. Full instructions: <a href=\"https://code.claude.com/docs/en/setup\">https://code.claude.com/docs/en/setup</a>."
+      },
+      {
+        "type": "p",
+        "text": "🧠 <strong>Use it to learn, not to skip learning.</strong> An AI assistant is great for explaining an error, suggesting a query, or checking your work. But you're graded on understanding your own notebook. Read every line it writes, and be able to explain it. Follow your course's policy on AI use."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "7. Credible and Malloy skills for AI assistants"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A <strong>skill</strong> is a folder of instructions that teaches an AI assistant how to do a specific job well. The <strong>Malloy and Credible skills</strong> teach the assistant Malloy's rules and common mistakes: how to write joins and measures, how to build charts, how to avoid wrong totals, and so on. With the skills installed, the assistant writes much better Malloy."
+      },
+      {
+        "type": "p",
+        "text": "Skills are just folders, each containing a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">SKILL</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">md</span></span></code> file. The assistant finds them because they sit in a special folder <strong>inside the project you're working in</strong>:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">my-project/                  ← the folder you open in VS Code</span></span>\n<span class=\"line\"><span style=\"color: #000000\">├── .claude/</span></span>\n<span class=\"line\"><span style=\"color: #000000\">│   └── skills/</span></span>\n<span class=\"line\"><span style=\"color: #000000\">│       ├── malloy-queries/</span></span>\n<span class=\"line\"><span style=\"color: #000000\">│       │   └── SKILL.md</span></span>\n<span class=\"line\"><span style=\"color: #000000\">│       ├── malloy-model/</span></span>\n<span class=\"line\"><span style=\"color: #000000\">│       │   └── SKILL.md</span></span>\n<span class=\"line\"><span style=\"color: #000000\">│       └── …</span></span>\n<span class=\"line\"><span style=\"color: #000000\">├── my_data.malloy</span></span>\n<span class=\"line\"><span style=\"color: #000000\">└── my_analysis.malloynb</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "There are <strong>two ways</strong> to get them."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "7. Credible and Malloy skills for AI assistants",
+      "Way 1: the Credible VS Code extension"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "If you have a <strong>Credible</strong> account (your instructor will tell you if your class has one), the Credible extension installs the skills for you and keeps them up to date."
+      },
+      {
+        "type": "p",
+        "text": "Click the Credible icon in the sidebar and <strong>Sign In</strong>."
+      },
+      {
+        "type": "p",
+        "text": "Open your project folder (<strong>File → Open Folder…</strong>)."
+      },
+      {
+        "type": "p",
+        "text": "Open the Command Palette (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">Ctrl</span><span style=\"color: #000000\">+</span><span style=\"color: #001080\">Shift</span><span style=\"color: #000000\">+</span><span style=\"color: #001080\">P</span></span></code>, or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">Cmd</span><span style=\"color: #000000\">+</span><span style=\"color: #001080\">Shift</span><span style=\"color: #000000\">+</span><span style=\"color: #001080\">P</span></span></code> on a Mac), type <strong>Credible: Enable Credible (Workspace)</strong> and press Enter."
+      },
+      {
+        "type": "p",
+        "text": "In the <strong>Extensions</strong> panel, search for <strong>Credible</strong> and install the extension published by <strong>Credible</strong>."
+      },
+      {
+        "type": "p",
+        "text": "The extension then writes the skills into your project folder:"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">claude</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">/</span></span></code>: the skills, for Claude Code"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">claude</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">rules</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">credible</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">modeling</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">md</span></span></code>: a rule telling Claude to read the skills whenever you ask about Malloy"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">agents</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">/</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">cursor</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">rules</span><span style=\"color: #000000\">/</span></span></code>: the same skills, for other AI tools such as Copilot and Cursor"
+      },
+      {
+        "type": "p",
+        "text": "These include the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">credible</span><span style=\"color: #000000\">-*</span></span></code> skills (publishing and documenting models on Credible) as well as the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-*</span></span></code> skills. When a new version comes out, the extension updates them automatically. It also adds these folders to your <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">gitignore</span></span></code>, so they aren't uploaded if you put your project on GitHub."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "7. Credible and Malloy skills for AI assistants",
+      "Way 2: download the skills into your project folder"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "No Credible account? The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-*</span></span></code> skills are <strong>free and open source</strong>, published by the Malloy team. Download them straight into the folder you're working in."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Option A: one command (needs Node.js, Section 5).</strong> In VS Code, open your project folder, open a terminal (<strong>Terminal → New Terminal</strong>), and run:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">npx -y @malloy-publisher/skills@latest install claude</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "That copies every skill into <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">claude</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">/</span></span></code> in the current folder. To see what you got:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">npx -y @malloy-publisher/skills@latest list</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Keep the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">@</span><span style=\"color: #001080\">latest</span></span></code>, so you always get the newest skills. To install them once for <strong>every</strong> project on your computer, add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">--global</span></span></code> (they go into <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">claude</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">/</span></span></code> in your home folder)."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Option B: download by hand (no Node needed).</strong>"
+      },
+      {
+        "type": "p",
+        "text": "Go to <a href=\"https://github.com/malloydata/publisher\">https://github.com/malloydata/publisher</a>."
+      },
+      {
+        "type": "p",
+        "text": "In your project folder, make a folder named <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">claude</span></span></code>, and inside it a folder named <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">skills</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "Click the green <strong>Code</strong> button, then <strong>Download ZIP</strong>."
+      },
+      {
+        "type": "p",
+        "text": "Unzip it, and open the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">skills</span></span></code> folder inside. Each folder in it (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">queries</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">model</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">charts</span></span></code>, …) is one skill."
+      },
+      {
+        "type": "p",
+        "text": "Copy the skill folders into <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">my</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">project</span><span style=\"color: #000000\">/.</span><span style=\"color: #001080\">claude</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">/</span></span></code>. Copy the <strong>folders</strong>, not just the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">SKILL</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">md</span></span></code> files, because some skills have a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">reference</span></span></code> folder too. You can skip the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">eval</span><span style=\"color: #000000\">-*</span></span></code> folders; they're for testing models, not for writing Malloy."
+      },
+      {
+        "type": "p",
+        "text": "👀 <strong>Can't see the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">claude</span></span></code> folder?</strong> Names that start with a dot are hidden. <strong>Mac Finder:</strong> press <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">Cmd</span><span style=\"color: #000000\">+</span><span style=\"color: #001080\">Shift</span><span style=\"color: #000000\">+.</span></span></code> to show them. <strong>Windows File Explorer:</strong> <strong>View → Show → Hidden items</strong>. VS Code's file list shows them either way."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "7. Credible and Malloy skills for AI assistants",
+      "Check that the skills work"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Open Claude Code in your project folder and ask:"
+      },
+      {
+        "type": "p",
+        "text": "<em>What Malloy skills do you have?</em>"
+      },
+      {
+        "type": "p",
+        "text": "It should list skills such as <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">queries</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">model</span></span></code>. Then try a real request, such as <em>\"Read my_data.malloy and suggest three measures I could add.\"</em>"
+      },
+      {
+        "type": "p",
+        "text": "💡 <strong>Read a skill yourself.</strong> The skills are written in plain English and make a good cheat sheet. You can read any of them online without installing anything, such as the <a href=\"https://unpkg.com/@malloy-publisher/skills@latest/skills/malloy-getting-started/SKILL.md\">getting-started skill</a> or the <a href=\"https://unpkg.com/@malloy-publisher/skills@latest/skills/malloy-queries/SKILL.md\">queries skill</a>."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "Summary"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Required:</strong> VS Code and the Malloy extension. DuckDB is built in."
+      },
+      {
+        "type": "p",
+        "text": "<strong>For converting data:</strong> Python and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pip</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>For AI help:</strong> Claude Code, plus the Malloy skills in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">claude</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">/</span></span></code> inside your project folder."
+      },
+      {
+        "type": "p",
+        "text": "<strong>For hosting data:</strong> a Hugging Face account and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pip</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> -</span><span style=\"color: #001080\">U</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">huggingface_hub</span></span></code>, then <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">hf</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">auth</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">login</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Two ways to get the skills:</strong> the Credible VS Code extension (<strong>Enable Credible (Workspace)</strong>), or download them yourself with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">npx</span><span style=\"color: #000000\"> -</span><span style=\"color: #001080\">y</span><span style=\"color: #000000\"> @</span><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">publisher</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">@</span><span style=\"color: #001080\">latest</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">claude</span></span></code> or the ZIP from GitHub."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
       "Chapter 19: Making Data Sing"
     ],
     "paragraphs": [
@@ -9341,6 +10353,10 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
+        "text": "<strong>10a.</strong> <a href=\"10a_joins_by_example\">Joins by Example</a>: a gentle, hands-on start. Type one join line and watch new columns appear"
+      },
+      {
+        "type": "p",
         "text": "<strong>Part IV · Modeling</strong>"
       },
       {
@@ -9370,6 +10386,10 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "<a href=\"18_troubleshooting\">Troubleshooting</a>: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">config</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>, setup checks, and common error messages"
+      },
+      {
+        "type": "p",
+        "text": "<strong>18a.</strong> <a href=\"18a_installing_helpful_things\">Installing Helpful Things</a>: Python, DuckDB, Hugging Face, Claude Code, and the Malloy and Credible skills for AI assistants"
       },
       {
         "type": "p",

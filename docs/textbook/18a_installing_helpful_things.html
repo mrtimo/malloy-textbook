@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>18a. Installing Helpful Things | Learning Malloy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/malloy-textbook/css/document.css" />
+    <link rel="stylesheet" href="/malloy-textbook/css/textbook.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/malloy-textbook/favicon.ico" />
+    <script src="/malloy-textbook/js/generated/malloy-render-0.0.437.js"></script>
+    <style>
+      .result-inner .malloy-render { width: 100%; }
+      .result-inner .table-container { width: 100%; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="header">
+        <div class="header-banner">
+          <a class="book-mark" href="/malloy-textbook/textbook">
+            <span class="book-title">Learning Malloy</span>
+            <span class="subtitle">A Hands-On Textbook</span>
+          </a>
+        </div>
+        <div class="header-right">
+          <div class="header-links">
+            <a class="pill" href="https://docs.malloydata.dev/documentation/" target="_blank">Malloy Docs ↗</a>
+            <a href="https://github.com/mrtimo/malloy-textbook" target="_blank" title="Textbook source on GitHub"
+              ><img src="/malloy-textbook/img/github.svg" style="transform: scale(0.5)"
+            /></a>
+          </div>
+          <form action="/malloy-textbook/search">
+            <div class="search-input-outer">
+              <img src="/malloy-textbook/img/search.svg" alt="search" />
+              <input placeholder="Search the textbook" id="search-input" name="query" />
+            </div>
+            <input type="submit" style="display: none" />
+          </form>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+              <div id=start_here
+                class="sidebar-section-title {% unless /textbook/index.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Start Here
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                Welcome
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_i · foundations
+                class="sidebar-section-title {% unless /textbook/01_basics.html,/textbook/02_time_truncation.html,/textbook/03_views_and_nesting.html,/textbook/04_render_tags.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part I · Foundations
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/01_basics">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                1. The Basics
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/02_time_truncation">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                2. Time Truncation
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/03_views_and_nesting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                3. Views and Nesting
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/04_render_tags">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                4. Render Tags
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_ii · tools and data
+                class="sidebar-section-title {% unless /textbook/05_files_and_notebooks.html,/textbook/06_explorer.html,/textbook/07_csv_and_parquet.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part II · Tools and Data
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/05_files_and_notebooks">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                5. Files vs. Notebooks
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/06_explorer">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                6. The Malloy Explorer
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/07_csv_and_parquet">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                7. CSV and Parquet
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iii · analysis
+                class="sidebar-section-title {% unless /textbook/08_filtering.html,/textbook/09_data_cleaning.html,/textbook/10_joins.html,/textbook/10a_joins_by_example.html,/textbook/11_percent_of_total.html,/textbook/12_pipelines_and_windows.html,/textbook/13_pipelines_step_by_step.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part III · Analysis
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/08_filtering">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                8. Filtering and Time Comparisons
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/09_data_cleaning">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                9. Data Cleaning
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/10_joins">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                10. Joins and Symmetric Aggregates
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/10a_joins_by_example">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                10a. Joins by Example
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/11_percent_of_total">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                11. Percent of Total
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/12_pipelines_and_windows">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                12. Pipelines and Window Calculations
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/13_pipelines_step_by_step">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                13. Pipelines, Step by Step
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_iv · modeling
+                class="sidebar-section-title {% unless /textbook/14_givens.html,/textbook/15_model_review.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part IV · Modeling
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/14_givens">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                14. Givens
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/15_model_review">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                15. Anatomy of a Malloy Model
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_v · worked example
+                class="sidebar-section-title {% unless /textbook/16_worked_example_ice.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part V · Worked Example
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/16_worked_example_ice">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                16. ICE Arrests, Start to Finish
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_vi · going further
+                class="sidebar-section-title {% unless /textbook/17_data_sources.html,/textbook/18_troubleshooting.html,/textbook/18a_installing_helpful_things.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part VI · Going Further
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/17_data_sources">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                17. Data Sources
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/18_troubleshooting">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                18. Troubleshooting
+              </a>
+            </div>
+        <div class='sidebar-item active'>
+              <a href="/malloy-textbook/textbook/18a_installing_helpful_things">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                18a. Installing Helpful Things
+              </a>
+            </div>
+              </div>
+            </div>
+        <div class="sidebar-section">
+              <div id=part_vii · making data sing
+                class="sidebar-section-title {% unless /textbook/19_making_data_sing.html,/textbook/20_making_data_sing_ecommerce.html,/textbook/21_homework_make_your_data_sing.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part VII · Making Data Sing
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/19_making_data_sing">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                19. Making Data Sing
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/20_making_data_sing_ecommerce">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                20. Making Data Sing: An Online Store
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/21_homework_make_your_data_sing">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                21. Homework: Make Your Data Sing
+              </a>
+            </div>
+              </div>
+            </div>
+          </div>        <script src="/malloy-textbook/js/sidebar_state.js"></script>
+        <div class="content">
+          <div class="footer">
+            
+<div class="linear-navigation">
+  <div class="item">
+      <a href="18_troubleshooting.html"><img src="/malloy-textbook/img/previous.svg" alt="previous"/>18. Troubleshooting</a>
+  </div>
+  <div class="item">
+      <a href="19_making_data_sing.html">19. Making Data Sing<img src="/malloy-textbook/img/next.svg" alt="next"/></a>
+  </div>
+</div> 
+          </div>
+          <div class="document-outer"><div class="document"><div class="title-row">
+        
+      <h1>
+        <a id="chapter-18a-installing-helpful-things" class="header-link anchor" href="#chapter-18a-installing-helpful-things">
+          Chapter 18a: Installing Helpful Things
+        </a>
+      </h1>
+    
+        <a class="edit-link" target="_blank" href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/18a_installing_helpful_things.malloynb">Open in VS Code <img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a>
+        </div>
+      <p>You only need <strong>VS Code</strong> and the <strong>Malloy extension</strong> to do everything in this textbook. This chapter lists other tools that make the work easier: converting data, hosting it online, and getting help from an AI assistant that knows Malloy. Install them as you need them, not all at once.</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+
+<th>What it's for</th>
+
+<th>Needed?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="#1-vs-code">VS Code</a></td>
+
+<td>The editor where you write and run Malloy</td>
+
+<td>✅ Required</td>
+</tr>
+
+<tr>
+<td><a href="#2-the-malloy-extension">Malloy extension</a></td>
+
+<td>Runs <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code> files and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloynb</span></span></code> notebooks, with DuckDB built in</td>
+
+<td>✅ Required</td>
+</tr>
+
+<tr>
+<td><a href="#3-python-and-duckdb">Python + DuckDB</a></td>
+
+<td>Convert CSV files to Parquet (<a href="07_csv_and_parquet">Chapter 7</a>)</td>
+
+<td>When you convert data</td>
+</tr>
+
+<tr>
+<td><a href="#4-hugging-face-tools">Hugging Face tools</a></td>
+
+<td>Upload your own Parquet file to the internet (<a href="17_data_sources">Chapter 17</a>)</td>
+
+<td>When you host data</td>
+</tr>
+
+<tr>
+<td><a href="#5-node-js">Node.js</a></td>
+
+<td>Lets you run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npx</span></span></code> commands, such as the skills installer below</td>
+
+<td>For the skills</td>
+</tr>
+
+<tr>
+<td><a href="#6-claude-code">Claude Code</a></td>
+
+<td>An AI assistant that can read, write and run your Malloy</td>
+
+<td>Optional</td>
+</tr>
+
+<tr>
+<td><a href="#7-credible-and-malloy-skills-for-ai-assistants">Credible skills</a></td>
+
+<td>Teach an AI assistant how to write good Malloy</td>
+
+<td>Optional</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💻 <strong>Opening a terminal.</strong> Several steps say "in a terminal." In VS Code, choose <strong>Terminal → New Terminal</strong>. A terminal opens at the bottom of the window, already in the folder you have open. On a Mac you can also use the <strong>Terminal</strong> app; on Windows, <strong>PowerShell</strong>.</p>
+</blockquote>
+
+      <h2>
+        <a id="1-vs-code" class="header-link anchor" href="#1-vs-code">
+          1. VS Code
+        </a>
+      </h2>
+    <ol>
+<li><p>Go to <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a> and download VS Code for your computer.</p>
+</li>
+<li><p><strong>Mac:</strong> open the downloaded file and drag <strong>Visual Studio Code</strong> into <strong>Applications</strong>. <strong>Windows:</strong> run the installer and accept the defaults. Check <strong>"Add to PATH"</strong> if you see it.</p>
+</li>
+<li><p>Open VS Code.</p>
+</li></ol>
+
+      <h2>
+        <a id="2-the-malloy-extension" class="header-link anchor" href="#2-the-malloy-extension">
+          2. The Malloy extension
+        </a>
+      </h2>
+    <ol>
+<li><p>In VS Code, click the <strong>Extensions</strong> icon in the left sidebar (four squares), or press <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Ctrl</span><span style="color: #000000">+</span><span style="color: #001080">Shift</span><span style="color: #000000">+</span><span style="color: #001080">X</span></span></code> (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Cmd</span><span style="color: #000000">+</span><span style="color: #001080">Shift</span><span style="color: #000000">+</span><span style="color: #001080">X</span></span></code> on a Mac).</p>
+</li>
+<li><p>Search for <strong>Malloy</strong>.</p>
+</li>
+<li><p>Click <strong>Install</strong> on the extension published by <strong>Malloy</strong> (malloydata).</p>
+</li>
+<li><p>Choose <strong>File → Open Folder…</strong> and open your project folder, such as the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">textbook</span><span style="color: #000000">-</span><span style="color: #001080">notebooks</span></span></code> folder.</p>
+</li>
+<li><p>Open <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #098658">0</span><span style="color: #000000">1_basics.</span><span style="color: #001080">malloynb</span></span></code> and click <strong>Run All</strong>. If you see results, you're set.</p>
+</li></ol>
+<p>DuckDB is built into the extension, so there's no database to install. If something doesn't work, see <a href="18_troubleshooting">Chapter 18 · Troubleshooting</a>.</p>
+
+      <h2>
+        <a id="3-python-and-duckdb" class="header-link anchor" href="#3-python-and-duckdb">
+          3. Python and DuckDB
+        </a>
+      </h2>
+    <p>You need these to run the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">csv_to_parquet</span><span style="color: #000000">.</span><span style="color: #001080">py</span></span></code> script from <a href="07_csv_and_parquet">Chapter 7</a>.</p>
+<ol>
+<li><p><strong>Install Python.</strong></p>
+<ul>
+<li><p><strong>Mac:</strong> download it from <a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a>, or, if you use Homebrew, run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">brew</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">python</span></span></code>.</p>
+</li>
+<li><p><strong>Windows:</strong> download it from <a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a>. On the first screen of the installer, check <strong>"Add python.exe to PATH"</strong>.</p>
+</li></ul>
+</li>
+<li><p><strong>Install the DuckDB Python package.</strong> In a terminal:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">pip install duckdb</span></span></pre></div><p>On a Mac, if <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">pip</span></span></code> isn't found, use <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">pip3</span></span></code> instead. In the same way, use <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">python3</span></span></code> wherever this book says <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">python</span></span></code>.</p>
+</li>
+<li><p><strong>Check it.</strong></p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">python -c &quot;import duckdb; print(duckdb.__version__)&quot;</span></span></pre></div><p>If it prints a version number, it worked.</p>
+</li></ol>
+<blockquote>
+<p>🦆 <strong>Optional: the DuckDB command line.</strong> DuckDB also has its own program for running SQL on files directly, which is handy for a quick look at a CSV. Mac: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">brew</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span></span></code>. Windows: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">winget</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">DuckDB</span><span style="color: #000000">.</span><span style="color: #001080">cli</span></span></code>. Then run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">duckdb</span></span></code> in a terminal. See <a href="https://duckdb.org/docs/installation/">https://duckdb.org/docs/installation/</a>.</p>
+</blockquote>
+
+      <h2>
+        <a id="4-hugging-face-tools" class="header-link anchor" href="#4-hugging-face-tools">
+          4. Hugging Face tools
+        </a>
+      </h2>
+    <p><a href="17_data_sources#example-hosting-your-own-data-on-hugging-face">Chapter 17</a> shows how to put your own Parquet file on Hugging Face, so Malloy can read it from a URL. You can upload files in the browser, but the command-line tools are easier for big files.</p>
+<ol>
+<li><p>Create a free account at <a href="https://huggingface.co/join">https://huggingface.co/join</a>.</p>
+</li>
+<li><p>In a terminal:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">pip install -U huggingface_hub</span></span></pre></div></li>
+<li><p>Create an <strong>access token</strong>: on Hugging Face, go to <strong>Settings → Access Tokens → Create new token</strong>, choose <strong>Write</strong>, and copy it.</p>
+</li>
+<li><p>Log in, and paste the token when it asks:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">hf auth login</span></span></pre></div></li></ol>
+<blockquote>
+<p>🔐 <strong>Treat your token like a password.</strong> Never paste it into a notebook, a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">malloy</span></span></code> file, or anything you upload or turn in.</p>
+</blockquote>
+
+      <h2>
+        <a id="5-node-js" class="header-link anchor" href="#5-node-js">
+          5. Node.js
+        </a>
+      </h2>
+    <p>Node.js gives you the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npx</span></span></code> command, which runs small programs straight from the internet without a separate install. You need it for the skills installer in Section 7.</p>
+<ol>
+<li><p>Download the <strong>LTS</strong> version from <a href="https://nodejs.org/">https://nodejs.org/</a> and run the installer.</p>
+</li>
+<li><p>Close and reopen VS Code (or your terminal), then check it:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">node --version</span></span>
+<span class="line"><span style="color: #000000">npx --version</span></span></pre></div></li></ol>
+
+      <h2>
+        <a id="6-claude-code" class="header-link anchor" href="#6-claude-code">
+          6. Claude Code
+        </a>
+      </h2>
+    <p><strong>Claude Code</strong> is an AI assistant that works inside your project folder. You describe what you want in plain English, such as <em>"write a query that shows sales by month"</em> or <em>"why does this cell give an error?"</em>, and it reads your files, writes Malloy, and can run it. It needs a Claude account (a paid plan or an API account).</p>
+<p><strong>In VS Code (easiest):</strong></p>
+<ol>
+<li><p>Open the <strong>Extensions</strong> panel and search for <strong>Claude Code</strong>.</p>
+</li>
+<li><p>Install the extension published by <strong>Anthropic</strong>.</p>
+</li>
+<li><p>Click the Claude icon in the sidebar and sign in when asked.</p>
+</li></ol>
+<p><strong>In a terminal:</strong></p>
+<ul>
+<li><p><strong>Mac or Linux:</strong></p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">curl -fsSL https://claude.ai/install.sh | bash</span></span></pre></div></li>
+<li><p><strong>Windows (PowerShell):</strong></p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">irm https://claude.ai/install.ps1 | iex</span></span></pre></div></li></ul>
+<p>Then go to your project folder in a terminal and type <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">claude</span></span></code>. Full instructions: <a href="https://code.claude.com/docs/en/setup">https://code.claude.com/docs/en/setup</a>.</p>
+<blockquote>
+<p>🧠 <strong>Use it to learn, not to skip learning.</strong> An AI assistant is great for explaining an error, suggesting a query, or checking your work. But you're graded on understanding your own notebook. Read every line it writes, and be able to explain it. Follow your course's policy on AI use.</p>
+</blockquote>
+
+      <h2>
+        <a id="7-credible-and-malloy-skills-for-ai-assistants" class="header-link anchor" href="#7-credible-and-malloy-skills-for-ai-assistants">
+          7. Credible and Malloy skills for AI assistants
+        </a>
+      </h2>
+    <p>A <strong>skill</strong> is a folder of instructions that teaches an AI assistant how to do a specific job well. The <strong>Malloy and Credible skills</strong> teach the assistant Malloy's rules and common mistakes: how to write joins and measures, how to build charts, how to avoid wrong totals, and so on. With the skills installed, the assistant writes much better Malloy.</p>
+<p>Skills are just folders, each containing a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">SKILL</span><span style="color: #000000">.</span><span style="color: #001080">md</span></span></code> file. The assistant finds them because they sit in a special folder <strong>inside the project you're working in</strong>:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">my-project/                  ← the folder you open in VS Code</span></span>
+<span class="line"><span style="color: #000000">├── .claude/</span></span>
+<span class="line"><span style="color: #000000">│   └── skills/</span></span>
+<span class="line"><span style="color: #000000">│       ├── malloy-queries/</span></span>
+<span class="line"><span style="color: #000000">│       │   └── SKILL.md</span></span>
+<span class="line"><span style="color: #000000">│       ├── malloy-model/</span></span>
+<span class="line"><span style="color: #000000">│       │   └── SKILL.md</span></span>
+<span class="line"><span style="color: #000000">│       └── …</span></span>
+<span class="line"><span style="color: #000000">├── my_data.malloy</span></span>
+<span class="line"><span style="color: #000000">└── my_analysis.malloynb</span></span></pre></div><p>There are <strong>two ways</strong> to get them.</p>
+
+      <h3>
+        <a id="way-1-the-credible-vs-code-extension" class="header-link anchor" href="#way-1-the-credible-vs-code-extension">
+          Way 1: the Credible VS Code extension
+        </a>
+      </h3>
+    <p>If you have a <strong>Credible</strong> account (your instructor will tell you if your class has one), the Credible extension installs the skills for you and keeps them up to date.</p>
+<ol>
+<li><p>In the <strong>Extensions</strong> panel, search for <strong>Credible</strong> and install the extension published by <strong>Credible</strong>.</p>
+</li>
+<li><p>Click the Credible icon in the sidebar and <strong>Sign In</strong>.</p>
+</li>
+<li><p>Open your project folder (<strong>File → Open Folder…</strong>).</p>
+</li>
+<li><p>Open the Command Palette (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Ctrl</span><span style="color: #000000">+</span><span style="color: #001080">Shift</span><span style="color: #000000">+</span><span style="color: #001080">P</span></span></code>, or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Cmd</span><span style="color: #000000">+</span><span style="color: #001080">Shift</span><span style="color: #000000">+</span><span style="color: #001080">P</span></span></code> on a Mac), type <strong>Credible: Enable Credible (Workspace)</strong> and press Enter.</p>
+</li></ol>
+<p>The extension then writes the skills into your project folder:</p>
+<ul>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code>: the skills, for Claude Code</p>
+</li>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">agents</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">cursor</span><span style="color: #000000">/</span><span style="color: #001080">rules</span><span style="color: #000000">/</span></span></code>: the same skills, for other AI tools such as Copilot and Cursor</p>
+</li>
+<li><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span><span style="color: #000000">/</span><span style="color: #001080">rules</span><span style="color: #000000">/</span><span style="color: #001080">credible</span><span style="color: #000000">-</span><span style="color: #001080">modeling</span><span style="color: #000000">.</span><span style="color: #001080">md</span></span></code>: a rule telling Claude to read the skills whenever you ask about Malloy</p>
+</li></ul>
+<p>These include the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">credible</span><span style="color: #000000">-*</span></span></code> skills (publishing and documenting models on Credible) as well as the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-*</span></span></code> skills. When a new version comes out, the extension updates them automatically. It also adds these folders to your <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">gitignore</span></span></code>, so they aren't uploaded if you put your project on GitHub.</p>
+
+      <h3>
+        <a id="way-2-download-the-skills-into-your-project-folder" class="header-link anchor" href="#way-2-download-the-skills-into-your-project-folder">
+          Way 2: download the skills into your project folder
+        </a>
+      </h3>
+    <p>No Credible account? The <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-*</span></span></code> skills are <strong>free and open source</strong>, published by the Malloy team. Download them straight into the folder you're working in.</p>
+<p><strong>Option A: one command (needs Node.js, Section 5).</strong> In VS Code, open your project folder, open a terminal (<strong>Terminal → New Terminal</strong>), and run:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">npx -y @malloy-publisher/skills@latest install claude</span></span></pre></div><p>That copies every skill into <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code> in the current folder. To see what you got:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">npx -y @malloy-publisher/skills@latest list</span></span></pre></div><p>Keep the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">@</span><span style="color: #001080">latest</span></span></code>, so you always get the newest skills. To install them once for <strong>every</strong> project on your computer, add <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #008000">--global</span></span></code> (they go into <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code> in your home folder).</p>
+<p><strong>Option B: download by hand (no Node needed).</strong></p>
+<ol>
+<li><p>Go to <a href="https://github.com/malloydata/publisher">https://github.com/malloydata/publisher</a>.</p>
+</li>
+<li><p>Click the green <strong>Code</strong> button, then <strong>Download ZIP</strong>.</p>
+</li>
+<li><p>Unzip it, and open the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">skills</span></span></code> folder inside. Each folder in it (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">queries</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">model</span></span></code>, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">charts</span></span></code>, …) is one skill.</p>
+</li>
+<li><p>In your project folder, make a folder named <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span></span></code>, and inside it a folder named <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">skills</span></span></code>.</p>
+</li>
+<li><p>Copy the skill folders into <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">my</span><span style="color: #000000">-</span><span style="color: #001080">project</span><span style="color: #000000">/.</span><span style="color: #001080">claude</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code>. Copy the <strong>folders</strong>, not just the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">SKILL</span><span style="color: #000000">.</span><span style="color: #001080">md</span></span></code> files, because some skills have a <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">reference</span></span></code> folder too. You can skip the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">eval</span><span style="color: #000000">-*</span></span></code> folders; they're for testing models, not for writing Malloy.</p>
+</li></ol>
+<blockquote>
+<p>👀 <strong>Can't see the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span></span></code> folder?</strong> Names that start with a dot are hidden. <strong>Mac Finder:</strong> press <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">Cmd</span><span style="color: #000000">+</span><span style="color: #001080">Shift</span><span style="color: #000000">+.</span></span></code> to show them. <strong>Windows File Explorer:</strong> <strong>View → Show → Hidden items</strong>. VS Code's file list shows them either way.</p>
+</blockquote>
+
+      <h3>
+        <a id="check-that-the-skills-work" class="header-link anchor" href="#check-that-the-skills-work">
+          Check that the skills work
+        </a>
+      </h3>
+    <p>Open Claude Code in your project folder and ask:</p>
+<blockquote>
+<p><em>What Malloy skills do you have?</em></p>
+</blockquote>
+<p>It should list skills such as <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">queries</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">model</span></span></code>. Then try a real request, such as <em>"Read my_data.malloy and suggest three measures I could add."</em></p>
+<div class="callout callout-tip">
+<p>💡 <strong>Read a skill yourself.</strong> The skills are written in plain English and make a good cheat sheet. You can read any of them online without installing anything, such as the <a href="https://unpkg.com/@malloy-publisher/skills@latest/skills/malloy-getting-started/SKILL.md">getting-started skill</a> or the <a href="https://unpkg.com/@malloy-publisher/skills@latest/skills/malloy-queries/SKILL.md">queries skill</a>.</p>
+</div>
+
+      <h2>
+        <a id="summary" class="header-link anchor" href="#summary">
+          Summary
+        </a>
+      </h2>
+    <ul>
+<li><p><strong>Required:</strong> VS Code and the Malloy extension. DuckDB is built in.</p>
+</li>
+<li><p><strong>For converting data:</strong> Python and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">pip</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">duckdb</span></span></code>.</p>
+</li>
+<li><p><strong>For hosting data:</strong> a Hugging Face account and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">pip</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> -</span><span style="color: #001080">U</span><span style="color: #000000"> </span><span style="color: #001080">huggingface_hub</span></span></code>, then <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">hf</span><span style="color: #000000"> </span><span style="color: #001080">auth</span><span style="color: #000000"> </span><span style="color: #001080">login</span></span></code>.</p>
+</li>
+<li><p><strong>For AI help:</strong> Claude Code, plus the Malloy skills in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code> inside your project folder.</p>
+</li>
+<li><p><strong>Two ways to get the skills:</strong> the Credible VS Code extension (<strong>Enable Credible (Workspace)</strong>), or download them yourself with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npx</span><span style="color: #000000"> -</span><span style="color: #001080">y</span><span style="color: #000000"> @</span><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">publisher</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">@</span><span style="color: #001080">latest</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">claude</span></span></code> or the ZIP from GitHub.</p>
+</li></ul>
+</div></div>
+        </div>
+        <script src="/malloy-textbook/js/view_toggles.js"></script>
+        <script src="/malloy-textbook/js/jump_to_hash.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

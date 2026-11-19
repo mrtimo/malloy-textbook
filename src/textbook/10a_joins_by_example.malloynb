@@ -1,0 +1,334 @@
+>>>markdown
+# Chapter 10a: Joins by Example
+
+[Chapter 10](10_joins.malloynb) covered joins in full. This chapter is the **gentle, hands-on version**. In every exercise the code is already written for you, except **one line: the join**. You type that line, run the cell, and watch new columns appear.
+
+> 🐢 **No pressure.** Every exercise follows the same three steps:
+>
+> 1. **Before:** run a query on one table. Notice what's missing.
+> 2. **✏️ Your turn:** type one `join_one:` line where it says `// ✏️ your line`.
+> 3. **After:** run it again. Same rows, same totals, **new columns**.
+
+## How the ✏️ cells work
+
+* **In your notebook** (VS Code or github.dev), each ✏️ cell has a blank line that says `// ✏️ type your join line here`. Replace that comment with the join line, then run the cell.
+* **On this website** you can see the finished line, marked `// ✏️ your line`, and the result it should give you. Use it to check your work.
+* If you run a ✏️ cell **before** typing your line, you'll get an error like `'users' is not defined`. That's fine! It just means Malloy doesn't know about the other table yet. That's exactly what the join line fixes.
+
+## What is a join?
+
+The store keeps its data in **separate tables**, like separate sheets in a workbook:
+
+| Table | One row per… | Some columns |
+|---|---|---|
+| `items` | item sold | `sale_price`, `created_at`, **`user_id`**, **`inventory_item_id`** |
+| `users` | customer | **`id`**, `first_name`, `state`, `gender`, `age` |
+| `inventory` | physical item in the warehouse | **`id`**, `product_category`, `product_brand`, `product_department` |
+| `states` | U.S. state | **`state_name`**, `region` |
+
+The `items` table doesn't contain the customer's name. It only has a **`user_id`**: a number that points to one row in the `users` table. A **join** tells Malloy: *"to find the customer for this item, look up `user_id` in the users table."* If you've used **VLOOKUP** or **XLOOKUP** in Excel, a join is the same idea.
+
+## Setup: four tables, no joins yet
+
+Run this cell first. It defines the four tables, with **no joins**. (The textbook's `ecommerce.malloy` file already has the joins written in. Here we start from scratch so you can add them yourself.)
+>>>malloy
+source: items is duckdb.table('data/order_items.parquet') extend {
+  primary_key: id
+  measure:
+    item_count is count()
+    # currency
+    total_sales is sale_price.sum()
+}
+
+source: users is duckdb.table('data/users.parquet') extend {
+  primary_key: id
+  measure: user_count is count()
+}
+
+source: inventory is duckdb.table('data/inventory_items.parquet') extend {
+  primary_key: id
+}
+
+source: states is duckdb.table('data/state_regions.csv') extend {
+  primary_key: state_name
+}
+>>>markdown
+Notice the `primary_key:` line in each source. It names the column that is **different for every row**, such as a customer's `id`. A join looks rows up by that key.
+
+## Exercise 1: who bought it?
+
+### 1 · Before
+
+Here are our five biggest customers. But who are they?
+>>>malloy
+run: items -> {
+  group_by: user_id
+  aggregate: total_sales, item_count
+  order_by: total_sales desc
+  limit: 5
+}
+>>>markdown
+All we have is `user_id`, a number. Customer 17462 spent $1,537, but we don't know their name or where they live. That information is in the `users` table:
+>>>malloy
+run: users -> {
+  select: id, first_name, last_name, state, gender, age
+  where: id = 17462
+}
+>>>markdown
+The `users` table calls the same number **`id`**. So `items.user_id` points to `users.id`.
+
+### 1 · ✏️ Your turn
+
+The join line is:
+
+```malloy
+join_one: users with user_id
+```
+
+Read it as: *"each item has **one** user. Find it by matching my `user_id` to the user's primary key."* Type it where the ✏️ is, then run the cell.
+>>>malloy
+source: items_with_users is items extend {
+  join_one: users with user_id   // ✏️ your line
+}
+
+run: items_with_users -> {
+  group_by:
+    user_id
+    users.first_name
+    users.last_name
+    users.state
+  aggregate: total_sales, item_count
+  order_by: total_sales desc
+  limit: 5
+}
+>>>markdown
+### 1 · What changed?
+
+Compare this result with the **Before** result:
+
+* **Same five customers**, in the same order.
+* **Same `total_sales` and `item_count`** for each one.
+* **New columns:** first name, last name and state. Customer 17462 is David Duncan from Kentucky.
+
+The join **added columns**. It didn't add or remove rows, and it didn't change any numbers. To use a column from the joined table, write the table name, a dot, and the column: `users.state`.
+
+> 💡 **Think of it as a folder.** After the join, `items_with_users` has all of its own columns **plus a `users` folder** that holds every column of the users table: `users.first_name`, `users.state`, `users.age`, `users.traffic_source` and so on. In the [Malloy Explorer](06_explorer.malloynb), joined tables show up as exactly that: a folder you can open in the field list.
+
+### 1 · Try it: use the joined columns
+
+Now that `users` is joined, you can group by **any** of its columns. Here are sales by the customer's gender. (This cell has the join already written in, so it runs even if you skipped the ✏️ cell.)
+>>>malloy
+source: items_with_users_2 is items extend {
+  join_one: users with user_id
+}
+
+run: items_with_users_2 -> {
+  group_by: users.gender
+  aggregate: total_sales, item_count
+}
+>>>markdown
+Women bought 151,160 items for about $6.7 million, and men bought 119,859 items for about $5.9 million. Try changing `users.gender` to `users.traffic_source` or `users.country` and run it again.
+
+### 1 · Check: the join doesn't change the total
+
+A `join_one` never changes your totals. Here's the grand total **without** the join, and then **with** it:
+>>>malloy
+run: items -> {
+  aggregate: total_sales, item_count
+}
+>>>malloy
+source: items_with_users_3 is items extend {
+  join_one: users with user_id
+}
+
+run: items_with_users_3 -> {
+  aggregate: total_sales, item_count
+}
+>>>markdown
+Exactly the same: $12,566,293 from 271,019 items. Joining just gives each row more columns to describe it.
+
+## Exercise 2: what did they buy?
+
+### 2 · Before
+
+The `items` table knows *which* physical item was sold, but only by number:
+>>>malloy
+run: items -> {
+  group_by: inventory_item_id
+  aggregate: total_sales
+  limit: 5
+}
+>>>markdown
+Item 284983 sold for $999. But what was it? The product details are in the `inventory` table, whose primary key is `id`.
+
+### 2 · ✏️ Your turn
+
+This time, fill in the blank yourself:
+
+```malloy
+join_one: inventory with ______
+```
+
+**Hint:** which column in `items` points to a row in `inventory`? Look at the column names in the Before query.
+>>>malloy
+source: items_with_inventory is items extend {
+  join_one: inventory with inventory_item_id   // ✏️ your line
+}
+
+run: items_with_inventory -> {
+  group_by: inventory.product_category
+  aggregate: total_sales, item_count
+  order_by: total_sales desc
+  limit: 10
+}
+>>>markdown
+### 2 · What changed?
+
+The blank was **`inventory_item_id`**. Now we can group by `inventory.product_category`, a column that lives in the other table. **Jeans** are the top category, with almost $2 million in sales.
+
+Try changing `inventory.product_category` to `inventory.product_brand` or `inventory.product_department`.
+
+## Exercise 3: two joins in one source
+
+A source can have **more than one join**. Here, `users` is already joined. Add a second line that joins `inventory`, so the query can use columns from **both** tables.
+
+### 3 · ✏️ Your turn
+
+Use the same line you wrote in Exercise 2.
+>>>malloy
+source: items_full is items extend {
+  join_one: users with user_id
+  join_one: inventory with inventory_item_id   // ✏️ your line
+}
+
+run: items_full -> {
+  group_by:
+    inventory.product_department
+    users.gender
+  aggregate: total_sales, item_count
+  order_by: total_sales desc
+}
+>>>markdown
+### 3 · What changed?
+
+Each row of the result now combines **three tables**: the sale (`items`), the customer (`users`) and the product (`inventory`).
+
+Look at the third row: **women spent about $2.0 million in the men's department**. That's more than a quarter of all men's department sales. Neither table could tell you that on its own. You need the customer's gender *and* the product's department, and the join brings them together. (You'll see this finding again in [Chapter 20](20_making_data_sing_ecommerce.malloynb).)
+
+## Exercise 4: when the column names don't match
+
+So far we've used `with`, which matches a column to the other table's **primary key**. Sometimes you want to match on some other column. Then you write `on` and spell out the match.
+
+The `users` table has a `state` column with full names like "California". The `states` table has a `state_name` column with the same names, plus each state's Census **region**.
+
+### 4 · Before
+>>>malloy
+run: users -> {
+  group_by: state
+  aggregate: user_count
+  order_by: user_count desc
+  limit: 5
+}
+>>>markdown
+We'd like to see customers by **region** (South, West…), but `users` has no region column.
+
+### 4 · ✏️ Your turn
+
+The join line is:
+
+```malloy
+join_one: states on state = states.state_name
+```
+
+Read it as: *"each user has one state. Find it where my `state` equals the states table's `state_name`."*
+>>>malloy
+source: users_with_region is users extend {
+  join_one: states on state = states.state_name   // ✏️ your line
+}
+
+run: users_with_region -> {
+  group_by: states.region
+  aggregate: user_count
+  order_by: user_count desc
+}
+>>>markdown
+### 4 · What changed?
+
+Now customers are grouped by region. The **South** has the most customers (43,781).
+
+Notice the row where `region` is **∅ (null, meaning empty)**: 29,014 customers. That's exactly the number of customers from the **UK**. Their "states" aren't U.S. states, so the join found no match, and the region is empty. The customers didn't disappear. They just have nothing to look up. That's how `join_one` works: **when there's no match, you keep the row, with empty values.**
+
+## Exercise 5: joining a source that has its own join
+
+Joins can **chain**. If `users_with_region` already knows each user's region, then joining it to `items` lets you see **sales by region**: sale → customer → state → region.
+
+### 5 · ✏️ Your turn
+
+Join `users_with_region` to `items`. It's a users table, so the matching column is the same as in Exercise 1.
+>>>malloy
+source: users_with_region_2 is users extend {
+  join_one: states on state = states.state_name
+}
+
+source: items_by_region is items extend {
+  join_one: users_with_region_2 with user_id   // ✏️ your line
+}
+
+run: items_by_region -> {
+  group_by: users_with_region_2.states.region
+  aggregate: total_sales, item_count
+  order_by: total_sales desc
+}
+>>>markdown
+### 5 · What changed?
+
+Look at the field name: `users_with_region_2.states.region`. Read the dots like a path: *from the item, go to the user, then to their state, then get the region.* That's **two hops**, and you only wrote one line, because the second join was already inside `users_with_region_2`.
+
+The South leads with about $3.3 million in sales.
+
+## The join recipe
+
+Every join you write answers three questions:
+
+| Question | Exercise 1 example |
+|---|---|
+| 1. **Which table** do I want to bring in? | `users` |
+| 2. **Which of my columns** points to it? | `user_id` |
+| 3. Does each of my rows have **one** match? Then it's `join_one`. | Each item has one customer |
+
+Put the answers together:
+
+```malloy
+join_one: users with user_id
+```
+
+If the columns are named differently, or the other table's column isn't its primary key, use `on` and write the match out:
+
+```malloy
+join_one: states on state = states.state_name
+```
+
+## When something goes wrong
+
+| What you see | What it means | Fix |
+|---|---|---|
+| `'users' is not defined` | The query uses `users.something`, but there's no join | Add the `join_one:` line |
+| `'user_id' is not defined` | You used a column name that isn't in your table | Check the spelling. Run `select: *` with `limit: 5` to see the column names |
+| Names or categories that look random | The join matched the **wrong column** (for example `with id` instead of `with user_id`) | Use the column that **points to** the other table |
+| A row with ∅ (empty) values | Some rows had no match in the other table | Often fine (like the UK customers). Check that the key columns really match |
+
+## Key takeaways
+
+* A **join** brings another table's columns into your source. It works like VLOOKUP.
+* `join_one: users with user_id` means: *each row has one user, found by matching `user_id` to the user's primary key.*
+* Use joined columns with a dot: `users.state`, `inventory.product_category`.
+* A `join_one` **adds columns, not rows**, and doesn't change your totals.
+* A source can have several joins, and joins can **chain**: `users_with_region_2.states.region`.
+* Use `on` when the matching columns have different names: `join_one: states on state = states.state_name`.
+* Ready for more? [Chapter 10](10_joins.malloynb) covers `join_many`, symmetric aggregates and joining to a query.
+
+> 🎯 **Challenge 10a.1: Brands by gender.** Using a source like `items_full` from Exercise 3, find the top 10 `inventory.product_brand` values by `total_sales`. Then add `users.gender` to the `group_by:`. Which brands do men and women buy most?
+
+> 🎯 **Challenge 10a.2: Customer ages.** Join `users` to `items`, then group by `users.age` and find the total sales for each age. Which age spends the most? (Add `order_by: total_sales desc` and `limit: 10`.)
+
+> 🎯 **Challenge 10a.3: Categories by region.** Write a source that joins **both** `users_with_region` and `inventory` to `items`. Which product category sells the most in each region? (Hint: `group_by:` the region and the category, then sort by `total_sales desc`.)

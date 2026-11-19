@@ -1,0 +1,200 @@
+>>>markdown
+# Chapter 18a: Installing Helpful Things
+
+You only need **VS Code** and the **Malloy extension** to do everything in this textbook. This chapter lists other tools that make the work easier: converting data, hosting it online, and getting help from an AI assistant that knows Malloy. Install them as you need them, not all at once.
+
+| Tool | What it's for | Needed? |
+|---|---|---|
+| [VS Code](#1-vs-code) | The editor where you write and run Malloy | ✅ Required |
+| [Malloy extension](#2-the-malloy-extension) | Runs `.malloy` files and `.malloynb` notebooks, with DuckDB built in | ✅ Required |
+| [Python + DuckDB](#3-python-and-duckdb) | Convert CSV files to Parquet ([Chapter 7](07_csv_and_parquet.malloynb)) | When you convert data |
+| [Hugging Face tools](#4-hugging-face-tools) | Upload your own Parquet file to the internet ([Chapter 17](17_data_sources.malloynb)) | When you host data |
+| [Node.js](#5-node-js) | Lets you run `npx` commands, such as the skills installer below | For the skills |
+| [Claude Code](#6-claude-code) | An AI assistant that can read, write and run your Malloy | Optional |
+| [Credible skills](#7-credible-and-malloy-skills-for-ai-assistants) | Teach an AI assistant how to write good Malloy | Optional |
+
+> 💻 **Opening a terminal.** Several steps say "in a terminal." In VS Code, choose **Terminal → New Terminal**. A terminal opens at the bottom of the window, already in the folder you have open. On a Mac you can also use the **Terminal** app; on Windows, **PowerShell**.
+
+## 1. VS Code
+
+1. Go to <https://code.visualstudio.com/> and download VS Code for your computer.
+2. **Mac:** open the downloaded file and drag **Visual Studio Code** into **Applications**. **Windows:** run the installer and accept the defaults. Check **"Add to PATH"** if you see it.
+3. Open VS Code.
+
+## 2. The Malloy extension
+
+1. In VS Code, click the **Extensions** icon in the left sidebar (four squares), or press `Ctrl+Shift+X` (`Cmd+Shift+X` on a Mac).
+2. Search for **Malloy**.
+3. Click **Install** on the extension published by **Malloy** (malloydata).
+4. Choose **File → Open Folder…** and open your project folder, such as the `malloy-textbook-notebooks` folder.
+5. Open `01_basics.malloynb` and click **Run All**. If you see results, you're set.
+
+DuckDB is built into the extension, so there's no database to install. If something doesn't work, see [Chapter 18 · Troubleshooting](18_troubleshooting.malloynb).
+
+## 3. Python and DuckDB
+
+You need these to run the `csv_to_parquet.py` script from [Chapter 7](07_csv_and_parquet.malloynb).
+
+1. **Install Python.**
+   * **Mac:** download it from <https://www.python.org/downloads/>, or, if you use Homebrew, run `brew install python`.
+   * **Windows:** download it from <https://www.python.org/downloads/>. On the first screen of the installer, check **"Add python.exe to PATH"**.
+2. **Install the DuckDB Python package.** In a terminal:
+
+   ```
+   pip install duckdb
+   ```
+
+   On a Mac, if `pip` isn't found, use `pip3` instead. In the same way, use `python3` wherever this book says `python`.
+3. **Check it.**
+
+   ```
+   python -c "import duckdb; print(duckdb.__version__)"
+   ```
+
+   If it prints a version number, it worked.
+
+> 🦆 **Optional: the DuckDB command line.** DuckDB also has its own program for running SQL on files directly, which is handy for a quick look at a CSV. Mac: `brew install duckdb`. Windows: `winget install DuckDB.cli`. Then run `duckdb` in a terminal. See <https://duckdb.org/docs/installation/>.
+
+## 4. Hugging Face tools
+
+[Chapter 17](17_data_sources.malloynb#example-hosting-your-own-data-on-hugging-face) shows how to put your own Parquet file on Hugging Face, so Malloy can read it from a URL. You can upload files in the browser, but the command-line tools are easier for big files.
+
+1. Create a free account at <https://huggingface.co/join>.
+2. In a terminal:
+
+   ```
+   pip install -U huggingface_hub
+   ```
+
+3. Create an **access token**: on Hugging Face, go to **Settings → Access Tokens → Create new token**, choose **Write**, and copy it.
+4. Log in, and paste the token when it asks:
+
+   ```
+   hf auth login
+   ```
+
+> 🔐 **Treat your token like a password.** Never paste it into a notebook, a `.malloy` file, or anything you upload or turn in.
+
+## 5. Node.js
+
+Node.js gives you the `npx` command, which runs small programs straight from the internet without a separate install. You need it for the skills installer in Section 7.
+
+1. Download the **LTS** version from <https://nodejs.org/> and run the installer.
+2. Close and reopen VS Code (or your terminal), then check it:
+
+   ```
+   node --version
+   npx --version
+   ```
+
+## 6. Claude Code
+
+**Claude Code** is an AI assistant that works inside your project folder. You describe what you want in plain English, such as *"write a query that shows sales by month"* or *"why does this cell give an error?"*, and it reads your files, writes Malloy, and can run it. It needs a Claude account (a paid plan or an API account).
+
+**In VS Code (easiest):**
+
+1. Open the **Extensions** panel and search for **Claude Code**.
+2. Install the extension published by **Anthropic**.
+3. Click the Claude icon in the sidebar and sign in when asked.
+
+**In a terminal:**
+
+* **Mac or Linux:**
+
+  ```
+  curl -fsSL https://claude.ai/install.sh | bash
+  ```
+
+* **Windows (PowerShell):**
+
+  ```
+  irm https://claude.ai/install.ps1 | iex
+  ```
+
+Then go to your project folder in a terminal and type `claude`. Full instructions: <https://code.claude.com/docs/en/setup>.
+
+> 🧠 **Use it to learn, not to skip learning.** An AI assistant is great for explaining an error, suggesting a query, or checking your work. But you're graded on understanding your own notebook. Read every line it writes, and be able to explain it. Follow your course's policy on AI use.
+
+## 7. Credible and Malloy skills for AI assistants
+
+A **skill** is a folder of instructions that teaches an AI assistant how to do a specific job well. The **Malloy and Credible skills** teach the assistant Malloy's rules and common mistakes: how to write joins and measures, how to build charts, how to avoid wrong totals, and so on. With the skills installed, the assistant writes much better Malloy.
+
+Skills are just folders, each containing a `SKILL.md` file. The assistant finds them because they sit in a special folder **inside the project you're working in**:
+
+```
+my-project/                  ← the folder you open in VS Code
+├── .claude/
+│   └── skills/
+│       ├── malloy-queries/
+│       │   └── SKILL.md
+│       ├── malloy-model/
+│       │   └── SKILL.md
+│       └── …
+├── my_data.malloy
+└── my_analysis.malloynb
+```
+
+There are **two ways** to get them.
+
+### Way 1: the Credible VS Code extension
+
+If you have a **Credible** account (your instructor will tell you if your class has one), the Credible extension installs the skills for you and keeps them up to date.
+
+1. In the **Extensions** panel, search for **Credible** and install the extension published by **Credible**.
+2. Click the Credible icon in the sidebar and **Sign In**.
+3. Open your project folder (**File → Open Folder…**).
+4. Open the Command Palette (`Ctrl+Shift+P`, or `Cmd+Shift+P` on a Mac), type **Credible: Enable Credible (Workspace)** and press Enter.
+
+The extension then writes the skills into your project folder:
+
+* `.claude/skills/`: the skills, for Claude Code
+* `.agents/skills/` and `.cursor/rules/`: the same skills, for other AI tools such as Copilot and Cursor
+* `.claude/rules/credible-modeling.md`: a rule telling Claude to read the skills whenever you ask about Malloy
+
+These include the `credible-*` skills (publishing and documenting models on Credible) as well as the `malloy-*` skills. When a new version comes out, the extension updates them automatically. It also adds these folders to your `.gitignore`, so they aren't uploaded if you put your project on GitHub.
+
+### Way 2: download the skills into your project folder
+
+No Credible account? The `malloy-*` skills are **free and open source**, published by the Malloy team. Download them straight into the folder you're working in.
+
+**Option A: one command (needs Node.js, Section 5).** In VS Code, open your project folder, open a terminal (**Terminal → New Terminal**), and run:
+
+```
+npx -y @malloy-publisher/skills@latest install claude
+```
+
+That copies every skill into `.claude/skills/` in the current folder. To see what you got:
+
+```
+npx -y @malloy-publisher/skills@latest list
+```
+
+Keep the `@latest`, so you always get the newest skills. To install them once for **every** project on your computer, add `--global` (they go into `.claude/skills/` in your home folder).
+
+**Option B: download by hand (no Node needed).**
+
+1. Go to <https://github.com/malloydata/publisher>.
+2. Click the green **Code** button, then **Download ZIP**.
+3. Unzip it, and open the `skills` folder inside. Each folder in it (`malloy-queries`, `malloy-model`, `malloy-charts`, …) is one skill.
+4. In your project folder, make a folder named `.claude`, and inside it a folder named `skills`.
+5. Copy the skill folders into `my-project/.claude/skills/`. Copy the **folders**, not just the `SKILL.md` files, because some skills have a `reference` folder too. You can skip the `eval-*` folders; they're for testing models, not for writing Malloy.
+
+> 👀 **Can't see the `.claude` folder?** Names that start with a dot are hidden. **Mac Finder:** press `Cmd+Shift+.` to show them. **Windows File Explorer:** **View → Show → Hidden items**. VS Code's file list shows them either way.
+
+### Check that the skills work
+
+Open Claude Code in your project folder and ask:
+
+> *What Malloy skills do you have?*
+
+It should list skills such as `malloy-queries` and `malloy-model`. Then try a real request, such as *"Read my_data.malloy and suggest three measures I could add."*
+
+> 💡 **Read a skill yourself.** The skills are written in plain English and make a good cheat sheet. You can read any of them online without installing anything, such as the [getting-started skill](https://unpkg.com/@malloy-publisher/skills@latest/skills/malloy-getting-started/SKILL.md) or the [queries skill](https://unpkg.com/@malloy-publisher/skills@latest/skills/malloy-queries/SKILL.md).
+
+## Summary
+
+* **Required:** VS Code and the Malloy extension. DuckDB is built in.
+* **For converting data:** Python and `pip install duckdb`.
+* **For hosting data:** a Hugging Face account and `pip install -U huggingface_hub`, then `hf auth login`.
+* **For AI help:** Claude Code, plus the Malloy skills in `.claude/skills/` inside your project folder.
+* **Two ways to get the skills:** the Credible VS Code extension (**Enable Credible (Workspace)**), or download them yourself with `npx -y @malloy-publisher/skills@latest install claude` or the ZIP from GitHub.
