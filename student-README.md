@@ -25,6 +25,7 @@ install the Malloy extension there, and open any notebook.
 | `17_data_sources.malloynb` | 20 public datasets to explore (read from the internet), and how to find more |
 | `18_troubleshooting.malloynb` | `malloy-config.json`, setup checks, and common error messages |
 | `18a_installing_helpful_things.malloynb` | Optional tools: Python, Hugging Face, Claude Code, and the Malloy skills for AI assistants |
+| `22_homework_live_data_site.malloynb` | Homework: a self-updating dashboard website built with an AI assistant, GitHub Actions and malloyyo |
 | `ice.malloy` | The finished model for the worked example |
 | `names.malloy` | The baby names model (used from Chapter 2 on) |
 | `names_full.malloy` | The complete names model reviewed in Chapter 15 |

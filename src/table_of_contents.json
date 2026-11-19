@@ -135,6 +135,15 @@
           "link": "/21_homework_make_your_data_sing.malloynb"
         }
       ]
+    },
+    {
+      "title": "Part VIII \u00b7 Building with AI",
+      "items": [
+        {
+          "title": "22. Homework: A Live Data Dashboard, Built with AI",
+          "link": "/22_homework_live_data_site.malloynb"
+        }
+      ]
     }
   ]
 }

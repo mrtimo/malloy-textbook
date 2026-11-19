@@ -126,4 +126,8 @@ You will see a few kinds of colored boxes:
 20. [Making Data Sing: An Online Store](20_making_data_sing_ecommerce.malloynb): the same five steps on the e-commerce data, including what to do when the answer is flat
 21. [Homework: Make Your Data Sing](21_homework_make_your_data_sing.malloynb): take your own dataset, hosted as Parquet on the internet, through all five steps
 
+**Part VIII · Building with AI**
+
+22. [Homework: A Live Data Dashboard, Built with AI](22_homework_live_data_site.malloynb): with an AI assistant, GitHub Actions and malloyyo, turn a monthly-updated open dataset into a self-updating dashboard website
+
 > 📘 **Malloy docs.** The official documentation is at [docs.malloydata.dev](https://docs.malloydata.dev/documentation/). Keep it open in another tab. Every chapter links to the pages that go deeper.

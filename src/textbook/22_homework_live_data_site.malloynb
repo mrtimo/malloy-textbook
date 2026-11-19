@@ -1,0 +1,375 @@
+>>>markdown
+# Chapter 22: Homework: A Live Data Dashboard, Built with AI
+
+In this project you'll work with an **AI assistant** to build a public website that keeps itself up to date. When you're done, your GitHub repository will:
+
+1. **download a dataset automatically** twice a month, using a GitHub Action
+2. **save it as a Parquet file** in the repository
+3. hold a **Malloy model** of the data, with documentation the AI (and people) can read
+4. publish an **interactive dashboard** on GitHub Pages, with dropdowns, sliders and multi-selects, that runs entirely in the viewer's web browser
+
+Here's a finished example, built in one evening: **[the LA Crime Map](https://mrtimo.github.io/lapd-nibrs/crime_map.html)** ([its repository](https://github.com/mrtimo/lapd-nibrs)). It reads Los Angeles Police Department crime data that refreshes automatically, and every chart responds to nine filters.
+
+You'll use three tools:
+
+* **GitHub**, to store the project, run the automatic download, and host the website
+* **malloyyo**, a command-line tool that checks Malloy, previews dashboards and builds the website
+* **an AI command-line assistant**: **Claude Code** (`claude`) or **Google Antigravity** (`agy`)
+
+> 🧑‍✈️ **You're the pilot.** The AI writes most of the code, but you choose the data, decide what the dashboard should show, check the results, and explain how it works. Read what the AI writes. If you can't explain a step, ask the AI to explain it before you move on.
+
+## Before you start: check your tools
+
+Do this first. Open a **new** terminal and run each check. If one fails, follow the matching section of [Chapter 18a · Installing Helpful Things](18a_installing_helpful_things.malloynb).
+
+| Tool | Check | You should see | Install guide |
+|---|---|---|---|
+| Git | `git --version` | `git version 2.…` | [18a §5](18a_installing_helpful_things.malloynb#5-git-and-github) |
+| GitHub account | sign in at <https://github.com> | your profile | [18a §5](18a_installing_helpful_things.malloynb#5-git-and-github) |
+| GitHub CLI (optional) | `gh auth status` | `Logged in to github.com` | [18a §5](18a_installing_helpful_things.malloynb#5-git-and-github) |
+| Node.js | `node -v` | `v22` or higher | [18a §6](18a_installing_helpful_things.malloynb#6-node-js-and-malloyyo) |
+| malloyyo | `malloyyo --help` | a list of commands | [18a §6](18a_installing_helpful_things.malloynb#6-node-js-and-malloyyo) |
+| AI CLI | `claude --version`, or run `agy` | a version number, or a sign-in page | [18a §7](18a_installing_helpful_things.malloynb#7-an-ai-command-line-assistant-claude-code-or-antigravity) |
+| Malloy skills (recommended) | a `.claude/skills` or `.agents/skills` folder in your project | folders named `malloy-…` | [18a §8](18a_installing_helpful_things.malloynb#8-credible-and-malloy-skills-for-ai-assistants) |
+
+> 🔁 **"Command not found"** right after installing something? Close the terminal and open a new one.
+
+## Step 1: Find a dataset that updates every month
+
+Use **[data.wa.gov](https://data.wa.gov/)**, Washington State's open-data portal, or one of the many other portals built on the same system (Socrata, also called Tyler Data & Insights). A few:
+
+| Portal | Examples of what's there |
+|---|---|
+| [data.wa.gov](https://data.wa.gov/) | Washington vehicles, licenses, health, elections |
+| [data.lacity.org](https://data.lacity.org/) | Los Angeles crime, 311 calls, permits |
+| [data.cityofchicago.org](https://data.cityofchicago.org/) | Chicago crime, taxi trips, inspections |
+| [data.cityofnewyork.us](https://data.cityofnewyork.us/) | New York 311 calls, restaurant inspections |
+| [data.sfgov.org](https://data.sfgov.org/) | San Francisco police calls, building permits |
+| [data.seattle.gov](https://data.seattle.gov/) | Seattle permits, calls, traffic |
+| [data.ny.gov](https://data.ny.gov/), [data.texas.gov](https://data.texas.gov/), [data.colorado.gov](https://data.colorado.gov/) | State-level data |
+
+You can recognize these portals by their dataset pages: each has an **About this Dataset** section, an **Export** button, and a short ID in the URL with two groups of four letters and numbers, like `f6w7-q2d2`.
+
+**Your dataset must:**
+
+* **be updated at least monthly.** On the dataset's page, look under **About this Dataset** for **Posting Frequency** or **Update Frequency** (it should say *Monthly*, *Weekly* or *Daily*), and check that **Last Updated** is recent.
+* have a **date column**, and at least **10,000 rows**
+* have **more than one kind of column**: categories (Kind), places (Where), amounts (How much), as in [Chapter 19](19_making_data_sing.malloynb)
+* be **small enough for GitHub**: a single file in a GitHub repository must be under 100 MB. Parquet is usually 5–20 times smaller than the CSV, so a CSV up to about 500 MB is usually fine. If yours is bigger, keep only the columns or years you need.
+
+**Find the download URL.** Copy the dataset's ID from its URL, and put it in this pattern:
+
+```
+https://data.wa.gov/api/views/DATASET-ID/rows.csv?accessType=DOWNLOAD
+```
+
+For another portal, change `data.wa.gov` to that portal's address. Paste the URL into your browser. If a CSV file starts downloading, it works.
+
+> 🔌 **Example (don't use this one for your project).** The [Electric Vehicle Population Data](https://data.wa.gov/Transportation/Electric-Vehicle-Population-Data/f6w7-q2d2/about_data) has the ID `f6w7-q2d2`, and its Posting Frequency is **Monthly**. Its download URL is `https://data.wa.gov/api/views/f6w7-q2d2/rows.csv?accessType=DOWNLOAD`.
+
+## Step 2: Copy the data dictionary
+
+On the dataset's page, scroll to **Columns in this Dataset**. That table is the **data dictionary**: every column's name, a description, its API field name, and its **data type** (Text, Number, Floating Timestamp, and so on). Expand any rows that are collapsed, select the whole table, copy it, and paste it into a new file named **`data_dictionary.md`** in your project folder. Also copy the **About** text (who publishes it, what one row means, how often it updates) to the top of that file.
+
+**Why this matters:** the AI can't see the portal's web page, and if it guesses column types from the CSV, it gets some wrong. With the dictionary, it can:
+
+* keep **codes as text**, so ZIP codes, ID numbers and codes like `02` keep their leading zeros
+* turn **dates and times** into real timestamps, instead of text like `03/15/2025 12:00:00 AM`
+* turn **YES/NO** columns into true/false
+* know what each **code means**, so the Malloy model can give it a readable name
+
+The LA crime project did exactly this. Its conversion followed the portal's dictionary (Text → text, Floating Timestamp → timestamp, Number → number), and the AI caught problems a guess would miss: area names padded with spaces, a location of 0,0 meaning "no location recorded", and codes that lost their leading zeros in one of the two files.
+
+## Step 3: Set up the project
+
+In a terminal:
+
+```
+mkdir my-data-site
+cd my-data-site
+git init
+malloyyo init
+```
+
+Move your `data_dictionary.md` into this folder. `malloyyo init` sets the folder up as a Malloy project. Among other things, it writes a `.mcp.json` file that connects Claude Code to malloyyo (more on that in [Step 6](#step-6-let-the-ai-check-its-own-work-with-malloyyo)).
+
+Next, install the Malloy skills (see [Chapter 18a §8](18a_installing_helpful_things.malloynb#8-credible-and-malloy-skills-for-ai-assistants)), then start your AI assistant in this folder:
+
+```
+claude
+```
+
+(or `agy` for Antigravity). Everything from here on is a conversation with the AI.
+
+## Step 4: Ask the AI for the automatic download
+
+A **GitHub Action** is a small program that GitHub runs for you on its own computers, on a **schedule**. It's described in a file in your repository, `.github/workflows/something.yml`. Yours will download the CSV, convert it to Parquet with DuckDB, and commit the new file. Your laptop doesn't need to be on.
+
+Here's a prompt to start from. Fill in the blanks, and paste it into your AI assistant:
+
+> I want a public GitHub repository that keeps a copy of this dataset as a Parquet file:
+>
+> * Dataset: **[name]**, from **[portal page URL]**
+> * CSV download URL: **[your URL from Step 1]**
+> * The data dictionary is in `data_dictionary.md`. Use it to give every column the right type: codes and IDs stay as text, dates become timestamps, numbers become numbers, YES/NO becomes true/false. Use lower_snake_case column names.
+>
+> Please:
+>
+> 1. Write a DuckDB SQL script that reads the CSV straight from the URL and writes `data/[name].parquet` with zstd compression. Don't save the CSV to disk.
+> 2. Write a GitHub Actions workflow that runs that script on the **1st and 15th of every month**, and can also be run by hand. It should commit and push the Parquet file only if it changed, and stop with an error if the file has 0 rows.
+> 3. Sort the rows so that unchanged data gives an identical file (so there's no commit).
+> 4. Run the script once here, and show me the row count and the column types. Check the types against the data dictionary and tell me about anything odd you find.
+> 5. Create the public GitHub repository and push everything.
+
+**What to look for in the workflow file.** Ask the AI to explain any line you don't understand. The key parts look like this:
+
+```yaml
+on:
+  schedule:
+    - cron: "0 9 1,15 * *"   # 09:00 UTC on the 1st and 15th of every month
+  workflow_dispatch:           # adds a "Run workflow" button
+permissions:
+  contents: write              # lets the job commit the new file
+```
+
+The `cron` line is a schedule written as *minute hour day-of-month month day-of-week*. GitHub uses **UTC** time, which is 7 or 8 hours ahead of the U.S. Pacific time zone.
+
+**Test it now. Don't wait for the 1st of the month.** On GitHub, open your repository's **Actions** tab, click your workflow, and click **Run workflow**. After a minute or two you should see a ✅ green check. If the data changed, you'll see a new commit in the repository, such as *"Refresh data 2026-11-20"*.
+
+> 🛠️ **The run failed with "Permission denied" or a 403 error when pushing?** Go to the repository's **Settings → Actions → General → Workflow permissions**, choose **Read and write permissions**, save, and run it again. For any other error, click the failed run, copy the red error text, and paste it to your AI assistant.
+
+## Step 5: Ask the AI to write the Malloy model
+
+Now ask for the model. For example:
+
+> Build a Malloy semantic model on `data/[name].parquet`. Read it from its `raw.githubusercontent.com` URL, so a website can read it too. Use `data_dictionary.md` for descriptions. I want:
+>
+> * readable dimensions (for example, code values turned into names with `pick`, dates as day, month and year, day of week)
+> * the measures someone would ask about (counts, totals, averages, rates)
+> * a `#"` description on **every** dimension and measure, in plain English, saying what it means and any catch, such as what is counted
+> * **access modifiers**: make the raw code columns that I shouldn't group by `internal`, and keep the readable fields `public`
+> * an `index.malloy` that exports only the sources people should use
+>
+> After every change, run `malloyyo lint`, and run a few test queries to check that the numbers make sense.
+
+Two features in this model are there **for the AI as much as for people**.
+
+### Access modifiers: a clean menu
+
+Raw data is full of columns that are easy to misuse: codes like `23C`, flags, internal IDs, columns that were replaced by better versions. **Access modifiers** let you hide them from anyone who *uses* the model, while your own definitions can still use them.
+
+From the LA crime model:
+
+```malloy
+##! experimental.access_modifiers
+
+source: offenses_base is offenses_table include {
+  public: *
+  // raw source codes: replaced by offense, offense_group, crime_against_type, ...
+  internal: area, nibr_group, weapon_used_cd, premise_cd, status, crime_against, time_occ
+} extend {
+  #" NIBRS offense category name, from the NIBR code (e.g. 23C = Shoplifting).
+  public dimension: offense is
+    pick 'Shoplifting' when nibr_code = '23C'
+    pick 'Robbery' when nibr_code = '120'
+    // ...
+}
+```
+
+| Keyword | Who can use the field |
+|---|---|
+| `public` | Anyone: queries, dashboards and AI assistants. This is the default. |
+| `internal` | The source itself, and sources built on it with `extend`. Hidden from queries, and from sources that join it. |
+| `private` | Only the source that defines it. Not even its extensions. |
+
+**Why this helps.** When the AI (or a classmate) explores your model, the list of fields is shorter and every field in it is one you chose and explained. The AI can't accidentally group by `crime_against` (a raw code) when you meant `crime_against_type` (the cleaned-up version), because the raw one isn't on the menu. You can also change internal fields later without breaking any dashboard. Access modifiers are still an **experimental** Malloy feature, which is why the file starts with `##! experimental.access_modifiers`.
+
+### `#"` descriptions: telling the AI what the data means
+
+A `#"` line just before a field is its **description**. It's not a comment that disappears: the description stays attached to the field, and tools show it. When an AI assistant reads your model, it reads these descriptions to choose fields. ([Chapter 15](15_model_review.malloynb) covers them in more detail.)
+
+```malloy
+  #" Number of offenses. An incident (case_no) can list several offenses.
+  public measure: offense_count is count()
+  #" Number of distinct incidents (case numbers).
+  public measure: case_count is count(case_no)
+  #" Share of offenses cleared by arrest.
+  # percent
+  public measure: arrest_rate is count() { where: status_desc ~ 'Cleared by Arrest%' } / count()
+```
+
+Without those descriptions, an AI asked *"How many crimes happened in Hollywood?"* might count rows of the offenses table, and it would over-count, because one crime can include several offenses. With them, it knows to use `case_count` for crimes. Write each description for a smart reader who has never seen your data: what does it measure, and what's the catch?
+
+> 🏷️ **`#"` and `#(doc)`.** On the Credible platform, the same kind of description is written `#(doc) …`, and Credible's AI searches those descriptions to find the right field. Either way, the idea is the same: **write down the meaning next to the field**.
+
+## Step 6: Let the AI check its own work with malloyyo
+
+AI assistants write Malloy that **looks** right but sometimes isn't: a function that doesn't exist, a SQL habit that Malloy doesn't allow, a measure that compiles but gives the wrong number. The fix is to let the AI **run** what it writes.
+
+That's what malloyyo is for. When you ran `malloyyo init`, it wrote `.mcp.json`, which gives Claude Code a set of malloyyo tools:
+
+| Tool | What the AI does with it |
+|---|---|
+| **compile** | checks that the model is valid Malloy, and reads the exact error message if it isn't |
+| **query** | runs a query against your real data and looks at the result: does the total match the row count? are there empty values? |
+| **yo_help** | reads malloyyo's built-in guides (for example, how to declare dashboard filters), written for the version you have installed |
+
+You'll see the AI write something, compile it, get an error, fix it, and try again, often several times, before it shows you anything. That loop is the point: **the AI learns what works from the compiler and the data, not from guessing.** The [LA crime repository](https://github.com/mrtimo/lapd-nibrs) has a short `.claude/settings.json` that lets these malloyyo tools run without asking permission each time.
+
+You can run the same checks yourself:
+
+```
+malloyyo lint                 # check the model and every dashboard
+malloyyo dashboard dev        # preview the dashboard at http://localhost:4173
+```
+
+> 💡 **Good habit to put in your prompts:** *"After every change, run `malloyyo lint` and fix every error before you tell me you're done."*
+>
+> **Using Antigravity?** The `.mcp.json` file is set up for Claude Code. Ask Antigravity to run `malloyyo lint` after every change, or to add malloyyo as an MCP server in its own settings, using the command `malloyyo mcp --develop`.
+
+## Step 7: DuckDB-WASM: a dashboard with no server
+
+Most dashboards need a **server**: a computer somewhere, running a database, that answers every click. Servers cost money and need someone to look after them.
+
+Your dashboard won't need one. **DuckDB-WASM** is the DuckDB database compiled to **WebAssembly**, a format that runs at nearly full speed **inside a web browser**. When someone opens your dashboard:
+
+1. GitHub Pages sends them an ordinary web page: just files, no server code.
+2. The page starts **Malloy and DuckDB inside their browser**.
+3. DuckDB reads your Parquet file straight from GitHub (`raw.githubusercontent.com`).
+4. Every time they change a filter, the query runs **on their own computer**.
+
+**What this makes possible:**
+
+* **Free hosting.** GitHub Pages serves static files for free. There's no database to pay for.
+* **Always current.** The page reads the newest Parquet file every time it opens. When your GitHub Action commits new data on the 1st and 15th, the dashboard shows it automatically. You don't need to rebuild anything.
+* **Nothing to log in to, nothing to break.** No server means no server to go down.
+* **Fast.** After the data loads, filters respond almost instantly, because there's no round trip to a server.
+
+**The trade-offs:** each visitor's browser downloads the data, so keep the Parquet file reasonably small (tens of MB, not gigabytes), and the first load takes a few seconds. The static site also limits each query to 5,000 rows. The LA Crime Map needed about 49,000 map points, so the AI returned them as a **nested list inside one row**, a `nest:` from [Chapter 3](03_views_and_nesting.malloynb) put to clever use.
+
+**Build and publish:**
+
+```
+malloyyo dashboard bundle --out docs --title "My Data Site"
+git add docs && git commit -m "Build dashboard" && git push
+```
+
+Then, on GitHub, go to **Settings → Pages**, choose **Deploy from a branch**, then **main** and **/docs**, and save. After a minute your site is live at `https://YOUR-USERNAME.github.io/REPO-NAME/`. (Or ask the AI to do these steps for you with the `gh` command.)
+
+## Step 8: Givens: dropdowns, sliders and multi-selects
+
+A dashboard is more useful when the viewer can **filter** it. In Malloy, filters come from **givens**: named values that a query receives when it runs ([Chapter 14](14_givens.malloynb)). In a malloyyo dashboard, **each given becomes a control** on the page, and the tags on the given decide which kind:
+
+| Control | How to declare the given | LA Crime Map example |
+|---|---|---|
+| **Dropdown** | `filter<string>` with `control=select` and a `suggest { … }` list | Offense, LAPD area, victim sex |
+| **Multi-select** (pick several, shown as chips) | `filter<string>` with `control=multiselect` | Days of the week |
+| **Range slider** (two handles) | `filter<number>` with `range_min=` and `range_max=` | (for example, model years 2010 to 2026) |
+| **Date range** (presets like *Last 30 days*, or from/to dates) | `filter<date>` or `filter<timestamp>` | Months |
+| **Checkbox** | `boolean` | (for example, *Include cancelled orders*) |
+| **Search box** with suggestions | `filter<string>` with a `suggest` but no `control=` | |
+
+Here are some of the LA Crime Map's givens, from its `givens.malloy`:
+
+```malloy
+##! experimental.givens
+given:
+  # label="Offense" control=select suggest { query=offense_suggest dimension=offense }
+  OFFENSE :: filter<string> is f''
+  # label="LAPD area" control=select suggest { query=area_suggest dimension=area_name }
+  AREA :: filter<string> is f''
+  # label="Days of week" control=multiselect suggest { query=day_suggest dimension=day_of_week }
+  WEEKDAYS :: filter<string> is f''
+  # label="Months"
+  PERIOD :: filter<date> is f''
+
+// The Offense dropdown's options: only offenses in the chosen area, most common first.
+query: offense_suggest is offenses_base -> {
+  where: crime_against_type ~ $CRIME_AGAINST, area_name ~ $AREA
+  group_by: offense
+  aggregate: offense_count
+}
+```
+
+And here's how the dashboard **uses** them: one filtered source that every chart is built on.
+
+```malloy
+source: filtered_offenses is offenses extend {
+  where:
+    offense ~ $OFFENSE,
+    area_name ~ $AREA,
+    day_of_week ~ $WEEKDAYS,
+    occurred_date ~ $PERIOD
+}
+
+query: top_offenses is filtered_offenses -> {
+  group_by: offense
+  aggregate: offense_count
+  order_by: offense_count desc
+  limit: 15
+}
+```
+
+Four ideas make this work:
+
+* **`f''` means "everything."** A `filter<…>` given that is empty doesn't filter at all, so the dashboard starts by showing all the data.
+* **`~` applies the filter.** `area_name ~ $AREA` keeps the rows that match whatever the viewer picked, whether that's one value, several values from a multi-select, or a date range.
+* **`suggest { query=… }` fills the dropdown.** The first column of that query becomes the list of options.
+* **Dropdowns can depend on each other.** Because `offense_suggest` uses `$AREA`, picking an area narrows the Offense dropdown to offenses that actually happened there.
+
+The Crime Map's month **slider** is a custom control in its `crime_map.jsx` file, bound to the `PERIOD` given. You don't need to write custom controls: the built-in ones in the table above are enough. Just tell the AI which controls you want.
+
+## Example: how the LA Crime Map was built
+
+The [lapd-nibrs repository](https://github.com/mrtimo/lapd-nibrs) was built in one evening in a conversation with Claude Code. These are the **kinds of prompts** that built it, in order, as you can see in the repository's history. A real conversation also includes lots of short follow-ups, such as "that chart is empty, why?"
+
+1. **The data.** *"The City of LA publishes LAPD crime data in NIBRS format as two datasets: offenses ([link](https://data.lacity.org/Public-Safety/LAPD-NIBRS-Offenses-Dataset/k7nn-b2ep/about_data)) and victims ([link](https://data.lacity.org/Public-Safety/LAPD-NIBRS-Victims-Dataset/gqf2-vm2j/about_data)). I pasted both data dictionaries below. Write DuckDB scripts that stream each CSV from its export URL and save it as typed, zstd-compressed Parquet in data/, and a GitHub Action that refreshes them on a schedule and commits the files."*
+2. **Don't commit unchanged data.** *"Make the Parquet output deterministic, so a refresh with no new data makes no commit."*
+3. **The model.** *"Build a Malloy semantic model on the two Parquet files, read from GitHub. Turn the NIBRS codes into readable offense names, add victim sex, descent and age groups, day of week and hour, and useful measures. Put a description on every field, make the raw code columns internal, and join offenses and victims on case_no."*
+4. **The dashboard.** *"Build an LA crime map dashboard with Plotly: a map, top offenses, offenses by month, a day-by-hour heatmap, offenses by area, and victim breakdowns. Add filters as givens: crime against, offense, area, victim type, sex, descent and age, a multi-select for days of the week, and a month range slider. Every chart should use every filter."*
+5. **A fix.** *"The map only shows some locations. Show every hundred block."* (The AI found the 5,000-row limit and switched to a nested list.)
+6. **More pages.** *"Add a Rising Crimes dashboard that compares recent months with the same months a year earlier, and a Crimes × Victims dashboard."*
+7. **Publish.** *"Run malloyyo lint, bundle the site into docs/, and publish it on GitHub Pages."*
+
+Notice the pattern: **one clear goal per prompt**, specific about what you want to see, and letting the AI check its own work along the way.
+
+## What to turn in
+
+Submit **two links** and keep the repository public until grades are posted:
+
+1. your **GitHub repository** URL
+2. your **live dashboard** URL (`https://….github.io/…`)
+
+Your repository must contain:
+
+* [ ] `data_dictionary.md`, copied from the portal
+* [ ] `data/….parquet`, created by your workflow
+* [ ] `.github/workflows/….yml`, scheduled for the **1st and 15th** of the month, plus a **Run workflow** button, with **at least one successful run** in the Actions tab
+* [ ] a Malloy model with **access modifiers**, a **`#"` description on every public field**, and an `index.malloy`
+* [ ] a dashboard with **at least three charts** and **at least three controls**: a dropdown, a multi-select, and a range slider or date range
+* [ ] `malloyyo lint` passes with no errors
+* [ ] a `README.md` with: the dataset's name and source link, what one row means, the update schedule, and links to the dashboard
+* [ ] a `PROMPTS.md` with your **five most important prompts**, and a short paragraph: **one thing the AI got wrong**, and how you or malloyyo caught it
+
+## Grading (100 points)
+
+| Part | What earns full credit | Points |
+|---|---|---|
+| Dataset and dictionary | Updated at least monthly; source linked; `data_dictionary.md` included | 10 |
+| Automatic download | Scheduled for the 1st and 15th; manual run succeeded; Parquet has sensible column types | 20 |
+| Malloy model | Readable dimensions and useful measures; access modifiers hide raw columns; every public field has a `#"` description | 20 |
+| malloyyo | `malloyyo lint` passes | 10 |
+| Dashboard | Live on GitHub Pages; at least three charts that answer real questions | 15 |
+| Givens | A working dropdown, multi-select, and slider or date range | 15 |
+| README and PROMPTS.md | Complete, with an honest reflection on what the AI got wrong | 10 |
+
+**Bonus (up to 5 points):** a dropdown whose options narrow based on another filter (like the Crime Map's Offense list), or a second dashboard page.
+
+## Tips
+
+* **Commit often.** If the AI breaks something, you can go back. Ask it: *"Commit this with a clear message."*
+* **One goal per prompt.** "Build the whole thing" gets you a mess. "Now add a day-of-week multi-select" gets you a feature.
+* **Check the numbers yourself.** Pick one fact you can check on the portal, such as the total row count or one month's count, and compare.
+* **When something fails, paste the exact error** into the AI, or a screenshot of what looks wrong.
+* **Never paste passwords or tokens** into a prompt, a file, or a commit.
+* **Stuck on Malloy?** [Chapter 18 · Troubleshooting](18_troubleshooting.malloynb), and the Malloy skills from [Chapter 18a](18a_installing_helpful_things.malloynb#8-credible-and-malloy-skills-for-ai-assistants).

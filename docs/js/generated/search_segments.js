@@ -8408,24 +8408,48 @@ window.SEARCH_SEGMENTS = [
   {
     "titles": [
       "Chapter 18a: Installing Helpful Things",
-      "5. Node.js"
+      "5. Git and GitHub"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "Node.js gives you the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">npx</span></span></code> command, which runs small programs straight from the internet without a separate install. You need it for the skills installer in Section 7."
+        "text": "<a href=\"22_homework_live_data_site\">Chapter 22</a>'s project lives in a GitHub repository. You need a GitHub account and Git on your computer. The GitHub command line (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">gh</span></span></code>) is optional, but it lets your AI assistant create the repository and turn on settings for you."
       },
       {
         "type": "p",
-        "text": "Close and reopen VS Code (or your terminal), then check it:"
-      },
-      {
-        "type": "code",
-        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">node --version</span></span>\n<span class=\"line\"><span style=\"color: #000000\">npx --version</span></span></pre>"
+        "text": "<strong>Install Git.</strong>"
       },
       {
         "type": "p",
-        "text": "Download the <strong>LTS</strong> version from <a href=\"https://nodejs.org/\">https://nodejs.org/</a> and run the installer."
+        "text": "<strong>Install the GitHub CLI</strong> (optional)."
+      },
+      {
+        "type": "p",
+        "text": "Create a free account at <a href=\"https://github.com/signup\">https://github.com/signup</a>."
+      },
+      {
+        "type": "p",
+        "text": "Check it: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">git</span><span style=\"color: #000000\"> </span><span style=\"color: #008000\">--version</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">gh</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">auth</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">status</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Mac:</strong> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">brew</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">gh</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Windows (PowerShell):</strong> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">winget</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">GitHub</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">cli</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "Sign in: run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">gh</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">auth</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">login</span></span></code>, choose <strong>GitHub.com</strong>, then <strong>HTTPS</strong>, then <strong>Login with a web browser</strong>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Mac:</strong> open Terminal and run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">git</span><span style=\"color: #000000\"> </span><span style=\"color: #008000\">--version</span></span></code>. If Git isn't installed, your Mac offers to install it (the \"command line developer tools\"). Click <strong>Install</strong>. Or, with Homebrew: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">brew</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">git</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Windows:</strong> download <strong>Git for Windows</strong> from <a href=\"https://git-scm.com/download/win\">https://git-scm.com/download/win</a> and accept the defaults. It also gives you <strong>Git Bash</strong>, which some AI tools use."
       }
     ],
     "path": "/textbook/18a_installing_helpful_things.malloynb"
@@ -8433,40 +8457,161 @@ window.SEARCH_SEGMENTS = [
   {
     "titles": [
       "Chapter 18a: Installing Helpful Things",
-      "6. Claude Code"
+      "6. Node.js and malloyyo"
     ],
     "paragraphs": [
       {
         "type": "p",
-        "text": "<strong>Claude Code</strong> is an AI assistant that works inside your project folder. You describe what you want in plain English, such as <em>\"write a query that shows sales by month\"</em> or <em>\"why does this cell give an error?\"</em>, and it reads your files, writes Malloy, and can run it. It needs a Claude account (a paid plan or an API account)."
+        "text": "<strong>malloyyo</strong> is a command-line tool for Malloy projects. It checks your model and dashboards (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">lint</span></span></code>), runs SQL with its own built-in DuckDB (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">sql</span></span></code>), previews a dashboard on your computer (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dashboard</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dev</span></span></code>), and builds a static website from it (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dashboard</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">bundle</span></span></code>). It also gives an AI assistant a way to compile and run Malloy, so the AI can check its own work. <a href=\"22_homework_live_data_site\">Chapter 22</a> shows how."
       },
       {
         "type": "p",
-        "text": "<strong>In VS Code (easiest):</strong>"
+        "text": "malloyyo needs <strong>Node.js version 22 or newer</strong>. Node.js comes with <strong>npm</strong>, which installs JavaScript programs, and <strong>npx</strong>, which runs them without installing (the skills installer in Section 8 uses it)."
       },
       {
         "type": "p",
-        "text": "Click the Claude icon in the sidebar and sign in when asked."
+        "text": "⚠️ <strong>Use the right package name.</strong> The old <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span></span></code> package was removed from npm, so <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">npm</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">malloyyo</span></span></code> fails. The current package is <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">@</span><span style=\"color: #001080\">malloydata</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">malloyyo</span></span></code></strong>."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "6. Node.js and malloyyo",
+      "Mac"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Install malloyyo:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">npm install -g @malloydata/malloyyo</span></span></pre>"
       },
       {
         "type": "p",
-        "text": "Install the extension published by <strong>Anthropic</strong>."
+        "text": "Check it: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #008000\">--help</span></span></code>"
       },
       {
         "type": "p",
-        "text": "Open the <strong>Extensions</strong> panel and search for <strong>Claude Code</strong>."
+        "text": "Open a <strong>new</strong> Terminal window and check it worked:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">node -v</span></span>\n<span class=\"line\"><span style=\"color: #000000\">npm -v</span></span></pre>"
       },
       {
         "type": "p",
-        "text": "<strong>In a terminal:</strong>"
+        "text": "If you get a permissions error, run it again with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">sudo</span></span></code> in front (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">sudo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">npm</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> -</span><span style=\"color: #001080\">g</span><span style=\"color: #000000\"> @</span><span style=\"color: #001080\">malloydata</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">malloyyo</span></span></code>) and type your Mac password."
       },
       {
         "type": "p",
-        "text": "<strong>Mac or Linux:</strong>"
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">node</span><span style=\"color: #000000\"> -</span><span style=\"color: #001080\">v</span></span></code> should print <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">v22</span></span></code> or higher."
+      },
+      {
+        "type": "p",
+        "text": "Go to <a href=\"https://nodejs.org\">https://nodejs.org</a>, download the <strong>LTS</strong> macOS Installer (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">pkg</span></span></code>), open it from your Downloads folder and click through. (With Homebrew, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">brew</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">node</span></span></code> works too.)"
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "6. Node.js and malloyyo",
+      "Windows"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Install Node.js in one of two ways:"
+      },
+      {
+        "type": "p",
+        "text": "Install malloyyo:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">npm install -g @malloydata/malloyyo</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Check it: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #008000\">--help</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Command line:</strong> open PowerShell and run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">winget</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">OpenJS</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">NodeJS</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">LTS</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "Close PowerShell, open a <strong>new</strong> window, and check <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">node</span><span style=\"color: #000000\"> -</span><span style=\"color: #001080\">v</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">npm</span><span style=\"color: #000000\"> -</span><span style=\"color: #001080\">v</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Installer:</strong> download the Windows Installer (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">msi</span></span></code>, <strong>LTS</strong>) from <a href=\"https://nodejs.org\">https://nodejs.org</a> and click through with the default options."
+      },
+      {
+        "type": "p",
+        "text": "If PowerShell says <strong>\"running scripts is disabled\"</strong> when you run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">npm</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span></span></code>, run this once and try again:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "6. Node.js and malloyyo",
+      "Updating"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "malloyyo changes often. To get the newest version, run the install command again: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">npm</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> -</span><span style=\"color: #001080\">g</span><span style=\"color: #000000\"> @</span><span style=\"color: #001080\">malloydata</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\">@</span><span style=\"color: #001080\">latest</span></span></code>."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "7. An AI command-line assistant: Claude Code or Antigravity"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "An <strong>AI CLI</strong> is an AI assistant that works inside your project folder from a terminal. You describe what you want in plain English, such as <em>\"write a query that shows sales by month\"</em> or <em>\"why does this cell give an error?\"</em>, and it reads your files, writes code, and can run commands. Install <strong>one</strong> of these. Neither needs Node.js."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "7. An AI command-line assistant: Claude Code or Antigravity",
+      "Claude Code"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Claude Code needs a Claude account (a paid plan or an API account). It runs on macOS 13 or newer and Windows 10 (version 1809) or newer."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Mac (Terminal):</strong>"
       },
       {
         "type": "p",
         "text": "<strong>Windows (PowerShell):</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Windows (Command Prompt):</strong>"
       },
       {
         "type": "code",
@@ -8477,12 +8622,24 @@ window.SEARCH_SEGMENTS = [
         "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">irm https://claude.ai/install.ps1 | iex</span></span></pre>"
       },
       {
-        "type": "p",
-        "text": "Then go to your project folder in a terminal and type <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">claude</span></span></code>. Full instructions: <a href=\"https://code.claude.com/docs/en/setup\">https://code.claude.com/docs/en/setup</a>."
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</span></span></pre>"
       },
       {
         "type": "p",
-        "text": "🧠 <strong>Use it to learn, not to skip learning.</strong> An AI assistant is great for explaining an error, suggesting a query, or checking your work. But you're graded on understanding your own notebook. Read every line it writes, and be able to explain it. Follow your course's policy on AI use."
+        "text": "Or, with Homebrew: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">brew</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #008000\">--cask claude-code</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "The install command <strong>shows no progress</strong> while it downloads, so be patient. When it finishes, open a <strong>new</strong> terminal window and run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">claude</span><span style=\"color: #000000\"> </span><span style=\"color: #008000\">--version</span></span></code>. A working install prints a version number. Then go to your project folder and run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">claude</span></span></code> to sign in."
+      },
+      {
+        "type": "p",
+        "text": "On Windows you don't need to run as Administrator. Installing <strong>Git for Windows</strong> (Section 5) is recommended, because it provides Git Bash, which some of Claude Code's tools use."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Prefer a sidebar?</strong> Claude Code also has a VS Code extension: in the <strong>Extensions</strong> panel, search for <strong>Claude Code</strong>, install the one published by <strong>Anthropic</strong>, then click the Claude icon in the sidebar and sign in. Full instructions: <a href=\"https://code.claude.com/docs/en/setup\">https://code.claude.com/docs/en/setup</a>."
       }
     ],
     "path": "/textbook/18a_installing_helpful_things.malloynb"
@@ -8490,7 +8647,61 @@ window.SEARCH_SEGMENTS = [
   {
     "titles": [
       "Chapter 18a: Installing Helpful Things",
-      "7. Credible and Malloy skills for AI assistants"
+      "7. An AI command-line assistant: Claude Code or Antigravity",
+      "Google Antigravity CLI"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The Antigravity CLI signs in with a Google account."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Mac (Terminal):</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Windows (PowerShell):</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Windows (Command Prompt):</strong>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">curl -fsSL https://antigravity.google/cli/install.sh | bash</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">irm https://antigravity.google/cli/install.ps1 | iex</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">curl -fsSL https://antigravity.google/cli/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "It installs to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">~/.</span><span style=\"color: #001080\">local</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">bin</span></span></code>. Run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\"> ~/.</span><span style=\"color: #001080\">zshrc</span></span></code> (or open a new Terminal window) so the command is found. Or, with Homebrew: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">brew</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #008000\">--cask antigravity-cli</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "The command is <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">agy</span></span></code></strong>. The first time you run it, it opens your web browser so you can sign in with your Google account."
+      },
+      {
+        "type": "p",
+        "text": "🔁 <strong>\"Command not found\"?</strong> After installing anything, <strong>close the terminal and open a new one</strong>. A terminal only learns about new programs when it starts."
+      },
+      {
+        "type": "p",
+        "text": "🧠 <strong>Use it to learn, not to skip learning.</strong> An AI assistant is great for explaining an error, suggesting a query, or checking your work. But you're graded on understanding your own work. Read what it writes, and be able to explain it. Follow your course's policy on AI use."
+      }
+    ],
+    "path": "/textbook/18a_installing_helpful_things.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 18a: Installing Helpful Things",
+      "8. Credible and Malloy skills for AI assistants"
     ],
     "paragraphs": [
       {
@@ -8515,7 +8726,7 @@ window.SEARCH_SEGMENTS = [
   {
     "titles": [
       "Chapter 18a: Installing Helpful Things",
-      "7. Credible and Malloy skills for AI assistants",
+      "8. Credible and Malloy skills for AI assistants",
       "Way 1: the Credible VS Code extension"
     ],
     "paragraphs": [
@@ -8565,7 +8776,7 @@ window.SEARCH_SEGMENTS = [
   {
     "titles": [
       "Chapter 18a: Installing Helpful Things",
-      "7. Credible and Malloy skills for AI assistants",
+      "8. Credible and Malloy skills for AI assistants",
       "Way 2: download the skills into your project folder"
     ],
     "paragraphs": [
@@ -8575,7 +8786,7 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
-        "text": "<strong>Option A: one command (needs Node.js, Section 5).</strong> In VS Code, open your project folder, open a terminal (<strong>Terminal → New Terminal</strong>), and run:"
+        "text": "<strong>Option A: one command (needs Node.js, Section 6).</strong> In VS Code, open your project folder, open a terminal (<strong>Terminal → New Terminal</strong>), and run:"
       },
       {
         "type": "code",
@@ -8588,6 +8799,10 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "code",
         "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">npx -y @malloy-publisher/skills@latest list</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Using a different AI tool, such as Antigravity? Run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">npx</span><span style=\"color: #000000\"> -</span><span style=\"color: #001080\">y</span><span style=\"color: #000000\"> @</span><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">publisher</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">@</span><span style=\"color: #001080\">latest</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">agents</span></span></code> instead. That puts the same skills in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">agents</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">/</span></span></code>, the folder many other AI tools read. If your tool doesn't pick them up on its own, tell it: <em>\"Read the skills in .agents/skills before writing Malloy.\"</em>"
       },
       {
         "type": "p",
@@ -8627,7 +8842,7 @@ window.SEARCH_SEGMENTS = [
   {
     "titles": [
       "Chapter 18a: Installing Helpful Things",
-      "7. Credible and Malloy skills for AI assistants",
+      "8. Credible and Malloy skills for AI assistants",
       "Check that the skills work"
     ],
     "paragraphs": [
@@ -8662,11 +8877,15 @@ window.SEARCH_SEGMENTS = [
       },
       {
         "type": "p",
+        "text": "<strong>\"Command not found\"?</strong> Close the terminal and open a new one."
+      },
+      {
+        "type": "p",
         "text": "<strong>For converting data:</strong> Python and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pip</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span></span></code>."
       },
       {
         "type": "p",
-        "text": "<strong>For AI help:</strong> Claude Code, plus the Malloy skills in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">claude</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">/</span></span></code> inside your project folder."
+        "text": "<strong>For automatic data and dashboards (Chapter 22):</strong> Git and a GitHub account, Node.js 22+ and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">npm</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> -</span><span style=\"color: #001080\">g</span><span style=\"color: #000000\"> @</span><span style=\"color: #001080\">malloydata</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">malloyyo</span></span></code>."
       },
       {
         "type": "p",
@@ -8675,6 +8894,10 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "<strong>Two ways to get the skills:</strong> the Credible VS Code extension (<strong>Enable Credible (Workspace)</strong>), or download them yourself with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">npx</span><span style=\"color: #000000\"> -</span><span style=\"color: #001080\">y</span><span style=\"color: #000000\"> @</span><span style=\"color: #001080\">malloy</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">publisher</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">@</span><span style=\"color: #001080\">latest</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">install</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">claude</span></span></code> or the ZIP from GitHub."
+      },
+      {
+        "type": "p",
+        "text": "<strong>For AI help:</strong> Claude Code (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">claude</span></span></code>) or the Antigravity CLI (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">agy</span></span></code>), plus the Malloy skills in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">claude</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">skills</span><span style=\"color: #000000\">/</span></span></code> inside your project folder."
       }
     ],
     "path": "/textbook/18a_installing_helpful_things.malloynb"
@@ -10163,6 +10386,679 @@ window.SEARCH_SEGMENTS = [
   },
   {
     "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "In this project you'll work with an <strong>AI assistant</strong> to build a public website that keeps itself up to date. When you're done, your GitHub repository will:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>download a dataset automatically</strong> twice a month, using a GitHub Action"
+      },
+      {
+        "type": "p",
+        "text": "<strong>save it as a Parquet file</strong> in the repository"
+      },
+      {
+        "type": "p",
+        "text": "hold a <strong>Malloy model</strong> of the data, with documentation the AI (and people) can read"
+      },
+      {
+        "type": "p",
+        "text": "publish an <strong>interactive dashboard</strong> on GitHub Pages, with dropdowns, sliders and multi-selects, that runs entirely in the viewer's web browser"
+      },
+      {
+        "type": "p",
+        "text": "Here's a finished example, built in one evening: <strong><a href=\"https://mrtimo.github.io/lapd-nibrs/crime_map.html\">the LA Crime Map</a></strong> (<a href=\"https://github.com/mrtimo/lapd-nibrs\">its repository</a>). It reads Los Angeles Police Department crime data that refreshes automatically, and every chart responds to nine filters."
+      },
+      {
+        "type": "p",
+        "text": "You'll use three tools:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>GitHub</strong>, to store the project, run the automatic download, and host the website"
+      },
+      {
+        "type": "p",
+        "text": "<strong>malloyyo</strong>, a command-line tool that checks Malloy, previews dashboards and builds the website"
+      },
+      {
+        "type": "p",
+        "text": "<strong>an AI command-line assistant</strong>: <strong>Claude Code</strong> (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">claude</span></span></code>) or <strong>Google Antigravity</strong> (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">agy</span></span></code>)"
+      },
+      {
+        "type": "p",
+        "text": "🧑‍✈️ <strong>You're the pilot.</strong> The AI writes most of the code, but you choose the data, decide what the dashboard should show, check the results, and explain how it works. Read what the AI writes. If you can't explain a step, ask the AI to explain it before you move on."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Before you start: check your tools"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Do this first. Open a <strong>new</strong> terminal and run each check. If one fails, follow the matching section of <a href=\"18a_installing_helpful_things\">Chapter 18a · Installing Helpful Things</a>."
+      },
+      {
+        "type": "p",
+        "text": "🔁 <strong>\"Command not found\"</strong> right after installing something? Close the terminal and open a new one."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Step 1: Find a dataset that updates every month"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Use <strong><a href=\"https://data.wa.gov/\">data.wa.gov</a></strong>, Washington State's open-data portal, or one of the many other portals built on the same system (Socrata, also called Tyler Data & Insights). A few:"
+      },
+      {
+        "type": "p",
+        "text": "You can recognize these portals by their dataset pages: each has an <strong>About this Dataset</strong> section, an <strong>Export</strong> button, and a short ID in the URL with two groups of four letters and numbers, like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">f6w7</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">q2d2</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Your dataset must:</strong>"
+      },
+      {
+        "type": "p",
+        "text": "be <strong>small enough for GitHub</strong>: a single file in a GitHub repository must be under 100 MB. Parquet is usually 5–20 times smaller than the CSV, so a CSV up to about 500 MB is usually fine. If yours is bigger, keep only the columns or years you need."
+      },
+      {
+        "type": "p",
+        "text": "have a <strong>date column</strong>, and at least <strong>10,000 rows</strong>"
+      },
+      {
+        "type": "p",
+        "text": "have <strong>more than one kind of column</strong>: categories (Kind), places (Where), amounts (How much), as in <a href=\"19_making_data_sing\">Chapter 19</a>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>be updated at least monthly.</strong> On the dataset's page, look under <strong>About this Dataset</strong> for <strong>Posting Frequency</strong> or <strong>Update Frequency</strong> (it should say <em>Monthly</em>, <em>Weekly</em> or <em>Daily</em>), and check that <strong>Last Updated</strong> is recent."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Find the download URL.</strong> Copy the dataset's ID from its URL, and put it in this pattern:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">https://data.wa.gov/api/views/DATASET-ID/rows.csv?accessType=DOWNLOAD</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "For another portal, change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">wa</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">gov</span></span></code> to that portal's address. Paste the URL into your browser. If a CSV file starts downloading, it works."
+      },
+      {
+        "type": "p",
+        "text": "🔌 <strong>Example (don't use this one for your project).</strong> The <a href=\"https://data.wa.gov/Transportation/Electric-Vehicle-Population-Data/f6w7-q2d2/about_data\">Electric Vehicle Population Data</a> has the ID <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">f6w7</span><span style=\"color: #000000\">-</span><span style=\"color: #001080\">q2d2</span></span></code>, and its Posting Frequency is <strong>Monthly</strong>. Its download URL is <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">https</span><span style=\"color: #000000\">:</span><span style=\"color: #008000\">//data.wa.gov/api/views/f6w7-q2d2/rows.csv?accessType=DOWNLOAD</span></span></code>."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Step 2: Copy the data dictionary"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "On the dataset's page, scroll to <strong>Columns in this Dataset</strong>. That table is the <strong>data dictionary</strong>: every column's name, a description, its API field name, and its <strong>data type</strong> (Text, Number, Floating Timestamp, and so on). Expand any rows that are collapsed, select the whole table, copy it, and paste it into a new file named <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data_dictionary</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">md</span></span></code></strong> in your project folder. Also copy the <strong>About</strong> text (who publishes it, what one row means, how often it updates) to the top of that file."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Why this matters:</strong> the AI can't see the portal's web page, and if it guesses column types from the CSV, it gets some wrong. With the dictionary, it can:"
+      },
+      {
+        "type": "p",
+        "text": "turn <strong>YES/NO</strong> columns into true/false"
+      },
+      {
+        "type": "p",
+        "text": "know what each <strong>code means</strong>, so the Malloy model can give it a readable name"
+      },
+      {
+        "type": "p",
+        "text": "turn <strong>dates and times</strong> into real timestamps, instead of text like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">0</span><span style=\"color: #000000\">3/</span><span style=\"color: #098658\">15</span><span style=\"color: #000000\">/</span><span style=\"color: #098658\">2025</span><span style=\"color: #000000\"> </span><span style=\"color: #098658\">12</span><span style=\"color: #000000\">:</span><span style=\"color: #098658\">0</span><span style=\"color: #000000\">0:</span><span style=\"color: #098658\">0</span><span style=\"color: #000000\">0 </span><span style=\"color: #001080\">AM</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "keep <strong>codes as text</strong>, so ZIP codes, ID numbers and codes like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">0</span><span style=\"color: #000000\">2</span></span></code> keep their leading zeros"
+      },
+      {
+        "type": "p",
+        "text": "The LA crime project did exactly this. Its conversion followed the portal's dictionary (Text → text, Floating Timestamp → timestamp, Number → number), and the AI caught problems a guess would miss: area names padded with spaces, a location of 0,0 meaning \"no location recorded\", and codes that lost their leading zeros in one of the two files."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Step 3: Set up the project"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "In a terminal:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">mkdir my-data-site</span></span>\n<span class=\"line\"><span style=\"color: #000000\">cd my-data-site</span></span>\n<span class=\"line\"><span style=\"color: #000000\">git init</span></span>\n<span class=\"line\"><span style=\"color: #000000\">malloyyo init</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Move your <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data_dictionary</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">md</span></span></code> into this folder. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">init</span></span></code> sets the folder up as a Malloy project. Among other things, it writes a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">mcp</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> file that connects Claude Code to malloyyo (more on that in <a href=\"#step-6-let-the-ai-check-its-own-work-with-malloyyo\">Step 6</a>)."
+      },
+      {
+        "type": "p",
+        "text": "Next, install the Malloy skills (see <a href=\"18a_installing_helpful_things#8-credible-and-malloy-skills-for-ai-assistants\">Chapter 18a §8</a>), then start your AI assistant in this folder:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">claude</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "(or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">agy</span></span></code> for Antigravity). Everything from here on is a conversation with the AI."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Step 4: Ask the AI for the automatic download"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A <strong>GitHub Action</strong> is a small program that GitHub runs for you on its own computers, on a <strong>schedule</strong>. It's described in a file in your repository, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">github</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">workflows</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">something</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">yml</span></span></code>. Yours will download the CSV, convert it to Parquet with DuckDB, and commit the new file. Your laptop doesn't need to be on."
+      },
+      {
+        "type": "p",
+        "text": "Here's a prompt to start from. Fill in the blanks, and paste it into your AI assistant:"
+      },
+      {
+        "type": "p",
+        "text": "I want a public GitHub repository that keeps a copy of this dataset as a Parquet file:"
+      },
+      {
+        "type": "p",
+        "text": "CSV download URL: <strong>[your URL from Step 1]</strong>"
+      },
+      {
+        "type": "p",
+        "text": "The data dictionary is in <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data_dictionary</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">md</span></span></code>. Use it to give every column the right type: codes and IDs stay as text, dates become timestamps, numbers become numbers, YES/NO becomes true/false. Use lower_snake_case column names."
+      },
+      {
+        "type": "p",
+        "text": "Dataset: <strong>[name]</strong>, from <strong>[portal page URL]</strong>"
+      },
+      {
+        "type": "p",
+        "text": "Please:"
+      },
+      {
+        "type": "p",
+        "text": "Sort the rows so that unchanged data gives an identical file (so there's no commit)."
+      },
+      {
+        "type": "p",
+        "text": "Run the script once here, and show me the row count and the column types. Check the types against the data dictionary and tell me about anything odd you find."
+      },
+      {
+        "type": "p",
+        "text": "Create the public GitHub repository and push everything."
+      },
+      {
+        "type": "p",
+        "text": "Write a DuckDB SQL script that reads the CSV straight from the URL and writes <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/[</span><span style=\"color: #001080\">name</span><span style=\"color: #000000\">].</span><span style=\"color: #001080\">parquet</span></span></code> with zstd compression. Don't save the CSV to disk."
+      },
+      {
+        "type": "p",
+        "text": "Write a GitHub Actions workflow that runs that script on the <strong>1st and 15th of every month</strong>, and can also be run by hand. It should commit and push the Parquet file only if it changed, and stop with an error if the file has 0 rows."
+      },
+      {
+        "type": "p",
+        "text": "<strong>What to look for in the workflow file.</strong> Ask the AI to explain any line you don't understand. The key parts look like this:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">on:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  schedule:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    - cron: &quot;0 9 1,15 * *&quot;   # 09:00 UTC on the 1st and 15th of every month</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  workflow_dispatch:           # adds a &quot;Run workflow&quot; button</span></span>\n<span class=\"line\"><span style=\"color: #000000\">permissions:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  contents: write              # lets the job commit the new file</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">cron</span></span></code> line is a schedule written as <em>minute hour day-of-month month day-of-week</em>. GitHub uses <strong>UTC</strong> time, which is 7 or 8 hours ahead of the U.S. Pacific time zone."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Test it now. Don't wait for the 1st of the month.</strong> On GitHub, open your repository's <strong>Actions</strong> tab, click your workflow, and click <strong>Run workflow</strong>. After a minute or two you should see a ✅ green check. If the data changed, you'll see a new commit in the repository, such as <em>\"Refresh data 2026-11-20\"</em>."
+      },
+      {
+        "type": "p",
+        "text": "🛠️ <strong>The run failed with \"Permission denied\" or a 403 error when pushing?</strong> Go to the repository's <strong>Settings → Actions → General → Workflow permissions</strong>, choose <strong>Read and write permissions</strong>, save, and run it again. For any other error, click the failed run, copy the red error text, and paste it to your AI assistant."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Step 5: Ask the AI to write the Malloy model"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Now ask for the model. For example:"
+      },
+      {
+        "type": "p",
+        "text": "Build a Malloy semantic model on <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/[</span><span style=\"color: #001080\">name</span><span style=\"color: #000000\">].</span><span style=\"color: #001080\">parquet</span></span></code>. Read it from its <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">raw</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">githubusercontent</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">com</span></span></code> URL, so a website can read it too. Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data_dictionary</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">md</span></span></code> for descriptions. I want:"
+      },
+      {
+        "type": "p",
+        "text": "the measures someone would ask about (counts, totals, averages, rates)"
+      },
+      {
+        "type": "p",
+        "text": "readable dimensions (for example, code values turned into names with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">pick</span></span></code>, dates as day, month and year, day of week)"
+      },
+      {
+        "type": "p",
+        "text": "an <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">index</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> that exports only the sources people should use"
+      },
+      {
+        "type": "p",
+        "text": "a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> description on <strong>every</strong> dimension and measure, in plain English, saying what it means and any catch, such as what is counted"
+      },
+      {
+        "type": "p",
+        "text": "<strong>access modifiers</strong>: make the raw code columns that I shouldn't group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">internal</span></span></code>, and keep the readable fields <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">public</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "After every change, run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">lint</span></span></code>, and run a few test queries to check that the numbers make sense."
+      },
+      {
+        "type": "p",
+        "text": "Two features in this model are there <strong>for the AI as much as for people</strong>."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Step 5: Ask the AI to write the Malloy model",
+      "Access modifiers: a clean menu"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Raw data is full of columns that are easy to misuse: codes like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #098658\">23</span><span style=\"color: #000000\">C</span></span></code>, flags, internal IDs, columns that were replaced by better versions. <strong>Access modifiers</strong> let you hide them from anyone who <em>uses</em> the model, while your own definitions can still use them."
+      },
+      {
+        "type": "p",
+        "text": "From the LA crime model:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">##! </span><span style=\"color: #001080\">experimental</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">access_modifiers</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">offenses_base</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">offenses_table</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">include</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">public</span><span style=\"color: #000000\">: *</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #008000\">// raw source codes: replaced by offense, offense_group, crime_against_type, ...</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">internal</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">area</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">nibr_group</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">weapon_used_cd</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">premise_cd</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">status</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">crime_against</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">time_occ</span></span>\n<span class=\"line\"><span style=\"color: #000000\">} </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #008000\">#&quot; NIBRS offense category name, from the NIBR code (e.g. 23C = Shoplifting).</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">public</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">offense</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;Shoplifting&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">nibr_code</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;23C&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;Robbery&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">nibr_code</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;120&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #008000\">// ...</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Why this helps.</strong> When the AI (or a classmate) explores your model, the list of fields is shorter and every field in it is one you chose and explained. The AI can't accidentally group by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">crime_against</span></span></code> (a raw code) when you meant <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">crime_against_type</span></span></code> (the cleaned-up version), because the raw one isn't on the menu. You can also change internal fields later without breaking any dashboard. Access modifiers are still an <strong>experimental</strong> Malloy feature, which is why the file starts with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">##! </span><span style=\"color: #001080\">experimental</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">access_modifiers</span></span></code>."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Step 5: Ask the AI to write the Malloy model",
+      "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> descriptions: telling the AI what the data means"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> line just before a field is its <strong>description</strong>. It's not a comment that disappears: the description stays attached to the field, and tools show it. When an AI assistant reads your model, it reads these descriptions to choose fields. (<a href=\"15_model_review\">Chapter 15</a> covers them in more detail.)"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #008000\">#&quot; Number of offenses. An incident (case_no) can list several offenses.</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">public</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">offense_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #008000\">#&quot; Number of distinct incidents (case numbers).</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">public</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">case_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">case_no</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #008000\">#&quot; Share of offenses cleared by arrest.</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">public</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arrest_rate</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">status_desc</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #A31515\">&#39;Cleared by Arrest%&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Without those descriptions, an AI asked <em>\"How many crimes happened in Hollywood?\"</em> might count rows of the offenses table, and it would over-count, because one crime can include several offenses. With them, it knows to use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">case_count</span></span></code> for crimes. Write each description for a smart reader who has never seen your data: what does it measure, and what's the catch?"
+      },
+      {
+        "type": "p",
+        "text": "🏷️ <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#(doc)</span></span></code>.</strong> On the Credible platform, the same kind of description is written <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#(doc) …</span></span></code>, and Credible's AI searches those descriptions to find the right field. Either way, the idea is the same: <strong>write down the meaning next to the field</strong>."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Step 6: Let the AI check its own work with malloyyo"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "AI assistants write Malloy that <strong>looks</strong> right but sometimes isn't: a function that doesn't exist, a SQL habit that Malloy doesn't allow, a measure that compiles but gives the wrong number. The fix is to let the AI <strong>run</strong> what it writes."
+      },
+      {
+        "type": "p",
+        "text": "That's what malloyyo is for. When you ran <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">init</span></span></code>, it wrote <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">mcp</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code>, which gives Claude Code a set of malloyyo tools:"
+      },
+      {
+        "type": "p",
+        "text": "You'll see the AI write something, compile it, get an error, fix it, and try again, often several times, before it shows you anything. That loop is the point: <strong>the AI learns what works from the compiler and the data, not from guessing.</strong> The <a href=\"https://github.com/mrtimo/lapd-nibrs\">LA crime repository</a> has a short <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">claude</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">settings</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> that lets these malloyyo tools run without asking permission each time."
+      },
+      {
+        "type": "p",
+        "text": "You can run the same checks yourself:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">malloyyo lint                 # check the model and every dashboard</span></span>\n<span class=\"line\"><span style=\"color: #000000\">malloyyo dashboard dev        # preview the dashboard at http://localhost:4173</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "💡 <strong>Good habit to put in your prompts:</strong> <em>\"After every change, run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">lint</span></span></code> and fix every error before you tell me you're done.\"</em>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Using Antigravity?</strong> The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">mcp</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">json</span></span></code> file is set up for Claude Code. Ask Antigravity to run <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">lint</span></span></code> after every change, or to add malloyyo as an MCP server in its own settings, using the command <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">mcp</span><span style=\"color: #000000\"> </span><span style=\"color: #008000\">--develop</span></span></code>."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Step 7: DuckDB-WASM: a dashboard with no server"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Most dashboards need a <strong>server</strong>: a computer somewhere, running a database, that answers every click. Servers cost money and need someone to look after them."
+      },
+      {
+        "type": "p",
+        "text": "Your dashboard won't need one. <strong>DuckDB-WASM</strong> is the DuckDB database compiled to <strong>WebAssembly</strong>, a format that runs at nearly full speed <strong>inside a web browser</strong>. When someone opens your dashboard:"
+      },
+      {
+        "type": "p",
+        "text": "GitHub Pages sends them an ordinary web page: just files, no server code."
+      },
+      {
+        "type": "p",
+        "text": "DuckDB reads your Parquet file straight from GitHub (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">raw</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">githubusercontent</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">com</span></span></code>)."
+      },
+      {
+        "type": "p",
+        "text": "The page starts <strong>Malloy and DuckDB inside their browser</strong>."
+      },
+      {
+        "type": "p",
+        "text": "Every time they change a filter, the query runs <strong>on their own computer</strong>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>What this makes possible:</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Free hosting.</strong> GitHub Pages serves static files for free. There's no database to pay for."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Always current.</strong> The page reads the newest Parquet file every time it opens. When your GitHub Action commits new data on the 1st and 15th, the dashboard shows it automatically. You don't need to rebuild anything."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Nothing to log in to, nothing to break.</strong> No server means no server to go down."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Fast.</strong> After the data loads, filters respond almost instantly, because there's no round trip to a server."
+      },
+      {
+        "type": "p",
+        "text": "<strong>The trade-offs:</strong> each visitor's browser downloads the data, so keep the Parquet file reasonably small (tens of MB, not gigabytes), and the first load takes a few seconds. The static site also limits each query to 5,000 rows. The LA Crime Map needed about 49,000 map points, so the AI returned them as a <strong>nested list inside one row</strong>, a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">:</span></span></code> from <a href=\"03_views_and_nesting\">Chapter 3</a> put to clever use."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Build and publish:</strong>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-txt\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">malloyyo dashboard bundle --out docs --title &quot;My Data Site&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">git add docs &amp;&amp; git commit -m &quot;Build dashboard&quot; &amp;&amp; git push</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Then, on GitHub, go to <strong>Settings → Pages</strong>, choose <strong>Deploy from a branch</strong>, then <strong>main</strong> and <strong>/docs</strong>, and save. After a minute your site is live at <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">https</span><span style=\"color: #000000\">:</span><span style=\"color: #008000\">//YOUR-USERNAME.github.io/REPO-NAME/</span></span></code>. (Or ask the AI to do these steps for you with the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">gh</span></span></code> command.)"
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Step 8: Givens: dropdowns, sliders and multi-selects"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A dashboard is more useful when the viewer can <strong>filter</strong> it. In Malloy, filters come from <strong>givens</strong>: named values that a query receives when it runs (<a href=\"14_givens\">Chapter 14</a>). In a malloyyo dashboard, <strong>each given becomes a control</strong> on the page, and the tags on the given decide which kind:"
+      },
+      {
+        "type": "p",
+        "text": "Here are some of the LA Crime Map's givens, from its <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">givens</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">##! </span><span style=\"color: #001080\">experimental</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">givens</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">given</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">label</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;Offense&quot;</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">control</span><span style=\"color: #000000\">=</span><span style=\"color: #001080\">select</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">suggest</span><span style=\"color: #000000\"> { </span><span style=\"color: #001080\">query</span><span style=\"color: #000000\">=</span><span style=\"color: #001080\">offense_suggest</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dimension</span><span style=\"color: #000000\">=</span><span style=\"color: #001080\">offense</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">OFFENSE</span><span style=\"color: #000000\"> :: </span><span style=\"color: #AF00DB\">filter</span><span style=\"color: #000000\">&lt;</span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\">&gt; </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">f&#39;&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">label</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;LAPD area&quot;</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">control</span><span style=\"color: #000000\">=</span><span style=\"color: #001080\">select</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">suggest</span><span style=\"color: #000000\"> { </span><span style=\"color: #001080\">query</span><span style=\"color: #000000\">=</span><span style=\"color: #001080\">area_suggest</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dimension</span><span style=\"color: #000000\">=</span><span style=\"color: #001080\">area_name</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">AREA</span><span style=\"color: #000000\"> :: </span><span style=\"color: #AF00DB\">filter</span><span style=\"color: #000000\">&lt;</span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\">&gt; </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">f&#39;&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">label</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;Days of week&quot;</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">control</span><span style=\"color: #000000\">=</span><span style=\"color: #001080\">multiselect</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">suggest</span><span style=\"color: #000000\"> { </span><span style=\"color: #001080\">query</span><span style=\"color: #000000\">=</span><span style=\"color: #001080\">day_suggest</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dimension</span><span style=\"color: #000000\">=</span><span style=\"color: #001080\">day_of_week</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">WEEKDAYS</span><span style=\"color: #000000\"> :: </span><span style=\"color: #AF00DB\">filter</span><span style=\"color: #000000\">&lt;</span><span style=\"color: #0000FF\">string</span><span style=\"color: #000000\">&gt; </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">f&#39;&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">label</span><span style=\"color: #000000\">=</span><span style=\"color: #A31515\">&quot;Months&quot;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #001080\">PERIOD</span><span style=\"color: #000000\"> :: </span><span style=\"color: #AF00DB\">filter</span><span style=\"color: #000000\">&lt;</span><span style=\"color: #0000FF\">date</span><span style=\"color: #000000\">&gt; </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">f&#39;&#39;</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #008000\">// The Offense dropdown&#39;s options: only offenses in the chosen area, most common first.</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">query</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">offense_suggest</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">offenses_base</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">crime_against_type</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #001080\">$CRIME_AGAINST</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">area_name</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #001080\">$AREA</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">offense</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">offense_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "And here's how the dashboard <strong>uses</strong> them: one filtered source that every chart is built on."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">filtered_offenses</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">offenses</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">offense</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #001080\">$OFFENSE</span><span style=\"color: #000000\">,</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">area_name</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #001080\">$AREA</span><span style=\"color: #000000\">,</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">day_of_week</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #001080\">$WEEKDAYS</span><span style=\"color: #000000\">,</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">occurred_date</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #001080\">$PERIOD</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">query</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_offenses</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">filtered_offenses</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">offense</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">offense_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">offense_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">15</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Four ideas make this work:"
+      },
+      {
+        "type": "p",
+        "text": "<strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">suggest</span><span style=\"color: #000000\"> { </span><span style=\"color: #001080\">query</span><span style=\"color: #000000\">=… }</span></span></code> fills the dropdown.</strong> The first column of that query becomes the list of options."
+      },
+      {
+        "type": "p",
+        "text": "<strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">f&#39;&#39;</span></span></code> means \"everything.\"</strong> A <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">filter</span><span style=\"color: #000000\">&lt;…&gt;</span></span></code> given that is empty doesn't filter at all, so the dashboard starts by showing all the data."
+      },
+      {
+        "type": "p",
+        "text": "<strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">~</span></span></code> applies the filter.</strong> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">area_name</span><span style=\"color: #000000\"> ~ </span><span style=\"color: #001080\">$AREA</span></span></code> keeps the rows that match whatever the viewer picked, whether that's one value, several values from a multi-select, or a date range."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Dropdowns can depend on each other.</strong> Because <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">offense_suggest</span></span></code> uses <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">$AREA</span></span></code>, picking an area narrows the Offense dropdown to offenses that actually happened there."
+      },
+      {
+        "type": "p",
+        "text": "The Crime Map's month <strong>slider</strong> is a custom control in its <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">crime_map</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">jsx</span></span></code> file, bound to the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">PERIOD</span></span></code> given. You don't need to write custom controls: the built-in ones in the table above are enough. Just tell the AI which controls you want."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Example: how the LA Crime Map was built"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The <a href=\"https://github.com/mrtimo/lapd-nibrs\">lapd-nibrs repository</a> was built in one evening in a conversation with Claude Code. These are the <strong>kinds of prompts</strong> that built it, in order, as you can see in the repository's history. A real conversation also includes lots of short follow-ups, such as \"that chart is empty, why?\""
+      },
+      {
+        "type": "p",
+        "text": "<strong>Don't commit unchanged data.</strong> <em>\"Make the Parquet output deterministic, so a refresh with no new data makes no commit.\"</em>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>The model.</strong> <em>\"Build a Malloy semantic model on the two Parquet files, read from GitHub. Turn the NIBRS codes into readable offense names, add victim sex, descent and age groups, day of week and hour, and useful measures. Put a description on every field, make the raw code columns internal, and join offenses and victims on case_no.\"</em>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>The dashboard.</strong> <em>\"Build an LA crime map dashboard with Plotly: a map, top offenses, offenses by month, a day-by-hour heatmap, offenses by area, and victim breakdowns. Add filters as givens: crime against, offense, area, victim type, sex, descent and age, a multi-select for days of the week, and a month range slider. Every chart should use every filter.\"</em>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>More pages.</strong> <em>\"Add a Rising Crimes dashboard that compares recent months with the same months a year earlier, and a Crimes × Victims dashboard.\"</em>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Publish.</strong> <em>\"Run malloyyo lint, bundle the site into docs/, and publish it on GitHub Pages.\"</em>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>A fix.</strong> <em>\"The map only shows some locations. Show every hundred block.\"</em> (The AI found the 5,000-row limit and switched to a nested list.)"
+      },
+      {
+        "type": "p",
+        "text": "<strong>The data.</strong> <em>\"The City of LA publishes LAPD crime data in NIBRS format as two datasets: offenses (<a href=\"https://data.lacity.org/Public-Safety/LAPD-NIBRS-Offenses-Dataset/k7nn-b2ep/about_data\">link</a>) and victims (<a href=\"https://data.lacity.org/Public-Safety/LAPD-NIBRS-Victims-Dataset/gqf2-vm2j/about_data\">link</a>). I pasted both data dictionaries below. Write DuckDB scripts that stream each CSV from its export URL and save it as typed, zstd-compressed Parquet in data/, and a GitHub Action that refreshes them on a schedule and commits the files.\"</em>"
+      },
+      {
+        "type": "p",
+        "text": "Notice the pattern: <strong>one clear goal per prompt</strong>, specific about what you want to see, and letting the AI check its own work along the way."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "What to turn in"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Submit <strong>two links</strong> and keep the repository public until grades are posted:"
+      },
+      {
+        "type": "p",
+        "text": "your <strong>GitHub repository</strong> URL"
+      },
+      {
+        "type": "p",
+        "text": "your <strong>live dashboard</strong> URL (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">https</span><span style=\"color: #000000\">:</span><span style=\"color: #008000\">//….github.io/…</span></span></code>)"
+      },
+      {
+        "type": "p",
+        "text": "Your repository must contain:"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data_dictionary</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">md</span></span></code>, copied from the portal"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/….</span><span style=\"color: #001080\">parquet</span></span></code>, created by your workflow"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">malloyyo</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">lint</span></span></code> passes with no errors"
+      },
+      {
+        "type": "p",
+        "text": "a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">README</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">md</span></span></code> with: the dataset's name and source link, what one row means, the update schedule, and links to the dashboard"
+      },
+      {
+        "type": "p",
+        "text": "a dashboard with <strong>at least three charts</strong> and <strong>at least three controls</strong>: a dropdown, a multi-select, and a range slider or date range"
+      },
+      {
+        "type": "p",
+        "text": "a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">PROMPTS</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">md</span></span></code> with your <strong>five most important prompts</strong>, and a short paragraph: <strong>one thing the AI got wrong</strong>, and how you or malloyyo caught it"
+      },
+      {
+        "type": "p",
+        "text": "a Malloy model with <strong>access modifiers</strong>, a <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> description on every public field</strong>, and an <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">index</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">github</span><span style=\"color: #000000\">/</span><span style=\"color: #001080\">workflows</span><span style=\"color: #000000\">/….</span><span style=\"color: #001080\">yml</span></span></code>, scheduled for the <strong>1st and 15th</strong> of the month, plus a <strong>Run workflow</strong> button, with <strong>at least one successful run</strong> in the Actions tab"
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Grading (100 points)"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Bonus (up to 5 points):</strong> a dropdown whose options narrow based on another filter (like the Crime Map's Offense list), or a second dashboard page."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 22: Homework: A Live Data Dashboard, Built with AI",
+      "Tips"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>One goal per prompt.</strong> \"Build the whole thing\" gets you a mess. \"Now add a day-of-week multi-select\" gets you a feature."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Check the numbers yourself.</strong> Pick one fact you can check on the portal, such as the total row count or one month's count, and compare."
+      },
+      {
+        "type": "p",
+        "text": "<strong>When something fails, paste the exact error</strong> into the AI, or a screenshot of what looks wrong."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Never paste passwords or tokens</strong> into a prompt, a file, or a commit."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Commit often.</strong> If the AI breaks something, you can go back. Ask it: <em>\"Commit this with a clear message.\"</em>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Stuck on Malloy?</strong> <a href=\"18_troubleshooting\">Chapter 18 · Troubleshooting</a>, and the Malloy skills from <a href=\"18a_installing_helpful_things#8-credible-and-malloy-skills-for-ai-assistants\">Chapter 18a</a>."
+      }
+    ],
+    "path": "/textbook/22_homework_live_data_site.malloynb"
+  },
+  {
+    "titles": [
       "Learning Malloy"
     ],
     "paragraphs": [
@@ -10406,6 +11302,14 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "<a href=\"21_homework_make_your_data_sing\">Homework: Make Your Data Sing</a>: take your own dataset, hosted as Parquet on the internet, through all five steps"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Part VIII · Building with AI</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<a href=\"22_homework_live_data_site\">Homework: A Live Data Dashboard, Built with AI</a>: with an AI assistant, GitHub Actions and malloyyo, turn a monthly-updated open dataset into a self-updating dashboard website"
       },
       {
         "type": "p",

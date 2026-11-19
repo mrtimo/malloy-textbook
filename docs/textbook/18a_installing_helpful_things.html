@@ -278,6 +278,23 @@
             </div>
               </div>
             </div>
+        <div class="sidebar-section">
+              <div id=part_viii · building with ai
+                class="sidebar-section-title {% unless /textbook/22_homework_live_data_site.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+              >
+                Part VIII · Building with AI
+                <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
+                <img class="chevron-closed" src="/malloy-textbook/img/section_close.svg" alt="section closed"/>
+              </div>
+              <div class="sidebar-section-item-group">
+                <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/22_homework_live_data_site">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                22. Homework: A Live Data Dashboard, Built with AI
+              </a>
+            </div>
+              </div>
+            </div>
           </div>        <script src="/malloy-textbook/js/sidebar_state.js"></script>
         <div class="content">
           <div class="footer">
@@ -345,27 +362,35 @@
 </tr>
 
 <tr>
-<td><a href="#5-node-js">Node.js</a></td>
+<td><a href="#5-git-and-github">Git and GitHub</a></td>
 
-<td>Lets you run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npx</span></span></code> commands, such as the skills installer below</td>
+<td>Store a project online, and run automatic jobs with GitHub Actions</td>
 
-<td>For the skills</td>
+<td>For Chapter 22</td>
 </tr>
 
 <tr>
-<td><a href="#6-claude-code">Claude Code</a></td>
+<td><a href="#6-node-js-and-malloyyo">Node.js and malloyyo</a></td>
 
-<td>An AI assistant that can read, write and run your Malloy</td>
+<td>Check Malloy models, preview dashboards, and build dashboard websites</td>
 
-<td>Optional</td>
+<td>For Chapter 22</td>
 </tr>
 
 <tr>
-<td><a href="#7-credible-and-malloy-skills-for-ai-assistants">Credible skills</a></td>
+<td><a href="#7-an-ai-command-line-assistant-claude-code-or-antigravity">Claude Code or Antigravity</a></td>
+
+<td>An AI assistant that can read, write and run your code</td>
+
+<td>For Chapter 22</td>
+</tr>
+
+<tr>
+<td><a href="#8-credible-and-malloy-skills-for-ai-assistants">Credible and Malloy skills</a></td>
 
 <td>Teach an AI assistant how to write good Malloy</td>
 
-<td>Optional</td>
+<td>Recommended with an AI assistant</td>
 </tr>
 </tbody></table>
 <blockquote>
@@ -447,46 +472,140 @@
 </blockquote>
 
       <h2>
-        <a id="5-node-js" class="header-link anchor" href="#5-node-js">
-          5. Node.js
+        <a id="5-git-and-github" class="header-link anchor" href="#5-git-and-github">
+          5. Git and GitHub
         </a>
       </h2>
-    <p>Node.js gives you the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npx</span></span></code> command, which runs small programs straight from the internet without a separate install. You need it for the skills installer in Section 7.</p>
+    <p><a href="22_homework_live_data_site">Chapter 22</a>'s project lives in a GitHub repository. You need a GitHub account and Git on your computer. The GitHub command line (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">gh</span></span></code>) is optional, but it lets your AI assistant create the repository and turn on settings for you.</p>
 <ol>
-<li><p>Download the <strong>LTS</strong> version from <a href="https://nodejs.org/">https://nodejs.org/</a> and run the installer.</p>
+<li><p>Create a free account at <a href="https://github.com/signup">https://github.com/signup</a>.</p>
 </li>
-<li><p>Close and reopen VS Code (or your terminal), then check it:</p>
-<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">node --version</span></span>
-<span class="line"><span style="color: #000000">npx --version</span></span></pre></div></li></ol>
+<li><p><strong>Install Git.</strong></p>
+<ul>
+<li><p><strong>Mac:</strong> open Terminal and run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">git</span><span style="color: #000000"> </span><span style="color: #008000">--version</span></span></code>. If Git isn't installed, your Mac offers to install it (the "command line developer tools"). Click <strong>Install</strong>. Or, with Homebrew: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">brew</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">git</span></span></code>.</p>
+</li>
+<li><p><strong>Windows:</strong> download <strong>Git for Windows</strong> from <a href="https://git-scm.com/download/win">https://git-scm.com/download/win</a> and accept the defaults. It also gives you <strong>Git Bash</strong>, which some AI tools use.</p>
+</li></ul>
+</li>
+<li><p><strong>Install the GitHub CLI</strong> (optional).</p>
+<ul>
+<li><p><strong>Mac:</strong> <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">brew</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">gh</span></span></code></p>
+</li>
+<li><p><strong>Windows (PowerShell):</strong> <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">winget</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">GitHub</span><span style="color: #000000">.</span><span style="color: #001080">cli</span></span></code></p>
+</li></ul>
+</li>
+<li><p>Sign in: run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">gh</span><span style="color: #000000"> </span><span style="color: #001080">auth</span><span style="color: #000000"> </span><span style="color: #001080">login</span></span></code>, choose <strong>GitHub.com</strong>, then <strong>HTTPS</strong>, then <strong>Login with a web browser</strong>.</p>
+</li>
+<li><p>Check it: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">git</span><span style="color: #000000"> </span><span style="color: #008000">--version</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">gh</span><span style="color: #000000"> </span><span style="color: #001080">auth</span><span style="color: #000000"> </span><span style="color: #001080">status</span></span></code>.</p>
+</li></ol>
 
       <h2>
-        <a id="6-claude-code" class="header-link anchor" href="#6-claude-code">
-          6. Claude Code
+        <a id="6-node-js-and-malloyyo" class="header-link anchor" href="#6-node-js-and-malloyyo">
+          6. Node.js and malloyyo
         </a>
       </h2>
-    <p><strong>Claude Code</strong> is an AI assistant that works inside your project folder. You describe what you want in plain English, such as <em>"write a query that shows sales by month"</em> or <em>"why does this cell give an error?"</em>, and it reads your files, writes Malloy, and can run it. It needs a Claude account (a paid plan or an API account).</p>
-<p><strong>In VS Code (easiest):</strong></p>
-<ol>
-<li><p>Open the <strong>Extensions</strong> panel and search for <strong>Claude Code</strong>.</p>
+    <p><strong>malloyyo</strong> is a command-line tool for Malloy projects. It checks your model and dashboards (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloyyo</span><span style="color: #000000"> </span><span style="color: #001080">lint</span></span></code>), runs SQL with its own built-in DuckDB (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloyyo</span><span style="color: #000000"> </span><span style="color: #001080">sql</span></span></code>), previews a dashboard on your computer (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloyyo</span><span style="color: #000000"> </span><span style="color: #001080">dashboard</span><span style="color: #000000"> </span><span style="color: #001080">dev</span></span></code>), and builds a static website from it (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloyyo</span><span style="color: #000000"> </span><span style="color: #001080">dashboard</span><span style="color: #000000"> </span><span style="color: #001080">bundle</span></span></code>). It also gives an AI assistant a way to compile and run Malloy, so the AI can check its own work. <a href="22_homework_live_data_site">Chapter 22</a> shows how.</p>
+<p>malloyyo needs <strong>Node.js version 22 or newer</strong>. Node.js comes with <strong>npm</strong>, which installs JavaScript programs, and <strong>npx</strong>, which runs them without installing (the skills installer in Section 8 uses it).</p>
+<div class="callout callout-warning">
+<p>⚠️ <strong>Use the right package name.</strong> The old <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloyyo</span></span></code> package was removed from npm, so <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">malloyyo</span></span></code> fails. The current package is <strong><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">@</span><span style="color: #001080">malloydata</span><span style="color: #000000">/</span><span style="color: #001080">malloyyo</span></span></code></strong>.</p>
+</div>
+
+      <h3>
+        <a id="mac" class="header-link anchor" href="#mac">
+          Mac
+        </a>
+      </h3>
+    <ol>
+<li><p>Go to <a href="https://nodejs.org">https://nodejs.org</a>, download the <strong>LTS</strong> macOS Installer (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">pkg</span></span></code>), open it from your Downloads folder and click through. (With Homebrew, <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">brew</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">node</span></span></code> works too.)</p>
 </li>
-<li><p>Install the extension published by <strong>Anthropic</strong>.</p>
+<li><p>Open a <strong>new</strong> Terminal window and check it worked:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">node -v</span></span>
+<span class="line"><span style="color: #000000">npm -v</span></span></pre></div><p><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">node</span><span style="color: #000000"> -</span><span style="color: #001080">v</span></span></code> should print <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">v22</span></span></code> or higher.</p>
 </li>
-<li><p>Click the Claude icon in the sidebar and sign in when asked.</p>
+<li><p>Install malloyyo:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">npm install -g @malloydata/malloyyo</span></span></pre></div><p>If you get a permissions error, run it again with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">sudo</span></span></code> in front (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">sudo</span><span style="color: #000000"> </span><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> -</span><span style="color: #001080">g</span><span style="color: #000000"> @</span><span style="color: #001080">malloydata</span><span style="color: #000000">/</span><span style="color: #001080">malloyyo</span></span></code>) and type your Mac password.</p>
+</li>
+<li><p>Check it: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloyyo</span><span style="color: #000000"> </span><span style="color: #008000">--help</span></span></code></p>
 </li></ol>
-<p><strong>In a terminal:</strong></p>
+
+      <h3>
+        <a id="windows" class="header-link anchor" href="#windows">
+          Windows
+        </a>
+      </h3>
+    <ol>
+<li><p>Install Node.js in one of two ways:</p>
 <ul>
-<li><p><strong>Mac or Linux:</strong></p>
-<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">curl -fsSL https://claude.ai/install.sh | bash</span></span></pre></div></li>
+<li><p><strong>Installer:</strong> download the Windows Installer (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">msi</span></span></code>, <strong>LTS</strong>) from <a href="https://nodejs.org">https://nodejs.org</a> and click through with the default options.</p>
+</li>
+<li><p><strong>Command line:</strong> open PowerShell and run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">winget</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">OpenJS</span><span style="color: #000000">.</span><span style="color: #001080">NodeJS</span><span style="color: #000000">.</span><span style="color: #001080">LTS</span></span></code>.</p>
+</li></ul>
+</li>
+<li><p>Close PowerShell, open a <strong>new</strong> window, and check <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">node</span><span style="color: #000000"> -</span><span style="color: #001080">v</span></span></code> and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npm</span><span style="color: #000000"> -</span><span style="color: #001080">v</span></span></code>.</p>
+</li>
+<li><p>Install malloyyo:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">npm install -g @malloydata/malloyyo</span></span></pre></div></li>
+<li><p>Check it: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloyyo</span><span style="color: #000000"> </span><span style="color: #008000">--help</span></span></code></p>
+</li></ol>
+<p>If PowerShell says <strong>"running scripts is disabled"</strong> when you run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npm</span></span></code> or <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloyyo</span></span></code>, run this once and try again:</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</span></span></pre></div>
+      <h3>
+        <a id="updating" class="header-link anchor" href="#updating">
+          Updating
+        </a>
+      </h3>
+    <p>malloyyo changes often. To get the newest version, run the install command again: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> -</span><span style="color: #001080">g</span><span style="color: #000000"> @</span><span style="color: #001080">malloydata</span><span style="color: #000000">/</span><span style="color: #001080">malloyyo</span><span style="color: #000000">@</span><span style="color: #001080">latest</span></span></code>.</p>
+
+      <h2>
+        <a id="7-an-ai-command-line-assistant-claude-code-or-antigravity" class="header-link anchor" href="#7-an-ai-command-line-assistant-claude-code-or-antigravity">
+          7. An AI command-line assistant: Claude Code or Antigravity
+        </a>
+      </h2>
+    <p>An <strong>AI CLI</strong> is an AI assistant that works inside your project folder from a terminal. You describe what you want in plain English, such as <em>"write a query that shows sales by month"</em> or <em>"why does this cell give an error?"</em>, and it reads your files, writes code, and can run commands. Install <strong>one</strong> of these. Neither needs Node.js.</p>
+
+      <h3>
+        <a id="claude-code" class="header-link anchor" href="#claude-code">
+          Claude Code
+        </a>
+      </h3>
+    <p>Claude Code needs a Claude account (a paid plan or an API account). It runs on macOS 13 or newer and Windows 10 (version 1809) or newer.</p>
+<ul>
+<li><p><strong>Mac (Terminal):</strong></p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">curl -fsSL https://claude.ai/install.sh | bash</span></span></pre></div><p>Or, with Homebrew: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">brew</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #008000">--cask claude-code</span></span></code></p>
+</li>
 <li><p><strong>Windows (PowerShell):</strong></p>
-<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">irm https://claude.ai/install.ps1 | iex</span></span></pre></div></li></ul>
-<p>Then go to your project folder in a terminal and type <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">claude</span></span></code>. Full instructions: <a href="https://code.claude.com/docs/en/setup">https://code.claude.com/docs/en/setup</a>.</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">irm https://claude.ai/install.ps1 | iex</span></span></pre></div></li>
+<li><p><strong>Windows (Command Prompt):</strong></p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</span></span></pre></div></li></ul>
+<p>The install command <strong>shows no progress</strong> while it downloads, so be patient. When it finishes, open a <strong>new</strong> terminal window and run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">claude</span><span style="color: #000000"> </span><span style="color: #008000">--version</span></span></code>. A working install prints a version number. Then go to your project folder and run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">claude</span></span></code> to sign in.</p>
+<p>On Windows you don't need to run as Administrator. Installing <strong>Git for Windows</strong> (Section 5) is recommended, because it provides Git Bash, which some of Claude Code's tools use.</p>
+<p><strong>Prefer a sidebar?</strong> Claude Code also has a VS Code extension: in the <strong>Extensions</strong> panel, search for <strong>Claude Code</strong>, install the one published by <strong>Anthropic</strong>, then click the Claude icon in the sidebar and sign in. Full instructions: <a href="https://code.claude.com/docs/en/setup">https://code.claude.com/docs/en/setup</a>.</p>
+
+      <h3>
+        <a id="google-antigravity-cli" class="header-link anchor" href="#google-antigravity-cli">
+          Google Antigravity CLI
+        </a>
+      </h3>
+    <p>The Antigravity CLI signs in with a Google account.</p>
+<ul>
+<li><p><strong>Mac (Terminal):</strong></p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">curl -fsSL https://antigravity.google/cli/install.sh | bash</span></span></pre></div><p>It installs to <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">~/.</span><span style="color: #001080">local</span><span style="color: #000000">/</span><span style="color: #001080">bin</span></span></code>. Run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #AF00DB">source</span><span style="color: #000000"> ~/.</span><span style="color: #001080">zshrc</span></span></code> (or open a new Terminal window) so the command is found. Or, with Homebrew: <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">brew</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #008000">--cask antigravity-cli</span></span></code></p>
+</li>
+<li><p><strong>Windows (PowerShell):</strong></p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">irm https://antigravity.google/cli/install.ps1 | iex</span></span></pre></div></li>
+<li><p><strong>Windows (Command Prompt):</strong></p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">curl -fsSL https://antigravity.google/cli/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</span></span></pre></div></li></ul>
+<p>The command is <strong><code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">agy</span></span></code></strong>. The first time you run it, it opens your web browser so you can sign in with your Google account.</p>
 <blockquote>
-<p>🧠 <strong>Use it to learn, not to skip learning.</strong> An AI assistant is great for explaining an error, suggesting a query, or checking your work. But you're graded on understanding your own notebook. Read every line it writes, and be able to explain it. Follow your course's policy on AI use.</p>
+<p>🔁 <strong>"Command not found"?</strong> After installing anything, <strong>close the terminal and open a new one</strong>. A terminal only learns about new programs when it starts.</p>
+</blockquote>
+<blockquote>
+<p>🧠 <strong>Use it to learn, not to skip learning.</strong> An AI assistant is great for explaining an error, suggesting a query, or checking your work. But you're graded on understanding your own work. Read what it writes, and be able to explain it. Follow your course's policy on AI use.</p>
 </blockquote>
 
       <h2>
-        <a id="7-credible-and-malloy-skills-for-ai-assistants" class="header-link anchor" href="#7-credible-and-malloy-skills-for-ai-assistants">
-          7. Credible and Malloy skills for AI assistants
+        <a id="8-credible-and-malloy-skills-for-ai-assistants" class="header-link anchor" href="#8-credible-and-malloy-skills-for-ai-assistants">
+          8. Credible and Malloy skills for AI assistants
         </a>
       </h2>
     <p>A <strong>skill</strong> is a folder of instructions that teaches an AI assistant how to do a specific job well. The <strong>Malloy and Credible skills</strong> teach the assistant Malloy's rules and common mistakes: how to write joins and measures, how to build charts, how to avoid wrong totals, and so on. With the skills installed, the assistant writes much better Malloy.</p>
@@ -533,9 +652,10 @@
         </a>
       </h3>
     <p>No Credible account? The <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-*</span></span></code> skills are <strong>free and open source</strong>, published by the Malloy team. Download them straight into the folder you're working in.</p>
-<p><strong>Option A: one command (needs Node.js, Section 5).</strong> In VS Code, open your project folder, open a terminal (<strong>Terminal → New Terminal</strong>), and run:</p>
+<p><strong>Option A: one command (needs Node.js, Section 6).</strong> In VS Code, open your project folder, open a terminal (<strong>Terminal → New Terminal</strong>), and run:</p>
 <div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">npx -y @malloy-publisher/skills@latest install claude</span></span></pre></div><p>That copies every skill into <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code> in the current folder. To see what you got:</p>
-<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">npx -y @malloy-publisher/skills@latest list</span></span></pre></div><p>Keep the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">@</span><span style="color: #001080">latest</span></span></code>, so you always get the newest skills. To install them once for <strong>every</strong> project on your computer, add <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #008000">--global</span></span></code> (they go into <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code> in your home folder).</p>
+<div class="code-wrapper"><pre class="language-txt" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">npx -y @malloy-publisher/skills@latest list</span></span></pre></div><p>Using a different AI tool, such as Antigravity? Run <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npx</span><span style="color: #000000"> -</span><span style="color: #001080">y</span><span style="color: #000000"> @</span><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">publisher</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">@</span><span style="color: #001080">latest</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">agents</span></span></code> instead. That puts the same skills in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">agents</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code>, the folder many other AI tools read. If your tool doesn't pick them up on its own, tell it: <em>"Read the skills in .agents/skills before writing Malloy."</em></p>
+<p>Keep the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">@</span><span style="color: #001080">latest</span></span></code>, so you always get the newest skills. To install them once for <strong>every</strong> project on your computer, add <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #008000">--global</span></span></code> (they go into <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code> in your home folder).</p>
 <p><strong>Option B: download by hand (no Node needed).</strong></p>
 <ol>
 <li><p>Go to <a href="https://github.com/malloydata/publisher">https://github.com/malloydata/publisher</a>.</p>
@@ -578,7 +698,11 @@
 </li>
 <li><p><strong>For hosting data:</strong> a Hugging Face account and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">pip</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> -</span><span style="color: #001080">U</span><span style="color: #000000"> </span><span style="color: #001080">huggingface_hub</span></span></code>, then <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">hf</span><span style="color: #000000"> </span><span style="color: #001080">auth</span><span style="color: #000000"> </span><span style="color: #001080">login</span></span></code>.</p>
 </li>
-<li><p><strong>For AI help:</strong> Claude Code, plus the Malloy skills in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code> inside your project folder.</p>
+<li><p><strong>For automatic data and dashboards (Chapter 22):</strong> Git and a GitHub account, Node.js 22+ and <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> -</span><span style="color: #001080">g</span><span style="color: #000000"> @</span><span style="color: #001080">malloydata</span><span style="color: #000000">/</span><span style="color: #001080">malloyyo</span></span></code>.</p>
+</li>
+<li><p><strong>For AI help:</strong> Claude Code (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">claude</span></span></code>) or the Antigravity CLI (<code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">agy</span></span></code>), plus the Malloy skills in <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #000000">.</span><span style="color: #001080">claude</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">/</span></span></code> inside your project folder.</p>
+</li>
+<li><p><strong>"Command not found"?</strong> Close the terminal and open a new one.</p>
 </li>
 <li><p><strong>Two ways to get the skills:</strong> the Credible VS Code extension (<strong>Enable Credible (Workspace)</strong>), or download them yourself with <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">npx</span><span style="color: #000000"> -</span><span style="color: #001080">y</span><span style="color: #000000"> @</span><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">publisher</span><span style="color: #000000">/</span><span style="color: #001080">skills</span><span style="color: #000000">@</span><span style="color: #001080">latest</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">claude</span></span></code> or the ZIP from GitHub.</p>
 </li></ul>

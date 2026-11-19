@@ -9,9 +9,10 @@ You only need **VS Code** and the **Malloy extension** to do everything in this 
 | [Malloy extension](#2-the-malloy-extension) | Runs `.malloy` files and `.malloynb` notebooks, with DuckDB built in | ✅ Required |
 | [Python + DuckDB](#3-python-and-duckdb) | Convert CSV files to Parquet ([Chapter 7](07_csv_and_parquet.malloynb)) | When you convert data |
 | [Hugging Face tools](#4-hugging-face-tools) | Upload your own Parquet file to the internet ([Chapter 17](17_data_sources.malloynb)) | When you host data |
-| [Node.js](#5-node-js) | Lets you run `npx` commands, such as the skills installer below | For the skills |
-| [Claude Code](#6-claude-code) | An AI assistant that can read, write and run your Malloy | Optional |
-| [Credible skills](#7-credible-and-malloy-skills-for-ai-assistants) | Teach an AI assistant how to write good Malloy | Optional |
+| [Git and GitHub](#5-git-and-github) | Store a project online, and run automatic jobs with GitHub Actions | For Chapter 22 |
+| [Node.js and malloyyo](#6-node-js-and-malloyyo) | Check Malloy models, preview dashboards, and build dashboard websites | For Chapter 22 |
+| [Claude Code or Antigravity](#7-an-ai-command-line-assistant-claude-code-or-antigravity) | An AI assistant that can read, write and run your code | For Chapter 22 |
+| [Credible and Malloy skills](#8-credible-and-malloy-skills-for-ai-assistants) | Teach an AI assistant how to write good Malloy | Recommended with an AI assistant |
 
 > 💻 **Opening a terminal.** Several steps say "in a terminal." In VS Code, choose **Terminal → New Terminal**. A terminal opens at the bottom of the window, already in the folder you have open. On a Mac you can also use the **Terminal** app; on Windows, **PowerShell**.
 
@@ -75,47 +76,135 @@ You need these to run the `csv_to_parquet.py` script from [Chapter 7](07_csv_and
 
 > 🔐 **Treat your token like a password.** Never paste it into a notebook, a `.malloy` file, or anything you upload or turn in.
 
-## 5. Node.js
+## 5. Git and GitHub
 
-Node.js gives you the `npx` command, which runs small programs straight from the internet without a separate install. You need it for the skills installer in Section 7.
+[Chapter 22](22_homework_live_data_site.malloynb)'s project lives in a GitHub repository. You need a GitHub account and Git on your computer. The GitHub command line (`gh`) is optional, but it lets your AI assistant create the repository and turn on settings for you.
 
-1. Download the **LTS** version from <https://nodejs.org/> and run the installer.
-2. Close and reopen VS Code (or your terminal), then check it:
+1. Create a free account at <https://github.com/signup>.
+2. **Install Git.**
+   * **Mac:** open Terminal and run `git --version`. If Git isn't installed, your Mac offers to install it (the "command line developer tools"). Click **Install**. Or, with Homebrew: `brew install git`.
+   * **Windows:** download **Git for Windows** from <https://git-scm.com/download/win> and accept the defaults. It also gives you **Git Bash**, which some AI tools use.
+3. **Install the GitHub CLI** (optional).
+   * **Mac:** `brew install gh`
+   * **Windows (PowerShell):** `winget install GitHub.cli`
+4. Sign in: run `gh auth login`, choose **GitHub.com**, then **HTTPS**, then **Login with a web browser**.
+5. Check it: `git --version` and `gh auth status`.
+
+## 6. Node.js and malloyyo
+
+**malloyyo** is a command-line tool for Malloy projects. It checks your model and dashboards (`malloyyo lint`), runs SQL with its own built-in DuckDB (`malloyyo sql`), previews a dashboard on your computer (`malloyyo dashboard dev`), and builds a static website from it (`malloyyo dashboard bundle`). It also gives an AI assistant a way to compile and run Malloy, so the AI can check its own work. [Chapter 22](22_homework_live_data_site.malloynb) shows how.
+
+malloyyo needs **Node.js version 22 or newer**. Node.js comes with **npm**, which installs JavaScript programs, and **npx**, which runs them without installing (the skills installer in Section 8 uses it).
+
+> ⚠️ **Use the right package name.** The old `malloyyo` package was removed from npm, so `npm install malloyyo` fails. The current package is **`@malloydata/malloyyo`**.
+
+### Mac
+
+1. Go to <https://nodejs.org>, download the **LTS** macOS Installer (`.pkg`), open it from your Downloads folder and click through. (With Homebrew, `brew install node` works too.)
+2. Open a **new** Terminal window and check it worked:
 
    ```
-   node --version
-   npx --version
+   node -v
+   npm -v
    ```
 
-## 6. Claude Code
+   `node -v` should print `v22` or higher.
+3. Install malloyyo:
 
-**Claude Code** is an AI assistant that works inside your project folder. You describe what you want in plain English, such as *"write a query that shows sales by month"* or *"why does this cell give an error?"*, and it reads your files, writes Malloy, and can run it. It needs a Claude account (a paid plan or an API account).
+   ```
+   npm install -g @malloydata/malloyyo
+   ```
 
-**In VS Code (easiest):**
+   If you get a permissions error, run it again with `sudo` in front (`sudo npm install -g @malloydata/malloyyo`) and type your Mac password.
+4. Check it: `malloyyo --help`
 
-1. Open the **Extensions** panel and search for **Claude Code**.
-2. Install the extension published by **Anthropic**.
-3. Click the Claude icon in the sidebar and sign in when asked.
+### Windows
 
-**In a terminal:**
+1. Install Node.js in one of two ways:
+   * **Installer:** download the Windows Installer (`.msi`, **LTS**) from <https://nodejs.org> and click through with the default options.
+   * **Command line:** open PowerShell and run `winget install OpenJS.NodeJS.LTS`.
+2. Close PowerShell, open a **new** window, and check `node -v` and `npm -v`.
+3. Install malloyyo:
 
-* **Mac or Linux:**
+   ```
+   npm install -g @malloydata/malloyyo
+   ```
+
+4. Check it: `malloyyo --help`
+
+If PowerShell says **"running scripts is disabled"** when you run `npm` or `malloyyo`, run this once and try again:
+
+```
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+### Updating
+
+malloyyo changes often. To get the newest version, run the install command again: `npm install -g @malloydata/malloyyo@latest`.
+
+## 7. An AI command-line assistant: Claude Code or Antigravity
+
+An **AI CLI** is an AI assistant that works inside your project folder from a terminal. You describe what you want in plain English, such as *"write a query that shows sales by month"* or *"why does this cell give an error?"*, and it reads your files, writes code, and can run commands. Install **one** of these. Neither needs Node.js.
+
+### Claude Code
+
+Claude Code needs a Claude account (a paid plan or an API account). It runs on macOS 13 or newer and Windows 10 (version 1809) or newer.
+
+* **Mac (Terminal):**
 
   ```
   curl -fsSL https://claude.ai/install.sh | bash
   ```
 
+  Or, with Homebrew: `brew install --cask claude-code`
 * **Windows (PowerShell):**
 
   ```
   irm https://claude.ai/install.ps1 | iex
   ```
 
-Then go to your project folder in a terminal and type `claude`. Full instructions: <https://code.claude.com/docs/en/setup>.
+* **Windows (Command Prompt):**
 
-> 🧠 **Use it to learn, not to skip learning.** An AI assistant is great for explaining an error, suggesting a query, or checking your work. But you're graded on understanding your own notebook. Read every line it writes, and be able to explain it. Follow your course's policy on AI use.
+  ```
+  curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+  ```
 
-## 7. Credible and Malloy skills for AI assistants
+The install command **shows no progress** while it downloads, so be patient. When it finishes, open a **new** terminal window and run `claude --version`. A working install prints a version number. Then go to your project folder and run `claude` to sign in.
+
+On Windows you don't need to run as Administrator. Installing **Git for Windows** (Section 5) is recommended, because it provides Git Bash, which some of Claude Code's tools use.
+
+**Prefer a sidebar?** Claude Code also has a VS Code extension: in the **Extensions** panel, search for **Claude Code**, install the one published by **Anthropic**, then click the Claude icon in the sidebar and sign in. Full instructions: <https://code.claude.com/docs/en/setup>.
+
+### Google Antigravity CLI
+
+The Antigravity CLI signs in with a Google account.
+
+* **Mac (Terminal):**
+
+  ```
+  curl -fsSL https://antigravity.google/cli/install.sh | bash
+  ```
+
+  It installs to `~/.local/bin`. Run `source ~/.zshrc` (or open a new Terminal window) so the command is found. Or, with Homebrew: `brew install --cask antigravity-cli`
+* **Windows (PowerShell):**
+
+  ```
+  irm https://antigravity.google/cli/install.ps1 | iex
+  ```
+
+* **Windows (Command Prompt):**
+
+  ```
+  curl -fsSL https://antigravity.google/cli/install.cmd -o install.cmd && install.cmd && del install.cmd
+  ```
+
+The command is **`agy`**. The first time you run it, it opens your web browser so you can sign in with your Google account.
+
+> 🔁 **"Command not found"?** After installing anything, **close the terminal and open a new one**. A terminal only learns about new programs when it starts.
+
+> 🧠 **Use it to learn, not to skip learning.** An AI assistant is great for explaining an error, suggesting a query, or checking your work. But you're graded on understanding your own work. Read what it writes, and be able to explain it. Follow your course's policy on AI use.
+
+## 8. Credible and Malloy skills for AI assistants
 
 A **skill** is a folder of instructions that teaches an AI assistant how to do a specific job well. The **Malloy and Credible skills** teach the assistant Malloy's rules and common mistakes: how to write joins and measures, how to build charts, how to avoid wrong totals, and so on. With the skills installed, the assistant writes much better Malloy.
 
@@ -157,7 +246,7 @@ These include the `credible-*` skills (publishing and documenting models on Cred
 
 No Credible account? The `malloy-*` skills are **free and open source**, published by the Malloy team. Download them straight into the folder you're working in.
 
-**Option A: one command (needs Node.js, Section 5).** In VS Code, open your project folder, open a terminal (**Terminal → New Terminal**), and run:
+**Option A: one command (needs Node.js, Section 6).** In VS Code, open your project folder, open a terminal (**Terminal → New Terminal**), and run:
 
 ```
 npx -y @malloy-publisher/skills@latest install claude
@@ -168,6 +257,8 @@ That copies every skill into `.claude/skills/` in the current folder. To see wha
 ```
 npx -y @malloy-publisher/skills@latest list
 ```
+
+Using a different AI tool, such as Antigravity? Run `npx -y @malloy-publisher/skills@latest install agents` instead. That puts the same skills in `.agents/skills/`, the folder many other AI tools read. If your tool doesn't pick them up on its own, tell it: *"Read the skills in .agents/skills before writing Malloy."*
 
 Keep the `@latest`, so you always get the newest skills. To install them once for **every** project on your computer, add `--global` (they go into `.claude/skills/` in your home folder).
 
@@ -196,5 +287,7 @@ It should list skills such as `malloy-queries` and `malloy-model`. Then try a re
 * **Required:** VS Code and the Malloy extension. DuckDB is built in.
 * **For converting data:** Python and `pip install duckdb`.
 * **For hosting data:** a Hugging Face account and `pip install -U huggingface_hub`, then `hf auth login`.
-* **For AI help:** Claude Code, plus the Malloy skills in `.claude/skills/` inside your project folder.
+* **For automatic data and dashboards (Chapter 22):** Git and a GitHub account, Node.js 22+ and `npm install -g @malloydata/malloyyo`.
+* **For AI help:** Claude Code (`claude`) or the Antigravity CLI (`agy`), plus the Malloy skills in `.claude/skills/` inside your project folder.
+* **"Command not found"?** Close the terminal and open a new one.
 * **Two ways to get the skills:** the Credible VS Code extension (**Enable Credible (Workspace)**), or download them yourself with `npx -y @malloy-publisher/skills@latest install claude` or the ZIP from GitHub.
