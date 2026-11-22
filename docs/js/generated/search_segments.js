@@ -5673,6 +5673,626 @@ window.SEARCH_SEGMENTS = [
   },
   {
     "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "So far you've mostly <em>used</em> models that were already written (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">names</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">ecommerce</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code>). In this chapter you'll <strong>grow one yourself</strong>, starting from a pile of plain queries. The process is called <strong>refactoring</strong>: you rewrite your code so it's shorter, clearer and easier to reuse, <em>without changing any of the answers</em>."
+      },
+      {
+        "type": "p",
+        "text": "You'll refactor in four passes:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Measures</strong>: name the aggregates you keep retyping."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Dimensions</strong>: name the row-level calculations you keep retyping."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Views</strong>: name the whole queries you keep rewriting."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Nesting</strong>: combine those views into rich reports and dashboards."
+      },
+      {
+        "type": "p",
+        "text": "Then you'll document the model, move it into its own <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> file, and import it. The homework asks you to do the same thing with your own dataset."
+      },
+      {
+        "type": "p",
+        "text": "📘 <strong>Malloy docs.</strong> <a href=\"https://docs.malloydata.dev/documentation/user_guides/quickstart_modeling\">Building a semantic model</a> · <a href=\"https://docs.malloydata.dev/documentation/language/fields\">Fields</a> · <a href=\"https://docs.malloydata.dev/documentation/language/views\">Views</a>"
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "What is a semantic model, and why bother?"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A <strong>semantic model</strong> is a layer that sits between the raw table and the people (or AI assistants) asking questions. It gives business concepts a name and <strong>one definition</strong>: what counts as a \"late flight,\" what \"revenue\" means, which date a \"year\" refers to."
+      },
+      {
+        "type": "p",
+        "text": "Without a model, every analyst writes those definitions again in every query, and they drift apart. Here's a small example. Two people are asked, \"What share of flights were late?\""
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_raw</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/flights.parquet&#39;</span><span style=\"color: #000000\">)</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">// Analyst A: late means the plane LEFT more than 15 minutes late</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_raw</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">dep_delay</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">15</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">// Analyst B: late means the plane ARRIVED more than 15 minutes late</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_raw</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">15</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Both queries are \"correct,\" but they give different answers to the same question. Put both in a report and someone will notice, and then nobody trusts either number."
+      },
+      {
+        "type": "p",
+        "text": "A model settles it once. The U.S. Department of Transportation counts a flight as late when it <strong>arrives</strong> 15 or more minutes after schedule, so that's the definition we'll write into the model. After that, every query, dashboard, and AI assistant that uses the model gets the same answer."
+      },
+      {
+        "type": "p",
+        "text": "💡 This is exactly why Claude could answer questions about SEC filings correctly through the open10k connector: someone had already defined <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">revenues</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">net_margin</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">filer_status</span></span></code> in a model, so Claude didn't have to guess."
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "The dataset: U.S. flights, 2000–2005"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "We'll use a sample of <strong>344,827 domestic flights</strong> from the FAA, plus two small lookup tables. All three files are in the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">data</span><span style=\"color: #000000\">/</span></span></code> folder."
+      },
+      {
+        "type": "p",
+        "text": "Delays are in minutes (negative means early). Distance is in miles."
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "Step 0: write the queries the plain way"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Pretend it's your first week with this data. You haven't built a model yet. You just write queries against the raw table, typing every calculation out in full. Here are five reasonable questions."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Query 1. How do the airlines compare?</strong>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_raw</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carrier</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">flights</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">miles</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">distance</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_arr_delay</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">15</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Query 2. How did things change year to year?</strong>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_raw</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">yr</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dep_time</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">flights</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">15</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_cancelled</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">cancelled</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Y&#39;</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">yr</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Query 3. What are the busiest routes?</strong>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_raw</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">route</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">concat</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">origin</span><span style=\"color: #000000\">, </span><span style=\"color: #A31515\">&#39; → &#39;</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">destination</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">flights</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_arr_delay</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Query 4. Are long flights more punctual than short ones?</strong>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_raw</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">distance_band</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">distance</span><span style=\"color: #000000\"> ?</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;1 · under 500 mi&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">500</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;2 · 500–1,499 mi&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">1500</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">else</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;3 · 1,500+ mi&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">flights</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">15</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">distance_band</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Query 5. Which hour of the day is worst?</strong>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_raw</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">dep_hour</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">hour</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">dep_time</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">flights</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">15</span><span style=\"color: #000000\"> } / </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">dep_hour</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "These all work. But look at how much is repeated:"
+      },
+      {
+        "type": "p",
+        "text": "Each repeat is a chance to make a typo, or for two people to define \"late\" differently. Also, every query is written in a slightly different style (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flights</span></span></code> here, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">yr</span></span></code> there), so the results don't line up."
+      },
+      {
+        "type": "p",
+        "text": "🧭 <strong>The refactoring rule.</strong> If you've typed an expression <strong>twice</strong>, give it a name and move it into the model. If it's a <em>definition</em> (like \"late\" or \"long flight\"), move it in even if you've only typed it once."
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "Step 1: refactor the measures"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A <strong>measure</strong> is a named aggregate: something that summarizes many rows into one number (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span></code>, and anything built from them)."
+      },
+      {
+        "type": "p",
+        "text": "<strong>What to do:</strong>"
+      },
+      {
+        "type": "p",
+        "text": "Make a list of every aggregate expression in your queries (the table above is that list)."
+      },
+      {
+        "type": "p",
+        "text": "Give each one a clear, consistent name. Good conventions:"
+      },
+      {
+        "type": "p",
+        "text": "Rewrite your queries to use the new names, and <strong>check that the numbers haven't changed.</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">_count</span></span></code> for counts: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flight_count</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_</span></span></code> for sums: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">total_distance</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_</span></span></code> for averages: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_arr_delay</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pct_</span></span></code> for shares: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pct_late</span></span></code>"
+      },
+      {
+        "type": "p",
+        "text": "Put each one in a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span></code> inside the source's <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> { }</span></span></code> block."
+      },
+      {
+        "type": "p",
+        "text": "Add a <strong>render tag</strong> such as <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">percent</span></span></code> above shares, so the formatting comes with the measure wherever it's used."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Build measures out of other measures.</strong> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pct_late</span></span></code> is just <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">late_flight_count</span><span style=\"color: #000000\"> / </span><span style=\"color: #001080\">flight_count</span></span></code>, so define the two counts first and divide them. If someone later changes how flights are counted, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pct_late</span></span></code> follows automatically."
+      },
+      {
+        "type": "p",
+        "text": "Here's the source with the measures refactored. We'll call it <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flights_v1</span></span></code> so you can compare it with the raw table."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v1</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/flights.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_distance</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">distance</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_arr_delay</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_dep_delay</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dep_delay</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">late_flight_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">15</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">cancelled_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">() { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">cancelled</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Y&#39;</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">late_flight_count</span><span style=\"color: #000000\"> / </span><span style=\"color: #001080\">flight_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_cancelled</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">cancelled_count</span><span style=\"color: #000000\"> / </span><span style=\"color: #001080\">flight_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Now Query 1 shrinks to this:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v1</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carrier</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">total_distance</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_arr_delay</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_late</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "✅ <strong>Check it.</strong> Scroll up to Query 1 and compare. The counts, miles, delays and percentages should be identical. The only differences are the column names and the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">%</span></span></code> formatting, which is the point: you changed the <em>code</em>, not the <em>answers</em>. If a number changes during a refactor, you've introduced a bug."
+      },
+      {
+        "type": "p",
+        "text": "Query 2 shrinks the same way:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v1</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">yr</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dep_time</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_cancelled</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">yr</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "⚠️ <strong>Common mistake: a filtered measure with no filter in the name.</strong> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">late_flight_count</span></span></code> is a count <em>of late flights</em>. If you name it <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flight_count2</span></span></code>, nobody (including you, next month) will know what it counts. The name should say what's inside the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">{ </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: }</span></span></code>."
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "Step 2: refactor the dimensions"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A <strong>dimension</strong> is a named, row-level calculation: it produces one value <strong>per flight</strong>, and you can <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">group_by</span></span></code> it or filter on it. Booleans, buckets, cleaned-up text and date parts are all dimensions."
+      },
+      {
+        "type": "p",
+        "text": "<strong>What to do:</strong>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Go back and simplify the measures</strong> so they use the new dimensions."
+      },
+      {
+        "type": "p",
+        "text": "Set a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">:</span></span></code> if the table has one. You'll need it for joins."
+      },
+      {
+        "type": "p",
+        "text": "List every row-level expression in your queries: anything inside a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">:</span></span></code> or a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">:</span></span></code> that's more than a bare column name."
+      },
+      {
+        "type": "p",
+        "text": "Name booleans with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">is_</span></span></code> (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">is_late</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">is_cancelled</span></span></code>), so filters read like English: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">is_late</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "Turn awkward codes into readable values. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">cancelled</span></span></code> holds <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Y&#39;</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;N&#39;</span></span></code> text; <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">is_cancelled</span></span></code> is a real true/false."
+      },
+      {
+        "type": "p",
+        "text": "Look for <strong>hidden dimensions inside your measures.</strong> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">15</span></span></code> appears inside <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">late_flight_count</span></span></code>. That test is really a yes/no fact about each flight, so it deserves its own name: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">is_late</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "Use <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">rename</span><span style=\"color: #000000\">:</span></span></code> for columns whose names are cryptic. <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">id2</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">tail_num</span></span></code> become <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flight_id</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">tail_number</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "Here's <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flights_v2</span></span></code>. Lines marked <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">// ✚</span></span></code> are new since <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flights_v1</span></span></code>."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v2</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/flights.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">rename</span><span style=\"color: #000000\">:                                              </span><span style=\"color: #008000\">// ✚</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">flight_id</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">id2</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">tail_number</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">tail_num</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_id</span><span style=\"color: #000000\">                               </span><span style=\"color: #008000\">// ✚</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">:                                           </span><span style=\"color: #008000\">// ✚ all of these</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">is_late</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">15</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">is_cancelled</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">cancelled</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Y&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">is_diverted</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">diverted</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Y&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">route</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">concat</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">origin</span><span style=\"color: #000000\">, </span><span style=\"color: #A31515\">&#39; → &#39;</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">destination</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">dep_hour</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">hour</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">dep_time</span><span style=\"color: #000000\">)</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">distance_band</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">distance</span><span style=\"color: #000000\"> ?</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;1 · under 500 mi&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">500</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">pick</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;2 · 500–1,499 mi&#39;</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">when</span><span style=\"color: #000000\"> &lt; </span><span style=\"color: #098658\">1500</span></span>\n<span class=\"line\"><span style=\"color: #000000\">      </span><span style=\"color: #AF00DB\">else</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&#39;3 · 1,500+ mi&#39;</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">measure</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">total_distance</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">distance</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_arr_delay</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">avg_dep_delay</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dep_delay</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">late_flight_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">is_late</span><span style=\"color: #000000\"> }        </span><span style=\"color: #008000\">// ✚ simpler</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">cancelled_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\"> { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">is_cancelled</span><span style=\"color: #000000\"> }     </span><span style=\"color: #008000\">// ✚ simpler</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">late_flight_count</span><span style=\"color: #000000\"> / </span><span style=\"color: #001080\">flight_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    # </span><span style=\"color: #001080\">percent</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">pct_cancelled</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">cancelled_count</span><span style=\"color: #000000\"> / </span><span style=\"color: #001080\">flight_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Notice the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">:</span></span></code> uses the <strong>new</strong> name, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flight_id</span></span></code>. Once you rename a column, the old name is gone everywhere, including inside the source."
+      },
+      {
+        "type": "p",
+        "text": "Queries 3, 4 and 5 now read almost like sentences:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v2</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">route</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_arr_delay</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v2</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">distance_band</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_late</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">distance_band</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "And a filter that used to be <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\"> &gt; </span><span style=\"color: #098658\">15</span><span style=\"color: #000000\"> and </span><span style=\"color: #001080\">cancelled</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;N&#39;</span></span></code> is now readable at a glance:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v2</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">is_late</span><span style=\"color: #000000\"> and not </span><span style=\"color: #001080\">is_cancelled</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">dep_hour</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">late_flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_arr_delay</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">dep_hour</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "✅ <strong>Check it</strong> against Queries 3 and 4 above. Same numbers."
+      },
+      {
+        "type": "p",
+        "text": "⚠️ <strong>Common mistake: an aggregate inside a dimension.</strong> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">dimension</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">avg_delay</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">arr_delay</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span></code> is an error. A dimension has one value <em>per row</em>, and an average needs <em>many</em> rows. If your expression uses <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">max</span><span style=\"color: #000000\">()</span></span></code> or <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">min</span><span style=\"color: #000000\">()</span></span></code>, it's a <strong>measure</strong>."
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "Step 2½: put the joins in the model too"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "The <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">carrier</span></span></code> column holds codes like <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">WN</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">UA</span></span></code>. Every query that wants airline names would need a join. That's another thing to define <strong>once</strong>:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>What to do:</strong>"
+      },
+      {
+        "type": "p",
+        "text": "Create a small source for each lookup table, with its <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">:</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">:</span></span></code> lines to the main source (Chapter 10)."
+      },
+      {
+        "type": "p",
+        "text": "If you join the same table twice (origin <em>and</em> destination airports), give each join its own name."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carriers</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/carriers.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">code</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">airports</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">duckdb</span><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">table</span><span style=\"color: #000000\">(</span><span style=\"color: #A31515\">&#39;data/airports.parquet&#39;</span><span style=\"color: #000000\">) </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">primary_key</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">code</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v3</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">flights_v2</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carriers</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">carrier</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">origin_airport</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">airports</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">origin</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">join_one</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">destination_airport</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">airports</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">with</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">destination</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v3</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carriers</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">nickname</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_late</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Here we used <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">extend</span></span></code> to <em>add</em> the joins to <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flights_v2</span></span></code> instead of retyping the whole source. That works for adding new fields. In your own model file you'd usually just add these lines to the one source."
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "Step 3: refactor the views"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A <strong>view</strong> is a named query that lives inside the source (Chapter 3). If you find yourself writing the same <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">group_by</span></span></code> + <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">aggregate</span></span></code> + <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">order_by</span></span></code> again and again, that's a view."
+      },
+      {
+        "type": "p",
+        "text": "<strong>What to do:</strong>"
+      },
+      {
+        "type": "p",
+        "text": "Use your measures and dimensions inside the views, never raw expressions. Views are built on the model, not around it."
+      },
+      {
+        "type": "p",
+        "text": "Keep views <strong>small and focused</strong>: one grouping, a few measures, a sensible sort and limit. Small views are easier to combine (Step 4)."
+      },
+      {
+        "type": "p",
+        "text": "Look at your original queries. Each one that you'd want to run again becomes a view. Name it after what it groups by: <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">by_carrier</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">by_year</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">top_routes</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "Put a <strong>chart tag</strong> above each view (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">bar_chart</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">line_chart</span></span></code>). The tag travels with the view, so whenever you run or nest it, it draws as a chart."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v4</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">flights_v3</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">view</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_carrier</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carriers</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">nickname</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">avg_arr_delay</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_late</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">desc</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">line_chart</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">view</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_year</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">yr</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">dep_time</span><span style=\"color: #000000\">.</span><span style=\"color: #0000FF\">year</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">yr</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">bar_chart</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">view</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">top_routes</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">route</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">10</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">bar_chart</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">view</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">late_by_hour</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">dep_hour</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">pct_late</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">dep_hour</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">bar_chart</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">view</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">late_by_distance</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">distance_band</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">pct_late</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">order_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">distance_band</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Running a view is one line:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v4</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">by_carrier</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v4</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">late_by_hour</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "And you can still <strong>refine</strong> a view with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">+ { }</span></span></code> to filter it or change the limit, without editing its definition:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v4</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">top_routes</span><span style=\"color: #000000\"> + { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carriers</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">nickname</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Southwest&#39;</span><span style=\"color: #000000\"> }</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "✅ <strong>Check it</strong> against Queries 1, 3 and 5. The same numbers again, now in one line each, and charted automatically."
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "Step 4: nest views inside your queries"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "This is the payoff. Because the views are small and named, you can drop them into <strong>any</strong> query with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">:</span></span></code>, and they run once <em>per row</em> of the outer query (Chapter 3). Each nested view keeps its chart tag."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Example 1. A profile of each airline.</strong> For each of the five biggest carriers: its totals, its traffic over time, and its top routes."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v4</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carriers</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">nickname</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_cancelled</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">top_routes</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">5</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Without the model, that would be three separate queries (or one very long one), each repeating every definition."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Example 2. A refined view inside a nest.</strong> You can refine a view as you nest it. When you change it, give the nest its own name with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">is</span></span></code>:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v4</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">origin</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;SFO&#39;</span><span style=\"color: #000000\"> | </span><span style=\"color: #A31515\">&#39;LAX&#39;</span><span style=\"color: #000000\"> | </span><span style=\"color: #A31515\">&#39;SEA&#39;</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">origin_airport</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">full_name</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_late</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">:</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">late_by_hour</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #001080\">top_3_routes</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">top_routes</span><span style=\"color: #000000\"> + { </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span><span style=\"color: #000000\"> }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Example 3. A dashboard built entirely from views.</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">dashboard</span></span></code> and the measures become KPI cards and each nested view becomes a chart tile (Chapter 4)."
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">dashboard</span></span>\n<span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v4</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">total_distance</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_cancelled</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">late_by_hour</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">late_by_distance</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">top_routes</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Example 4. Views that nest other views.</strong> A view can contain <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">:</span></span></code> too, so you can save a whole report as one name:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">source</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v5</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> </span><span style=\"color: #001080\">flights_v4</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">extend</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  # </span><span style=\"color: #001080\">dashboard</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">view</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carrier_report</span><span style=\"color: #000000\"> </span><span style=\"color: #AF00DB\">is</span><span style=\"color: #000000\"> {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_late</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_cancelled</span></span>\n<span class=\"line\"><span style=\"color: #000000\">    </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">late_by_hour</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">top_routes</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  }</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights_v5</span><span style=\"color: #000000\"> -&gt; </span><span style=\"color: #001080\">carrier_report</span><span style=\"color: #000000\"> + { </span><span style=\"color: #AF00DB\">where</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carriers</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">nickname</span><span style=\"color: #000000\"> = </span><span style=\"color: #A31515\">&#39;Jetblue&#39;</span><span style=\"color: #000000\"> }</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Change <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #A31515\">&#39;Jetblue&#39;</span></span></code> to any other airline and you get the same report for it. That's a reusable analysis in one line."
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "Step 5: document and tidy the model"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A model is read by people, by the Explorer, and by AI assistants. Before you call it done:"
+      },
+      {
+        "type": "p",
+        "text": "<strong>Delete scratch fields</strong> you made while experimenting."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Group the file</strong>: renames, then dimensions, then measures, then views, so a reader knows where to look."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #008000\">#&quot;</span></span></code> descriptions</strong> to the source and to any field whose meaning isn't obvious (Chapter 15). Say <em>how</em> something is defined: \"late = arrived 15+ minutes after schedule.\""
+      },
+      {
+        "type": "p",
+        "text": "<strong>Name things for the reader.</strong> <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pct_late</span></span></code> beats <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pl</span></span></code>; <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">distance_band</span></span></code> beats <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">db</span></span></code>."
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "Step 6: move the model into its own file"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "A model in a notebook only helps that notebook. To reuse it, move it into a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> file and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span></span></code> it (Chapter 5). The finished model is in <strong><code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flights</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code></strong>, next to this notebook. It contains everything from Steps 1–5 in one source called <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flights</span></span></code>, with descriptions. Open it and read it top to bottom; it should look familiar."
+      },
+      {
+        "type": "p",
+        "text": "In a fresh notebook you'd write <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;flights.malloy&quot;</span></span></code>. This notebook already has its own <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">carriers</span></span></code> and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">airports</span></span></code> sources from Step 2½, so we import just the <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flights</span></span></code> source by name to avoid a clash:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span><span style=\"color: #000000\"> { </span><span style=\"color: #001080\">flights</span><span style=\"color: #000000\"> } </span><span style=\"color: #AF00DB\">from</span><span style=\"color: #000000\"> </span><span style=\"color: #A31515\">&quot;flights.malloy&quot;</span></span></pre>"
+      },
+      {
+        "type": "p",
+        "text": "Now any notebook can use the whole model with one line. The same airline profile as Example 1, written against the imported model:"
+      },
+      {
+        "type": "code",
+        "text": "<pre class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">run</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flights</span><span style=\"color: #000000\"> -&gt; {</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">group_by</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">carriers</span><span style=\"color: #000000\">.</span><span style=\"color: #001080\">nickname</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">aggregate</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">flight_count</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">pct_late</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">nest</span><span style=\"color: #000000\">: </span><span style=\"color: #001080\">by_year</span><span style=\"color: #000000\">, </span><span style=\"color: #001080\">late_by_distance</span></span>\n<span class=\"line\"><span style=\"color: #000000\">  </span><span style=\"color: #AF00DB\">limit</span><span style=\"color: #000000\">: </span><span style=\"color: #098658\">3</span></span>\n<span class=\"line\"><span style=\"color: #000000\">}</span></span></pre>"
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "A refactoring checklist"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "Use this when you refactor your own data:"
+      },
+      {
+        "type": "p",
+        "text": "And after <strong>every</strong> pass: <strong>re-run your original queries and confirm the numbers didn't change.</strong>"
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
+      "Chapter 14a: Building a Semantic Model, Step by Step",
+      "Key takeaways"
+    ],
+    "paragraphs": [
+      {
+        "type": "p",
+        "text": "<strong>Refactoring</strong> changes the code, not the answers. Check your numbers after every step."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Views</strong> are small, named queries. Put chart tags on them so they draw themselves wherever they're used."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Nesting</strong> views is where a model pays off: profiles, drill-downs and dashboards in a few lines."
+      },
+      {
+        "type": "p",
+        "text": "A <strong>semantic model</strong> gives each business idea one name and one definition, so every query, dashboard and AI assistant gets the same answer."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Dimensions</strong> have one value per row. Pull hidden tests out of filtered measures into <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">is_</span></span></code> booleans."
+      },
+      {
+        "type": "p",
+        "text": "Finish by documenting the model and moving it to a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #001080\">malloy</span></span></code> file you can <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">import</span></span></code>."
+      },
+      {
+        "type": "p",
+        "text": "<strong>Measures</strong> summarize many rows (<code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">count</span><span style=\"color: #000000\">()</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">sum</span><span style=\"color: #000000\">()</span></span></code>, <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\">.</span><span style=\"color: #795E26\">avg</span><span style=\"color: #000000\">()</span></span></code>). Build ratios out of other measures."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 14a.1: Another measure.</strong> Add <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">avg_taxi_out</span></span></code> (the average of <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">taxi_out</span></span></code>) and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pct_diverted</span></span></code> (built from a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">diverted_count</span></span></code> measure and <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">is_diverted</span></span></code>) to a source that extends <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">flights</span></span></code>. Show both by carrier."
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 14a.2: Another dimension.</strong> Add a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">dep_day_of_week</span></span></code> dimension using <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #795E26\">day_of_week</span><span style=\"color: #000000\">(</span><span style=\"color: #001080\">dep_time</span><span style=\"color: #000000\">)</span></span></code>, and a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">delay_band</span></span></code> dimension that uses <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #AF00DB\">pick</span></span></code> to group <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">arr_delay</span></span></code> into <em>early</em>, <em>on time (0–15)</em>, <em>late (16–60)</em>, and <em>very late (60+)</em>. Which day of the week has the highest <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">pct_late</span></span></code>?"
+      },
+      {
+        "type": "p",
+        "text": "🎯 <strong>Challenge 14a.3: Another view, and nest it.</strong> Write a view <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">by_day_of_week</span></span></code> with a <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #000000\"># </span><span style=\"color: #001080\">bar_chart</span></span></code> tag. Then nest it, together with <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">late_by_hour</span></span></code>, inside a query grouped by <code class=\"language-malloy\" style=\"background-color: #FBFBFB\"><span class=\"line\"><span style=\"color: #001080\">distance_band</span></span></code>. Do long flights and short flights have the same bad hours?"
+      }
+    ],
+    "path": "/textbook/14a_semantic_models.malloynb"
+  },
+  {
+    "titles": [
       "Chapter 15: Anatomy of a Malloy Model"
     ],
     "paragraphs": [
@@ -11262,6 +11882,10 @@ window.SEARCH_SEGMENTS = [
       {
         "type": "p",
         "text": "<a href=\"15_model_review\">Anatomy of a Malloy Model</a>: putting all the pieces together"
+      },
+      {
+        "type": "p",
+        "text": "<strong>14a.</strong> <a href=\"14a_semantic_models\">Building a Semantic Model, Step by Step</a>: refactor plain queries into measures, dimensions and views, then nest the views into reports and dashboards"
       },
       {
         "type": "p",

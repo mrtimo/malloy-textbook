@@ -146,6 +146,12 @@ div.document h2 {
 a {
   color: var(--link);
 }
+div.edit-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
 div.document a.edit-link {
   border: 1px solid var(--link);
   color: var(--link);

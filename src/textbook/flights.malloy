@@ -1,0 +1,114 @@
+// flights.malloy: the finished model from Chapter 14a.
+// U.S. domestic flights, 2000–2005 (FAA sample), with airline and airport lookups.
+
+#" One row per airline. `code` matches flights.carrier.
+source: carriers is duckdb.table('data/carriers.parquet') extend {
+  primary_key: code
+}
+
+#" One row per U.S. airport. `code` matches flights.origin and flights.destination.
+source: airports is duckdb.table('data/airports.parquet') extend {
+  primary_key: code
+}
+
+#" One row per scheduled domestic flight, 2000–2005. Delays are in minutes (negative = early); distance is in miles.
+source: flights is duckdb.table('data/flights.parquet') extend {
+  // ---------- joins
+  join_one: carriers with carrier
+  join_one: origin_airport is airports with origin
+  join_one: destination_airport is airports with destination
+
+  // ---------- renames
+  rename:
+    #" Unique ID for each flight.
+    flight_id is id2
+    #" The aircraft's registration number.
+    tail_number is tail_num
+  primary_key: flight_id
+
+  // ---------- dimensions
+  dimension:
+    #" Late = arrived 15 or more minutes after schedule (the U.S. DOT definition).
+    is_late is arr_delay > 15
+    #" True when the flight was cancelled (`cancelled` = 'Y').
+    is_cancelled is cancelled = 'Y'
+    #" True when the flight landed somewhere other than its destination.
+    is_diverted is diverted = 'Y'
+    #" Origin and destination airport codes, e.g. 'LAX → SFO'.
+    route is concat(origin, ' → ', destination)
+    #" Hour of scheduled departure, 0–23.
+    dep_hour is hour(dep_time)
+    #" Flight length in three bands. The number prefix keeps them in order.
+    distance_band is distance ?
+      pick '1 · under 500 mi' when < 500
+      pick '2 · 500–1,499 mi' when < 1500
+      else '3 · 1,500+ mi'
+
+  // ---------- measures
+  measure:
+    #" Number of flights.
+    flight_count is count()
+    #" Total miles flown.
+    total_distance is distance.sum()
+    #" Average arrival delay in minutes (negative = early).
+    avg_arr_delay is arr_delay.avg()
+    #" Average departure delay in minutes (negative = early).
+    avg_dep_delay is dep_delay.avg()
+    #" Flights that arrived 15+ minutes late.
+    late_flight_count is flight_count { where: is_late }
+    #" Cancelled flights.
+    cancelled_count is flight_count { where: is_cancelled }
+    #" Share of flights that arrived 15+ minutes late.
+    # percent
+    pct_late is late_flight_count / flight_count
+    #" Share of flights that were cancelled.
+    # percent
+    pct_cancelled is cancelled_count / flight_count
+
+  // ---------- views
+  #" Flights, average delay and % late for each airline.
+  view: by_carrier is {
+    group_by: carriers.nickname
+    aggregate: flight_count, avg_arr_delay, pct_late
+    order_by: flight_count desc
+  }
+
+  #" Flights per year.
+  # line_chart
+  view: by_year is {
+    group_by: yr is dep_time.year
+    aggregate: flight_count
+    order_by: yr
+  }
+
+  #" The 10 busiest routes.
+  # bar_chart
+  view: top_routes is {
+    group_by: route
+    aggregate: flight_count
+    limit: 10
+  }
+
+  #" % late by hour of departure.
+  # bar_chart
+  view: late_by_hour is {
+    group_by: dep_hour
+    aggregate: pct_late
+    order_by: dep_hour
+  }
+
+  #" % late by distance band.
+  # bar_chart
+  view: late_by_distance is {
+    group_by: distance_band
+    aggregate: pct_late
+    order_by: distance_band
+  }
+
+  #" A one-screen report: KPIs plus four charts. Refine it with a filter, e.g. `carrier_report + { where: carrier = 'WN' }`.
+  # dashboard
+  view: carrier_report is {
+    aggregate: flight_count, pct_late, pct_cancelled
+    nest: by_year, late_by_hour, top_routes
+  }
+}

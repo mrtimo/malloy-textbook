@@ -10,7 +10,7 @@
       ]
     },
     {
-      "title": "Part I \u00b7 Foundations",
+      "title": "Part I · Foundations",
       "items": [
         {
           "title": "1. The Basics",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "title": "Part II \u00b7 Tools and Data",
+      "title": "Part II · Tools and Data",
       "items": [
         {
           "title": "5. Files vs. Notebooks",
@@ -48,7 +48,7 @@
       ]
     },
     {
-      "title": "Part III \u00b7 Analysis",
+      "title": "Part III · Analysis",
       "items": [
         {
           "title": "8. Filtering and Time Comparisons",
@@ -81,11 +81,15 @@
       ]
     },
     {
-      "title": "Part IV \u00b7 Modeling",
+      "title": "Part IV · Modeling",
       "items": [
         {
           "title": "14. Givens",
           "link": "/14_givens.malloynb"
+        },
+        {
+          "title": "14a. Building a Semantic Model",
+          "link": "/14a_semantic_models.malloynb"
         },
         {
           "title": "15. Anatomy of a Malloy Model",
@@ -94,7 +98,7 @@
       ]
     },
     {
-      "title": "Part V \u00b7 Worked Example",
+      "title": "Part V · Worked Example",
       "items": [
         {
           "title": "16. ICE Arrests, Start to Finish",
@@ -103,7 +107,7 @@
       ]
     },
     {
-      "title": "Part VI \u00b7 Going Further",
+      "title": "Part VI · Going Further",
       "items": [
         {
           "title": "17. Data Sources",
@@ -120,7 +124,7 @@
       ]
     },
     {
-      "title": "Part VII \u00b7 Making Data Sing",
+      "title": "Part VII · Making Data Sing",
       "items": [
         {
           "title": "19. Making Data Sing",
@@ -137,7 +141,7 @@
       ]
     },
     {
-      "title": "Part VIII \u00b7 Building with AI",
+      "title": "Part VIII · Building with AI",
       "items": [
         {
           "title": "22. Homework: A Live Data Dashboard, Built with AI",

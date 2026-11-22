@@ -270,7 +270,10 @@ class Renderer {
     if (level === 1) {
       return `<div class="title-row">
         ${heading}
-        <a class="edit-link" target="_blank" href="${notebookURL(this.path)}">Open in VS Code <img src="${DEFAULT_CONTEXT.site.baseurl}/img/open_notebook.svg" alt="document"/></a>
+        <div class="edit-links">
+          <a class="edit-link" target="_blank" rel="noopener" href="${viewerURL(this.path)}" title="Run and edit this notebook in your browser, nothing to install">Open in Notebook Viewer ▶</a>
+          <a class="edit-link" target="_blank" href="${notebookURL(this.path)}">Open in VS Code <img src="${DEFAULT_CONTEXT.site.baseurl}/img/open_notebook.svg" alt="document"/></a>
+        </div>
         </div>
       `;
     } else {
@@ -663,4 +666,15 @@ function notebookURL(docPath: string) {
   const site = DEFAULT_CONTEXT.site;
   const rel = docPath.replace(/^\/textbook\//, "");
   return `https://github.dev/${site.notebooksRepo}/blob/${site.githubBranch}/${rel}`;
+}
+
+/*
+ * Link to the student copy of a notebook in the Malloy Notebook Viewer
+ * (https://mrtimo.github.io/malloynb/), which runs it in the browser with
+ * DuckDB-WASM.
+ */
+function viewerURL(docPath: string) {
+  const site = DEFAULT_CONTEXT.site;
+  const rel = docPath.replace(/^\/textbook\//, "");
+  return `https://mrtimo.github.io/malloynb/github/${site.notebooksRepo}/blob/${site.githubBranch}/${rel}`;
 }

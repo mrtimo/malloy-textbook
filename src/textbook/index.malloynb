@@ -108,6 +108,7 @@ You will see a few kinds of colored boxes:
 **Part IV · Modeling**
 
 14. [Givens](14_givens.malloynb): values your model receives when a query runs
+    * **14a.** [Building a Semantic Model, Step by Step](14a_semantic_models.malloynb): refactor plain queries into measures, dimensions and views, then nest the views into reports and dashboards
 15. [Anatomy of a Malloy Model](15_model_review.malloynb): putting all the pieces together
 
 **Part V · Worked Example**

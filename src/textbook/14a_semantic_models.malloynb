@@ -1,0 +1,470 @@
+>>>markdown
+# Chapter 14a: Building a Semantic Model, Step by Step
+
+So far you've mostly *used* models that were already written (`names.malloy`, `ecommerce.malloy`). In this chapter you'll **grow one yourself**, starting from a pile of plain queries. The process is called **refactoring**: you rewrite your code so it's shorter, clearer and easier to reuse, *without changing any of the answers*.
+
+You'll refactor in four passes:
+
+1. **Measures**: name the aggregates you keep retyping.
+2. **Dimensions**: name the row-level calculations you keep retyping.
+3. **Views**: name the whole queries you keep rewriting.
+4. **Nesting**: combine those views into rich reports and dashboards.
+
+Then you'll document the model, move it into its own `.malloy` file, and import it. The homework asks you to do the same thing with your own dataset.
+
+> 📘 **Malloy docs.** [Building a semantic model](https://docs.malloydata.dev/documentation/user_guides/quickstart_modeling) · [Fields](https://docs.malloydata.dev/documentation/language/fields) · [Views](https://docs.malloydata.dev/documentation/language/views)
+
+## What is a semantic model, and why bother?
+
+A **semantic model** is a layer that sits between the raw table and the people (or AI assistants) asking questions. It gives business concepts a name and **one definition**: what counts as a "late flight," what "revenue" means, which date a "year" refers to.
+
+Without a model, every analyst writes those definitions again in every query, and they drift apart. Here's a small example. Two people are asked, "What share of flights were late?"
+>>>malloy
+source: flights_raw is duckdb.table('data/flights.parquet')
+>>>malloy
+// Analyst A: late means the plane LEFT more than 15 minutes late
+run: flights_raw -> {
+  aggregate: pct_late is count() { where: dep_delay > 15 } / count()
+}
+>>>malloy
+// Analyst B: late means the plane ARRIVED more than 15 minutes late
+run: flights_raw -> {
+  aggregate: pct_late is count() { where: arr_delay > 15 } / count()
+}
+>>>markdown
+Both queries are "correct," but they give different answers to the same question. Put both in a report and someone will notice, and then nobody trusts either number.
+
+A model settles it once. The U.S. Department of Transportation counts a flight as late when it **arrives** 15 or more minutes after schedule, so that's the definition we'll write into the model. After that, every query, dashboard, and AI assistant that uses the model gets the same answer.
+
+> 💡 This is exactly why Claude could answer questions about SEC filings correctly through the open10k connector: someone had already defined `revenues`, `net_margin` and `filer_status` in a model, so Claude didn't have to guess.
+
+## The dataset: U.S. flights, 2000–2005
+
+We'll use a sample of **344,827 domestic flights** from the FAA, plus two small lookup tables. All three files are in the `data/` folder.
+
+| File | One row per | Useful columns |
+|---|---|---|
+| `flights.parquet` | flight | `carrier`, `origin`, `destination`, `dep_time`, `dep_delay`, `arr_delay`, `distance`, `cancelled` (`'Y'`/`'N'`), `diverted`, `tail_num`, `id2` |
+| `carriers.parquet` | airline | `code`, `name`, `nickname` |
+| `airports.parquet` | airport | `code`, `full_name`, `city`, `state`, `major` |
+
+Delays are in minutes (negative means early). Distance is in miles.
+
+## Step 0: write the queries the plain way
+
+Pretend it's your first week with this data. You haven't built a model yet. You just write queries against the raw table, typing every calculation out in full. Here are five reasonable questions.
+
+**Query 1. How do the airlines compare?**
+>>>malloy
+run: flights_raw -> {
+  group_by: carrier
+  aggregate:
+    flights is count()
+    miles is distance.sum()
+    avg_arr_delay is arr_delay.avg()
+    pct_late is count() { where: arr_delay > 15 } / count()
+  order_by: flights desc
+}
+>>>markdown
+**Query 2. How did things change year to year?**
+>>>malloy
+run: flights_raw -> {
+  group_by: yr is dep_time.year
+  aggregate:
+    flights is count()
+    pct_late is count() { where: arr_delay > 15 } / count()
+    pct_cancelled is count() { where: cancelled = 'Y' } / count()
+  order_by: yr
+}
+>>>markdown
+**Query 3. What are the busiest routes?**
+>>>malloy
+run: flights_raw -> {
+  group_by: route is concat(origin, ' → ', destination)
+  aggregate:
+    flights is count()
+    avg_arr_delay is arr_delay.avg()
+  order_by: flights desc
+  limit: 10
+}
+>>>markdown
+**Query 4. Are long flights more punctual than short ones?**
+>>>malloy
+run: flights_raw -> {
+  group_by: distance_band is distance ?
+    pick '1 · under 500 mi' when < 500
+    pick '2 · 500–1,499 mi' when < 1500
+    else '3 · 1,500+ mi'
+  aggregate:
+    flights is count()
+    pct_late is count() { where: arr_delay > 15 } / count()
+  order_by: distance_band
+}
+>>>markdown
+**Query 5. Which hour of the day is worst?**
+>>>malloy
+run: flights_raw -> {
+  group_by: dep_hour is hour(dep_time)
+  aggregate:
+    flights is count()
+    pct_late is count() { where: arr_delay > 15 } / count()
+  order_by: dep_hour
+}
+>>>markdown
+These all work. But look at how much is repeated:
+
+| Expression | Kind | How many times you typed it |
+|---|---|---|
+| `count()` | aggregate | 5 (and 6 more inside `pct_late` and `pct_cancelled`) |
+| `count() { where: arr_delay > 15 } / count()` | aggregate | 4 |
+| `arr_delay.avg()` | aggregate | 2 |
+| `arr_delay > 15` | row-level test | 4 (inside the aggregates) |
+| `concat(origin, ' → ', destination)` | row-level calculation | 1, but you'll want it again |
+| the `pick` for distance bands | row-level calculation | 1, but it's long, and it's a *definition* |
+
+Each repeat is a chance to make a typo, or for two people to define "late" differently. Also, every query is written in a slightly different style (`flights` here, `yr` there), so the results don't line up.
+
+> 🧭 **The refactoring rule.** If you've typed an expression **twice**, give it a name and move it into the model. If it's a *definition* (like "late" or "long flight"), move it in even if you've only typed it once.
+
+## Step 1: refactor the measures
+
+A **measure** is a named aggregate: something that summarizes many rows into one number (`count()`, `.sum()`, `.avg()`, and anything built from them).
+
+**What to do:**
+
+1. Make a list of every aggregate expression in your queries (the table above is that list).
+2. Give each one a clear, consistent name. Good conventions:
+   * `_count` for counts: `flight_count`
+   * `total_` for sums: `total_distance`
+   * `avg_` for averages: `avg_arr_delay`
+   * `pct_` for shares: `pct_late`
+3. Put each one in a `measure:` inside the source's `extend { }` block.
+4. **Build measures out of other measures.** `pct_late` is just `late_flight_count / flight_count`, so define the two counts first and divide them. If someone later changes how flights are counted, `pct_late` follows automatically.
+5. Add a **render tag** such as `# percent` above shares, so the formatting comes with the measure wherever it's used.
+6. Rewrite your queries to use the new names, and **check that the numbers haven't changed.**
+
+Here's the source with the measures refactored. We'll call it `flights_v1` so you can compare it with the raw table.
+>>>malloy
+source: flights_v1 is duckdb.table('data/flights.parquet') extend {
+  measure:
+    flight_count is count()
+    total_distance is distance.sum()
+    avg_arr_delay is arr_delay.avg()
+    avg_dep_delay is dep_delay.avg()
+
+    late_flight_count is count() { where: arr_delay > 15 }
+    cancelled_count is count() { where: cancelled = 'Y' }
+
+    # percent
+    pct_late is late_flight_count / flight_count
+    # percent
+    pct_cancelled is cancelled_count / flight_count
+}
+>>>markdown
+Now Query 1 shrinks to this:
+>>>malloy
+run: flights_v1 -> {
+  group_by: carrier
+  aggregate: flight_count, total_distance, avg_arr_delay, pct_late
+  order_by: flight_count desc
+}
+>>>markdown
+✅ **Check it.** Scroll up to Query 1 and compare. The counts, miles, delays and percentages should be identical. The only differences are the column names and the `%` formatting, which is the point: you changed the *code*, not the *answers*. If a number changes during a refactor, you've introduced a bug.
+
+Query 2 shrinks the same way:
+>>>malloy
+run: flights_v1 -> {
+  group_by: yr is dep_time.year
+  aggregate: flight_count, pct_late, pct_cancelled
+  order_by: yr
+}
+>>>markdown
+> ⚠️ **Common mistake: a filtered measure with no filter in the name.** `late_flight_count` is a count *of late flights*. If you name it `flight_count2`, nobody (including you, next month) will know what it counts. The name should say what's inside the `{ where: }`.
+
+## Step 2: refactor the dimensions
+
+A **dimension** is a named, row-level calculation: it produces one value **per flight**, and you can `group_by` it or filter on it. Booleans, buckets, cleaned-up text and date parts are all dimensions.
+
+**What to do:**
+
+1. List every row-level expression in your queries: anything inside a `group_by:` or a `where:` that's more than a bare column name.
+2. Look for **hidden dimensions inside your measures.** `arr_delay > 15` appears inside `late_flight_count`. That test is really a yes/no fact about each flight, so it deserves its own name: `is_late`.
+3. Name booleans with `is_` (`is_late`, `is_cancelled`), so filters read like English: `where: is_late`.
+4. Turn awkward codes into readable values. `cancelled` holds `'Y'` or `'N'` text; `is_cancelled` is a real true/false.
+5. Use `rename:` for columns whose names are cryptic. `id2` and `tail_num` become `flight_id` and `tail_number`.
+6. Set a `primary_key:` if the table has one. You'll need it for joins.
+7. **Go back and simplify the measures** so they use the new dimensions.
+
+Here's `flights_v2`. Lines marked `// ✚` are new since `flights_v1`.
+>>>malloy
+source: flights_v2 is duckdb.table('data/flights.parquet') extend {
+  rename:                                              // ✚
+    flight_id is id2
+    tail_number is tail_num
+  primary_key: flight_id                               // ✚
+
+  dimension:                                           // ✚ all of these
+    is_late is arr_delay > 15
+    is_cancelled is cancelled = 'Y'
+    is_diverted is diverted = 'Y'
+    route is concat(origin, ' → ', destination)
+    dep_hour is hour(dep_time)
+    distance_band is distance ?
+      pick '1 · under 500 mi' when < 500
+      pick '2 · 500–1,499 mi' when < 1500
+      else '3 · 1,500+ mi'
+
+  measure:
+    flight_count is count()
+    total_distance is distance.sum()
+    avg_arr_delay is arr_delay.avg()
+    avg_dep_delay is dep_delay.avg()
+
+    late_flight_count is flight_count { where: is_late }        // ✚ simpler
+    cancelled_count is flight_count { where: is_cancelled }     // ✚ simpler
+
+    # percent
+    pct_late is late_flight_count / flight_count
+    # percent
+    pct_cancelled is cancelled_count / flight_count
+}
+>>>markdown
+Notice the `primary_key:` uses the **new** name, `flight_id`. Once you rename a column, the old name is gone everywhere, including inside the source.
+
+Queries 3, 4 and 5 now read almost like sentences:
+>>>malloy
+run: flights_v2 -> {
+  group_by: route
+  aggregate: flight_count, avg_arr_delay
+  order_by: flight_count desc
+  limit: 10
+}
+>>>malloy
+run: flights_v2 -> {
+  group_by: distance_band
+  aggregate: flight_count, pct_late
+  order_by: distance_band
+}
+>>>markdown
+And a filter that used to be `where: arr_delay > 15 and cancelled = 'N'` is now readable at a glance:
+>>>malloy
+run: flights_v2 -> {
+  where: is_late and not is_cancelled
+  group_by: dep_hour
+  aggregate: late_flight_count, avg_arr_delay
+  order_by: dep_hour
+}
+>>>markdown
+✅ **Check it** against Queries 3 and 4 above. Same numbers.
+
+> ⚠️ **Common mistake: an aggregate inside a dimension.** `dimension: avg_delay is arr_delay.avg()` is an error. A dimension has one value *per row*, and an average needs *many* rows. If your expression uses `count()`, `.sum()`, `.avg()`, `.max()` or `.min()`, it's a **measure**.
+
+| Ask yourself | If yes, it's a… |
+|---|---|
+| Does it have one value for each row? Can I `group_by` it? | **dimension** |
+| Does it summarize many rows into one number? | **measure** |
+
+## Step 2½: put the joins in the model too
+
+The `carrier` column holds codes like `WN` and `UA`. Every query that wants airline names would need a join. That's another thing to define **once**:
+
+**What to do:**
+
+1. Create a small source for each lookup table, with its `primary_key:`.
+2. Add `join_one:` lines to the main source (Chapter 10).
+3. If you join the same table twice (origin *and* destination airports), give each join its own name.
+>>>malloy
+source: carriers is duckdb.table('data/carriers.parquet') extend {
+  primary_key: code
+}
+
+source: airports is duckdb.table('data/airports.parquet') extend {
+  primary_key: code
+}
+
+source: flights_v3 is flights_v2 extend {
+  join_one: carriers with carrier
+  join_one: origin_airport is airports with origin
+  join_one: destination_airport is airports with destination
+}
+>>>malloy
+run: flights_v3 -> {
+  group_by: carriers.nickname
+  aggregate: flight_count, pct_late
+  order_by: flight_count desc
+}
+>>>markdown
+Here we used `extend` to *add* the joins to `flights_v2` instead of retyping the whole source. That works for adding new fields. In your own model file you'd usually just add these lines to the one source.
+
+## Step 3: refactor the views
+
+A **view** is a named query that lives inside the source (Chapter 3). If you find yourself writing the same `group_by` + `aggregate` + `order_by` again and again, that's a view.
+
+**What to do:**
+
+1. Look at your original queries. Each one that you'd want to run again becomes a view. Name it after what it groups by: `by_carrier`, `by_year`, `top_routes`.
+2. Keep views **small and focused**: one grouping, a few measures, a sensible sort and limit. Small views are easier to combine (Step 4).
+3. Put a **chart tag** above each view (`# bar_chart`, `# line_chart`). The tag travels with the view, so whenever you run or nest it, it draws as a chart.
+4. Use your measures and dimensions inside the views, never raw expressions. Views are built on the model, not around it.
+>>>malloy
+source: flights_v4 is flights_v3 extend {
+  view: by_carrier is {
+    group_by: carriers.nickname
+    aggregate: flight_count, avg_arr_delay, pct_late
+    order_by: flight_count desc
+  }
+
+  # line_chart
+  view: by_year is {
+    group_by: yr is dep_time.year
+    aggregate: flight_count
+    order_by: yr
+  }
+
+  # bar_chart
+  view: top_routes is {
+    group_by: route
+    aggregate: flight_count
+    limit: 10
+  }
+
+  # bar_chart
+  view: late_by_hour is {
+    group_by: dep_hour
+    aggregate: pct_late
+    order_by: dep_hour
+  }
+
+  # bar_chart
+  view: late_by_distance is {
+    group_by: distance_band
+    aggregate: pct_late
+    order_by: distance_band
+  }
+}
+>>>markdown
+Running a view is one line:
+>>>malloy
+run: flights_v4 -> by_carrier
+>>>malloy
+#(docs) size=medium limit=5000
+run: flights_v4 -> late_by_hour
+>>>markdown
+And you can still **refine** a view with `+ { }` to filter it or change the limit, without editing its definition:
+>>>malloy
+#(docs) size=medium limit=5000
+run: flights_v4 -> top_routes + { where: carriers.nickname = 'Southwest' }
+>>>markdown
+✅ **Check it** against Queries 1, 3 and 5. The same numbers again, now in one line each, and charted automatically.
+
+## Step 4: nest views inside your queries
+
+This is the payoff. Because the views are small and named, you can drop them into **any** query with `nest:`, and they run once *per row* of the outer query (Chapter 3). Each nested view keeps its chart tag.
+
+**Example 1. A profile of each airline.** For each of the five biggest carriers: its totals, its traffic over time, and its top routes.
+>>>malloy
+#(docs) size=xlarge limit=5000
+run: flights_v4 -> {
+  group_by: carriers.nickname
+  aggregate: flight_count, pct_late, pct_cancelled
+  nest: by_year, top_routes
+  limit: 5
+}
+>>>markdown
+Without the model, that would be three separate queries (or one very long one), each repeating every definition.
+
+**Example 2. A refined view inside a nest.** You can refine a view as you nest it. When you change it, give the nest its own name with `is`:
+>>>malloy
+#(docs) size=xlarge limit=5000
+run: flights_v4 -> {
+  where: origin = 'SFO' | 'LAX' | 'SEA'
+  group_by: origin_airport.full_name
+  aggregate: flight_count, pct_late
+  nest:
+    late_by_hour
+    top_3_routes is top_routes + { limit: 3 }
+}
+>>>markdown
+**Example 3. A dashboard built entirely from views.** Add `# dashboard` and the measures become KPI cards and each nested view becomes a chart tile (Chapter 4).
+>>>malloy
+#(docs) size=xlarge limit=5000
+# dashboard
+run: flights_v4 -> {
+  aggregate: flight_count, total_distance, pct_late, pct_cancelled
+  nest: by_year, late_by_hour, late_by_distance, top_routes
+}
+>>>markdown
+**Example 4. Views that nest other views.** A view can contain `nest:` too, so you can save a whole report as one name:
+>>>malloy
+source: flights_v5 is flights_v4 extend {
+  # dashboard
+  view: carrier_report is {
+    aggregate: flight_count, pct_late, pct_cancelled
+    nest: by_year, late_by_hour, top_routes
+  }
+}
+>>>malloy
+#(docs) size=xlarge limit=5000
+run: flights_v5 -> carrier_report + { where: carriers.nickname = 'Jetblue' }
+>>>markdown
+Change `'Jetblue'` to any other airline and you get the same report for it. That's a reusable analysis in one line.
+
+## Step 5: document and tidy the model
+
+A model is read by people, by the Explorer, and by AI assistants. Before you call it done:
+
+1. **Add `#"` descriptions** to the source and to any field whose meaning isn't obvious (Chapter 15). Say *how* something is defined: "late = arrived 15+ minutes after schedule."
+2. **Name things for the reader.** `pct_late` beats `pl`; `distance_band` beats `db`.
+3. **Delete scratch fields** you made while experimenting.
+4. **Group the file**: renames, then dimensions, then measures, then views, so a reader knows where to look.
+
+## Step 6: move the model into its own file
+
+A model in a notebook only helps that notebook. To reuse it, move it into a `.malloy` file and `import` it (Chapter 5). The finished model is in **`flights.malloy`**, next to this notebook. It contains everything from Steps 1–5 in one source called `flights`, with descriptions. Open it and read it top to bottom; it should look familiar.
+
+In a fresh notebook you'd write `import "flights.malloy"`. This notebook already has its own `carriers` and `airports` sources from Step 2½, so we import just the `flights` source by name to avoid a clash:
+>>>malloy
+import { flights } from "flights.malloy"
+>>>markdown
+Now any notebook can use the whole model with one line. The same airline profile as Example 1, written against the imported model:
+>>>malloy
+#(docs) size=xlarge limit=5000
+run: flights -> {
+  group_by: carriers.nickname
+  aggregate: flight_count, pct_late
+  nest: by_year, late_by_distance
+  limit: 3
+}
+>>>markdown
+## A refactoring checklist
+
+Use this when you refactor your own data:
+
+| Pass | Look for | Turn it into | Name it like |
+|---|---|---|---|
+| **Measures** | the same aggregate typed twice | `measure:` | `x_count`, `total_x`, `avg_x`, `pct_x` |
+| | a ratio of two aggregates | a measure built from measures | `pct_late is late_flight_count / flight_count` |
+| **Dimensions** | a test inside a `where:` or a filtered measure | a boolean `dimension:` | `is_late`, `is_cancelled` |
+| | codes, buckets, date parts, combined columns | `dimension:` with `pick`, `concat`, `hour()`… | `distance_band`, `route`, `dep_hour` |
+| | a cryptic column name | `rename:` | `flight_id is id2` |
+| | a lookup table | `join_one:` with a `primary_key:` | `carriers.nickname` |
+| **Views** | a query you run more than once | `view:` with a chart tag | `by_x`, `top_x`, `x_by_y` |
+| **Nesting** | several views you look at together | `nest:` or a `# dashboard` view | `carrier_report` |
+
+And after **every** pass: **re-run your original queries and confirm the numbers didn't change.**
+
+## Key takeaways
+
+* A **semantic model** gives each business idea one name and one definition, so every query, dashboard and AI assistant gets the same answer.
+* **Refactoring** changes the code, not the answers. Check your numbers after every step.
+* **Measures** summarize many rows (`count()`, `.sum()`, `.avg()`). Build ratios out of other measures.
+* **Dimensions** have one value per row. Pull hidden tests out of filtered measures into `is_` booleans.
+* **Views** are small, named queries. Put chart tags on them so they draw themselves wherever they're used.
+* **Nesting** views is where a model pays off: profiles, drill-downs and dashboards in a few lines.
+* Finish by documenting the model and moving it to a `.malloy` file you can `import`.
+
+> 🎯 **Challenge 14a.1: Another measure.** Add `avg_taxi_out` (the average of `taxi_out`) and `pct_diverted` (built from a `diverted_count` measure and `is_diverted`) to a source that extends `flights`. Show both by carrier.
+
+> 🎯 **Challenge 14a.2: Another dimension.** Add a `dep_day_of_week` dimension using `day_of_week(dep_time)`, and a `delay_band` dimension that uses `pick` to group `arr_delay` into *early*, *on time (0–15)*, *late (16–60)*, and *very late (60+)*. Which day of the week has the highest `pct_late`?
+
+> 🎯 **Challenge 14a.3: Another view, and nest it.** Write a view `by_day_of_week` with a `# bar_chart` tag. Then nest it, together with `late_by_hour`, inside a query grouped by `distance_band`. Do long flights and short flights have the same bad hours?

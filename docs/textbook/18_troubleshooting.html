@@ -182,7 +182,7 @@
             </div>
         <div class="sidebar-section">
               <div id=part_iv · modeling
-                class="sidebar-section-title {% unless /textbook/14_givens.html,/textbook/15_model_review.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
+                class="sidebar-section-title {% unless /textbook/14_givens.html,/textbook/14a_semantic_models.html,/textbook/15_model_review.html contains page.url)} %}collapsed-this-isnt-working-its-always-collapsed-ben-took-it-out{% endunless %}"
               >
                 Part IV · Modeling
                 <img class="chevron-open" src="/malloy-textbook/img/section_open.svg" alt="section open"/>
@@ -193,6 +193,12 @@
               <a href="/malloy-textbook/textbook/14_givens">
                 <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
                 14. Givens
+              </a>
+            </div>
+        <div class='sidebar-item '>
+              <a href="/malloy-textbook/textbook/14a_semantic_models">
+                <img src="/malloy-textbook/img/article_icon.svg" alt="document"/>
+                14a. Building a Semantic Model
               </a>
             </div>
         <div class='sidebar-item '>
@@ -316,7 +322,10 @@
         </a>
       </h1>
     
-        <a class="edit-link" target="_blank" href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/18_troubleshooting.malloynb">Open in VS Code <img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a>
+        <div class="edit-links">
+          <a class="edit-link" target="_blank" rel="noopener" href="https://mrtimo.github.io/malloynb/github/mrtimo/malloy-textbook-notebooks/blob/main/18_troubleshooting.malloynb" title="Run and edit this notebook in your browser, nothing to install">Open in Notebook Viewer ▶</a>
+          <a class="edit-link" target="_blank" href="https://github.dev/mrtimo/malloy-textbook-notebooks/blob/main/18_troubleshooting.malloynb">Open in VS Code <img src="/malloy-textbook/img/open_notebook.svg" alt="document"/></a>
+        </div>
         </div>
       <p>Something isn't working? Start here. Most problems students run into come from <strong>setup</strong>, not from Malloy itself: the wrong folder is open, or the <code class="language-malloy" style="background-color: #FBFBFB"><span class="line"><span style="color: #001080">malloy</span><span style="color: #000000">-</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #0000FF">json</span></span></code> file is missing. This chapter covers:</p>
 <ul>
@@ -456,8 +465,8 @@
       </div>
     </div>
     <div class="result-middle" data-result-kind="html" selected>
-      <div class="result-inner" id="ae52b7c7-283b-4842-8795-cd615bc0e173">
-        <script>(()=>{var e=document.getElementById("ae52b7c7-283b-4842-8795-cd615bc0e173"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"row_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "435b4de4-9754-4c29-88ac-76445bc4838a" calculation\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"number_cell",number_value:6311504,subtype:"integer"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable ordered_by = [{ row_count = desc }]\n"},{value:"#(malloy) \n"},{value:"#(malloy) query_name = __stage0\n"}],sql:"SELECT \n   COUNT(1) as \"row_count\"\nFROM 'data/usa_names.parquet' as base\n"}),n.render(e)})();</script>
+      <div class="result-inner" id="6d42d71a-dbe2-482d-be84-36455582bc6e">
+        <script>(()=>{var e=document.getElementById("6d42d71a-dbe2-482d-be84-36455582bc6e"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"row_count",type:{kind:"number_type",subtype:"integer"},annotations:[{value:'#(malloy) reference_id = "ddc1feba-0a50-4754-b73d-00848d2dc50e" calculation\n'}]}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"number_cell",number_value:6311504,subtype:"integer"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) drillable ordered_by = [{ row_count = desc }]\n"},{value:"#(malloy) \n"},{value:"#(malloy) query_name = __stage0\n"}],sql:"SELECT \n   COUNT(1) as \"row_count\"\nFROM 'data/usa_names.parquet' as base\n"}),n.render(e)})();</script>
       </div>
     </div>
     <div class="result-middle" data-result-kind="json" >
@@ -488,8 +497,8 @@
       </div>
     </div>
     <div class="result-middle" data-result-kind="html" selected>
-      <div class="result-inner" id="6e09fe01-b62a-4207-8fd9-aa03a5296662">
-        <script>(()=>{var e=document.getElementById("6e09fe01-b62a-4207-8fd9-aa03a5296662"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"duckdb_version",type:{kind:"string_type"}}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"v1.5.5"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) \n"},{value:'#(malloy) query_name = "sql://duckdb/81236b4f-1003-5bfd-8e71-a101ce7607ac"\n'}],sql:"SELECT version() AS duckdb_version"}),n.render(e)})();</script>
+      <div class="result-inner" id="880177a3-da0c-425a-a5c8-28209e839747">
+        <script>(()=>{var e=document.getElementById("880177a3-da0c-425a-a5c8-28209e839747"),n=(new window.index.MalloyRenderer).createViz();n.setResult({schema:{fields:[{kind:"dimension",name:"duckdb_version",type:{kind:"string_type"}}]},data:{kind:"array_cell",array_value:[{kind:"record_cell",record_value:[{kind:"string_cell",string_value:"v1.5.5"}]}]},connection_name:"duckdb",annotations:[{value:"#(malloy) \n"},{value:'#(malloy) query_name = "sql://duckdb/81236b4f-1003-5bfd-8e71-a101ce7607ac"\n'}],sql:"SELECT version() AS duckdb_version"}),n.render(e)})();</script>
       </div>
     </div>
     <div class="result-middle" data-result-kind="json" >
