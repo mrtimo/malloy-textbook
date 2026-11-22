@@ -148,9 +148,15 @@ a {
 }
 div.edit-links {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: column;
+  gap: 6px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+div.edit-links a.edit-link {
+  height: auto;
+  white-space: nowrap;
+  justify-content: center;
 }
 div.document a.edit-link {
   border: 1px solid var(--link);
